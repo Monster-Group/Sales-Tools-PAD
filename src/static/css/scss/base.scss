@@ -192,6 +192,9 @@ animation:load 1.5s linear infinite;-moz-animation:load 1.5s linear infinite;pos
 .default-textarea{background-color: color($colors, bg);border:1px solid color($colors, bdSecondary);resize: none;width:100%;line-height: 60px;font-size:36px;padding:0 20px;}
 
 .add-btn{position: fixed;bottom:20px;right:88px;}
+
+.load-more{height:90px;width: 100%; border-radius:10px;line-height:90px;border:2px solid color($colors, bdPrimary);text-align: center;font-size:36px;color:color($colors, bdPrimary);display: inline-block;margin-top:20px;}
+//.load-more:active{background-color:color($colors, bdPrimary); color: #fff; }
 /*-----------base-----------*/
 
 body,html{min-height: 100%;height: 100%;background-color: color($colors, bg);}
@@ -250,6 +253,22 @@ body{width: 2736px; height: auto; min-height:100%;display: block;padding-top: 31
             }
         }
     }
+}
+
+.dataTables_wrapper{
+    .dataTable{border:none;
+        thead{
+            tr{background-color:color($colors, theadBg);}
+            th{border: none;line-height: 92px;text-align: center;padding:0;}
+            th.sorting_asc,th.sorting_desc,th.sorting{padding-right:0; }
+        }
+        tbody{
+            td{
+                padding:55px 0;text-align: center;border:none;font-size:36px;
+            }
+        }
+    }
+    
 }
 
 

@@ -30,7 +30,7 @@ requirejs.config({
 		'widgetMap': 'libs/custom/widgetMap',
 		//2015-06-10 7*添加 jquery-touch事件
 		'touch':'libs/jquery/jquery.touch',
-		'tap':'libs/jquery/touch/tap',
+		'tap':'libs/jquery/jquery.tap',
 		'dialog':'libs/jquery/dialog',
 		'area':'libs/custom/areaSelect',
 		'touchwipe':'libs/jquery/touch/touchwipe.min',
@@ -218,9 +218,9 @@ requirejs.config({
             deps:['jquery'],
             exports:'dropkick'
         },
-        'jszip':{
-            exports:'jszip'
-        }
+        'tap':{
+			deps: ['jquery']
+		}
 	},
 	//启动应用程序
 	deps: [
