@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - index
  * Author: Clearlove 7*
- * Updated: 2017-11-02 21:46
+ * Updated: 2017-11-02 23:01
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -106,3 +106,8 @@
 
 .backlog .form-header .form-item .dorder-date {
   width: 690px; }
+
+.task-modal .modal-body .title {
+  line-height: 94px;
+  font-size: 36px;
+  color: #888; }

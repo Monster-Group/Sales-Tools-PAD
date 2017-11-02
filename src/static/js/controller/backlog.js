@@ -3,9 +3,9 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress', 'sweetalert'],
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
 		NProgress.done();
-		$scope.QueryDate = undefined;
-		console.log(123123);
+		$scope.$modal = $('.modal');
 		$scope.$table = $('.backlog-table');
+		$scope.$modal.css('margin-top','-'+$scope.$modal.outerHeight()/2 + 'px')
 		$scope.dt = $scope.$table.dataTable({
 			bFilter: false, //Disable search function
 		    bPaginate: false, //hide pagination,
@@ -44,8 +44,11 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress', 'sweetalert'],
 				}
 			}]
 		});
-		$scope.test = (e)=>{
-			$(e.target).closest('a').toggleClass('active');
+		$scope.show = (e)=>{
+			$scope.$modal.modal({
+//				backdrop:false,
+				show:true
+			});
 		};
 		
 	};

@@ -60,7 +60,7 @@ requirejs.config({
 		'appServices':'service/ES5/app-service',
 		'appFactorys':'service/ES5/app-factory',
 		'appTemplates':'service/ES5/app-templates',
-		'angular-datatable':'libs/angular/angular-datatables',
+		'appTouch':'service/app-touch',
 //jquery--------------------------
 		'paginator':'libs/jquery/paginator',
 		'parallax':'libs/jquery/jquery.parallax',

@@ -11,7 +11,24 @@
 						<span>待交尾款</span>
 					</a>
 				</div>
+				<div class="form-input-wrapper">
+					<a class="checkbox" ng-click="test($event)">
+						<i>
+							<em class="icon transition-02">&#xe60a;</em>
+						</i>
+						<span>待交车</span>
+					</a>
+				</div>
+				<div class="form-input-wrapper">
+					<a class="checkbox" ng-click="test($event)">
+						<i>
+							<em class="icon transition-02">&#xe60a;</em>
+						</i>
+						<span>待上牌</span>
+					</a>
+				</div>
 			</div>
+			<a class="button pull-right" hm-tap="show()">搜索</a>
 		</div>
 	</div>
 	<button class="cycle-button icon add-btn">&#xe73e;</button>
@@ -27,4 +44,22 @@
 		<tbody>
 		</tbody>
 	</table>
+</div>
+
+<div class="modal fade custom-modal task-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				任务完成
+			</div>
+			<div class="modal-body">
+				<p class="title">备注:</p>
+				<textarea class="default-textarea" rows="4"></textarea>
+			</div>
+			<div class="modal-footer">
+				<a class="button">确定</a>
+				<a class="button">取消</a>
+			</div>
+		</div>
+	</div>
 </div>

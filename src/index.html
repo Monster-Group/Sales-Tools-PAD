@@ -10,7 +10,30 @@
 		<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="blank">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=2736, user-scalable=no, target-densitydpi=device-dpi">
+		<!--<meta name="viewport" content="width=2736,user-scalable=no, maximum-scale=1,minimum-scale=1, target-densitydpi=device-dpi">-->
+		<script>
+        	//添加viewport-mate标签缩放网页。
+			!function(userAgent){
+				if(!!userAgent.match(/AppleWebKit.*Mobile.*/)){
+					var screen_w = parseInt(window.screen.width),
+					    scale = screen_w / 2736;
+					    //alert(screen_w);
+					    //alert(scale);
+					    if (/Android (\d+\.\d+)/.test(userAgent)) {
+					        var version = parseFloat(RegExp.$1);
+					        if(userAgent.indexOf("MX")>-1&&version>=5){
+					        	//alert(userAgent)
+					        	document.write('<meta name="viewport" content="width=2736,minimum-scale = ' + scale + ", maximum-scale = " + scale + ', target-densitydpi=device-dpi">');
+					        }else{
+					        	document.write(version > 2.3 ? '<meta name="viewport" content="width=750, minimum-scale = ' + scale + ", maximum-scale = " + scale + ', target-densitydpi=device-dpi">': '<meta name="viewport" content="width=2736, target-densitydpi=device-dpi">');
+					        };
+					    } else {
+					    	console.log(111);
+					        document.write('<meta name="viewport" content="width=2736, user-scalable=no, target-densitydpi=device-dpi">');
+						    }
+					}	    
+			}(navigator.userAgent);
+        </script>
 		<title>销售工具</title>
 		<link rel="shortcut icon" href="favicon.ico" />
 		<link rel="bookmark" href="favicon.ico" />
@@ -28,7 +51,6 @@
 		<link rel="stylesheet" href="./static/css/index.css" />
 		<!-- endbuild -->
 	</head>
-	<div class="main-wrapper">
 		<header class="root-header">
 			<div class="user-photo pull-left"></div>
 			<h1 class="pull-left">2017-10-22今天你有10位顾客要接待</h1>
@@ -64,7 +86,6 @@
 			<section class="main-container" ng-view>
 			</section>
 		</section>
-	</div>
 	<body>
 		<!-- build:js -->
 		<script src="./static/js/libs/require/require.min.js" data-main="./static/js/config.js?v=999"></script>

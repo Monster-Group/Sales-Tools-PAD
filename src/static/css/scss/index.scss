@@ -50,3 +50,8 @@
     }
 }
 
+.task-modal{
+    .modal-body{
+        .title{line-height: 94px;font-size:36px;color:color($colors, formTag);}
+    }
+}

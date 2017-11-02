@@ -1,6 +1,6 @@
-define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', 'appFactorys', 'appTemplates', 'appController', 'jquery', 'table'],
+define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', 'appFactorys', 'appTemplates', 'appController','appTouch', 'jquery', 'table'],
 	function(angular, require) {
-		var app = angular.module('webapp', ['ngRoute', 'app.directives', 'app.services', 'app.factorys', 'app.template', 'app.controller']);
+		var app = angular.module('webapp', ['ngRoute', 'app.directives', 'app.services', 'app.factorys', 'app.template', 'app.controller','app.touch']);
 		app.run(function($rootScope, $location, dropdownMenuScrollbar, ArrayhasObj) {
 			$rootScope.$on('$routeChangeStart', function(evt, next, current) {
 				$('.daterangepicker').remove();
@@ -48,8 +48,10 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 				return $sce.trustAsHtml(input);
 			};
 		});
-		app.config(['$routeProvider', '$controllerProvider',
-			function($routeProvider, $controllerProvider) {
+		app.config(['$routeProvider', '$controllerProvider','hammerDefaultOptsProvider',
+			function($routeProvider, $controllerProvider,hammerDefaultOptsProvider) {
+				hammerDefaultOptsProvider.set({
+	        		recognizers: [[Hammer.Tap, {time: 150}],[Hammer.Swipe,{enable: true,direction: Hammer.DIRECTION_HORIZONTAL}]]});
 				var routeMap = {
 					'/backlog': { //路由
 						//模块的代码路径
