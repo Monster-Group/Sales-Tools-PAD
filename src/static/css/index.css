@@ -1,0 +1,108 @@
+/*-----------------------
+ * Site:  Sales-Tools-PAD - ./dist - index
+ * Author: Clearlove 7*
+ * Updated: 2017-11-02 21:46
+ * Version: 1.0.0
+ * -----------------------*/
+.form-header {
+  padding: 23px 0 43px 0; }
+  .form-header .line {
+    padding: 8px 0;
+    height: 106px; }
+  .form-header .form-item {
+    float: left;
+    line-height: 90px;
+    font-size: 36px;
+    margin-right: 40px; }
+    .form-header .form-item .form-tag {
+      float: left;
+      color: #888; }
+    .form-header .form-item .form-input-wrapper {
+      float: left;
+      margin: 11px 0;
+      line-height: 64px;
+      margin-left: 20px; }
+    .form-header .form-item .default-input {
+      float: left;
+      background-color: transparent;
+      font-size: 36px;
+      width: 380px;
+      padding: 0 20px;
+      border: 2px solid #dcdcdc;
+      border-radius: 5px;
+      height: 68px;
+      line-height: 64px; }
+    .form-header .form-item .dropdown {
+      padding: 0 20px; }
+    .form-header .form-item .date-range-picker-wrapper {
+      position: relative;
+      padding: 0; }
+      .form-header .form-item .date-range-picker-wrapper .date-range-picker {
+        width: 100%;
+        background-color: transparent;
+        padding: 0 60px 0 20px; }
+      .form-header .form-item .date-range-picker-wrapper .icon {
+        position: absolute;
+        top: 0;
+        display: inline-block;
+        width: 60px;
+        font-size: 48px;
+        text-align: center; }
+      .form-header .form-item .date-range-picker-wrapper .icon-right {
+        right: 0; }
+      .form-header .form-item .date-range-picker-wrapper .icon-left {
+        left: 0; }
+    .form-header .form-item .start-date, .form-header .form-item .end-date {
+      width: 276px;
+      margin: 0;
+      font-size: 32px; }
+    .form-header .form-item .bridge {
+      margin: 0 40px; }
+    .form-header .form-item .end {
+      margin-left: 0; }
+    .form-header .form-item .date-picker .icon {
+      font-size: 48px;
+      margin-left: 10px; }
+    .form-header .form-item .checkbox {
+      float: left;
+      height: 68px;
+      line-height: 68px;
+      margin: 0; }
+      .form-header .form-item .checkbox i {
+        display: inline-block;
+        width: 46px;
+        height: 46px;
+        line-height: 46px;
+        border: 2px solid #dcdcdc;
+        position: relative;
+        float: left;
+        margin: 11px 30px; }
+        .form-header .form-item .checkbox i em {
+          font-size: 48px;
+          position: absolute;
+          right: -15px;
+          top: -6px;
+          color: #55da99;
+          opacity: 0; }
+      .form-header .form-item .checkbox span {
+        float: left;
+        font-size: 36px; }
+    .form-header .form-item .checkbox.active i em {
+      opacity: 1; }
+  .form-header .form-item.last {
+    margin-right: 0; }
+
+.backlog .form-header .form-item .tuan-name {
+  width: 276px; }
+
+.backlog .form-header .form-item .buy-man {
+  width: 232px; }
+
+.backlog .form-header .form-item .buy-man-num {
+  width: 284px; }
+
+.backlog .form-header .form-item .order-state {
+  width: 343px; }
+
+.backlog .form-header .form-item .dorder-date {
+  width: 690px; }

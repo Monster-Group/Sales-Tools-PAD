@@ -1,0 +1,13 @@
+@import "./functions";
+
+$colors: (
+  primary:    #55da99,
+  secondary:  #46bebf,
+  danger:     #f53d3d,
+  light:      #f4f4f4,
+  dark:       #222,
+  bg:         #f5f5f5,
+  bdPrimary:  #00c9a7,
+  bdSecondary:#dcdcdc,
+  formTag:    #888
+) !default;
