@@ -567,4 +567,32 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function (angular, mo
 			}
 		};
 	});
+
+	appDirectives.directive('rangeDateValidate', function(){
+		return {
+			link: function($scope, $elements, $attrs,){
+				var $start = $($elements).find('.start-date'),
+ 					$end = $($elements).find('.end-date')
+
+ 				$start.off('change')
+ 					.on('change', function(){
+ 						compare();
+ 					})
+
+ 				$end.off('change')
+ 					.on('change', function(){
+ 						compare()
+ 					})	
+
+ 				function compare(start, end){
+ 					var startDate = $start.val();
+ 					var endDate = $end.val();
+ 					console.log(startDate, endDate);
+ 					if ((startDate && endDate) && startDate > endDate){
+ 						alert('日期区间不正确')
+ 					}
+ 				}
+			}
+		}
+	});
 });
