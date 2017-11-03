@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - base
  * Author: Clearlove 7*
- * Updated: 2017-11-03 22:27
+ * Updated: 2017-11-04 00:21
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -9,8 +9,8 @@
 @font-face {
   font-family: 'iconfont';
   /* project id 459934 */
-  src: url("//at.alicdn.com/t/font_459934_h3guqkucceb6s9k9.eot");
-  src: url("//at.alicdn.com/t/font_459934_h3guqkucceb6s9k9.eot?#iefix") format("embedded-opentype"), url("//at.alicdn.com/t/font_459934_h3guqkucceb6s9k9.woff") format("woff"), url("//at.alicdn.com/t/font_459934_h3guqkucceb6s9k9.ttf") format("truetype"), url("//at.alicdn.com/t/font_459934_h3guqkucceb6s9k9.svg#iconfont") format("svg"); }
+  src: url("//at.alicdn.com/t/font_459934_wtnekzu0x9m86w29.eot");
+  src: url("//at.alicdn.com/t/font_459934_wtnekzu0x9m86w29.eot?#iefix") format("embedded-opentype"), url("//at.alicdn.com/t/font_459934_wtnekzu0x9m86w29.woff") format("woff"), url("//at.alicdn.com/t/font_459934_wtnekzu0x9m86w29.ttf") format("truetype"), url("//at.alicdn.com/t/font_459934_wtnekzu0x9m86w29.svg#iconfont") format("svg"); }
 
 [class^="icon-"], [class*=" icon-"], .iconfont, .icon, a.icon {
   font-family: "iconfont" !important;
@@ -347,23 +347,24 @@ a:focus, a:active, button:focus, button:active, input:focus, input:active {
 .cycle-button:hover, .cycle-button:active {
   color: #fff; }
 
-.cycle-button:active {
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg); }
-
 .default-textarea {
   background-color: #f5f5f5;
-  border: 1px solid #dcdcdc;
+  border: 2px solid #dcdcdc;
   resize: none;
   width: 100%;
   line-height: 60px;
   font-size: 36px;
-  padding: 0 20px; }
+  padding: 0 20px;
+  border-radius: 5px; }
 
 .add-btn {
   position: fixed;
   bottom: 20px;
   right: 88px; }
+
+.add-btn:active {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg); }
 
 .load-more {
   height: 90px;
@@ -376,6 +377,17 @@ a:focus, a:active, button:focus, button:active, input:focus, input:active {
   color: #00c9a7;
   display: inline-block;
   margin-top: 20px; }
+
+.default-input {
+  float: left;
+  background-color: transparent;
+  font-size: 36px;
+  width: 380px;
+  padding: 0 20px;
+  border: 2px solid #dcdcdc;
+  border-radius: 5px;
+  height: 68px;
+  line-height: 64px; }
 
 /*-----------base-----------*/
 body, html {
