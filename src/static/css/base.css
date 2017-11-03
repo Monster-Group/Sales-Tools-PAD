@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - base
  * Author: Clearlove 7*
- * Updated: 2017-11-03 01:11
+ * Updated: 2017-11-03 20:12
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -9,8 +9,8 @@
 @font-face {
   font-family: 'iconfont';
   /* project id 459934 */
-  src: url("//at.alicdn.com/t/font_459934_gpc8acnlx6crf6r.eot");
-  src: url("//at.alicdn.com/t/font_459934_gpc8acnlx6crf6r.eot?#iefix") format("embedded-opentype"), url("//at.alicdn.com/t/font_459934_gpc8acnlx6crf6r.woff") format("woff"), url("//at.alicdn.com/t/font_459934_gpc8acnlx6crf6r.ttf") format("truetype"), url("//at.alicdn.com/t/font_459934_gpc8acnlx6crf6r.svg#iconfont") format("svg"); }
+  src: url("//at.alicdn.com/t/font_459934_h3guqkucceb6s9k9.eot");
+  src: url("//at.alicdn.com/t/font_459934_h3guqkucceb6s9k9.eot?#iefix") format("embedded-opentype"), url("//at.alicdn.com/t/font_459934_h3guqkucceb6s9k9.woff") format("woff"), url("//at.alicdn.com/t/font_459934_h3guqkucceb6s9k9.ttf") format("truetype"), url("//at.alicdn.com/t/font_459934_h3guqkucceb6s9k9.svg#iconfont") format("svg"); }
 
 [class^="icon-"], [class*=" icon-"], .iconfont, .icon, a.icon {
   font-family: "iconfont" !important;
@@ -327,6 +327,12 @@ a:focus, a:active, button:focus, button:active, input:focus, input:active {
   display: inline-block;
   text-align: center;
   color: #fff;
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
   border-radius: 50%;
   background-image: -webkit-gradient(linear, left top, right top, from(#55da99), to(#46bebf));
   background-image: linear-gradient(90deg, #55da99, #46bebf);
@@ -334,6 +340,13 @@ a:focus, a:active, button:focus, button:active, input:focus, input:active {
   height: 166px;
   line-height: 166px;
   font-size: 80px; }
+
+.cycle-button:hover, .cycle-button:active {
+  color: #fff; }
+
+.cycle-button:active {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg); }
 
 .default-textarea {
   background-color: #f5f5f5;
@@ -414,7 +427,7 @@ body {
   -webkit-box-shadow: 20px 0 80px rgba(32, 131, 161, 0.12);
           box-shadow: 20px 0 80px rgba(32, 131, 161, 0.12);
   z-index: 90;
-  border-top: 4px solid #00c9a7; }
+  border-top: 2px solid #00c9a7; }
   .aside li {
     width: 100%;
     float: left; }
@@ -433,6 +446,7 @@ body {
         padding: 0 15px; }
     .aside li a.active {
       background: #f4f4f4;
+      color: #000;
       border-left-color: #00c9a7; }
       .aside li a.active i {
         border-bottom-color: #00c9a7; }
@@ -441,7 +455,8 @@ body {
   width: 100%; }
 
 .module-wrapper {
-  padding: 0 80px; }
+  padding: 0 80px;
+  position: relative; }
 
 .dropdown {
   padding: 0 40px 0 20px;
@@ -449,25 +464,29 @@ body {
   border-radius: 5px; }
   .dropdown .arrow {
     display: inline-block;
-    border-style: solid;
-    border-color: transparent;
-    border-width: 13px;
-    border-top-color: #595959;
-    border-bottom-width: 6px;
+    color: #595959;
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
     -webkit-transform-origin: center center;
             transform-origin: center center; }
+  .dropdown ul {
+    padding: 0 20px; }
   .dropdown .dropdown-menu {
-    width: 100%; }
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    width: calc(100% + 4px);
+    border: 2px solid #dcdcdc;
+    left: -2px;
+    background-color: #f5f5f5; }
     .dropdown .dropdown-menu li {
       height: 71px;
       line-height: 70px;
       border-bottom: 2px solid #c3cbd0;
-      font-size: 36px;
-      padding: 0 20px; }
+      font-size: 36px; }
+    .dropdown .dropdown-menu li:last-child {
+      border-bottom: none; }
 
 .dropdown.open .arrow {
   -webkit-transform: rotate(180deg);

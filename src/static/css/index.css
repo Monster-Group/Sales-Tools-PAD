@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - index
  * Author: Clearlove 7*
- * Updated: 2017-11-03 01:11
+ * Updated: 2017-11-03 20:12
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -78,7 +78,7 @@
         float: left;
         margin: 11px 30px; }
         .form-header .form-item .checkbox i em {
-          font-size: 48px;
+          font-size: 56px;
           position: absolute;
           right: -15px;
           top: -6px;
@@ -92,22 +92,90 @@
   .form-header .form-item.last {
     margin-right: 0; }
 
-.backlog .form-header .form-item .tuan-name {
+.order .form-header .form-item .tuan-name {
   width: 276px; }
 
-.backlog .form-header .form-item .buy-man {
+.order .form-header .form-item .buy-man {
   width: 232px; }
 
-.backlog .form-header .form-item .buy-man-num {
+.order .form-header .form-item .buy-man-num {
   width: 284px; }
 
-.backlog .form-header .form-item .order-state {
+.order .form-header .form-item .order-state {
   width: 343px; }
 
-.backlog .form-header .form-item .dorder-date {
+.order .form-header .form-item .dorder-date {
   width: 690px; }
 
 .task-modal .modal-body .title {
   line-height: 94px;
   font-size: 36px;
   color: #888; }
+
+.order-info {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 0;
+  padding: 0 80px;
+  background-color: #f5f5f5;
+  line-height: 90px; }
+  .order-info header {
+    padding: 20px 0;
+    margin-bottom: 10px; }
+    .order-info header span {
+      margin-left: 84px; }
+  .order-info .info-block {
+    background-color: #fff;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    font-size: 28px; }
+    .order-info .info-block h3 {
+      height: 98px;
+      line-height: 98px;
+      padding: 0 64px;
+      font-size: 36px;
+      font-weight: bold;
+      background-color: #e3e7eb; }
+    .order-info .info-block .info-body {
+      padding: 10px 64px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+      .order-info .info-block .info-body div {
+        -ms-flex-preferred-size: 33.33%;
+            flex-basis: 33.33%;
+        padding: 23px 0;
+        line-height: 36px;
+        word-break: break-all;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        padding-right: 20px; }
+      .order-info .info-block .info-body span {
+        word-break: keep-all; }
+      .order-info .info-block .info-body i {
+        margin-left: 20px; }
+    .order-info .info-block .info-footer {
+      text-align: right;
+      padding: 0 64px; }
+  .order-info .pay-info span {
+    display: inline-block;
+    float: left;
+    text-align: center; }
+  .order-info .pay-info .channel {
+    width: 200px;
+    text-align: left; }
+  .order-info .pay-info .pay-no {
+    width: 1040px; }
+  .order-info .pay-info .pay-amount {
+    width: 200px; }
+  .order-info .pay-info .pay-date {
+    width: 304px;
+    float: right; }
+  .order-info .pay-info .info-body {
+    display: block; }
+    .order-info .pay-info .info-body .line {
+      width: 100%; }

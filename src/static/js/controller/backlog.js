@@ -50,6 +50,9 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress', 'sweetalert'],
 				show:true
 			});
 		};
+		$scope.test = (e)=>{
+			$(e.target).closest('a').toggleClass('active');
+		}
 		
 	};
 	return {controller: controller, tpl: tpl};

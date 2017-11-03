@@ -93,20 +93,20 @@ table.dataTable thead .sorting_desc_disabled:after {
   position: absolute;
   line-height: 92px;display:inline-block;width: 50px; text-align: center;top:0;right:0;
   display: block;
-  font-family: 'iconfont';
-  opacity: 0.5;
+  font-family: 'iconfont';font-size: 50px;color: #595959;opacity: 0.5;
 }
 table.dataTable thead .sorting:after {
-  opacity: 0.2;
-  content: "\e66e";
+  content: "\e602";
   /* sort */
 }
 table.dataTable thead .sorting_asc:after {
-  content: "\e678";
+	opacity: 1;
+  content: "\e603";
   /* sort-by-attributes */
 }
 table.dataTable thead .sorting_desc:after {
-  content: "\e624";
+	opacity: 1;
+  content: "\e604";
   /* sort-by-attributes-alt */
 }
 table.dataTable thead .sorting_asc_disabled:after,

@@ -52,20 +52,6 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 			}
 		}
 	});
-	appDirectives.directive('ngTooltip', function($parse) {
-		return {
-			link: function($scope, $element, $attrs) {
-				var $ele = $($element);
-				var opt = $parse($attrs.opt)($scope);
-				var defaults = {
-					placement: 'auto top',
-					container: 'body'
-				};
-				var options = $.extend(true, {}, defaults, opt);
-				$ele.tooltip(options);
-			}
-		}
-	});
 	appDirectives.directive('ngInput', function($rootScope, $parse) {
 		return {
 			template: function(element, attrs) {
