@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - index
  * Author: Clearlove 7*
- * Updated: 2017-11-03 20:12
+ * Updated: 2017-11-03 22:27
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -91,6 +91,8 @@
       opacity: 1; }
   .form-header .form-item.last {
     margin-right: 0; }
+  .form-header .error-msg {
+    line-height: 90px; }
 
 .order .form-header .form-item .tuan-name {
   width: 276px; }
@@ -179,3 +181,49 @@
     display: block; }
     .order-info .pay-info .info-body .line {
       width: 100%; }
+
+.add-order-modal {
+  margin-top: -1000px; }
+  .add-order-modal .modal-dialog {
+    font-size: 28px;
+    color: #888; }
+    .add-order-modal .modal-dialog .modal-content .modal-header {
+      font-size: 66px;
+      padding: 0;
+      line-height: 174px;
+      text-align: center; }
+    .add-order-modal .modal-dialog .modal-content .config {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+      .add-order-modal .modal-dialog .modal-content .config .item {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+                justify-content: space-between;
+        padding: 28px 54px;
+        margin-bottom: 54px;
+        -ms-flex-preferred-size: 33.33%;
+            flex-basis: 33.33%;
+        position: relative; }
+        .add-order-modal .modal-dialog .modal-content .config .item .subjoin {
+          display: inline-block;
+          position: absolute;
+          left: 244px;
+          bottom: -30px;
+          color: #00c9a7; }
+        .add-order-modal .modal-dialog .modal-content .config .item .dropdown {
+          width: 256px; }
+    .add-order-modal .modal-dialog .modal-content .modal-footer {
+      height: auto; }
+      .add-order-modal .modal-dialog .modal-content .modal-footer p {
+        text-align: left;
+        padding: 0 54px;
+        line-height: 64px; }
