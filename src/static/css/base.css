@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - base
  * Author: Clearlove 7*
- * Updated: 2017-11-03 20:12
+ * Updated: 2017-11-03 22:27
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -240,8 +240,11 @@ a:focus, a:active, button:focus, button:active, input:focus, input:active {
 .fn-bg-orange {
   background-color: #fdc54b; }
 
-.color-333 {
-  color: #333; }
+.color-primary {
+  color: #55da99; }
+
+.color-bdprimary {
+  color: #00c9a7; }
 
 .color-blue {
   color: #03a9f4; }
@@ -459,7 +462,7 @@ body {
   position: relative; }
 
 .dropdown {
-  padding: 0 40px 0 20px;
+  padding: 0 20px;
   border: 2px solid #dcdcdc;
   border-radius: 5px; }
   .dropdown .arrow {
@@ -540,6 +543,9 @@ body {
     text-align: center;
     border: none;
     font-size: 36px; }
+
+.error-msg {
+  color: #ff8279; }
 
 .main-wrapper {
   -webkit-transition: padding-left 0.2s cubic-bezier(0.35, 0, 0.25, 1);

@@ -38,6 +38,7 @@
         
     }
     .form-item.last{margin-right:0;}
+    .error-msg{line-height: 90px;}
 }
 
 .order{
@@ -79,6 +80,26 @@ background-color: color($colors, bg);line-height: 90px;
         .pay-date{width: 304px;float:right;}
         .info-body{display:block;
             .line{width: 100%;}
+        }
+    }
+}
+.add-order-modal{margin-top: -1000px;
+    .modal-dialog{font-size:28px;color:color($colors,formTag);
+        .modal-content{
+            .modal-header{
+                font-size:66px;padding: 0;line-height: 174px;text-align: center;
+            }
+            .config{
+                display: flex;justify-content: space-between;flex-wrap:wrap;
+                .item{display: flex;justify-content:space-between;padding:28px 54px;margin-bottom:54px;  flex-basis:33.33%;position: relative;
+                    .subjoin{display: inline-block;position: absolute;left:244px;bottom:-30px;color: color($colors,bdPrimary); }
+                    .dropdown{width:256px;}
+                }
+            }
+            .modal-footer{height: auto;
+                p{text-align: left;padding:0 54px;line-height: 64px;}
+                
+            }
         }
     }
 }
