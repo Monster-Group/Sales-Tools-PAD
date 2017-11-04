@@ -1,12 +1,15 @@
-define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', 'appFactorys', 'appTemplates', 'appController','appTouch', 'jquery', 'table'],
-	function(angular, require) {
-		var app = angular.module('webapp', ['ngRoute', 'app.directives', 'app.services', 'app.factorys', 'app.template', 'app.controller','app.touch']);
+define(['angular', 'require', 'enumData', 'angular-route', 'appDirectives', 'appServices', 'appFactorys', 'appTemplates', 'appController','appTouch', 'angular-chosen', 'jquery', 'table'],
+	function(angular, require, enumData) {
+		var app = angular.module('webapp', ['ngRoute', 'app.directives', 'app.services', 'app.factorys', 'app.template', 'app.controller','app.touch','localytics.directives']);
 		app.run(function($rootScope, $location, dropdownMenuScrollbar, ArrayhasObj) {
 			$rootScope.$on('$routeChangeStart', function(evt, next, current) {
 				$('.daterangepicker').remove();
 				$rootScope.path = $location.$$path;
 				console.log($rootScope.path);
 			});
+			
+			$rootScope.enumData = enumData;
+
 			$rootScope.$on('$routeChangeSuccess', function(evt, next, current) {
 				if(current) {
 					$rootScope.prevPath = current.originalPath;

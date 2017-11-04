@@ -650,4 +650,208 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 			}
 		}
 	});
+
+	appDirectives.directive('dropDown', function(){
+		return {
+			restrict: 'E',
+			replace: true,
+			scope: {
+				renderData: '=',
+				model: '=?',
+				placeholder: '=?',
+				clickEvent: '=?'
+			},
+			template: `
+				<div class="dropdown">
+					<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+						<span class="val pull-left" ng-bind="model.name?model.name:placeholder"></span>
+						<div class="pull-right">
+							<span class="arrow icon">&#xe792;</span>
+						</div>
+					</a>
+					<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+						<li ng-repeat="item in renderData track by $index" ng-bind="item.name" value="item.value" ng-click="itemClick($event, item)"></li>
+					</ul>
+				</div>
+			`,
+			controller: function($scope, $element, $attrs){
+
+				$scope.placeholder || ($scope.placeholder = '请选择')
+				$scope.model || ($scope.model = {name: '', value: ''})
+
+				$scope.itemClick = function(e, item){
+					delete item.$$hashKey;
+
+					if(item.value == $scope.model.value){
+						e.stopPropagation();
+						e.preventDefault();
+						return;
+					}
+					$scope.model = Object.assign({}, item);
+
+					$scope.clickEvent&& $scope.clickEvent(e, item);
+				}
+			}
+		}
+	})
+
+	appDirectives.directive('modalContainer', function(){
+		return {
+			restrict: 'E',
+			transclude: {
+				'header': 'modalContainerHeader',
+				'body': 'modalContainerBody',
+				'footer': 'modalContainerFooter'
+			},
+			replace: true,
+			template: `
+				<div class="modal fade custom-modal add-order-modal in" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-md">
+						<div class="modal-content">
+							<div class="modal-header" ng-transclude="header">		
+							</div>
+							<div class="modal-body" ng-transclude="body">
+							</div>
+							<div class="modal-footer" ng-transclude="footer">
+							</div>
+						</div>
+					</div>
+				</div>
+			`,
+			controller: function($scope, $element ,$attrs){
+			}
+		}
+	});
+
+
+
+	appDirectives.directive('newOrder', function($rootScope){
+		return {
+			restrict: 'E',
+			scope:{
+			},
+			replace: true,
+			template: `
+				<div>
+				<modal-container>
+					<modal-container-header>{{title}}</modal-container-header>
+					<modal-container-body>
+						<div class="config">
+							<div class="item">
+								<span>类别:</span>
+								<!-- <drop-down render-data="$root.enumData.orderType" model="selectModel.orderType" click-event="itemClick"></drop-down>-->
+								<select chosen placeholder-text-single="'请选择'" ng-model="baz"
+    ng-options=" item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256"></select>
+							</div>
+							<div class="item" ng-if="selectModel.orderType.value == 0">
+								<span>车系:</span>
+								<drop-down render-data="$root.enumData.orderType" model="selectModel.orderType" click-event="itemClick"></drop-down>
+							</div>
+							<div class="item" ng-if="selectModel.orderType.value == 0">
+								<span>车型:</span>
+								<div class="dropdown">
+									<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+										<span class="val pull-left">请选择</span>
+										<div class="pull-right">
+											<span class="arrow icon">&#xe792;</span>
+										</div>
+									</a>
+									<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+										<li>test</li>
+										<li>test</li>
+										<li>test</li>
+										<li>test</li>
+									</ul>
+								</div>
+							</div>
+							<div class="item" ng-if="selectModel.orderType.value == 0">
+								<span>车顶颜色:</span>
+								<drop-down render-data="$root.enumData.orderType" model="selectModel.orderType" click-event="itemClick"></drop-down>
+							</div>
+							<div class="item" ng-if="selectModel.orderType.value == 0">
+								<span>车身颜色:</span>
+								<div class="dropdown">
+									<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+										<span class="val pull-left">请选择</span>
+										<div class="pull-right">
+											<span class="arrow icon">&#xe792;</span>
+										</div>
+									</a>
+									<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+										<li>test</li>
+										<li>test</li>
+										<li>test</li>
+										<li>test</li>
+									</ul>
+								</div>
+							</div>
+							<div class="item" ng-if="selectModel.orderType.value == 0">
+								<span>配件:</span>
+								<div class="dropdown">
+									<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+										<span class="val pull-left">请选择</span>
+										<div class="pull-right">
+											<span class="arrow icon">&#xe792;</span>
+										</div>
+									</a>
+									<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+										<li>test</li>
+										<li>test</li>
+										<li>test</li>
+										<li>test</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</modal-container-body>
+					<modal-container-footer>
+						<div class="price-info">
+							<p>车价:<i>35800</i></p>
+							<p>车价:<i>35800</i></p>
+							<p>车价:<i>35800</i></p>
+							<p class="total color-bdprimary">总价:<i>95800</i></p>
+						</div>
+						<div class="btn-wrapper">
+							<a class="button">确定</a>
+							<a class="button">取消</a>
+						</div>
+					</modal-container-footer>
+				</modal-container>
+				</div>
+			`,
+			controller: function($scope, $element ,$attrs){
+				$scope.title = '创建订单';
+				$($element).find('.modal').modal();
+
+				$scope.postModel = {
+					company: '',
+					idCard: '',
+				}
+
+				$scope.selectModel = {
+					orderType: Object.assign($rootScope.enumData.orderType[0]),
+					product: {},
+					level1Type: {},
+					level2Type: {},
+					userId: {},
+					data: {},
+					promotionId: {},
+					storeId: '',
+				}
+
+				$scope.selectProductModel = {
+					product: {},
+					level1Type: {},
+					level2Type: {},
+
+				}
+
+				// $scope.itemClick = function(e, item){
+				// 	$scope.postModel[attrName] = item.value;
+				// }
+
+
+			}
+		}
+	});
 });

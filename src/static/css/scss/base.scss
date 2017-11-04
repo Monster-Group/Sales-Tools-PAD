@@ -225,7 +225,7 @@ body{width: 2736px; height: auto; min-height:100%;display: block;padding-top: 31
 .module-wrapper{padding:0 80px;position: relative;}
 
 
-.dropdown{padding:0 20px;border:2px solid color($colors, bdSecondary);border-radius:5px;
+.dropdown,.chosen-container{padding:0 20px;border:2px solid color($colors, bdSecondary);border-radius:5px;
     .arrow{display: inline-block; color:#595959;
     transform:rotate(0deg);-webkit-transition: all 0.5s ease;transition: all 0.5s ease;
     transform-origin:center center;

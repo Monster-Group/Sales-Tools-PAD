@@ -38,6 +38,7 @@ requirejs.config({
 		'diyUpload':'libs/jquery/diyupload/diyUpload',
 		'cookie':'libs/jquery/jquery.cookie',
 		'colResizable':'libs/jquery/colResizable.min',
+		'chosen':'libs/jquery/chosen.jquery',
 		'tmp':'libs/default/artTemplate',
 		'helper':'libs/default/tmp.helper',
 		text: 'libs/require/text',
@@ -54,6 +55,7 @@ requirejs.config({
 //angular----------------
 		'angular':'libs/angular/angular',
 		'angular-route':'libs/angular/angular-route',
+		'angular-chosen':'libs/angular/angular-chosen',
 		'app':'app',
 		'appController':'service/ES5/app-controller',
 		'appDirectives':'service/ES5/app-directive',
@@ -104,6 +106,7 @@ requirejs.config({
 		'nprogress':'libs/other/nprogress',
 		'particles':'libs/other/particles',
 		'jszip':'libs/other/jszip',
+		'enumData':'libs/data/enum-data',
 //------------other----------------	
 		'common':'common',
 		'start':'start',
