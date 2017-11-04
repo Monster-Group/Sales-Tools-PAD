@@ -276,6 +276,10 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function (angular, mo
 
 
 				};
+			}
+		}
+	});
+	
 	appDirectives.directive('rangeDateValidate', function () {
 		return {
 			link: function link($scope, $elements, $attrs) {
