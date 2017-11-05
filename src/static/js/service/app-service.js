@@ -99,6 +99,38 @@ define(['angular','js.cookie','baseSet', 'jquery', 'sweetalert','Ps'], function(
 				success: suc
 			});
 		};
+		this.searchOrderList = (data,suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/matter/searchOrderList',
+				data:data,
+				success: suc
+			});
+		};
+		this.detailOrder = (id,suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/matter/detailOrder',
+				data:{
+					orderId:id
+				},
+				success: suc
+			});
+		};
+		this.cretaeProductOrderBack = (data,suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/matter/cretaeProductOrderBack',
+				data:data,
+				success: suc
+			});
+		};
+		this.getPayment = (no,suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/matter/cretaeProductOrderBack',
+				data:{
+					orderNo:no
+				},
+				success: suc
+			});
+		};
 	}]);
 	appServices.service('ArrayhasObj',function() {
 		Array.prototype.hasObj = function(obj){

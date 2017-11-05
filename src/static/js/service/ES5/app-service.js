@@ -102,6 +102,38 @@ define(['angular', 'js.cookie', 'baseSet', 'jquery', 'sweetalert', 'Ps'], functi
 				success: suc
 			});
 		};
+		this.searchOrderList = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/matter/searchOrderList',
+				data: data,
+				success: suc
+			});
+		};
+		this.detailOrder = function (id, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/matter/detailOrder',
+				data: {
+					orderId: id
+				},
+				success: suc
+			});
+		};
+		this.cretaeProductOrderBack = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/matter/cretaeProductOrderBack',
+				data: data,
+				success: suc
+			});
+		};
+		this.getPayment = function (no, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/matter/cretaeProductOrderBack',
+				data: {
+					orderNo: no
+				},
+				success: suc
+			});
+		};
 	}]);
 	appServices.service('ArrayhasObj', function () {
 		Array.prototype.hasObj = function (obj) {
