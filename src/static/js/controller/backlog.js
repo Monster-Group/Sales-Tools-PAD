@@ -116,6 +116,8 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 			loadData();
 		};
 		$scope.$table.on('tap','.move-appoint',function(e){
+			e.stopPropagation();
+			e.preventDefault();
 			var data = $scope.dt.api(true)
 			.row($(this).parents('tr')).data();
 			$scope.title = '改约';
@@ -123,6 +125,8 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 			$scope.$modal.data('data',data).modal('show');
 		});
 		$scope.$table.on('tap','.done',function(e){
+			e.stopPropagation();
+			e.preventDefault();
 			var data = $scope.dt.api(true)
 			.row($(this).parents('tr')).data();
 			$scope.title = '完成任务';

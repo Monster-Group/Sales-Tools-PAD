@@ -8,25 +8,39 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr'], functi
 		$scope.$addModal = $('.add-order-modal');
 		$scope.$addModal.find('.modal-dialog').css('margin-top','-'+$scope.$addModal.find('.modal-dialog').outerHeight()/2+'px');
 		$scope.$addModal.hide();
+		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
 		$scope.dt = $scope.$table.dataTable({
 			order:[],
 			bFilter: false, //Disable search function
 		    bPaginate: false, //hide pagination,
+		    scrollY: $scope.tableScollHeight,
 			buttons: {},
 			columns: [{
-					data: 'serverName',
+					data: 'orderNo',
 					width: '30%'
 				},
 				{
-					data: 'ipPort',
+					data: 'createdTime',
+					width: '25%'
+				},
+				{
+					data: 'productDetail',
+					width: '20%'
+				},
+				{
+					data: 'promotionName',
+					width: '25%'
+				},
+				{
+					data: 'buyerName',
+					width: '25%'
+				},
+				{
+					data: 'buyerMobile',
 					width: '25%'
 				},
 				{
 					data: 'status',
-					width: '20%'
-				},
-				{
-					data: null,
 					width: '25%'
 				}
 			],
@@ -46,10 +60,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr'], functi
 			}]
 		});
 		
-		$scope.$table.on('tap','.done',function(){
-			console.log(12221)
-			
-		});
+		
 		
 
 		$scope.addOrder = function(){
