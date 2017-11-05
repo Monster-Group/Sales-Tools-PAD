@@ -81,13 +81,14 @@ define(['angular','js.cookie','baseSet', 'jquery', 'sweetalert','Ps'], function(
 			});
 		}
 	});
-	appServices.service('appApi', ['$q','appHttp', function($q,appHttp) {
+	appServices.service('appApi', ['$q','appHttp','$rootScope', function($q,appHttp,$rootScope) {
 		this.searchMatter = (ids,num,suc,com,err) => {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/matter/searchMatter',
 				data:{
 					deliveryStageIds:ids.join(),
-					pageNum:num
+					pageSize:$rootScope.pageSize,
+					page:num
 				},
 				success: suc
 			});
@@ -99,9 +100,10 @@ define(['angular','js.cookie','baseSet', 'jquery', 'sweetalert','Ps'], function(
 				success: suc
 			});
 		};
-		this.searchOrderList = (data,suc) => {
+		this.searchOrderList = (data,page,suc) => {
+			data.page = page
 			appHttp.appPost({
-				url: baseSet.postServer + 'api/v2/matter/searchOrderList',
+				url: baseSet.postServer + 'api/v2/order/searchOrderList',
 				data:data,
 				success: suc
 			});

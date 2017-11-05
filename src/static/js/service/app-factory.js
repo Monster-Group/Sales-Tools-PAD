@@ -25,7 +25,7 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 				break;
 				case 5: statu='待交车(待分配)' 
 				break;
-				case 6: statu=' 待交车(待执行)' 
+				case 6: statu='待交车(待执行)' 
 				break;
 				case 7: statu='待上牌(待邀约)' 
 				break;
@@ -34,6 +34,28 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 				case 9: statu='待上牌(待执行)' 
 				break;
 				case 10: statu='完成' 
+				break;
+			};
+			return statu;
+		}
+	});
+	appFactorys.factory('getOrderStatu',function(){
+		return function(s){
+			let statu = '';
+			switch(s){
+				case 1: statu='待付款' 
+				break;
+				case 2: statu='已关闭' 
+				break;
+				case 3: statu='已付款,待排产' 
+				break;
+				case 4: statu='已排产' 
+				break;
+				case 5: statu='已结清' 
+				break;
+				case 6: statu='申请退款' 
+				break;
+				case 7: statu='已退款' 
 				break;
 			};
 			return statu;

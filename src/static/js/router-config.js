@@ -7,7 +7,7 @@ define(['angular', 'require', 'enumData', 'angular-route', 'appDirectives', 'app
 				$rootScope.path = $location.$$path;
 				console.log($rootScope.path);
 			});
-			
+			$rootScope.pageSize = 20;
 			$rootScope.enumData = enumData;
 
 			$rootScope.$on('$routeChangeSuccess', function(evt, next, current) {
