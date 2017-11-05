@@ -4,7 +4,7 @@
 			<div class="form-item">
 				<span class="form-tag">筛选条件:</span>
 				<div class="form-input-wrapper">
-					<a class="checkbox" ng-click="test($event)">
+					<a class="checkbox" hm-tap="statusClick($event,3)" ng-class="{'active':stageIds.indexOf(3)>-1}">
 						<i>
 							<em class="icon transition-02">&#xe605;</em>
 						</i>
@@ -12,7 +12,7 @@
 					</a>
 				</div>
 				<div class="form-input-wrapper">
-					<a class="checkbox" ng-click="test($event)">
+					<a class="checkbox" hm-tap="statusClick($event,6)" ng-class="{'active':stageIds.indexOf(6)>-1}">
 						<i>
 							<em class="icon transition-02">&#xe605;</em>
 						</i>
@@ -20,7 +20,7 @@
 					</a>
 				</div>
 				<div class="form-input-wrapper">
-					<a class="checkbox" ng-click="test($event)">
+					<a class="checkbox" hm-tap="statusClick($event,9)" ng-class="{'active':stageIds.indexOf(9)>-1}">
 						<i>
 							<em class="icon transition-02">&#xe605;</em>
 						</i>
@@ -28,16 +28,18 @@
 					</a>
 				</div>
 			</div>
-			<a class="button pull-right" hm-tap="show()">搜索</a>
+			<a class="button pull-right" hm-tap="search()">搜索</a>
 		</div>
 	</div>
 	<table class="table table-striped table-hover table-bordered backlog-table">
 		<thead>
 			<tr>
-				<th>订单号</th>
-				<th>下单时间</th>
-				<th>商品</th>
-				<th>团购名称</th>
+				<th>姓名</th>
+				<th>电话</th>
+				<th>商品详情</th>
+				<th>订单价格</th>
+				<th>当前状态</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -45,20 +47,15 @@
 	</table>
 </div>
 
-<div class="modal fade custom-modal task-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-md">
-		<div class="modal-content">
-			<div class="modal-header">
-				任务完成
-			</div>
-			<div class="modal-body">
-				<p class="title">备注:</p>
-				<textarea class="default-textarea" rows="4"></textarea>
-			</div>
-			<div class="modal-footer">
-				<a class="button">确定</a>
-				<a class="button">取消</a>
-			</div>
-		</div>
-	</div>
-</div>
+<modal-container class="task-modal">
+	<modal-container-header>{{title}}</modal-container-header>
+	<modal-container-body>
+		<p class="title">备注:</p>
+		<textarea class="default-textarea" ng-model="remark" rows="4"></textarea>
+	</modal-container-body>
+	<modal-container-footer>
+		<a class="button" hm-tap="affirm()">确定</a>
+		<a class="button">取消</a>
+	</modal-container-footer>
+</modal-container>
+

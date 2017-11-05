@@ -3,7 +3,6 @@
 define(['angular', 'Hammer'], function (angular, Hammer) {
 	'use strict';
 
-	console.log(Hammer);
 	var appTouch = angular.module('app.touch', []);
 	var HGESTURES = {
 		hmDoubletap: 'doubletap',

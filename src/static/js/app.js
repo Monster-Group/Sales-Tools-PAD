@@ -1,4 +1,4 @@
-define(['waves','js.cookie','jquery','bootstrap','Ps'],function(Waves,Cookies){
+define(['waves','js.cookie','jquery','bootstrap','Ps','tap'],function(Waves,Cookies){
 	Waves.init();
 	Waves.attach('.aside li a', ['waves-block','waves-green']);
 //	Waves.attach('.button', ['waves-block','waves-green']);

@@ -193,6 +193,32 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function (angular, mo
 		};
 	});
 
+	appDirectives.directive('rangeDateValidate', function () {
+		return {
+			link: function link($scope, $elements, $attrs) {
+				var $start = $($elements).find('.start-date'),
+				    $end = $($elements).find('.end-date');
+
+				$start.off('change').on('change', function () {
+					compare();
+				});
+
+				$end.off('change').on('change', function () {
+					compare();
+				});
+
+				function compare(start, end) {
+					var startDate = $start.val();
+					var endDate = $end.val();
+					console.log(startDate, endDate);
+					if (startDate && endDate && startDate > endDate) {
+						alert('日期区间不正确');
+					}
+				}
+			}
+		};
+	});
+
 	appDirectives.directive('dropDown', function () {
 		return {
 			restrict: 'E',
@@ -207,7 +233,10 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function (angular, mo
 			controller: function controller($scope, $element, $attrs) {
 
 				$scope.placeholder || ($scope.placeholder = '请选择');
-				$scope.model || ($scope.model = { name: '', value: '' });
+				$scope.model || ($scope.model = {
+					name: '',
+					value: ''
+				});
 
 				$scope.itemClick = function (e, item) {
 					delete item.$$hashKey;
@@ -224,7 +253,6 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function (angular, mo
 			}
 		};
 	});
-
 	appDirectives.directive('modalContainer', function () {
 		return {
 			restrict: 'E',
@@ -234,7 +262,7 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function (angular, mo
 				'footer': 'modalContainerFooter'
 			},
 			replace: true,
-			template: '\n\t\t\t\t<div class="modal fade custom-modal add-order-modal in" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t\t<div class="modal-header" ng-transclude="header">\t\t\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="modal-body" ng-transclude="body">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="modal-footer" ng-transclude="footer">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t',
+			template: '\n\t\t\t\t<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t\t<div class="modal-header" ng-transclude="header">\t\t\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="modal-body" ng-transclude="body">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="modal-footer" ng-transclude="footer">\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t',
 			controller: function controller($scope, $element, $attrs) {}
 		};
 	});
@@ -247,7 +275,7 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function (angular, mo
 			template: '\n\t\t\t\t<div>\n\t\t\t\t<modal-container>\n\t\t\t\t\t<modal-container-header>{{title}}</modal-container-header>\n\t\t\t\t\t<modal-container-body>\n\t\t\t\t\t\t<div class="config">\n\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t<span>\u7C7B\u522B:</span>\n\t\t\t\t\t\t\t\t<!-- <drop-down render-data="$root.enumData.orderType" model="selectModel.orderType" click-event="itemClick"></drop-down>-->\n\t\t\t\t\t\t\t\t<select chosen placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-model="baz"\n    ng-options=" item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256"></select>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="item" ng-if="selectModel.orderType.value == 0">\n\t\t\t\t\t\t\t\t<span>\u8F66\u7CFB:</span>\n\t\t\t\t\t\t\t\t<drop-down render-data="$root.enumData.orderType" model="selectModel.orderType" click-event="itemClick"></drop-down>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="item" ng-if="selectModel.orderType.value == 0">\n\t\t\t\t\t\t\t\t<span>\u8F66\u578B:</span>\n\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">\u8BF7\u9009\u62E9</span>\n\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="item" ng-if="selectModel.orderType.value == 0">\n\t\t\t\t\t\t\t\t<span>\u8F66\u9876\u989C\u8272:</span>\n\t\t\t\t\t\t\t\t<drop-down render-data="$root.enumData.orderType" model="selectModel.orderType" click-event="itemClick"></drop-down>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="item" ng-if="selectModel.orderType.value == 0">\n\t\t\t\t\t\t\t\t<span>\u8F66\u8EAB\u989C\u8272:</span>\n\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">\u8BF7\u9009\u62E9</span>\n\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="item" ng-if="selectModel.orderType.value == 0">\n\t\t\t\t\t\t\t\t<span>\u914D\u4EF6:</span>\n\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">\u8BF7\u9009\u62E9</span>\n\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</modal-container-body>\n\t\t\t\t\t<modal-container-footer>\n\t\t\t\t\t\t<div class="price-info">\n\t\t\t\t\t\t\t<p>\u8F66\u4EF7:<i>35800</i></p>\n\t\t\t\t\t\t\t<p>\u8F66\u4EF7:<i>35800</i></p>\n\t\t\t\t\t\t\t<p>\u8F66\u4EF7:<i>35800</i></p>\n\t\t\t\t\t\t\t<p class="total color-bdprimary">\u603B\u4EF7:<i>95800</i></p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="btn-wrapper">\n\t\t\t\t\t\t\t<a class="button">\u786E\u5B9A</a>\n\t\t\t\t\t\t\t<a class="button">\u53D6\u6D88</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</modal-container-footer>\n\t\t\t\t</modal-container>\n\t\t\t\t</div>\n\t\t\t',
 			controller: function controller($scope, $element, $attrs) {
 				$scope.title = '创建订单';
-				$($element).find('.modal').modal();
+				//				$($element).find('.modal').modal();  这个打开以后默认就显示了  
 
 				$scope.postModel = {
 					company: '',
@@ -274,35 +302,7 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function (angular, mo
 					// 	$scope.postModel[attrName] = item.value;
 					// }
 
-
 				};
-			}
-		}
-	});
-	
-	appDirectives.directive('rangeDateValidate', function () {
-		return {
-			link: function link($scope, $elements, $attrs) {
-				var $start = $($elements).find('.start-date'),
-				    $end = $($elements).find('.end-date');
-
-				$start.off('change').on('change', function () {
-					compare();
-				});
-
-				$end.off('change').on('change', function () {
-					compare();
-				});
-
-				function compare(start, end) {
-					var startDate = $start.val();
-					var endDate = $end.val();
-					console.log(startDate, endDate);
-					if (startDate && endDate && startDate > endDate) {
-						alert('日期区间不正确');
-					}
-				}
-
 			}
 		};
 	});

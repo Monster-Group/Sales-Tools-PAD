@@ -1,59 +1,151 @@
-define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress', 'sweetalert'], function(angular, tpl, Waves, NProgress, swal) {
-	function controller($scope, appApi) {
+define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','loading'], function(angular, tpl, Waves, NProgress) {
+	function controller($scope, appApi,getStatuDisplay,toThousands) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
 		NProgress.done();
-		$scope.$modal = $('.modal');
+		$scope.$modal = $('.task-modal');
+		$scope.title = '完成任务';
 		$scope.$table = $('.backlog-table');
-		$scope.$modal.css('margin-top','-'+$scope.$modal.outerHeight()/2 + 'px')
+		$scope.$modal.css('margin-top','-'+$scope.$modal.outerHeight()/2 + 'px');
+		$scope.tableData = {};
+		$scope.stageIds = [];
+		$scope.postUrl = '';
+		$scope.remark = '';
+		$scope.pageNum = 1;
+		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
+		console.log($(window).height());
+		let loadData = (fn) =>{
+			$('body').loading();
+			appApi.searchMatter($scope.stageIds,$scope.pageNum,(data)=>{
+				console.log(data);
+				$scope.tableData = data;
+				$scope.pageNum++;
+				if(data.pageNum==1){
+					$scope.dt.fnClearTable();
+				};
+				if(data.list.length==0) return;
+				$scope.dt.fnAddData(data.list);
+				setTimeout(()=>{
+					$('body').find('.inline-loading').remove();
+				},0);
+				if(!fn) return;
+				setTimeout(()=>{
+					fn();
+				},0);
+			});
+		};
+		let updateAppoint = (obj)=>{
+			appApi.updateAppoint(obj,$scope.postUrl,()=>{
+				console.log(666);
+			});
+		};
+		loadData();
 		$scope.dt = $scope.$table.dataTable({
+			order:[],
 			bFilter: false, //Disable search function
 		    bPaginate: false, //hide pagination,
 			buttons: {},
+			scrollY: $scope.tableScollHeight,
 			columns: [{
-					data: 'serverName',
-					width: '30%'
+					data: 'buyerName',
+					width: '10%'
 				},
 				{
-					data: 'ipPort',
-					width: '25%'
-				},
-				{
-					data: 'status',
+					data: 'buyerMobile',
 					width: '20%'
 				},
 				{
+					data: 'productDetail',
+					width: '20%'
+				},
+				{
+					data: 'priductPrice',
+					width: '10%'
+				},
+				{
+					data: 'status',
+					width: '10%'
+				},
+				{
 					data: null,
-					width: '25%'
+					width: '30%'
 				}
 			],
-			columnDefs: [{
-				targets: 2,
-				visible: true,
-				render: function(data, type, row, meta) {
-					return data.status == 0 ? '关闭' : '运行中';
-				}
-			}, {
+			columnDefs: [
+			{
 				targets: 3,
 				visible: true,
 				render: function(data, type, row, meta) {
-					var btns = '<button class="btn btn-primary btn-reboot">重启</button>';
-					var onOrOff = data.status == 0 ? '<button class="btn btn-success btn-on">启动</button>' : '<button class="btn btn-danger btn-off">关闭</button>';
-					var edit = '<button class="btn btn-info btn-edit">修改</button><button class="btn btn-danger btn-del">删除</button>';
-					return(btns + onOrOff + edit);
+					return '￥'+data;
 				}
-			}]
+			},{
+				targets: 4,
+				visible: true,
+				render: function(data, type, row, meta) {
+					return getStatuDisplay(data);
+				}
+			}, {
+				targets: 5,
+				visible: true,
+				orderable:false,
+				render: function(data, type, row, meta) {
+					let btns = '<a class="button move-appoint">改约</a><a class="button done">完成</a>';
+					return btns;
+				}
+			}],
+			fnInitComplete:(s)=>{
+				if(s.oScroll.sY){
+					$(s.nTable).after($('<a class="load-more">加载更多...</a>'));
+				};
+				Waves.attach('.load-more', ['waves-block','waves-green']);
+			}
 		});
-		$scope.show = (e)=>{
-			$scope.$modal.modal({
-//				backdrop:false,
-				show:true
+		$scope.statusClick = (e,id)=>{
+			let index = $scope.stageIds.indexOf(id);
+			if(index>-1){
+				$scope.stageIds.splice(index,1);
+			}else{
+				$scope.stageIds.push(id);
+			};
+		};
+		$scope.search = ()=>{
+			$scope.pageNum = 1;
+			loadData();
+		};
+		$scope.$table.on('tap','.move-appoint',function(e){
+			var data = $scope.dt.api(true)
+			.row($(this).parents('tr')).data();
+			$scope.title = '改约';
+			$scope.postUrl = 'updateAppoint';
+			$scope.$modal.data('data',data).modal('show');
+		});
+		$scope.$table.on('tap','.done',function(e){
+			var data = $scope.dt.api(true)
+			.row($(this).parents('tr')).data();
+			$scope.title = '完成任务';
+			$scope.postUrl = 'finishAppoint';
+			$scope.$modal.data('data',data).modal('show');
+		});
+		$('.backlog').on('tap','.load-more',function(e){
+			let top =$('.dataTables_scrollBody').scrollTop();
+			loadData(()=>{
+				console.log($('.dataTables_scrollBody').scrollTop());
+				$('.dataTables_scrollBody').scrollTop(top);
+			});
+		});
+		$scope.affirm = ()=>{
+			let data = $scope.$modal.data('data');
+			updateAppoint({
+				orderId:data.orderId,
+				startTime:'',
+				endTime:'',
+				remark:$scope.remark,
+				isSkip:1
 			});
 		};
 		$scope.test = (e)=>{
 			$(e.target).closest('a').toggleClass('active');
 		}
-		
 	};
 	return {controller: controller, tpl: tpl};
 });

@@ -93,7 +93,7 @@ table.dataTable thead .sorting_desc_disabled:after {
   position: absolute;
   line-height: 92px;display:inline-block;width: 50px; text-align: center;top:0;right:0;
   display: block;
-  font-family: 'iconfont';font-size: 50px;color: #595959;opacity: 0.5;
+  font-family: 'iconfont';font-size:36px;color: #595959;opacity: 0.5;
 }
 table.dataTable thead .sorting:after {
   content: "\e602";

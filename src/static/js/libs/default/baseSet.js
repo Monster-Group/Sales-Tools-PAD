@@ -1,6 +1,7 @@
 define(function() {
 	return {
-		postServer: 'http://117.50.8.212:9100/',
+//		postServer: 'http://baojun.saojie.me/',
+		postServer: 'http://'+window.location.hostname +':4567/',
 //		'./',// pro
 		pageHost: // test
 		"./../"

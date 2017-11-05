@@ -199,38 +199,36 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 			}
 		}
 	});
-	
-	
-	
-	appDirectives.directive('rangeDateValidate', function(){
+
+	appDirectives.directive('rangeDateValidate', function() {
 		return {
-			link: function($scope, $elements, $attrs,){
+			link: function($scope, $elements, $attrs, ) {
 				var $start = $($elements).find('.start-date'),
- 					$end = $($elements).find('.end-date')
+					$end = $($elements).find('.end-date')
 
- 				$start.off('change')
- 					.on('change', function(){
- 						compare();
- 					})
+				$start.off('change')
+					.on('change', function() {
+						compare();
+					})
 
- 				$end.off('change')
- 					.on('change', function(){
- 						compare()
- 					})	
+				$end.off('change')
+					.on('change', function() {
+						compare()
+					})
 
- 				function compare(start, end){
- 					var startDate = $start.val();
- 					var endDate = $end.val();
- 					console.log(startDate, endDate);
- 					if ((startDate && endDate) && startDate > endDate){
- 						alert('日期区间不正确')
- 					}
- 				}
+				function compare(start, end) {
+					var startDate = $start.val();
+					var endDate = $end.val();
+					console.log(startDate, endDate);
+					if((startDate && endDate) && startDate > endDate) {
+						alert('日期区间不正确')
+					}
+				}
 			}
 		}
 	});
 
-	appDirectives.directive('dropDown', function(){
+	appDirectives.directive('dropDown', function() {
 		return {
 			restrict: 'E',
 			replace: true,
@@ -253,28 +251,30 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 					</ul>
 				</div>
 			`,
-			controller: function($scope, $element, $attrs){
+			controller: function($scope, $element, $attrs) {
 
 				$scope.placeholder || ($scope.placeholder = '请选择')
-				$scope.model || ($scope.model = {name: '', value: ''})
+				$scope.model || ($scope.model = {
+					name: '',
+					value: ''
+				})
 
-				$scope.itemClick = function(e, item){
+				$scope.itemClick = function(e, item) {
 					delete item.$$hashKey;
 
-					if(item.value == $scope.model.value){
+					if(item.value == $scope.model.value) {
 						e.stopPropagation();
 						e.preventDefault();
 						return;
 					}
 					$scope.model = Object.assign({}, item);
 
-					$scope.clickEvent&& $scope.clickEvent(e, item);
+					$scope.clickEvent && $scope.clickEvent(e, item);
 				}
 			}
 		}
-	})
-
-	appDirectives.directive('modalContainer', function(){
+	});
+	appDirectives.directive('modalContainer', function() {
 		return {
 			restrict: 'E',
 			transclude: {
@@ -284,7 +284,7 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 			},
 			replace: true,
 			template: `
-				<div class="modal fade custom-modal add-order-modal in" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog modal-md">
 						<div class="modal-content">
 							<div class="modal-header" ng-transclude="header">		
@@ -297,18 +297,14 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 					</div>
 				</div>
 			`,
-			controller: function($scope, $element ,$attrs){
-			}
+			controller: function($scope, $element, $attrs) {}
 		}
 	});
 
-
-
-	appDirectives.directive('newOrder', function($rootScope){
+	appDirectives.directive('newOrder', function($rootScope) {
 		return {
 			restrict: 'E',
-			scope:{
-			},
+			scope: {},
 			replace: true,
 			template: `
 				<div>
@@ -398,9 +394,9 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 				</modal-container>
 				</div>
 			`,
-			controller: function($scope, $element ,$attrs){
+			controller: function($scope, $element, $attrs) {
 				$scope.title = '创建订单';
-				$($element).find('.modal').modal();
+//				$($element).find('.modal').modal();  这个打开以后默认就显示了  
 
 				$scope.postModel = {
 					company: '',
@@ -428,7 +424,6 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 				// $scope.itemClick = function(e, item){
 				// 	$scope.postModel[attrName] = item.value;
 				// }
-
 
 			}
 		}

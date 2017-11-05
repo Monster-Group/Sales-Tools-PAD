@@ -11,48 +11,57 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 			});
 		}
 	});
-	appFactorys.factory('chartDestroy',function($rootScope){
-		return function(chart){
-			$rootScope.$on('$routeChangeSuccess', function(evt, next, current){
-				if(chart!=null){
-					chart.dispose();
-				}
-				chart=null;
-			});
-		}
-	});
-	appFactorys.factory('watch',function($rootScope){
-		return function(fn){
-			var watch = $rootScope.$watch('appid',function(newVal,oldVal){
-				if(newVal!=oldVal){
-					fn(newVal,oldVal);
-				}
-			});
-			$rootScope.$on('$routeChangeStart', function(evt, next, current){
-				if(current){
-					watch();
-				}
-			});
-		}
-	});
-	appFactorys.factory('meta',function($rootScope){
-		return function(fn){
-			var meta = $rootScope.$watch('meta',function(newVal,oldVal){
-				if(newVal){
-					fn(newVal,oldVal);
-				}
-			});
-			$rootScope.$on('$routeChangeStart', function(evt, next, current){
-				if(current){
-					meta();
-				}
-			});
+	appFactorys.factory('getStatuDisplay',function(){
+		return function(s){
+			let statu = '';
+			switch(s){
+				case 1: statu='待交尾款(待邀约)' 
+				break;
+				case 2: statu='待交尾款(待分配)' 
+				break;
+				case 3: statu='待交尾款(代执行)' 
+				break;
+				case 4: statu='待交车(待邀约)' 
+				break;
+				case 5: statu='待交车(待分配)' 
+				break;
+				case 6: statu=' 待交车(待执行)' 
+				break;
+				case 7: statu='待上牌(待邀约)' 
+				break;
+				case 8: statu='待上牌 (待分配)' 
+				break;
+				case 9: statu='待上牌(待执行)' 
+				break;
+				case 10: statu='完成' 
+				break;
+			};
+			return statu;
 		}
 	});
 	appFactorys.factory('getMillisecond',function(){
 		return function(d){
 			return moment(d).valueOf();
 		}
+	});
+	appFactorys.factory('toThousands',function(){
+		return function(num) {
+            var numArr = (num || 0).toString().split('.'), result = '';
+            var numStr = numArr[0];
+            while (numStr.length > 3) {
+                result = ',' + numStr.slice(-3) + result;
+                numStr = numStr.slice(0, numStr.length - 3);
+            }
+            if (numStr) {
+                result = numStr + result;
+            }
+            ;
+            if (numArr[1] != undefined) {
+                result = result + '.' + numArr[1];
+            }
+            ;
+            return result;
+        };
 	});
 	appFactorys.factory('type',function(){
 		return function(value){
@@ -99,38 +108,6 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 			}
 		}
 	});
-	appFactorys.factory('hexToRgba',function($rootScope){
-		return function(hex,o){
-			var color = [], rgb = [], opacity = o?o:1;
-			hex = hex.replace(/#/,'');
-			if (hex.length == 3) { // 处理 '#abc' 成 '#aabbcc'
-				var tmp = [];
-				for (var i = 0; i < 3; i++) {
-					tmp.push(hex.charAt(i) + hex.charAt(i));
-				};
-				hex = tmp.join('');
-			};
-			for (var i = 0; i < 3; i++) {
-				color[i] = '0x' + hex.substr(i*2, 2);
-				rgb.push(parseInt(Number(color[i])));
-			};
-			return 'rgba(' + rgb.join(',') +','+ opacity+')';
-		}
-	});
-	appFactorys.factory('rgbToHex ',function($rootScope){
-		return function(rgb){
-			// rgb(x, y, z)
-			var color = rgb.toString().match(/\d+/g); // 把 x,y,z 推送到 color 数组里
-			var hex = '#';
-			for (var i = 0; i < 3; i++) {
-				// 'Number.toString(16)' 是JS默认能实现转换成16进制数的方法.
-				// 'color[i]' 是数组，要转换成字符串.
-				// 如果结果是一位数，就在前面补零。例如： A变成0A
-				hex += ('0' + Number(color[i]).toString(16)).slice(-2);
-			}
-			return hex;
-		}
-	});
 	appFactorys.factory('dataFormat',function(){
 		return function(data){
 			if(data==null||data==undefined){
@@ -140,6 +117,11 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 				return moment(data).format('YYYY-MM-DD HH:mm');
 			};
 			return data;
+		}
+	});
+	appFactorys.factory('enumData',function(){
+		return {
+			
 		}
 	});
 });

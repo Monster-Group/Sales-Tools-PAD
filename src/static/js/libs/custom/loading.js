@@ -19,8 +19,7 @@
 }(function ($) {
 	$.fn.loading=function(options){
 		$.fn.loading.defaults = {
-			color:'#03a9f4',
-			size:'2x'
+			size:'4x'
 		};
 		var opts = $.extend({}, $.fn.loading.defaults, options),
 			$this = $(this);
@@ -30,6 +29,7 @@
 				};
 				var sizeClass = 'la-'+opts.size;
 				var loading = $('<div class="la-line-scale inline-loading '+sizeClass+'"><div></div><div></div><div></div><div></div><div></div></div>');
+				var backdrop = $('<div class="modal-backdrop fade in"></div>');
 				$this.append(loading);
 				loading.css({
 					'color':opts.color,
