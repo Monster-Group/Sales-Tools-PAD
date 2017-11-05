@@ -54,6 +54,7 @@ requirejs.config({
 		'loading':'libs/custom/loading',
 //angular----------------
 		'angular':'libs/angular/angular',
+		// 'angular': 'libs/angular/angular.full',
 		'angular-route':'libs/angular/angular-route',
 		'angular-chosen':'libs/angular/angular-chosen',
 		'app':'app',

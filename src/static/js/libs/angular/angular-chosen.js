@@ -112,6 +112,7 @@ define(['angular','chosen'], function(angular){
           if (ngModel) {
             origRender = ngModel.$render;
             ngModel.$render = function() {
+              console.log(ngModel.$modelValue)
               origRender();
               return initOrUpdate();
             };

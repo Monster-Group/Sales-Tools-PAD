@@ -68,7 +68,7 @@ define(['angular', 'require', 'enumData', 'angular-route', 'appDirectives', 'app
 					}
 				};
 				//默认跳转到某个路由
-				var defaultRoute = '/backlog';
+				var defaultRoute = '/order';
 				//出现未定义路由跳转
 				$routeProvider.otherwise({
 					redirectTo: defaultRoute

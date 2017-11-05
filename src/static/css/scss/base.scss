@@ -231,8 +231,7 @@ body{width: 2736px; height: auto; min-height:100%;display: block;padding-top: 31
 .module-wrapper{padding:0 80px;position: relative;}
 
 
-
-.dropdown{padding:0 20px;border:$border-width solid color($colors, bdSecondary);border-radius:$border-radius;
+.dropdown,.chosen-container{padding:0 20px;border:$border-width solid color($colors, bdSecondary);border-radius:$border-radius;
     .arrow{display: inline-block; color:#595959;
     transform:rotate(0deg);-webkit-transition: all 0.5s ease;transition: all 0.5s ease;
     transform-origin:center center;
@@ -252,7 +251,6 @@ body{width: 2736px; height: auto; min-height:100%;display: block;padding-top: 31
 .daterangepicker{font-size:40px;
     .ranges li{font-size:36px;}
 }
-
 
 .custom-modal{
     .modal-dialog{width: 1718px;position: absolute;top:50%;left:50%;margin-left: -859px;z-index: 9999;

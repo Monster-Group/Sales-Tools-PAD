@@ -199,7 +199,6 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 			}
 		}
 	});
-
 	appDirectives.directive('rangeDateValidate', function() {
 		return {
 			link: function($scope, $elements, $attrs, ) {
@@ -273,7 +272,8 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 				}
 			}
 		}
-	});
+	})
+
 	appDirectives.directive('modalContainer', function() {
 		return {
 			restrict: 'E',
@@ -284,7 +284,7 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 			},
 			replace: true,
 			template: `
-				<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal fade custom-modal add-order-modal in" tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog modal-md">
 						<div class="modal-content">
 							<div class="modal-header" ng-transclude="header">		
@@ -329,6 +329,41 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 										<span class="val pull-left">请选择</span>
 										<div class="pull-right">
 											<span class="arrow icon">&#xe792;</span>
+				<div class="modal fade custom-modal add-order-modal in" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog modal-md">
+						<div class="modal-content">
+							<div class="modal-header">{{title}}</div>
+							<div class="modal-body">
+								<form id="orderForm" name="orderForm" novalidate onsubmit="return false;">
+								<div class="config">
+									<div class="item">
+										<span>类别:{{orderModel.orderType}}</span>
+										<select chosen  placeholder-text-single="'请选择'" ng-model="orderModel.orderType"
+		    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" conver-to-number>
+											<option value="">请选择</option>
+		    							</select>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0">
+										<span>车系:{{orderModel.product}}</span>
+										 <select chosen multiple placeholder-text-multiple="'请选择'"
+		    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-model="orderModel.product">
+		    							</select>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0">
+										<span>车型:</span>
+										<div class="dropdown">
+											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+												<span class="val pull-left">请选择</span>
+												<div class="pull-right">
+													<span class="arrow icon">&#xe792;</span>
+												</div>
+											</a>
+											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+											</ul>
 										</div>
 									</a>
 									<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
@@ -337,11 +372,191 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 										<li>test</li>
 										<li>test</li>
 									</ul>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0">
+										<span>车顶颜色:</span>
+										<drop-down render-data="$root.enumData.orderType" click-event="itemClick"></drop-down>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0">
+										<span>车身颜色:</span>
+										<div class="dropdown">
+											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+												<span class="val pull-left">请选择</span>
+												<div class="pull-right">
+													<span class="arrow icon">&#xe792;</span>
+												</div>
+											</a>
+											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+											</ul>
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0">
+										<span>配件:</span>
+										<div class="dropdown">
+											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+												<span class="val pull-left">请选择</span>
+												<div class="pull-right">
+													<span class="arrow icon">&#xe792;</span>
+												</div>
+											</a>
+											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+											</ul>
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0">
+										<span>活动优惠:</span>
+										<div class="dropdown">
+											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+												<span class="val pull-left">请选择</span>
+												<div class="pull-right">
+													<span class="arrow icon">&#xe792;</span>
+												</div>
+											</a>
+											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+											</ul>
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0">
+										<span>提车门店:</span>
+										<div class="dropdown">
+											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+												<span class="val pull-left">请选择</span>
+												<div class="pull-right">
+													<span class="arrow icon">&#xe792;</span>
+												</div>
+											</a>
+											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+											</ul>
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0">
+										<span>提车门店:</span>
+										<div class="dropdown">
+											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+												<span class="val pull-left">请选择</span>
+												<div class="pull-right">
+													<span class="arrow icon">&#xe792;</span>
+												</div>
+											</a>
+											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+											</ul>
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0">
+										<span>身份证:</span>
+										<div class="form-input-wrapper">
+											<input class="default-input" ng-model="orderModel.cardId" type="text" />
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0">
+										<span>公司:</span>
+										<div class="form-input-wrapper">
+											<input class="default-input" type="text" />
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 1">
+										<span>分类1:</span>
+										<div class="dropdown">
+											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+												<span class="val pull-left">请选择</span>
+												<div class="pull-right">
+													<span class="arrow icon">&#xe792;</span>
+												</div>
+											</a>
+											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+											</ul>
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 1">
+										<span>分类2:</span>
+										<div class="dropdown">
+											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+												<span class="val pull-left">请选择</span>
+												<div class="pull-right">
+													<span class="arrow icon">&#xe792;</span>
+												</div>
+											</a>
+											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+											</ul>
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 1">
+										<span>商品:</span>
+										<div class="dropdown">
+											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+												<span class="val pull-left">请选择</span>
+												<div class="pull-right">
+													<span class="arrow icon">&#xe792;</span>
+												</div>
+											</a>
+											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+											</ul>
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 1">
+										<span>提货地点:</span>
+										<div class="dropdown">
+											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+												<span class="val pull-left">请选择</span>
+												<div class="pull-right">
+													<span class="arrow icon">&#xe792;</span>
+												</div>
+											</a>
+											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+												<li>test</li>
+											</ul>
+										</div>
+									</div>
 								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<div class="price-info" ng-if="orderModel.orderType === 0">
+								<p>车价:<i>35800</i></p>
+								<p>配件:<i>35800</i></p>
+								<p>活动优惠:<i>35800</i></p>
+								<p class="total color-bdprimary">总价:<i>95800</i></p>
 							</div>
 							<div class="item" ng-if="selectModel.orderType.value == 0">
 								<span>车顶颜色:</span>
 								<drop-down render-data="$root.enumData.orderType" model="selectModel.orderType" click-event="itemClick"></drop-down>
+							<div class="price-info" ng-if="orderModel.orderType === 1">
+								<p>总价:<i>000</i></p>
 							</div>
 							<div class="item" ng-if="selectModel.orderType.value == 0">
 								<span>车身颜色:</span>
@@ -359,6 +574,9 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 										<li>test</li>
 									</ul>
 								</div>
+							<div class="btn-wrapper">
+								<a class="button">确定</a>
+								<a class="button" hm-tap="closeModal">取消</a>
 							</div>
 							<div class="item" ng-if="selectModel.orderType.value == 0">
 								<span>配件:</span>
@@ -392,16 +610,41 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 						</div>
 					</modal-container-footer>
 				</modal-container>
+					</div>
 				</div>
+			</div>
 			`,
 			controller: function($scope, $element, $attrs) {
 				$scope.title = '创建订单';
-//				$($element).find('.modal').modal();  这个打开以后默认就显示了  
+				$($element).find('.modal').modal();
 
 				$scope.postModel = {
-					company: '',
-					idCard: '',
+					company: ''
 				}
+			},
+			link: function($scope, $elements, $attrs, controllers) {
+				$scope.$modal = $($elements);
+				var orderModelDefault = {
+					orderType: '',
+					product: '',
+					level1Type: '',
+					level2Type: '',
+					userId: '',
+					data: '',
+					promotionId: '',
+					storeId: '',
+					idCard: '',
+					company: ''
+				}
+				var productModelDefault = {
+					product: '',
+					level1Type: '',
+					level2Type: '',
+					storeId: ''
+				}
+
+				$scope.orderModel && ($scope.orderModel = Object.assign({}, orderModelDefault));
+				$scope.productModel && ($scope.productModel = Object.assign({}, productModelDefault));
 
 				$scope.selectModel = {
 					orderType: Object.assign($rootScope.enumData.orderType[0]),
@@ -411,21 +654,45 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 					userId: {},
 					data: {},
 					promotionId: {},
-					storeId: '',
+					storeId: ''
 				}
-
+				$scope.closeModal = () => {
+					$scope.$modal.modal('toggle')
+				}
 				$scope.selectProductModel = {
 					product: {},
 					level1Type: {},
-					level2Type: {},
-
+					level2Type: {}
+				}
+				$scope.submit = () => {
+					if($scope.orderForm.$valid) {
+						alert('提交')
+					}
 				}
 
 				// $scope.itemClick = function(e, item){
 				// 	$scope.postModel[attrName] = item.value;
 				// }
 
+				$scope.$modal.on('hide.bs.modal', function() {
+					if($scope.orderForm.$dirty) {
+						$scope.orderModel = Object.assign({}, orderModelDefault);
+						$scope.productModel = Object.assign({}, productModelDefault);
+						$scope.orderForm.$setPristine();
+						$scope.orderForm.$setUntouched();
+					}
+				});
 			}
 		}
 	});
 });
+//单选
+//<select chosen  placeholder-text-single="'请选择'" ng-model="selectModel.orderType"
+//    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" conver-to-number>
+//								<option value="">请选择</option>
+//    							</select>
+//多选
+// <select chosen multiple placeholder-text-multiple="'请选择'"
+//    ng-options="item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-model="selectModel.product">
+//    							</select>
+

@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - index
  * Author: Clearlove 7*
- * Updated: 2017-11-04 23:40
+ * Updated: 2017-11-05 15:13
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -186,9 +186,9 @@
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
-      -webkit-box-pack: justify;
-          -ms-flex-pack: justify;
-              justify-content: space-between;
+      -webkit-box-pack: start;
+          -ms-flex-pack: start;
+              justify-content: flex-start;
       -ms-flex-wrap: wrap;
           flex-wrap: wrap; }
       .add-order-modal .modal-dialog .modal-content .config .item {
@@ -198,6 +198,9 @@
         -webkit-box-pack: justify;
             -ms-flex-pack: justify;
                 justify-content: space-between;
+        -webkit-box-align: start;
+            -ms-flex-align: start;
+                align-items: flex-start;
         padding: 28px 54px;
         margin-bottom: 54px;
         -ms-flex-preferred-size: 33.33%;
@@ -222,6 +225,11 @@
               line-height: 56px;
               height: 58px;
               font-size: 28px; }
+        .add-order-modal .modal-dialog .modal-content .config .item .default-input {
+          width: 256px;
+          height: 56px;
+          line-height: 54px;
+          font-size: 28px; }
     .add-order-modal .modal-dialog .modal-content .modal-footer {
       height: auto;
       color: #888; }

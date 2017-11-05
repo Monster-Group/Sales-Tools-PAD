@@ -88,15 +88,21 @@ background-color: color($colors, bg);line-height: 90px;
                 font-size:66px;padding: 0;line-height: 174px;text-align: center;
             }
             .config{color:color($colors,formTag);
-                display: flex;justify-content: space-between;flex-wrap:wrap;
-                .item{display: flex;justify-content:space-between;padding:28px 54px;margin-bottom:54px;  flex-basis:33.33%;position: relative;line-height:52px;
+                display: flex;justify-content: flex-start;flex-wrap:wrap;
+                .item{display: flex;justify-content:space-between;align-items: flex-start;padding:28px 54px;margin-bottom:54px;  flex-basis:33.33%;position: relative;line-height:52px;
                      & >span{line-height:56px;}
                     .subjoin{display: inline-block;position: absolute;left:244px;bottom:-30px;color: color($colors,bdPrimary); }
                     .dropdown{width:256px;
                         a{color:color($colors,formTag);}
                         .dropdown-menu{ background-color: #fff;
                             li{line-height: 56px;height:58px;font-size:28px;}
-                        } 
+                        }
+                    }
+                    .default-input {
+                        width: 256px;
+                        height: 56px;
+                        line-height: 54px;
+                        font-size: 28px;
                     }
                 }
             }
