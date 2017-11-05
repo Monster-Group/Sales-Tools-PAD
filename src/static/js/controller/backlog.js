@@ -1,4 +1,4 @@
-define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','loading'], function(angular, tpl, Waves, NProgress) {
+define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loading'], function(angular, tpl, Waves, NProgress,toastr) {
 	function controller($scope, appApi,getStatuDisplay,toThousands) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
@@ -6,14 +6,15 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','loading'], fun
 		$scope.$modal = $('.task-modal');
 		$scope.title = '完成任务';
 		$scope.$table = $('.backlog-table');
-		$scope.$modal.css('margin-top','-'+$scope.$modal.outerHeight()/2 + 'px');
 		$scope.tableData = {};
 		$scope.stageIds = [];
 		$scope.postUrl = '';
 		$scope.remark = '';
 		$scope.pageNum = 1;
+		$scope.$modal.find('.modal-dialog').css('margin-top','-'+$scope.$modal.find('.modal-dialog').outerHeight()/2+'px');
+		$scope.$modal.hide();
 		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
-		console.log($(window).height());
+		console.log($scope.$modal.find('.modal-dialog').outerHeight());
 		let loadData = (fn) =>{
 			$('body').loading();
 			appApi.searchMatter($scope.stageIds,$scope.pageNum,(data)=>{
@@ -36,7 +37,9 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','loading'], fun
 		};
 		let updateAppoint = (obj)=>{
 			appApi.updateAppoint(obj,$scope.postUrl,()=>{
-				console.log(666);
+				$scope.remark = '';
+				toastr.success('提交成功');
+				$scope.$modal.modal('hide');
 			});
 		};
 		loadData();
@@ -129,7 +132,6 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','loading'], fun
 		$('.backlog').on('tap','.load-more',function(e){
 			let top =$('.dataTables_scrollBody').scrollTop();
 			loadData(()=>{
-				console.log($('.dataTables_scrollBody').scrollTop());
 				$('.dataTables_scrollBody').scrollTop(top);
 			});
 		});

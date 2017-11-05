@@ -1,13 +1,15 @@
-define(['angular', 'text!tpl/order.html', 'waves', 'nprogress', 'sweetalert'], function(angular, tpl, Waves, NProgress, swal) {
+define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr'], function(angular, tpl, Waves, NProgress, toastr) {
 	function controller($scope, appApi) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
 		Waves.attach('.load-more', ['waves-block','waves-green']);
 		NProgress.done();
-		$scope.QueryDate = undefined;
-		console.log(123123);
 		$scope.$table = $('.order-table');
+		$scope.$addModal = $('.add-order-modal');
+		$scope.$addModal.find('.modal-dialog').css('margin-top','-'+$scope.$addModal.find('.modal-dialog').outerHeight()/2+'px');
+		$scope.$addModal.hide();
 		$scope.dt = $scope.$table.dataTable({
+			order:[],
 			bFilter: false, //Disable search function
 		    bPaginate: false, //hide pagination,
 			buttons: {},
@@ -43,33 +45,15 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress', 'sweetalert'], f
 				}
 			}]
 		});
-		$scope.data = [
-			{
-				serverName:'13649879865465',
-				ipPort:'2017-10-30 09:00:09',
-				status:'Car AE100-700EVA-LV1-P(N)-2座极光银/钢琴黑/灰-绿'
-			},
-			{
-				serverName:'13649879865465',
-				ipPort:'2017-10-30 09:00:09',
-				status:'Car AE100-700EVA-LV1-P(N)-2座极光银/钢琴黑/灰-绿'
-			},
-			{
-				serverName:'13649879865465',
-				ipPort:'2017-10-30 09:00:09',
-				status:'Car AE100-700EVA-LV1-P(N)-2座极光银/钢琴黑/灰-绿'
-			}
-		];
+		
 		$scope.$table.on('tap','.done',function(){
 			console.log(12221)
 			
 		});
-		$scope.dt.fnClearTable();
-		if($scope.data.length==0) return;
-		$scope.dt.fnAddData($scope.data);
+		
 
 		$scope.addOrder = function(){
-			$('.add-order-modal').modal();
+			$scope.$addModal.modal();
 		}
 	};
 	return {controller: controller, tpl: tpl};
