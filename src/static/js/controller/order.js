@@ -67,6 +67,10 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress', 'sweetalert'], f
 		$scope.dt.fnClearTable();
 		if($scope.data.length==0) return;
 		$scope.dt.fnAddData($scope.data);
+
+		$scope.addOrder = function(){
+			$('.newOrder').modal();
+		}
 	};
 	return {controller: controller, tpl: tpl};
 });
