@@ -1,25 +1,10 @@
 'use strict';
 
-define(['angular', 'js.cookie', 'baseSet', 'jquery', 'sweetalert', 'Ps'], function (angular, Cookies, baseSet, $, swal) {
+define(['angular', 'baseSet', 'jquery', 'sweetalert', 'Ps'], function (angular, baseSet, $, swal) {
 	'use strict';
 
-	var userInfo = Cookies.getJSON('user') ? Cookies.getJSON('user') : {};
-	console.log(userInfo);
 	var appServices = angular.module('app.services', []);
-	appServices.service('login', function ($http, $rootScope) {
-		this.check = function (fn) {
-			//			if(userInfo!=null&&userInfo!=undefined&&userInfo!=''&&userInfo.token){
-			fn(userInfo.token);
-			//			}else{
-			//				window.location.href='login.html';
-			//			};
-		};
-		this.logout = function (e) {
-			Cookies.remove('user');
-			window.location.href = 'login.html';
-		};
-	});
-	appServices.service('appHttp', function ($http, login) {
+	appServices.service('appHttp', function ($http) {
 		this.appPost = function (obj) {
 			var suc = obj.success ? obj.success : function (e) {
 				console.log(e);
@@ -33,54 +18,51 @@ define(['angular', 'js.cookie', 'baseSet', 'jquery', 'sweetalert', 'Ps'], functi
 			delete obj.success;
 			delete obj.complete;
 			delete obj.error;
-			login.check(function (token) {
-				var getModel = {
-					url: '',
-					method: 'POST',
-					data: '',
-					headers: {
-						token: token
-					}
-				};
-				getModel = angular.merge({}, getModel, obj);
-				$http(getModel).then(function (response) {
-					if (response.data.code == 200) {
-						suc(response.data.data);
-					} else {
-						if (response.data.code == -1000) {
-							swal({
-								title: '登录信息异常,请重新登录',
-								confirmButtonText: '确定',
-								onClose: function onClose() {
-									window.location.href = 'login.html';
-								}
-							});
-						} else {
-							swal({
-								title: '错误信息',
-								text: response.data.message,
-								type: 'error',
-								confirmButtonText: '确定'
-							}).then(function () {
-								$('.inline-loading').remove();
-							});
-						}
-					}
-					com(response);
-				}, function (response) {
-					console.log(response);
-					swal({
-						title: '错误信息',
-						text: '服务器/网络错误，请稍后再试。',
-						type: 'error',
-						confirmButtonText: '确定',
-						debug: true,
-						errorInfo: JSON.stringify(response)
-					}).then(function () {
+			var getModel = {
+				url: '',
+				method: 'POST',
+				data: '',
+				headers: {}
+			};
+			getModel = angular.merge({}, getModel, obj);
+			$http(getModel).then(function (response) {
+				if (response.data.code == 200) {
+					suc(response.data.data);
+				} else {
+					if (response.data.code == 422) {
 						$('.inline-loading').remove();
-					});
-					err(response);
+						swal({
+							title: '登录信息异常,请重新登录',
+							confirmButtonText: '确定',
+							onClose: function onClose() {
+								window.location.href = 'login.html';
+							}
+						});
+					} else {
+						swal({
+							title: '错误信息',
+							text: response.data.msg,
+							type: 'error',
+							confirmButtonText: '确定'
+						}).then(function () {
+							$('.inline-loading').remove();
+						});
+					}
+				}
+				com(response);
+			}, function (response) {
+				console.log(response);
+				swal({
+					title: '错误信息',
+					text: '服务器/网络错误，请稍后再试。',
+					type: 'error',
+					confirmButtonText: '确定',
+					debug: true,
+					errorInfo: JSON.stringify(response)
+				}).then(function () {
+					$('.inline-loading').remove();
 				});
+				err(response);
 			});
 		};
 	});

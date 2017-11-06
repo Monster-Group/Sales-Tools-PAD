@@ -4,7 +4,7 @@
 //Updated: 2016.11.3
 //Version: 1.0 
 //---------------------------------
-require(['domReady', 'api', 'baseSet', 'js.cookie', 'validate', 'validateMethods', 'jquery', 'particles'], function(domReady, api, baseSet,Cookies) {
+require(['domReady', 'baseSet', 'js.cookie', 'validate', 'validateMethods', 'jquery', 'particles'], function(domReady, baseSet,Cookies) {
 	var login = {
 		ground: function() {
 			/* ---- particles.js config ---- */
@@ -99,7 +99,7 @@ require(['domReady', 'api', 'baseSet', 'js.cookie', 'validate', 'validateMethods
 						},
 						bubble: {
 							distance: 400,
-							size: 40,
+							size: 100,
 							duration: 2,
 							opacity: 8,
 							speed: 3
@@ -157,33 +157,53 @@ require(['domReady', 'api', 'baseSet', 'js.cookie', 'validate', 'validateMethods
 				if($('.login-form').validate().form()) {
 					$span.addClass('ld-hide');
 					$icon.addClass('ld-show');
-					logInfo.user_id = $('#user-name').val();
+					logInfo.name = $('#user-name').val();
 					logInfo.password = $('#password').val();
-					api.login(logInfo, function(data) {
-						console.log(data);
-						var user = {
-							userName:$('#user-name').val(),
-							token:data.data.token
-						};
-						Cookies.remove('user');
-						if(logInfo.remerber) {
-							Cookies.set('user', user, {
-								expires: 30
-							});
-						} else {
-							Cookies.set('user', user, {
-								expires: 1
-							});
-						};
-						window.location.href = 'index.html';
-					}, function(data) {
-						if(data.responseJSON != undefined && data.responseJSON.code != 0) {
+					$.ajax({
+						type:'POST',
+						url:baseSet.postServer+'api/v2/account/newLogin',
+						headers:{
+							'Content-Type':'application/x-www-form-urlencoded'
+						},
+						data: $.param(logInfo),
+						success:function(data){
+							if(data.code==200){
+								window.location.href = 'index.html#order';
+							}else{
+								$('.error-msg').text(data.msg);
+							}
+							console.log(data);
+						},
+						complete:function(){
 							$span.removeClass('ld-hide');
 							$icon.removeClass('ld-show');
-							var errorLab = $('<label id="password-error" class="error" for="password">' + data.responseJSON.message + '</label>');
-							$('input#password').after(errorLab);
-						};
+						}
 					});
+//					api.login(logInfo, function(data) {
+//						console.log(data);
+//						var user = {
+//							userName:$('#user-name').val(),
+//							token:data.data.token
+//						};
+//						Cookies.remove('user');
+//						if(logInfo.remerber) {
+//							Cookies.set('user', user, {
+//								expires: 30
+//							});
+//						} else {
+//							Cookies.set('user', user, {
+//								expires: 1
+//							});
+//						};
+//						window.location.href = 'index.html';
+//					}, function(data) {
+//						if(data.responseJSON != undefined && data.responseJSON.code != 0) {
+//							$span.removeClass('ld-hide');
+//							$icon.removeClass('ld-show');
+//							var errorLab = $('<label id="password-error" class="error" for="password">' + data.responseJSON.message + '</label>');
+//							$('input#password').after(errorLab);
+//						};
+//					});
 				};
 			};
 			$('#user-name,#password').on('keydown', function(e) {

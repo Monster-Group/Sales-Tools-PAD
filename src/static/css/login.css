@@ -86,7 +86,7 @@ Version: 1.0
 animation:load 1.5s linear infinite;-moz-animation:load 1.5s linear infinite;position: absolute;color:#fff;opacity:0;}
 .login-wrapper .btn-login i.ld-show{opacity:1;}
 
-
+.error-msg{color:#ff8279;font-size:18px;}
 
 
 
