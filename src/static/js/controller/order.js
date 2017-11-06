@@ -104,7 +104,9 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				buyerName: 'xxx',
 				sex: 1 
 			}
-			$scope.detailData = data;
+			$scope.$apply(() => {
+				$scope.orderDetail = data;
+			})
 		});
 
 		$scope.addOrder = function(){

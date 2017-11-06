@@ -594,7 +594,7 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 //    ng-options="item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-model="selectModel.product">
 //    					
 	
-	appDirectives.directive('orderInfo', function($rootScope){
+	appDirectives.directive('orderDetail', function($rootScope){
 		return {
 			restrict: 'E',
 			scope: {
@@ -602,7 +602,7 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 			},
 			replace: true,
 			template: `
-				<section class="order-info hide">
+				<div class="order-info" ng-if="orderData">
 					<header class="clearfix">
 						<a class="button pull-left" hm-tap="back">返回</a>
 						<span class="pull-left">订单详情&nbsp;&nbsp;(编号:{{orderData.orderNo}})</span>
@@ -666,8 +666,7 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 							<a class="button">新增支付信息</a>
 						</div>
 					</div>
-				</section>
-			</div>
+				</div>
 			`,
 		}
 	});
