@@ -146,9 +146,10 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 			let data = $scope.$modal.data('data');
 			console.log(data);
 			updateAppoint({
+				orderId:data.orderId,
 				orderDeliveryId:data.orderDeliveryId,
-				startTime:'',
-				endTime:'',
+				startTime:null,
+				endTime:null,
 				remark:$scope.remark,
 				isSkip:1
 			});

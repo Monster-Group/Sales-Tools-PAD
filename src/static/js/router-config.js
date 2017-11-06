@@ -61,10 +61,14 @@ define(['angular', 'require', 'enumData', 'angular-route', 'appDirectives', 'app
 				}
 			};
 		});
-		app.config(['$routeProvider', '$controllerProvider','hammerDefaultOptsProvider',
-			function($routeProvider, $controllerProvider,hammerDefaultOptsProvider) {
+		app.config(['$routeProvider', '$controllerProvider','hammerDefaultOptsProvider','$httpProvider',
+			function($routeProvider, $controllerProvider,hammerDefaultOptsProvider,$httpProvider) {
 				hammerDefaultOptsProvider.set({
 	        		recognizers: [[Hammer.Tap, {time: 150}],[Hammer.Swipe,{enable: true,direction: Hammer.DIRECTION_HORIZONTAL}]]});
+	        		$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+			    $httpProvider.defaults.transformRequest = [function(data) {
+			      return angular.isObject(data) && String(data) !== '[object File]' ? $.param(data) : data;
+			    }];
 				var routeMap = {
 					'/backlog': { //路由
 						//模块的代码路径
@@ -106,7 +110,6 @@ define(['angular', 'require', 'enumData', 'angular-route', 'appDirectives', 'app
 						return deferred.promise;
 					}
 				};
-
 				function getTplName(tpl) {
 					var tmp = tpl.split('/');
 					var name = '';
