@@ -4,7 +4,7 @@
 			<div class="form-item">
 				<span class="form-tag">订单号:</span>
 				<div class="form-input-wrapper">
-					<input class="default-input" type="number" />
+					<input class="default-input" type="number" ng-model="searchParams.orderNo" />
 				</div>
 			</div>
 			<div class="form-item">
@@ -27,13 +27,13 @@
 			<div class="form-item">
 				<span class="form-tag">购买人:</span>
 				<div class="form-input-wrapper">
-					<input class="default-input buy-man" type="text" />
+					<input class="default-input buy-man" type="text" ng-model="searchParams.buyerName" />
 				</div>
 			</div>
 			<div class="form-item last">
 				<span class="form-tag">购买人手机号:</span>
 				<div class="form-input-wrapper">
-					<input class="default-input buy-man-num" type="number" />
+					<input class="default-input buy-man-num" type="number" ng-model="searchParams.buyerMobile" />
 				</div>
 			</div>
 			<a class="button pull-right" hm-tap="rest()">重置</a>
@@ -48,10 +48,7 @@
 							<span class="arrow icon pull-right">&#xe792;</span>
 						</a>
 						<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
+							<li ng-repeat="item in enumData.orderStatus">{{item.name}}</li>
 						</ul>
 					</div>
 				</div>
@@ -59,12 +56,12 @@
 			<div class="form-item" range-date-validate>
 				<span class="form-tag">下单时间:</span>
 				<div class="form-input-wrapper date-picker">
-					<input type="date" class="start-date default-input" />
+					<input type="date" class="start-date default-input" ng-model="startTime" />
 					<i class="icon pull-left">&#xe601;</i>
 				</div>
 				<span class="pull-left bridge">-</span>
 				<div class="form-input-wrapper date-picker end">
-					<input type="date" class="end-date default-input" />
+					<input type="date" class="end-date default-input" ng-model="endTime"/>
 					<i class="icon pull-left">&#xe601;</i>
 				</div>
 			</div>

@@ -1,7 +1,7 @@
 define(['angular', 'require', 'enumData', 'angular-route', 'appDirectives', 'appServices', 'appFactorys', 'appTemplates', 'appController','appTouch', 'angular-chosen', 'jquery', 'table'],
 	function(angular, require, enumData) {
 		var app = angular.module('webapp', ['ngRoute', 'app.directives', 'app.services', 'app.factorys', 'app.template', 'app.controller','app.touch','localytics.directives']);
-		app.run(function($rootScope, $location, dropdownMenuScrollbar, ArrayhasObj) {
+		app.run(function($rootScope, $location, dropdownMenuScrollbar, ArrayhasObj,appApi) {
 			$rootScope.$on('$routeChangeStart', function(evt, next, current) {
 				$('.daterangepicker').remove();
 				$rootScope.path = $location.$$path;
@@ -9,7 +9,9 @@ define(['angular', 'require', 'enumData', 'angular-route', 'appDirectives', 'app
 			});
 			$rootScope.pageSize = 20;
 			$rootScope.enumData = enumData;
-
+			appApi.listStoreBack(function(data){
+				console.log(data);
+			});
 			$rootScope.$on('$routeChangeSuccess', function(evt, next, current) {
 				if(current) {
 					$rootScope.prevPath = current.originalPath;
