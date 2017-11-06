@@ -1,5 +1,5 @@
 define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment','loading'], function(angular, tpl, Waves, NProgress, toastr,moment) {
-	function controller($scope, appApi,getOrderStatu) {
+	function controller($scope, appApi,getOrderStatu,enumData,getMillisecond) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
 		Waves.attach('.load-more', ['waves-block','waves-green']);
@@ -11,6 +11,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
 		$scope.searchParams = {};
 		$scope.pageNum = 1;
+		$scope.enumData = enumData;
 		$scope.dt = $scope.$table.dataTable({
 			order:[],
 			bFilter: false, //Disable search function
@@ -108,7 +109,15 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				$scope.orderDetail = data;
 			})
 		});
-
+		$scope.search = ()=>{
+			$scope.searchParams.startTime = $scope.startTime?getMillisecond($scope.startTime):'';
+			$scope.searchParams.endTime = $scope.endTime?getMillisecond($scope.endTime):'';
+			console.log($scope.searchParams);
+			
+		};
+		$scope.rest = ()=>{
+			$scope.searchParams = {};
+		};
 		$scope.addOrder = function(){
 			$scope.$addModal.modal();
 		}

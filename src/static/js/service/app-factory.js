@@ -143,7 +143,36 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 	});
 	appFactorys.factory('enumData',function(){
 		return {
-			
+			orderStatus:[
+				{
+					name:'待付款',
+					state:1
+				},
+				{
+					name:'已关闭',
+					state:2
+				},
+				{
+					name:'已付款,待排产',
+					state:3
+				},
+				{
+					name:'已排产',
+					state:4
+				},
+				{
+					name:'已结清',
+					state:5
+				},
+				{
+					name:'申请退款',
+					state:6
+				},
+				{
+					name:'已退款',
+					state:7
+				}
+			]
 		}
 	});
 });

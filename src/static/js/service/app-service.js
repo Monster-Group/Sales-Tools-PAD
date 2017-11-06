@@ -116,6 +116,18 @@ define(['angular','baseSet', 'jquery', 'sweetalert','Ps'], function(angular,base
 				success: suc
 			});
 		};
+		this.listAllPromotion = (suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/promotion/listAllPromotion',
+				success: suc
+			});
+		};
+		this.listStoreBack = (suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + '/api/v2/store/listStoreBack',
+				success: suc
+			});
+		};
 	}]);
 	appServices.service('ArrayhasObj',function() {
 		Array.prototype.hasObj = function(obj){

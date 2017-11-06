@@ -4,7 +4,7 @@
 //Updated: 2016.11.3
 //Version: 1.0 
 //---------------------------------
-require(['domReady', 'baseSet', 'js.cookie', 'validate', 'validateMethods', 'jquery', 'particles'], function(domReady, baseSet,Cookies) {
+require(['domReady', 'baseSet', 'validate', 'validateMethods', 'jquery', 'particles'], function(domReady, baseSet) {
 	var login = {
 		ground: function() {
 			/* ---- particles.js config ---- */
@@ -179,31 +179,6 @@ require(['domReady', 'baseSet', 'js.cookie', 'validate', 'validateMethods', 'jqu
 							$icon.removeClass('ld-show');
 						}
 					});
-//					api.login(logInfo, function(data) {
-//						console.log(data);
-//						var user = {
-//							userName:$('#user-name').val(),
-//							token:data.data.token
-//						};
-//						Cookies.remove('user');
-//						if(logInfo.remerber) {
-//							Cookies.set('user', user, {
-//								expires: 30
-//							});
-//						} else {
-//							Cookies.set('user', user, {
-//								expires: 1
-//							});
-//						};
-//						window.location.href = 'index.html';
-//					}, function(data) {
-//						if(data.responseJSON != undefined && data.responseJSON.code != 0) {
-//							$span.removeClass('ld-hide');
-//							$icon.removeClass('ld-show');
-//							var errorLab = $('<label id="password-error" class="error" for="password">' + data.responseJSON.message + '</label>');
-//							$('input#password').after(errorLab);
-//						};
-//					});
 				};
 			};
 			$('#user-name,#password').on('keydown', function(e) {
