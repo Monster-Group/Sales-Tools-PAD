@@ -42,16 +42,21 @@
 			<div class="form-item">
 				<span class="form-tag">订单状态:</span>
 				<div class="form-input-wrapper">
-					<div class="dropdown order-state">
-						<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+					<!-- <div class="dropdown order-state"> -->
+						<select chosen  placeholder-text-single="'请选择'" ng-model="searchParams.orderStatus"
+					}
+    ng-options="item.state as item.name for item in enumData.orderStatus" disable-search="true" width="343">
+						<!-- <option value="">请选择</option> -->
+    					</select>
+						<!-- <a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
 							<span class="val pull-left">请选择</span>
 							<span class="arrow icon pull-right">&#xe792;</span>
 						</a>
 						<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
 							<li ng-repeat="item in enumData.orderStatus">{{item.name}}</li>
-						</ul>
+						</ul> -->
 					</div>
-				</div>
+				<!-- </div> -->
 			</div>
 			<div class="form-item" range-date-validate>
 				<span class="form-tag">下单时间:</span>
@@ -148,6 +153,7 @@
 			</div>
 		</div>
 	</section>
+	<order-detail order-data="orderDetail"></order-detail>
 </div>
 <new-order class="add-order-modal"></new-order>
 

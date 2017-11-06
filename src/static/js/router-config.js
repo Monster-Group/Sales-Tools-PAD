@@ -53,7 +53,7 @@ define(['angular', 'require', 'enumData', 'angular-route', 'appDirectives', 'app
 			};
 		});
 		app.filter('formatGender', function($rootScope) {
-			return function(sexId) {
+			return function(genderId) {
 				var len = $rootScope.enumData.gender.length;
 				for(var i =0; i < len; i++) {
 					if($rootScope.enumData.gender[i].value == genderId){
