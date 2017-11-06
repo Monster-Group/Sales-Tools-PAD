@@ -169,6 +169,7 @@ require(['domReady', 'baseSet', 'validate', 'validateMethods', 'jquery', 'partic
 						success:function(data){
 							if(data.code==200){
 								window.location.href = 'index.html#order';
+								localStorage.setItem('loginfo',JSON.stringify(data.data));
 							}else{
 								$('.error-msg').text(data.msg);
 							}

@@ -159,7 +159,8 @@ define(['angular', 'moment', 'jquery'], function (angular, moment, $) {
 	});
 	appFactorys.factory('enumData', function () {
 		return {
-			orderStatus: [{
+			orderStatus: [//订单状态
+			{
 				name: '待付款',
 				state: 1
 			}, {
@@ -180,7 +181,33 @@ define(['angular', 'moment', 'jquery'], function (angular, moment, $) {
 			}, {
 				name: '已退款',
 				state: 7
-			}]
+			}],
+			orderType: [//订单类型
+			{
+				name: '车辆',
+				value: 0
+			}, {
+				name: '周边商品',
+				value: 1
+			}],
+			gender: [//性别
+			{ value: 0, name: '保密' }, { value: 1, name: '女' }, { value: 2, name: '男' }],
+			userLevel: [//用户等级
+			{ value: 0, name: 'O-订单' }, { value: 1, name: 'H-7天内可交付' }, { value: 2, name: 'A-半个月内可交付' }, { value: 3, name: 'B-一个月内可成交' }, { value: 4, name: 'C-2个月内能成交' }, { value: 5, name: 'F-战败' }],
+			education: [//学历
+			{ value: 0, name: '中专' }, { value: 1, name: '大专' }, { value: 2, name: '本科' }, { value: 3, name: '研究生' }, { value: 4, name: '博士' }],
+			userStatus: [//用户状态
+			{ value: 0, name: '邀约试驾' }, { value: 1, name: '已试驾' }, { value: 2, name: '已下单' }, { value: 3, name: '已付定金' }, { value: 4, name: '订单库存匹配' }, { value: 5, name: '已付尾款' }, { value: 6, name: '外地客户' }, { value: 7, name: '已外检' }, { value: 8, name: '已提车' }, { value: 9, name: '已拿领牌' }, { value: 10, name: '已拿正式牌' }, { value: 11, name: '邀约上牌' }],
+			carUse: [//购车用途
+			{ value: 0, name: '上下班/代步' }, { value: 1, name: '炫酷,玩' }, { value: 2, name: '接送小孩' }, { value: 3, name: '买菜专用' }, { value: 4, name: '其他' }],
+			carUser: [//购车使用人
+			{ value: 0, name: '自己用' }, { value: 1, name: '老婆,女友' }, { value: 2, name: '老公,男友' }, { value: 3, name: '父母' }, { value: 4, name: '其他' }],
+			infoSource: [//信息来源
+			{ value: 0, name: '商场逛街' }, { value: 1, name: '电梯广告' }, { value: 2, name: '户外广告' }, { value: 3, name: '朋友介绍' }, { value: 4, name: '报纸,电视' }, { value: 5, name: '活动得知' }, { value: 6, name: '网络' }, { value: 7, name: '其他' }],
+			buyFocus: [//购买关注点
+			{ value: 0, name: '时尚外观' }, { value: 1, name: '经济环保' }, { value: 2, name: '灵活方便' }, { value: 3, name: '炫酷造型' }, { value: 4, name: '百搭颜色' }, { value: 5, name: '独特车贴' }, { value: 6, name: '简约内饰' }, { value: 7, name: '专属两座' }, { value: 8, name: '大屏PAD' }, { value: 9, name: '其他' }],
+			age: [//年龄
+			{ value: 0, name: '20岁以下' }, { value: 1, name: '21-25岁' }, { value: 2, name: '26-30岁' }, { value: 3, name: '31-35岁' }, { value: 4, name: '36-40岁' }, { value: 5, name: '41-45岁' }]
 		};
 	});
 });
