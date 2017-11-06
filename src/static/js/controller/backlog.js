@@ -24,6 +24,9 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 				if(data.pageNum==1){
 					$scope.dt.fnClearTable();
 				};
+				if(data.pageNum==data.pages){
+					$('.backlog').find('.load-more').remove();
+				};
 				if(data.list.length==0) return;
 				$scope.dt.fnAddData(data.list);
 				setTimeout(()=>{
@@ -62,7 +65,7 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 					width: '20%'
 				},
 				{
-					data: 'priductPrice',
+					data: 'productPrice',
 					width: '10%'
 				},
 				{
@@ -116,13 +119,17 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 			loadData();
 		};
 		$scope.$table.on('tap','.move-appoint',function(e){
+			e.stopPropagation();
+			e.preventDefault();
 			var data = $scope.dt.api(true)
 			.row($(this).parents('tr')).data();
-			$scope.title = '改约';
+			$scope.title = '改约任务';
 			$scope.postUrl = 'updateAppoint';
 			$scope.$modal.data('data',data).modal('show');
 		});
 		$scope.$table.on('tap','.done',function(e){
+			e.stopPropagation();
+			e.preventDefault();
 			var data = $scope.dt.api(true)
 			.row($(this).parents('tr')).data();
 			$scope.title = '完成任务';
@@ -137,17 +144,25 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 		});
 		$scope.affirm = ()=>{
 			let data = $scope.$modal.data('data');
+			console.log(data);
 			updateAppoint({
-				orderId:data.orderId,
+				orderDeliveryId:data.orderDeliveryId,
 				startTime:'',
 				endTime:'',
 				remark:$scope.remark,
 				isSkip:1
 			});
 		};
+		$scope.cancel = ()=>{
+			$scope.$modal.modal('hide');
+		};
 		$scope.test = (e)=>{
 			$(e.target).closest('a').toggleClass('active');
-		}
+		};
+		$scope.$modal.on('hidden.bs.modal', () => {
+			$scope.remark = '';
+			$scope.$digest();
+		});
 	};
 	return {controller: controller, tpl: tpl};
 });

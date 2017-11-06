@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - base
  * Author: Clearlove 7*
- * Updated: 2017-11-05 13:40
+ * Updated: 2017-11-05 15:21
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -12,7 +12,11 @@
   src: url("//at.alicdn.com/t/font_459934_wtnekzu0x9m86w29.eot");
   src: url("//at.alicdn.com/t/font_459934_wtnekzu0x9m86w29.eot?#iefix") format("embedded-opentype"), url("//at.alicdn.com/t/font_459934_wtnekzu0x9m86w29.woff") format("woff"), url("//at.alicdn.com/t/font_459934_wtnekzu0x9m86w29.ttf") format("truetype"), url("//at.alicdn.com/t/font_459934_wtnekzu0x9m86w29.svg#iconfont") format("svg"); }
 
-[class^="icon-"], [class*=" icon-"], .iconfont, .icon, a.icon {
+[class^="icon-"],
+[class*=" icon-"],
+.iconfont,
+.icon,
+a.icon {
   font-family: "iconfont" !important;
   speak: none;
   font-style: normal;
@@ -25,10 +29,23 @@
   -webkit-text-stroke-width: 0.2px;
   color: #6a7a77; }
 
-[class^="icon-"]:hover, [class*=" icon-"]:hover, .iconfont:hover, .icon:hover, a.icon:hover {
+[class^="icon-"]:hover,
+[class*=" icon-"]:hover,
+.iconfont:hover,
+.icon:hover,
+a.icon:hover {
   color: #7a8f99; }
 
-[class^="icon-"]:active, [class*=" icon-"]:active, .iconfont:active, .icon:active, a.icon:active, [class^="icon-"].active, [class*=" icon-"].active, .iconfont.active, .icon.active, a.icon.active {
+[class^="icon-"]:active,
+[class*=" icon-"]:active,
+.iconfont:active,
+.icon:active,
+a.icon:active,
+[class^="icon-"].active,
+[class*=" icon-"].active,
+.iconfont.active,
+.icon.active,
+a.icon.active {
   color: #03a9f4; }
 
 .svg-icon {
@@ -42,7 +59,8 @@
   content: "\e62c"; }
 
 /* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
-input[type=text], input[type=number] {
+input[type=text],
+input[type=number] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none; }
@@ -65,49 +83,109 @@ html {
   -ms-text-size-adjust: 100%;
   -webkit-overflow-scrolling: touch; }
 
-body, html {
-  font: 36px/1.5 \5FAE\8F6F\96C5\9ED1,Helvetica Neue,Helvetica,PingFang SC, Hiragino Sans GB,tahoma,arial,"Hiragino Sans GB",\5b8b\4f53,sans-serif;
+body,
+html {
+  font: 36px/1.5 \5FAE\8F6F\96C5\9ED1, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, tahoma, arial, "Hiragino Sans GB", \5b8b\4f53, sans-serif;
   color: #000;
   position: relative; }
 
-a, a .icon {
+a,
+a .icon {
   color: #000; }
 
-a.button, a.button:hover, a.button:active {
+a.button,
+a.button:hover,
+a.button:active {
   color: #fff; }
 
-a.active, a.active .icon {
+a.active,
+a.active .icon {
   color: #55da99; }
 
-a:focus, a:hover {
+a:focus,
+a:hover {
   cursor: pointer; }
 
 /* 内外边距通常让各个浏览器样式的表现位置不同 */
-body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, * {
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td,
+hr,
+button,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+* {
   margin: 0;
   padding: 0; }
 
 /* 重设 HTML5 标签, IE 需要在 js 中 createElement(TAG) */
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
   display: block; }
 
 /* HTML5 媒体文件跟 img 保持一致 */
-audio, canvas, video {
+audio,
+canvas,
+video {
   display: inline-block;
   *display: inline;
   *zoom: 1; }
 
 /* 去掉列表前的标识, li 会继承 */
-ol, ul {
+ol,
+ul {
   list-style: none; }
 
 /*初始化系统默认样式*/
-i, em {
+i,
+em {
   font-style: normal; }
 
-input, select, textarea {
+input,
+select,
+textarea {
   font-size: 100%;
-  font-family: \5FAE\8F6F\96C5\9ED1,Helvetica Neue,Helvetica,PingFang SC, Hiragino Sans GB,tahoma,arial,"Hiragino Sans GB",\5b8b\4f53,sans-serif;
+  font-family: \5FAE\8F6F\96C5\9ED1, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, tahoma, arial, "Hiragino Sans GB", \5b8b\4f53, sans-serif;
   color: #000; }
 
 ::-webkit-input-placeholder {
@@ -144,18 +222,22 @@ th {
   text-align: inherit; }
 
 /* a链接去掉点击时候的虚线*/
-a, button, input {
+a,
+button,
+input {
   text-decoration: none;
   outline: none;
   /*ff*/
   hide-focus: expression(this.hideFocus=true);
   /*ie*/ }
 
-button, input {
+button,
+input {
   border: none;
   background-color: #fff; }
 
-a, button {
+a,
+button {
   -webkit-user-select: none; }
 
 /* 单行文字溢出时出现省略号，需设定宽度 */
@@ -164,7 +246,12 @@ a, button {
   text-overflow: ellipsis;
   white-space: nowrap; }
 
-a:focus, a:active, button:focus, button:active, input:focus, input:active {
+a:focus,
+a:active,
+button:focus,
+button:active,
+input:focus,
+input:active {
   outline: 0; }
 
 /*------often-used-------*/
@@ -344,7 +431,8 @@ a:focus, a:active, button:focus, button:active, input:focus, input:active {
   line-height: 166px;
   font-size: 80px; }
 
-.cycle-button:hover, .cycle-button:active {
+.cycle-button:hover,
+.cycle-button:active {
   color: #fff; }
 
 .default-textarea {
@@ -390,7 +478,8 @@ a:focus, a:active, button:focus, button:active, input:focus, input:active {
   line-height: 64px; }
 
 /*-----------base-----------*/
-body, html {
+body,
+html {
   min-height: 100%;
   height: 100%;
   background-color: #f5f5f5; }
@@ -473,11 +562,13 @@ body {
   padding: 0 80px;
   position: relative; }
 
-.dropdown, .chosen-container {
+.dropdown,
+.chosen-container {
   padding: 0 20px;
   border: 2px solid #dcdcdc;
   border-radius: 5px; }
-  .dropdown .arrow, .chosen-container .arrow {
+  .dropdown .arrow,
+  .chosen-container .arrow {
     display: inline-block;
     color: #595959;
     -webkit-transform: rotate(0deg);
@@ -486,21 +577,25 @@ body {
     transition: all 0.5s ease;
     -webkit-transform-origin: center center;
             transform-origin: center center; }
-  .dropdown ul, .chosen-container ul {
+  .dropdown ul,
+  .chosen-container ul {
     padding: 0 20px; }
-  .dropdown .dropdown-menu, .chosen-container .dropdown-menu {
+  .dropdown .dropdown-menu,
+  .chosen-container .dropdown-menu {
     -webkit-box-shadow: none;
             box-shadow: none;
     width: calc(100% + 4px);
     border: 2px solid #dcdcdc;
     left: -2px;
     background-color: #f5f5f5; }
-    .dropdown .dropdown-menu li, .chosen-container .dropdown-menu li {
+    .dropdown .dropdown-menu li,
+    .chosen-container .dropdown-menu li {
       height: 71px;
       line-height: 70px;
       border-bottom: 2px solid #c3cbd0;
       font-size: 36px; }
-    .dropdown .dropdown-menu li:last-child, .chosen-container .dropdown-menu li:last-child {
+    .dropdown .dropdown-menu li:last-child,
+    .chosen-container .dropdown-menu li:last-child {
       border-bottom: none; }
 
 .dropdown.open .arrow {
@@ -539,29 +634,37 @@ body {
       .custom-modal .modal-dialog .modal-content .modal-footer .button:first-child {
         margin-right: 150px; }
 
-.dataTables_wrapper .dataTable {
-  border: none; }
-  .dataTables_wrapper .dataTable thead tr {
-    background-color: #e3e7eb; }
-  .dataTables_wrapper .dataTable thead th {
-    border: none;
-    line-height: 92px;
-    text-align: center;
-    padding: 0; }
-  .dataTables_wrapper .dataTable thead th.sorting_asc, .dataTables_wrapper .dataTable thead th.sorting_desc, .dataTables_wrapper .dataTable thead th.sorting {
-    padding-right: 0; }
-  .dataTables_wrapper .dataTable tbody tr td:last-child {
-    text-align: right;
-    padding-right: 62px; }
-    .dataTables_wrapper .dataTable tbody tr td:last-child .button {
-      margin-left: 20px; }
-  .dataTables_wrapper .dataTable tbody tr td.dataTables_empty {
-    text-align: center; }
-  .dataTables_wrapper .dataTable tbody td {
-    padding: 55px 0;
-    text-align: center;
-    border: none;
-    font-size: 28px; }
+.dataTables_wrapper {
+  background-color: #fff; }
+  .dataTables_wrapper .dataTable {
+    border: none; }
+    .dataTables_wrapper .dataTable thead tr {
+      background-color: #e3e7eb; }
+    .dataTables_wrapper .dataTable thead th {
+      border: none;
+      line-height: 92px;
+      text-align: center;
+      padding: 0; }
+    .dataTables_wrapper .dataTable thead th.sorting_asc,
+    .dataTables_wrapper .dataTable thead th.sorting_desc,
+    .dataTables_wrapper .dataTable thead th.sorting {
+      padding-right: 0; }
+    .dataTables_wrapper .dataTable tbody tr td:last-child {
+      text-align: right;
+      padding-right: 62px; }
+      .dataTables_wrapper .dataTable tbody tr td:last-child .button {
+        margin-left: 20px; }
+    .dataTables_wrapper .dataTable tbody tr td.dataTables_empty {
+      text-align: center; }
+    .dataTables_wrapper .dataTable tbody tr:hover {
+      background-color: #fff; }
+    .dataTables_wrapper .dataTable tbody td {
+      padding: 55px 0;
+      text-align: center;
+      border: none;
+      font-size: 28px; }
+  .dataTables_wrapper .tap-table tbody tr:hover td {
+    color: #00c9a7; }
 
 .error-msg {
   color: #ff8279; }
@@ -621,7 +724,9 @@ body {
   height: 8px;
   width: 8px; }
 
-.mask-shadow, .bg-shadow, .alert-shadow {
+.mask-shadow,
+.bg-shadow,
+.alert-shadow {
   background-color: #000;
   bottom: 0;
   left: 0;
@@ -643,7 +748,10 @@ body {
   z-index: 1040;
   opacity: 0; }
 
-.mask-shadow.in, .bg-shadow.in, .shadow.in, .alert-shadow.in {
+.mask-shadow.in,
+.bg-shadow.in,
+.shadow.in,
+.alert-shadow.in {
   opacity: 0.3; }
 
 .loading {
