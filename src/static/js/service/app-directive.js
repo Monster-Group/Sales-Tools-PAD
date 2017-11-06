@@ -593,5 +593,82 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 // <select chosen multiple placeholder-text-multiple="'请选择'"
 //    ng-options="item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-model="selectModel.product">
 //    					
-
+	
+	appDirectives.directive('orderInfo', function($rootScope){
+		return {
+			restrict: 'E',
+			scope: {
+				orderData: '=',
+			},
+			replace: true,
+			template: `
+				<section class="order-info hide">
+					<header class="clearfix">
+						<a class="button pull-left" hm-tap="back">返回</a>
+						<span class="pull-left">订单详情&nbsp;&nbsp;(编号:{{orderData.orderNo}})</span>
+					</header>
+					<div class="info-block">
+						<h3>购车人信息:</h3>
+						<div class="info-body">
+							<div>
+								<span>购买人:</span><i>{{orderData.buyerName}} {{ renderData.sex | formatGender}}</i>
+							</div>
+							<div>
+								<span>购买人手机号:</span><i>某某某</i>
+							</div>
+							<div>
+								<span>购买人证件号码:</span><i>某某某</i >
+							</div>
+							<div>
+								<span>收货人姓名:</span><i>某某某</i>
+							</div>
+							<div>
+								<span>收货人手机号:</span><i>15012119780906771X15012119780906771X15012119780906771X15012119780906771X</i>
+							</div>
+						</div>
+					</div>
+					<div class="info-block">
+						<h3>订单信息:</h3>
+						<div class="info-body">
+							<div>
+								<span>购买人:</span><i>15012119780906771X15012119780906771X15012119780906771X15012119780906771X</i>
+							</div>
+							<div>
+								<span>购买人:</span><i>15012119780906771X15</i>
+							</div>
+							<div>
+								<span>购买人:</span><i>1501211978</i>
+							</div>
+							<div>
+								<span>购买人:</span><i>15012119780906771X150121</i>
+							</div>
+							<div>
+								<span>购买人:</span><i>15012119780906771X1501</i>
+							</div>
+						</div>
+					</div>
+					<div class="info-block pay-info">
+						<h3 class="clearfix">
+							<span class="channel">支付渠道</span>
+							<span class="pay-no">支付号</span>
+							<span class="pay-amount">支付金额</span>
+							<span class="pay-date">支付时间</span>
+						</h3>
+						<div class="info-body clearfix">
+							<div class="line pull-left">
+								<span class="channel">某某某</span>
+								<span class="pay-no">15012119780906771X</span>
+								<span class="pay-amount">9999999.00</span>
+								<span class="pay-date">2017/11/31 12:59:00</span>
+							</div>
+						</div>
+						<div class="info-footer">
+							<a class="button">新增支付信息</a>
+						</div>
+					</div>
+				</section>
+			</div>
+			`,
+		}
+	});
 });

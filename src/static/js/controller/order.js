@@ -14,20 +14,32 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr'], functi
 		    bPaginate: false, //hide pagination,
 			buttons: {},
 			columns: [{
-					data: 'serverName',
-					width: '30%'
-				},
-				{
-					data: 'ipPort',
-					width: '25%'
+					data: 'orderNo',
+					width: '15%'
 				},
 				{
 					data: 'status',
-					width: '20%'
+					width: '10%'
 				},
 				{
-					data: null,
-					width: '25%'
+					data: 'productDetail',
+					width: '30%'
+				},
+				{
+					data: 'promotionName',
+					width: '10%'
+				},
+				{
+					data: 'orderStatus',
+					width: '10%'
+				},
+				{
+					data: 'buyerName',
+					width: '15%'
+				},
+				{
+					data: 'buyerMobile',
+					width: '10%'
 				}
 			],
 			columnDefs: [{
@@ -51,6 +63,15 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr'], functi
 			
 		});
 		
+		// $scope.$table.on('hm-tap', 'tbody tr', function(){
+		// 	// var data = $scope.$dt.row(this).data();
+		// 	var data = {
+		// 		orderNo: 111111111,
+		// 		buyerName: 'xxx',
+		// 		sex: 1 
+		// 	}
+		// 	$scope.detailData = data;
+		// });
 
 		$scope.addOrder = function(){
 			$scope.$addModal.modal();

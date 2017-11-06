@@ -51,6 +51,16 @@ define(['angular', 'require', 'enumData', 'angular-route', 'appDirectives', 'app
 				return $sce.trustAsHtml(input);
 			};
 		});
+		app.filter('formatGender', function($rootScope) {
+			return function(sexId) {
+				var len = $rootScope.enumData.gender.length;
+				for(var i =0; i < len; i++) {
+					if($rootScope.enumData.gender[i].value == genderId){
+						return $rootScope.enumData.gender[i].name;
+					}
+				}
+			};
+		});
 		app.config(['$routeProvider', '$controllerProvider','hammerDefaultOptsProvider',
 			function($routeProvider, $controllerProvider,hammerDefaultOptsProvider) {
 				hammerDefaultOptsProvider.set({
