@@ -343,7 +343,6 @@
             font-family: 'iconfont';
             content: '\e606';
             font-size: 110px;
-            color: #e1e1e1;
-            font-weight: bold; }
+            color: #e1e1e1; }
     .add-pay-modal .modal-dialog .modal-content .line:last-child {
       margin-bottom: 40px; }

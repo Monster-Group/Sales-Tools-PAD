@@ -86,6 +86,10 @@
 		</section>
 	<body>
 		<!-- build:js -->
+		<script src="static/js/libs/other/vconsole.min.js"></script>
+		<script>
+			var vConsole = new VConsole();
+		</script>
 		<script src="./static/js/libs/require/require.min.js" data-main="./static/js/config.js?v=999"></script>
 		<script type="text/javascript">
 			require(["./static/js/start.js?v=999"]);

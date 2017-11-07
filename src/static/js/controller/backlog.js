@@ -21,7 +21,7 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 				console.log(data);
 				$scope.tableData = data;
 				$scope.pageNum++;
-				if(data.pageNum==1){
+				if(data.pageNum<=1){
 					$scope.dt.fnClearTable();
 				};
 				if(data.pageNum==data.pages){
@@ -153,9 +153,6 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 				remark:$scope.remark,
 				isSkip:1
 			});
-		};
-		$scope.cancel = ()=>{
-			$scope.$modal.modal('hide');
 		};
 		$scope.test = (e)=>{
 			$(e.target).closest('a').toggleClass('active');

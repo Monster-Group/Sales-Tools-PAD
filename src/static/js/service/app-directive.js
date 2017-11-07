@@ -311,7 +311,7 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 			},
 			replace: true,
 			template: `
-				<div class="modal fade custom-modal add-order-modal in" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal fade custom-modal" style="display:block;"  tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog modal-md">
 						<div class="modal-content">
 							<div class="modal-header">{{title}}</div>
@@ -587,16 +587,6 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 			}
 		}
 	});
-//单选
-//<select chosen  placeholder-text-single="'请选择'" ng-model="selectModel.orderType"
-//    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" conver-to-number>
-//								<option value="">请选择</option>
-//    							</select>
-//多选
-// <select chosen multiple placeholder-text-multiple="'请选择'"
-//    ng-options="item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-model="selectModel.product">
-//    					
-	
 	appDirectives.directive('orderDetail', function($rootScope){
 		return {
 			restrict: 'E',
@@ -671,6 +661,82 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 					</div>
 				</div>
 			`,
+		}
+	});
+	appDirectives.directive('addPay', function($rootScope){
+		return {
+			restrict: 'E',
+			scope: {},
+			replace: true,
+			template: `
+			<div class="modal fade custom-modal" style="display:block;" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog modal-md">
+					<div class="modal-content">
+						<div class="modal-header">
+							支付信息(编号：89757)
+						</div>
+						<div class="modal-body">
+							<div class="line">
+								<div class="item">
+									<span>金额&nbsp;:</span>
+									<input type="number" class="default-input"/>
+								</div>
+								<div class="item">
+									<span>支付类型&nbsp;:</span>
+									<div class="dropdown">
+										<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+											<span class="val pull-left">请选择</span>
+											<div class="pull-right">
+												<span class="arrow icon">&#xe792;</span>
+											</div>
+										</a>
+										<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+											<li>test</li>
+											<li>test</li>
+											<li>test</li>
+											<li>test</li>
+										</ul>
+									</div>
+								</div>
+								<div class="item">
+									<span>流水号&nbsp;:</span>
+									<input type="number" class="default-input"/>
+								</div>
+							</div>
+							<div class="line">
+								<div class="item special">
+									<span>备注&nbsp;:</span>
+									<textarea class="default-textarea"></textarea>
+								</div>
+							</div>
+							<div class="line">
+								<div class="item special">
+									<span>上传凭证&nbsp;:</span>
+									<div class="img-list">
+										<ul>
+											<li>
+																				
+											</li>
+											<li>
+												<img src="./static/7498226.jpg" width="100px" height="100px"/>
+												<a class="cycle-button del-img icon">&#xe60e;</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<a class="button">确定</a>
+							<a class="button" data-dismiss="modal">取消</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			`,
+			controller: function($scope, $element ,$attrs){
+				
+			}
 		}
 	});
 });

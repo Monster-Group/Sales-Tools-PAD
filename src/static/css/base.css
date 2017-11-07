@@ -617,7 +617,7 @@ body {
 
 .custom-modal .modal-dialog {
   width: 1718px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   margin-left: -859px;
@@ -641,6 +641,9 @@ body {
       border-top: none; }
       .custom-modal .modal-dialog .modal-content .modal-footer .button:first-child {
         margin-right: 150px; }
+
+.dataTables_wrapper .dataTables_scrollBody {
+  -webkit-overflow-scrolling: touch; }
 
 .dataTables_wrapper .dataTable {
   background-color: #fff;
