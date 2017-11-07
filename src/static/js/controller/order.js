@@ -91,7 +91,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				},0);
 			});
 		};
-//		loadData();
+		loadData();
 		appApi.listAllPromotion((data)=>{
 			console.log(data);
 			$scope.allPromotion = data.list;
@@ -114,26 +114,31 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				$scope.orderDetail = data;
 			})
 		});
-		$scope.stateChange = ()=>{
-			console.log(123)
+		$scope.stateClick = (e,i)=>{
+			console.log(i);
+			$scope.searchParams.orderStatus = i.state;
 		};
 		$scope.tuanClick = (e,i)=>{
-			console.log(e)
-			console.log(i)
+			$scope.searchParams.promotionId = i.promotionId;
 		};
 		$scope.search = ()=>{
-			if($('.form-header').find('.error-msg').length>0) return;
+			if($('.form-header').find('.error-msg').is(':visible')) return;
 			$scope.searchParams.startTime = $scope.startTime?getMillisecond($scope.startTime):'';
 			$scope.searchParams.endTime = $scope.endTime?getMillisecond($scope.endTime):'';
-			console.log($scope.searchParams);
-			console.log($scope.orderStatus);
+			$scope.pageNum = 1;
+			loadData();
 		};
 		$scope.rest = ()=>{
 			$scope.searchParams = {};
+			$('.dropdown-toggle').find('.val').text('请选择');
 		};
-		$scope.addOrder = function(){
+		$scope.addOrder = function(e){
+			$(e.target).addClass('active');
 			$scope.$addModal.modal();
-		}
+		};
+		$scope.$addModal.on('hidden.bs.modal',()=>{
+			$('.add-btn').removeClass('active');
+		});
 	};
 	return {controller: controller, tpl: tpl};
 });

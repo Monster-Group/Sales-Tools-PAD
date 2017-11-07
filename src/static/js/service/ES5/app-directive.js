@@ -231,7 +231,7 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function (angular, mo
 				placeholder: '=?',
 				clickEvent: '=?'
 			},
-			template: '\n\t\t\t\t<div class="dropdown">\n\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t<span class="val pull-left" ng-bind="model[$scope.display]?model.name:placeholder"></span>\n\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</a>\n\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t<li ng-repeat="item in renderData track by $index" ng-bind="item[display]"  hm-tap="itemClick($event, item)"></li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t',
+			template: '\n\t\t\t\t<div class="dropdown">\n\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t<span class="val pull-left" ng-bind="displayName"></span>\n\t\t\t\t\t\t<i class="arrow icon pull-right">&#xe792;</i>\n\t\t\t\t\t</a>\n\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t<li ng-repeat="item in renderData track by $index" ng-bind="item[display]"  hm-tap="itemClick($event, item)"></li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t',
 			controller: function controller($scope, $element, $attrs) {
 				$scope.display = $scope.display ? $scope.display : 'name';
 				console.log($scope.display);
@@ -240,16 +240,17 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function (angular, mo
 					name: '',
 					value: ''
 				});
-
+				$scope.displayName = $scope.model[$scope.display] ? $scope.model[$scope.display] : $scope.placeholder;
 				$scope.itemClick = function (e, item) {
 					delete item.$$hashKey;
-					if (item[$scope.display] == $scope.model[$scope.display]) {
+					if (item[$scope.display] == $scope.displayName) {
 						e.stopPropagation();
 						e.preventDefault();
 						return;
 					}
 					//					console.log(666)
 					$scope.model = Object.assign({}, item);
+					$scope.displayName = $scope.model[$scope.display];
 					$scope.clickEvent && $scope.clickEvent(e, item);
 					//					console.log(666)
 				};

@@ -243,10 +243,8 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 			template: `
 				<div class="dropdown">
 					<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-						<span class="val pull-left" ng-bind="model[$scope.display]?model.name:placeholder"></span>
-						<div class="pull-right">
-							<span class="arrow icon">&#xe792;</span>
-						</div>
+						<span class="val pull-left" ng-bind="displayName"></span>
+						<i class="arrow icon pull-right">&#xe792;</i>
 					</a>
 					<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
 						<li ng-repeat="item in renderData track by $index" ng-bind="item[display]"  hm-tap="itemClick($event, item)"></li>
@@ -261,16 +259,17 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 					name: '',
 					value: ''
 				});
-
+				$scope.displayName = $scope.model[$scope.display]?$scope.model[$scope.display]:$scope.placeholder;
 				$scope.itemClick = function(e, item) {
 					delete item.$$hashKey;
-					if(item[$scope.display] == $scope.model[$scope.display]) {
+					if(item[$scope.display] == $scope.displayName) {
 						e.stopPropagation();
 						e.preventDefault();
 						return;
 					}
 //					console.log(666)
 					$scope.model = Object.assign({}, item);
+					$scope.displayName = $scope.model[$scope.display]
 					$scope.clickEvent && $scope.clickEvent(e, item);
 //					console.log(666)
 				}

@@ -419,8 +419,6 @@ input:active {
   color: #fff;
   -webkit-transform: rotate(0deg);
           transform: rotate(0deg);
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
   -webkit-transform-origin: center center;
           transform-origin: center center;
   border-radius: 50%;
@@ -450,9 +448,10 @@ input:active {
   bottom: 20px;
   right: 88px; }
 
-.add-btn:active {
+.add-btn.active {
   -webkit-transform: rotate(180deg);
-          transform: rotate(180deg); }
+          transform: rotate(180deg);
+  color: #fff; }
 
 .load-more {
   height: 90px;
@@ -567,6 +566,13 @@ body {
   padding: 0 20px;
   border: 2px solid #dcdcdc;
   border-radius: 5px; }
+  .dropdown .val,
+  .chosen-container .val {
+    display: inline-block;
+    max-width: calc(100% - 40px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
   .dropdown .arrow,
   .chosen-container .arrow {
     display: inline-block;
