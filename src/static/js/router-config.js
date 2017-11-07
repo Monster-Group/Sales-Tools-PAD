@@ -85,6 +85,19 @@ define(['angular', 'require', 'enumData', 'angular-route', 'appDirectives', 'app
 				}
 			};
 		});
+		app.filter('formatChannel', function(){
+			return function(channelId){
+				var channelName;
+				switch(channelId){
+					case 1: channelName = '支付宝';break;
+					case 2: channelName= '微信';break;
+					case 3: channelName = '网银';break;
+					case 4: channelName = '线下';break;
+					defaults: channelName = '--'
+				}
+				return channelName;
+			}
+		});
 		app.config(['$routeProvider', '$controllerProvider','hammerDefaultOptsProvider','$httpProvider',
 			function($routeProvider, $controllerProvider,hammerDefaultOptsProvider,$httpProvider) {
 				hammerDefaultOptsProvider.set({

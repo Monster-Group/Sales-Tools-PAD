@@ -136,7 +136,35 @@ define(['angular', 'baseSet', 'jquery', 'sweetalert', 'Ps'], function (angular, 
 		};
 		this.listStoreBack = function (suc) {
 			appHttp.appPost({
-				url: baseSet.postServer + '/api/v2/store/listStoreBack',
+				url: baseSet.postServer + 'api/v2/store/listStoreBack',
+				success: suc
+			});
+		};
+		this.getOrderDetail = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/detailOrder',
+				data: data,
+				success: suc
+			});
+		};
+		this.getCarInfo = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/showCarInfo',
+				data: data,
+				success: suc
+			});
+		};
+		this.getAppointById = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/matter/showAppointById',
+				data: data,
+				success: suc
+			});
+		};
+		this.getPayment = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/getPayment',
+				data: data,
 				success: suc
 			});
 		};

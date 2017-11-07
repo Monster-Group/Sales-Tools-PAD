@@ -134,10 +134,38 @@ define(['angular','baseSet', 'jquery', 'sweetalert','Ps'], function(angular,base
 		};
 		this.listStoreBack = (suc) => {
 			appHttp.appPost({
-				url: baseSet.postServer + '/api/v2/store/listStoreBack',
+				url: baseSet.postServer + 'api/v2/store/listStoreBack',
 				success: suc
 			});
 		};
+		this.getOrderDetail = (data, suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/detailOrder',
+				data: data,
+				success: suc
+			});
+		}
+		this.getCarInfo = (data, suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/showCarInfo',
+				data: data,
+				success: suc
+			});
+		}
+		this.getAppointById = (data, suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/matter/showAppointById',
+				data: data,
+				success: suc
+			})
+		}
+		this.getPayment = (data, suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/getPayment',
+				data: data,
+				success: suc
+			})
+		}
 	}]);
 	appServices.service('ArrayhasObj',function() {
 		Array.prototype.hasObj = function(obj){

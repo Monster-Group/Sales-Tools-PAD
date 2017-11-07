@@ -1,4 +1,4 @@
-define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, moment, $) {
+define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function(angular, moment, $, NProgress) {
 	'use strict';
 	var appDirectives = angular.module('app.directives', []);
 	appDirectives.directive('ngScrollbar', function() {
@@ -598,56 +598,115 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 //    ng-options="item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-model="selectModel.product">
 //    					
 	
-	appDirectives.directive('orderDetail', function($rootScope){
+	appDirectives.directive('orderDetail', function($rootScope, appApi){
 		return {
 			restrict: 'E',
 			scope: {
-				orderData: '=',
+				orderId: '=',
 			},
 			replace: true,
 			template: `
-				<div class="order-info" ng-if="orderData">
+				<div class="order-info" ng-show="detailShow">
 					<header class="clearfix">
 						<a class="button pull-left" hm-tap="back">返回</a>
-						<span class="pull-left">订单详情&nbsp;&nbsp;(编号:{{orderData.orderNo}})</span>
+						<span class="pull-left">订单详情&nbsp;&nbsp;(编号:{{orderDetail.orderNo}})</span>
 					</header>
 					<div class="info-block">
 						<h3>购车人信息:</h3>
 						<div class="info-body">
 							<div>
-								<span>购买人:</span><i>{{orderData.buyerName}} {{ renderData.sex | formatGender}}</i>
+								<span>购买人:</span><i>{{orderDetail.buyerName}} {{ renderData.sex | formatGender}}</i>
 							</div>
 							<div>
-								<span>购买人手机号:</span><i>某某某</i>
+								<span>购买人手机号:</span><i>{{orderDetail.buyerMobile}}</i>
 							</div>
 							<div>
-								<span>购买人证件号码:</span><i>某某某</i >
+								<span>购买人证件号码:</span><i>{{orderDetail.buyerIdCard}}</i >
 							</div>
 							<div>
-								<span>收货人姓名:</span><i>某某某</i>
+								<span>收货人姓名:</span><i>{{orderDetail.buyerName}}</i>
 							</div>
 							<div>
-								<span>收货人手机号:</span><i>15012119780906771X15012119780906771X15012119780906771X15012119780906771X</i>
+								<span>收货人手机号:</span><i>{{orderDetail.buyerMobile}}</i>
 							</div>
 						</div>
 					</div>
 					<div class="info-block">
 						<h3>订单信息:</h3>
-						<div class="info-body">
+						<div class="info-body" ng-show="orderDetail&&orderDetail.type != 1">
 							<div>
-								<span>购买人:</span><i>15012119780906771X15012119780906771X15012119780906771X15012119780906771X</i>
+								<span>活动名称:</span><i>{{orderDetail.promotionName}}</i>
 							</div>
 							<div>
-								<span>购买人:</span><i>15012119780906771X15</i>
+								<span>活动条款:</span><i>{{orderDetail.terms}}</i>
 							</div>
 							<div>
-								<span>购买人:</span><i>1501211978</i>
+								<span>活动金额:</span><i>{{orderDetail.discountPrice}}</i>
 							</div>
 							<div>
-								<span>购买人:</span><i>15012119780906771X150121</i>
+								<span>优惠审核状态:</span><i>{{orderDetail.organization}}</i>
 							</div>
 							<div>
-								<span>购买人:</span><i>15012119780906771X1501</i>
+								<span>提车地址:</span><i>ccccc</i>
+							</div>
+							<div>
+								<span>公司:</span><i>{{orderDetail.organization}}</i>
+							</div>
+							<div>
+								<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>
+							</div>
+							<div>
+								<span>支付时间:</span><i>15012119780906771X1501</i>
+							</div>
+							<div>
+								<span>结清时间:</span><i>{{orderDetail.formatConfirmTime}}</i>
+							</div>
+							<div>
+								<span>状态:</span><i>{{orderDetail.deliveryStageName}}</i>
+							</div>
+							<div>
+								<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>
+							</div>
+							<div>
+								<span>优惠金额:</span><i>{{orderDetail.discountPrice}}</i>
+							</div>
+							<div>
+								<span>数量:</span><i>{{orderDetail.quantity}}</i>
+							</div>
+							<div>
+								<span>原价:</span><i>{{orderDetail.productPrice}}</i>
+							</div>
+							<div>
+								<span>现价:</span><i>{{orderDetail.productPrice - orderDetail.discountPrice}}</i>
+							</div>
+						</div>
+						<div class="info-body" ng-show="orderDetail&&orderDetail.type == 1">
+							<div>
+								<span>优惠审核状态:</span><i>15012119780906771X150121</i>
+							</div>
+							<div>
+								<span>提货地址:</span><i>15012119780906771X1501</i>
+							</div>
+							<div>
+								<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>
+							</div>
+							<div>
+								<span>支付时间:</span><i>{{orderDetail.formatPaymentTime}}</i>
+							</div>
+							<div>
+								<span>结清时间:</span><i>{{orderDetail.formatConfirmTime}}</i>
+							</div>
+							<div>
+								<span>状态:</span><i>{{orderDetail.deliveryStageName}}</i>
+							</div>
+							<div>
+								<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>
+							</div>
+							<div>
+								<span>数量:</span><i>{{orderDetail.quantity}}</i>
+							</div>
+							<div>
+								<span>价格:</span><i>{{orderDetail.amount}}</i>
 							</div>
 						</div>
 					</div>
@@ -659,11 +718,35 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 							<span class="pay-date">支付时间</span>
 						</h3>
 						<div class="info-body clearfix">
-							<div class="line pull-left">
-								<span class="channel">某某某</span>
-								<span class="pay-no">15012119780906771X</span>
-								<span class="pay-amount">9999999.00</span>
-								<span class="pay-date">2017/11/31 12:59:00</span>
+							<div class="line pull-left" ng-repeat="item in payment track by $index">
+								<span class="channel">{{item.channel | formatChannel}}</span>
+								<span class="pay-no">{{item.paymentId}}</span>
+								<span class="pay-amount">{{item.amount}}</span>
+								<span class="pay-date">{{item.paymentTimeFormat}}</span>
+							</div>
+						</div>
+						<div class="info-footer">
+							<a class="button">新增支付信息</a>
+						</div>
+					</div>
+					<div class="info-block pay-info" ng-show="orderDetail&&orderDetail.type != 1">
+						<h3 class="clearfix">车辆信息：</h3>
+						<div class="info-body clearfix">
+							<div class="line pull-left" ng-repeat="item in carInfo track by $index">
+								<span class="vin">VIN:{{item.VIN }}</span>
+								<span class="vsn">VSN: {{item.VSN}}</span>
+								<span class="">发动机号：{{item.no}}</span>
+							</div>
+						</div>
+						<div class="info-footer">
+							<a class="button">新增支付信息</a>
+						</div>
+					</div>
+					<div class="info-block appoint-info" ng-show="appoints.length > 0">
+						<h3 class="clearfix">邀约信息：</h3>
+						<div class="info-body clearfix">
+							<div class="line pull-left" ng-repeat="item in appoints track by $index">
+								<span class="appoint">{{deliveryStageName}}:  {{item.buyerName}} {{item.time}}</span>
 							</div>
 						</div>
 						<div class="info-footer">
@@ -673,9 +756,62 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 				</div>
 			`,
 			controller: function($scope, $element ,$attrs ){
+				var orderId;
 				$scope.back = function(){
-					$scope.orderData = null;
+					$scope.detailShow = false;
 				}
+
+				function getData(orderType, orderNo){
+					//订单详情
+					appApi.getOrderDetail({orderId: orderId} ,(data) => {
+						data.formatCreatedTime = moment(data.createdTime).format("YYYY-MM-DD HH:mm:ss");
+						data.formatConfirmTime = !data.confirmTime ? '--' : moment(data.confirmTime).format("YYYY-MM-DD HH:mm:ss");
+						$scope.orderDetail = data;
+						NProgress.done();
+					});
+					//支付信息
+					appApi.getPayment({orderNo: orderNo} ,(data) => {
+						$scope.payment = data.map(function(item){
+							item.paymentTimeFormat = moment(item.paymentTime).format("YYYY-MM-DD HH:mm:ss");
+						});
+					});
+
+					//代办事项
+					appApi.getAppointById({orderId: orderId} ,(data) => {
+						$scope.appoints = data.map(function(item){
+							if(item.reservationStartTime&&item.reservationEndTime)
+							var startDay = moment(item.reservationStartTime).format('YYYY-MM-DD');
+							var endDay = moment(item.reservationEndTime).format('YYYY-MM-DD');
+							if(startDay == endDate){
+								var startTime = moment(item.reservationStartTime).format('HH:mm');
+								var endTime = moment(item.reservationEndTime).format('HH:mm');
+								item.time = startDay + ' ' + startTime + '-' + endTime;
+							}else{
+								var startTime = moment(item.reservationStartTime).format('YYYY-MM-DD HH:mm');
+								var endTime = moment(item.reservationEndTime).format('YYYY-MM-DD HH:mm');
+								item.time = startTime + '-' + endTime;
+							}
+							return item; 
+						});
+					});
+					
+					//车辆详情
+					if(orderType != '1'){
+						appApi.getCarInfo({orderId: orderId} ,(data) => {
+							$scope.carInfo = data;
+						});
+					}
+				}
+
+				$scope.$on('showDetail',function(e, data){
+					NProgress.start();
+					$scope.detailShow = true;
+
+					if(orderId != data.orderId){
+						orderId = data.orderId;
+						getData(data.type, data.orderNo);
+					}
+				})
 			}
 		}
 	});

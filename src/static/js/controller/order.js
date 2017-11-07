@@ -91,7 +91,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				},0);
 			});
 		};
-//		loadData();
+		loadData();
 		appApi.listAllPromotion((data)=>{
 			console.log(data);
 			$scope.allPromotion = data.list;
@@ -104,16 +104,16 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		});
 		
 		$scope.$table.on('tap', 'tbody tr', (e) =>{
-			var data = $scope.$dt.row(this).data();
+			var data = $scope.dt.api(true).row(e.target).data();
+			// var orderId = data.orderId;
+			// var orderType = data.orderType;
+			$scope.$broadcast('showDetail', data);
 			// var data = {
 			// 	orderNo: 111111111,
 			// 	buyerName: 'xxx',
 			// 	sex: 1 
 			// }
-			console.log(data);
-			$scope.$apply(() => {
-				$scope.orderDetail = data;
-			})
+			
 		});
 		$scope.stateChange = ()=>{
 			console.log(123)
