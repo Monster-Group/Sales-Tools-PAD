@@ -10,18 +10,7 @@
 			<div class="form-item">
 				<span class="form-tag">团购名称:</span>
 				<div class="form-input-wrapper">
-					<div class="dropdown tuan-name">
-						<a class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-							<span class="val pull-left">asdasd</span>
-							<span class="arrow icon pull-right">&#xe792;</span>
-						</a>
-						<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-						</ul>
-					</div>
+					<drop-down class="tuan-name" render-data="allPromotion" display="'promotionName'" model="searchParams.promtionId" click-event="tuanClick"></drop-down>
 				</div>
 			</div>
 			<div class="form-item">
@@ -67,8 +56,8 @@
 					<input type="date" class="end-date default-input" ng-model="endTime"/>
 					<i class="icon pull-left">&#xe601;</i>
 				</div>
+				<span class="error-msg pull-left">请正确选择日期</span>
 			</div>
-			<span class="error-msg pull-left">请正确选择日期</span>
 			<a class="button pull-right" hm-tap="search()">搜索</a>
 		</div>
 	</div>

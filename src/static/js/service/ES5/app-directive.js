@@ -211,7 +211,9 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function (angular, mo
 					var endDate = $end.val();
 					console.log(startDate, endDate);
 					if (startDate && endDate && startDate > endDate) {
-						alert('日期区间不正确');
+						$($elements).addClass('error');
+					} else {
+						$($elements).removeClass('error');
 					}
 				}
 			}
@@ -223,14 +225,16 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function (angular, mo
 			restrict: 'E',
 			replace: true,
 			scope: {
+				display: '=?',
 				renderData: '=',
 				model: '=?',
 				placeholder: '=?',
 				clickEvent: '=?'
 			},
-			template: '\n\t\t\t\t<div class="dropdown">\n\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t<span class="val pull-left" ng-bind="model.name?model.name:placeholder"></span>\n\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</a>\n\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t<li ng-repeat="item in renderData track by $index" ng-bind="item.name" value="item.value" ng-click="itemClick($event, item)"></li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t',
+			template: '\n\t\t\t\t<div class="dropdown">\n\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t<span class="val pull-left" ng-bind="model[$scope.display]?model.name:placeholder"></span>\n\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</a>\n\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t<li ng-repeat="item in renderData track by $index" ng-bind="item[display]"  hm-tap="itemClick($event, item)"></li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t',
 			controller: function controller($scope, $element, $attrs) {
-
+				$scope.display = $scope.display ? $scope.display : 'name';
+				console.log($scope.display);
 				$scope.placeholder || ($scope.placeholder = '请选择');
 				$scope.model || ($scope.model = {
 					name: '',
@@ -239,15 +243,15 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function (angular, mo
 
 				$scope.itemClick = function (e, item) {
 					delete item.$$hashKey;
-
-					if (item.value == $scope.model.value) {
+					if (item[$scope.display] == $scope.model[$scope.display]) {
 						e.stopPropagation();
 						e.preventDefault();
 						return;
 					}
+					//					console.log(666)
 					$scope.model = Object.assign({}, item);
-
 					$scope.clickEvent && $scope.clickEvent(e, item);
+					//					console.log(666)
 				};
 			}
 		};
