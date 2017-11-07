@@ -1,5 +1,5 @@
 define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loading'], function(angular, tpl, Waves, NProgress,toastr) {
-	function controller($scope, appApi,getStatuDisplay,toThousands) {
+	function controller($scope,appApi,getStatuDisplay,toThousands,watch) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
 		NProgress.done();
@@ -27,11 +27,11 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 				if(data.pageNum==data.pages){
 					$('.backlog').find('.load-more').remove();
 				};
-				if(data.list.length==0) return;
-				$scope.dt.fnAddData(data.list);
 				setTimeout(()=>{
 					$('body').find('.inline-loading').remove();
 				},0);
+				if(data.list.length==0) return;
+				$scope.dt.fnAddData(data.list);
 				if(!fn) return;
 				setTimeout(()=>{
 					fn();
@@ -163,6 +163,11 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 		$scope.$modal.on('hidden.bs.modal', () => {
 			$scope.remark = '';
 			$scope.$digest();
+		});
+		watch((n,o)=>{
+			$scope.stageIds = [];
+			$scope.pageNum = 1;
+			loadData();
 		});
 	};
 	return {controller: controller, tpl: tpl};

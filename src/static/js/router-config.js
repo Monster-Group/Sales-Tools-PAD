@@ -1,25 +1,48 @@
 define(['angular', 'require', 'enumData', 'angular-route', 'appDirectives', 'appServices', 'appFactorys', 'appTemplates', 'appController','appTouch', 'angular-chosen', 'jquery', 'table'],
 	function(angular, require, enumData) {
 		var app = angular.module('webapp', ['ngRoute', 'app.directives', 'app.services', 'app.factorys', 'app.template', 'app.controller','app.touch','localytics.directives']);
-		app.run(function($rootScope, $location, dropdownMenuScrollbar, ArrayhasObj) {
+		app.run(function($rootScope,$q, $location, dropdownMenuScrollbar, ArrayhasObj,appApi) {
 			$rootScope.$on('$routeChangeStart', function(evt, next, current) {
 				$('.daterangepicker').remove();
 				$rootScope.path = $location.$$path;
 				console.log($rootScope.path);
 			});
+			$rootScope.storeList = [];
 			$rootScope.loginfo = JSON.parse(localStorage.getItem('loginfo'));
 			$rootScope.pageSize = 20;
 			$rootScope.enumData = enumData;
 			console.log($rootScope.loginfo);
+			$rootScope.loginfo.provinceSet.forEach(function(p,pindex){
+				p.cityList.forEach(function(c,cindex){
+					c.storeList.forEach(function(item,index){
+						$rootScope.storeList.push(item)
+					})
+				});
+			});
+			console.log($rootScope.storeList);
+			$rootScope.storeId = $rootScope.storeList[0].storeId;
+			$rootScope.storeName = $rootScope.storeList[0].storeName;
 			$rootScope.$on('$routeChangeSuccess', function(evt, next, current) {
 				if(current) {
 					$rootScope.prevPath = current.originalPath;
 					//$window.history.replaceState('',document.title,'#'+current.originalPath);
 				} else {
-					$rootScope.prevPath = '/event';
+					$rootScope.prevPath = '/order';
 					//$window.history.pushState('', '');
 				}
 			});
+			appApi.countMatterSum((data)=>{
+				$rootScope.countMatterSum = data;
+			});
+			$rootScope.storeClick = function(e,i){
+				if(i==$rootScope.storeId){
+					e.stopPropagation();
+					e.preventDefault();
+					return;
+				};
+				$rootScope.storeId = i.storeId;
+				$rootScope.storeName = i.storeName;
+			};
 		});
 		app.directive('repeatFinish', function($timeout) {
 			return {

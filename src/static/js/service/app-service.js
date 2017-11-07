@@ -65,10 +65,17 @@ define(['angular','baseSet', 'jquery', 'sweetalert','Ps'], function(angular,base
 		}
 	});
 	appServices.service('appApi', ['$q','appHttp','$rootScope', function($q,appHttp,$rootScope) {
+		this.countMatterSum = (suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/matter/countMatterSum',
+				success: suc
+			});
+		};
 		this.searchMatter = (ids,num,suc,com,err) => {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/matter/searchMatter',
 				data:{
+					storeId:$rootScope.storeId,
 					deliveryStageIds:ids.join(),
 					pageSize:$rootScope.pageSize,
 					page:num

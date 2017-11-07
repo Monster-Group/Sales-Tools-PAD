@@ -706,6 +706,7 @@ body {
         padding: 0 20px;
     }
     .dropdown-menu {
+        max-height: 354px;overflow-y: scroll;
         box-shadow: none;
         width: calc(100% + 4px);
         border: $border-width solid color($colors, bdSecondary);
@@ -723,7 +724,7 @@ body {
     }
 }
 
-.dropdown.open {
+.dropdown.open,.chosen-container.chosen-container-active {
     .arrow {
         transform: rotate(180deg);
     }
@@ -772,8 +773,7 @@ body {
 }
 
 .dataTables_wrapper {
-    background-color: #fff;
-    .dataTable {
+    .dataTable {background-color: #fff;
         border: none;
         thead {
             tr {

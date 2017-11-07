@@ -11,6 +11,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
 		$scope.searchParams = {};
 		$scope.pageNum = 1;
+		$scope.orderStatus = '';
 		$scope.enumData = enumData;
 		$scope.dt = $scope.$table.dataTable({
 			order:[],
@@ -112,10 +113,14 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				$scope.orderDetail = data;
 			})
 		});
+		$scope.stateChange = ()=>{
+			console.log(123)
+		};
 		$scope.search = ()=>{
 			$scope.searchParams.startTime = $scope.startTime?getMillisecond($scope.startTime):'';
 			$scope.searchParams.endTime = $scope.endTime?getMillisecond($scope.endTime):'';
 			console.log($scope.searchParams);
+			console.log($scope.orderStatus);
 		};
 		$scope.rest = ()=>{
 			$scope.searchParams = {};

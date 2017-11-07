@@ -43,8 +43,8 @@
 				<span class="form-tag">订单状态:</span>
 				<div class="form-input-wrapper">
 					<!-- <div class="dropdown order-state"> -->
-						<select chosen placeholder-text-single="'请选择'" ng-model="searchParams.orderStatus" ng-options="item.state as item.name for item in enumData.orderStatus" disable-search="true" width="343">
-						<option value="">请选择</option>
+						<select chosen placeholder-text-single="'请选择'" ng-model="orderStatus" ng-options="item.state as item.name for item in enumData.orderStatus" disable-search="true" width="343" ng-change="stateChange()">
+							<option value="">请选择</option>
     					</select>
 						<!-- <a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
 							<span class="val pull-left">请选择</span>
@@ -87,7 +87,6 @@
 		<tbody>
 		</tbody>
 	</table>
-	<a class="load-more" hm-tap="loadMore()">加载更多...</a>
 	<button class="cycle-button icon add-btn" hm-tap="addOrder">&#xe606;</button>
 	<section class="order-info hide">
 		<header class="clearfix">

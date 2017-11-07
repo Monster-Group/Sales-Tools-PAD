@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - base
  * Author: Clearlove 7*
- * Updated: 2017-11-05 15:21
+ * Updated: 2017-11-07 20:48
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -582,6 +582,8 @@ body {
     padding: 0 20px; }
   .dropdown .dropdown-menu,
   .chosen-container .dropdown-menu {
+    max-height: 354px;
+    overflow-y: scroll;
     -webkit-box-shadow: none;
             box-shadow: none;
     width: calc(100% + 4px);
@@ -598,7 +600,7 @@ body {
     .chosen-container .dropdown-menu li:last-child {
       border-bottom: none; }
 
-.dropdown.open .arrow {
+.dropdown.open .arrow, .chosen-container.chosen-container-active .arrow {
   -webkit-transform: rotate(180deg);
           transform: rotate(180deg); }
 
@@ -634,37 +636,37 @@ body {
       .custom-modal .modal-dialog .modal-content .modal-footer .button:first-child {
         margin-right: 150px; }
 
-.dataTables_wrapper {
-  background-color: #fff; }
-  .dataTables_wrapper .dataTable {
-    border: none; }
-    .dataTables_wrapper .dataTable thead tr {
-      background-color: #e3e7eb; }
-    .dataTables_wrapper .dataTable thead th {
-      border: none;
-      line-height: 92px;
-      text-align: center;
-      padding: 0; }
-    .dataTables_wrapper .dataTable thead th.sorting_asc,
-    .dataTables_wrapper .dataTable thead th.sorting_desc,
-    .dataTables_wrapper .dataTable thead th.sorting {
-      padding-right: 0; }
-    .dataTables_wrapper .dataTable tbody tr td:last-child {
-      text-align: right;
-      padding-right: 62px; }
-      .dataTables_wrapper .dataTable tbody tr td:last-child .button {
-        margin-left: 20px; }
-    .dataTables_wrapper .dataTable tbody tr td.dataTables_empty {
-      text-align: center; }
-    .dataTables_wrapper .dataTable tbody tr:hover {
-      background-color: #fff; }
-    .dataTables_wrapper .dataTable tbody td {
-      padding: 55px 0;
-      text-align: center;
-      border: none;
-      font-size: 28px; }
-  .dataTables_wrapper .tap-table tbody tr:hover td {
-    color: #00c9a7; }
+.dataTables_wrapper .dataTable {
+  background-color: #fff;
+  border: none; }
+  .dataTables_wrapper .dataTable thead tr {
+    background-color: #e3e7eb; }
+  .dataTables_wrapper .dataTable thead th {
+    border: none;
+    line-height: 92px;
+    text-align: center;
+    padding: 0; }
+  .dataTables_wrapper .dataTable thead th.sorting_asc,
+  .dataTables_wrapper .dataTable thead th.sorting_desc,
+  .dataTables_wrapper .dataTable thead th.sorting {
+    padding-right: 0; }
+  .dataTables_wrapper .dataTable tbody tr td:last-child {
+    text-align: right;
+    padding-right: 62px; }
+    .dataTables_wrapper .dataTable tbody tr td:last-child .button {
+      margin-left: 20px; }
+  .dataTables_wrapper .dataTable tbody tr td.dataTables_empty {
+    text-align: center; }
+  .dataTables_wrapper .dataTable tbody tr:hover {
+    background-color: #fff; }
+  .dataTables_wrapper .dataTable tbody td {
+    padding: 55px 0;
+    text-align: center;
+    border: none;
+    font-size: 28px; }
+
+.dataTables_wrapper .tap-table tbody tr:hover td {
+  color: #00c9a7; }
 
 .error-msg {
   color: #ff8279; }

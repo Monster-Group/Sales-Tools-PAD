@@ -5,6 +5,4 @@ define(['waves','js.cookie','jquery','bootstrap','Ps','tap'],function(Waves,Cook
 	$('.main_container>.left_col').perfectScrollbar({
 		suppressScrollX: true
 	});
-	var userInfo =Cookies.getJSON('user')?Cookies.getJSON('user'):{};
-	$('.top_nav').find('.user').text(userInfo.userName);
 });

@@ -11,6 +11,20 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 			});
 		}
 	});
+	appFactorys.factory('watch',function($rootScope){
+		return function(fn){
+			var watch = $rootScope.$watch('storeId',function(newVal,oldVal){
+				if(newVal!=oldVal){
+					fn(newVal,oldVal);
+				}
+			});
+			$rootScope.$on('$routeChangeStart', function(evt, next, current){
+				if(current){
+					watch();
+				}
+			});
+		}
+	});
 	appFactorys.factory('getStatuDisplay',function(){
 		return function(s){
 			let statu = '';
