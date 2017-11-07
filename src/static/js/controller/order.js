@@ -90,10 +90,10 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				},0);
 			});
 		};
-		loadData();
-		appApi.listAllPromotion((data)=>{
-			console.log(data);
-		});
+//		loadData();
+//		appApi.listAllPromotion((data)=>{
+//			console.log(data);
+//		});
 		$('.order').on('tap','.load-more',(e)=>{
 			let top =$('.dataTables_scrollBody').scrollTop();
 			loadData(()=>{
