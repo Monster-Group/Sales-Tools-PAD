@@ -92,9 +92,10 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			});
 		};
 //		loadData();
-//		appApi.listAllPromotion((data)=>{
-//			console.log(data);
-//		});
+		appApi.listAllPromotion((data)=>{
+			console.log(data);
+			$scope.allPromotion = data.list;
+		});
 		$('.order').on('tap','.load-more',(e)=>{
 			let top =$('.dataTables_scrollBody').scrollTop();
 			loadData(()=>{
@@ -116,7 +117,12 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		$scope.stateChange = ()=>{
 			console.log(123)
 		};
+		$scope.tuanClick = (e,i)=>{
+			console.log(e)
+			console.log(i)
+		};
 		$scope.search = ()=>{
+			if($('.form-header').find('.error-msg').length>0) return;
 			$scope.searchParams.startTime = $scope.startTime?getMillisecond($scope.startTime):'';
 			$scope.searchParams.endTime = $scope.endTime?getMillisecond($scope.endTime):'';
 			console.log($scope.searchParams);

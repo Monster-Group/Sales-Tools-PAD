@@ -79,10 +79,14 @@
         font-size: 36px; }
     .form-header .form-item .checkbox.active i em {
       opacity: 1; }
+    .form-header .form-item .error-msg {
+      line-height: 90px;
+      margin-left: 30px;
+      display: none; }
+    .form-header .form-item.error .error-msg {
+      display: block; }
   .form-header .form-item.last {
     margin-right: 0; }
-  .form-header .error-msg {
-    line-height: 90px; }
 
 .order .form-header .form-item .tuan-name {
   width: 276px; }

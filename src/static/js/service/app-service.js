@@ -126,6 +126,9 @@ define(['angular','baseSet', 'jquery', 'sweetalert','Ps'], function(angular,base
 		this.listAllPromotion = (suc) => {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/promotion/listAllPromotion',
+				data:{
+					pageSize:100
+				},
 				success: suc
 			});
 		};
