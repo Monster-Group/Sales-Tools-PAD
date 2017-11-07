@@ -5,9 +5,17 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		Waves.attach('.load-more', ['waves-block','waves-green']);
 		NProgress.done();
 		$scope.$table = $('.order-table');
-		$scope.$addModal = $('.add-order-modal');
-		$scope.$addModal.find('.modal-dialog').css('margin-top','-'+$scope.$addModal.find('.modal-dialog').outerHeight()/2+'px');
-		$scope.$addModal.hide();
+		setTimeout(()=>{
+			$scope.$addModal = $('.add-order-modal');
+			$scope.$payModal = $('.add-pay-modal');
+			$scope.$addModal.find('.modal-dialog').css('margin-top','-'+$scope.$addModal.find('.modal-dialog').outerHeight()/2+'px');
+			$scope.$payModal.find('.modal-dialog').css('margin-top','-'+$scope.$payModal.find('.modal-dialog').outerHeight()/2+'px');
+			$scope.$addModal.hide();
+			$scope.$payModal.hide();
+			$scope.$addModal.on('hidden.bs.modal',()=>{
+				$('.add-btn').removeClass('active');
+			});
+		},0);
 		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
 		$scope.searchParams = {};
 		$scope.pageNum = 1;
@@ -102,7 +110,6 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				$('.dataTables_scrollBody').scrollTop(top);
 			});
 		});
-		
 		$scope.$table.on('tap', 'tbody tr', (e) =>{
 			var data = $scope.dt.api(true).row(e.target).data();
 			// var orderId = data.orderId;
@@ -115,26 +122,30 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			// }
 			
 		});
-		$scope.stateChange = ()=>{
-			console.log(123)
+		$scope.stateClick = (e,i)=>{
+			console.log(i);
+			$scope.searchParams.orderStatus = i.state;
 		};
 		$scope.tuanClick = (e,i)=>{
-			console.log(e)
-			console.log(i)
+			$scope.searchParams.promotionId = i.promotionId;
 		};
 		$scope.search = ()=>{
-			if($('.form-header').find('.error-msg').length>0) return;
+			if($('.form-header').find('.error-msg').is(':visible')) return;
 			$scope.searchParams.startTime = $scope.startTime?getMillisecond($scope.startTime):'';
 			$scope.searchParams.endTime = $scope.endTime?getMillisecond($scope.endTime):'';
-			console.log($scope.searchParams);
-			console.log($scope.orderStatus);
+			$scope.pageNum = 1;
+			loadData();
 		};
 		$scope.rest = ()=>{
-			$scope.searchParams = {};
+			$scope.$payModal.modal('show');
+//			$scope.searchParams = {};
+//			$('.dropdown-toggle').find('.val').text('请选择');
 		};
-		$scope.addOrder = function(){
-			$scope.$addModal.modal();
-		}
+		$scope.addOrder = function(e){
+			$(e.target).addClass('active');
+			$scope.$addModal.modal('show');
+		};
+		
 	};
 	return {controller: controller, tpl: tpl};
 });

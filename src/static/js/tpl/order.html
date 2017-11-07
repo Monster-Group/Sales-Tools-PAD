@@ -10,7 +10,7 @@
 			<div class="form-item">
 				<span class="form-tag">团购名称:</span>
 				<div class="form-input-wrapper">
-					<drop-down class="tuan-name" render-data="allPromotion" display="'promotionName'" model="searchParams.promtionId" click-event="tuanClick"></drop-down>
+					<drop-down class="tuan-name" render-data="allPromotion" display="'promotionName'" click-event="tuanClick"></drop-down>
 				</div>
 			</div>
 			<div class="form-item">
@@ -31,19 +31,8 @@
 			<div class="form-item">
 				<span class="form-tag">订单状态:</span>
 				<div class="form-input-wrapper">
-					<!-- <div class="dropdown order-state"> -->
-						<select chosen placeholder-text-single="'请选择'" ng-model="orderStatus" ng-options="item.state as item.name for item in enumData.orderStatus" disable-search="true" width="343" ng-change="stateChange()">
-							<option value="">请选择</option>
-    					</select>
-						<!-- <a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-							<span class="val pull-left">请选择</span>
-							<span class="arrow icon pull-right">&#xe792;</span>
-						</a>
-						<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-							<li ng-repeat="item in enumData.orderStatus">{{item.name}}</li>
-						</ul> -->
-					</div>
-				<!-- </div> -->
+					<drop-down class="order-state" render-data="enumData.orderStatus" click-event="stateClick"></drop-down>
+				</div>
 			</div>
 			<div class="form-item" range-date-validate>
 				<span class="form-tag">下单时间:</span>
@@ -76,7 +65,7 @@
 		<tbody>
 		</tbody>
 	</table>
-	<button class="cycle-button icon add-btn" hm-tap="addOrder">&#xe606;</button>
+	<button class="cycle-button icon add-btn transition-05" hm-tap="addOrder($event)">&#xe606;</button>
 	<section class="order-info hide">
 		<header class="clearfix">
 			<a class="button pull-left">返回</a>
@@ -191,3 +180,4 @@
 <new-order class="add-order-modal"></new-order>
 
 
+<add-pay class="add-pay-modal"></add-pay>

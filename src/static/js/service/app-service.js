@@ -91,10 +91,12 @@ define(['angular','baseSet', 'jquery', 'sweetalert','Ps'], function(angular,base
 			});
 		};
 		this.searchOrderList = (data,page,suc) => {
-			data.page = page
+			var obj = Object.assign({}, data);
+			obj.page = page;
+			obj.pageSize = $rootScope.pageSize;
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/order/searchOrderList',
-				data:data,
+				data:obj,
 				success: suc
 			});
 		};

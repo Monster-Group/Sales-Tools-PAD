@@ -107,7 +107,7 @@ requirejs.config({
 		'nprogress':'libs/other/nprogress',
 		'particles':'libs/other/particles',
 		'jszip':'libs/other/jszip',
-		'enumData':'libs/data/enum-data',
+		'iNoBounce':'libs/other/inobounce',
 //------------other----------------	
 		'common':'common',
 		'start':'start',
