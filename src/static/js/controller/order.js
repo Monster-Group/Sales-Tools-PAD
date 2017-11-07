@@ -103,12 +103,13 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		});
 		
 		$scope.$table.on('tap', 'tbody tr', (e) =>{
-			// var data = $scope.$dt.row(this).data();
-			var data = {
-				orderNo: 111111111,
-				buyerName: 'xxx',
-				sex: 1 
-			}
+			var data = $scope.$dt.row(this).data();
+			// var data = {
+			// 	orderNo: 111111111,
+			// 	buyerName: 'xxx',
+			// 	sex: 1 
+			// }
+			console.log(data);
 			$scope.$apply(() => {
 				$scope.orderDetail = data;
 			})

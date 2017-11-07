@@ -668,6 +668,11 @@ define(['angular', 'moment', 'jquery', 'Ps', 'daterange'], function(angular, mom
 					</div>
 				</div>
 			`,
+			controller: function($scope, $element ,$attrs ){
+				$scope.back = function(){
+					$scope.orderData = null;
+				}
+			}
 		}
 	});
 });
