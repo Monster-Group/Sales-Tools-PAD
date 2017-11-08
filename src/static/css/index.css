@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - index
  * Author: Clearlove 7*
- * Updated: 2017-11-06 23:52
+ * Updated: 2017-11-08 23:35
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -109,11 +109,6 @@
   color: #888; }
 
 .order-info {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  left: 0;
-  padding: 0 80px;
   background-color: #f5f5f5;
   line-height: 90px; }
   .order-info header {

@@ -1,72 +1,74 @@
 <div class="module-wrapper order">
-	<div class="form-header">
-		<div class="line clearfix">
-			<div class="form-item">
-				<span class="form-tag">订单号:</span>
-				<div class="form-input-wrapper">
-					<input class="default-input" type="number" ng-model="searchParams.orderNo" />
+	<section ng-show="!showDetail">
+		<div class="form-header">
+			<div class="line clearfix">
+				<div class="form-item">
+					<span class="form-tag">订单号:</span>
+					<div class="form-input-wrapper">
+						<input class="default-input" type="number" ng-model="searchParams.orderNo" />
+					</div>
 				</div>
-			</div>
-			<div class="form-item">
-				<span class="form-tag">团购名称:</span>
-				<div class="form-input-wrapper">
-					<drop-down class="tuan-name" render-data="allPromotion" display="'promotionName'" click-event="tuanClick"></drop-down>
+				<div class="form-item">
+					<span class="form-tag">团购名称:</span>
+					<div class="form-input-wrapper">
+						<drop-down class="tuan-name" render-data="allPromotion" display="'promotionName'" click-event="tuanClick"></drop-down>
+					</div>
 				</div>
-			</div>
-			<div class="form-item">
-				<span class="form-tag">购买人:</span>
-				<div class="form-input-wrapper">
-					<input class="default-input buy-man" type="text" ng-model="searchParams.buyerName" />
+				<div class="form-item">
+					<span class="form-tag">购买人:</span>
+					<div class="form-input-wrapper">
+						<input class="default-input buy-man" type="text" ng-model="searchParams.buyerName" />
+					</div>
 				</div>
-			</div>
-			<div class="form-item last">
-				<span class="form-tag">购买人手机号:</span>
-				<div class="form-input-wrapper">
-					<input class="default-input buy-man-num" type="number" ng-model="searchParams.buyerMobile" />
+				<div class="form-item last">
+					<span class="form-tag">购买人手机号:</span>
+					<div class="form-input-wrapper">
+						<input class="default-input buy-man-num" type="number" ng-model="searchParams.buyerMobile" />
+					</div>
 				</div>
+				<a class="button pull-right" hm-tap="rest()">重置</a>
 			</div>
-			<a class="button pull-right" hm-tap="rest()">重置</a>
+			<div class="line clearfix">
+				<div class="form-item">
+					<span class="form-tag">订单状态:</span>
+					<div class="form-input-wrapper">
+						<drop-down class="order-state" render-data="$root.enumData.orderStatus" click-event="stateClick"></drop-down>
+					</div>
+				</div>
+				<div class="form-item" range-date-validate>
+					<span class="form-tag">下单时间:</span>
+					<div class="form-input-wrapper date-picker">
+						<input type="date" class="start-date default-input" ng-model="startTime" />
+						<i class="icon pull-left">&#xe601;</i>
+					</div>
+					<span class="pull-left bridge">-</span>
+					<div class="form-input-wrapper date-picker end">
+						<input type="date" class="end-date default-input" ng-model="endTime"/>
+						<i class="icon pull-left">&#xe601;</i>
+					</div>
+					<span class="error-msg pull-left">请正确选择日期</span>
+				</div>
+				<a class="button pull-right" hm-tap="search()">搜索</a>
+			</div>
 		</div>
-		<div class="line clearfix">
-			<div class="form-item">
-				<span class="form-tag">订单状态:</span>
-				<div class="form-input-wrapper">
-					<drop-down class="order-state" render-data="$root.enumData.orderStatus" click-event="stateClick"></drop-down>
-				</div>
-			</div>
-			<div class="form-item" range-date-validate>
-				<span class="form-tag">下单时间:</span>
-				<div class="form-input-wrapper date-picker">
-					<input type="date" class="start-date default-input" ng-model="startTime" />
-					<i class="icon pull-left">&#xe601;</i>
-				</div>
-				<span class="pull-left bridge">-</span>
-				<div class="form-input-wrapper date-picker end">
-					<input type="date" class="end-date default-input" ng-model="endTime"/>
-					<i class="icon pull-left">&#xe601;</i>
-				</div>
-				<span class="error-msg pull-left">请正确选择日期</span>
-			</div>
-			<a class="button pull-right" hm-tap="search()">搜索</a>
-		</div>
-	</div>
-	<table class="table table-hover table-bordered order-table tap-table">
-		<thead>
-			<tr>
-				<th>订单号</th>
-				<th>下单时间</th>
-				<th>商品</th>
-				<th>团购名称</th>
-				<th>订单状态</th>
-				<th>购买人</th>
-				<th>手机号</th>
-			</tr>
-		</thead>
-		<tbody>
-		</tbody>
-	</table>
-	<button class="cycle-button icon add-btn transition-05" hm-tap="addOrder($event)">&#xe606;</button>
-	<section class="order-info hide">
+		<table class="table table-hover table-bordered order-table tap-table">
+			<thead>
+				<tr>
+					<th>订单号</th>
+					<th>下单时间</th>
+					<th>商品</th>
+					<th>团购名称</th>
+					<th>订单状态</th>
+					<th>购买人</th>
+					<th>手机号</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		<button class="cycle-button icon add-btn transition-05" hm-tap="addOrder($event)">&#xe606;</button>
+	</section>
+	<!-- <section class="order-info hide">
 		<header class="clearfix">
 			<a class="button pull-left">返回</a>
 			<span class="pull-left">订单详情&nbsp;&nbsp;(编号:171785478852412587)</span>
@@ -174,8 +176,8 @@
 				<a class="button">新增支付信息</a>
 			</div>
 		</div>
-	</section>
-	<order-detail order-data="orderDetail" carinfo="carInfo"></order-detail>
+	</section> -->
+	<order-detail ng-show="showDetail" class="animated fadeIn"></order-detail>
 </div>
 <new-order class="add-order-modal"></new-order>
 
