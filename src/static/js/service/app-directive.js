@@ -1,4 +1,4 @@
-define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function(angular, moment, $, NProgress) {
+define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'], function(angular, moment, $, NProgress,oss) {
 	'use strict';
 	var appDirectives = angular.module('app.directives', []);
 	appDirectives.directive('ngScrollbar', function() {
@@ -221,7 +221,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 					console.log(startDate, endDate);
 					if((startDate && endDate) && startDate > endDate) {
 						$($elements).addClass('error');
-					}else{
+					} else {
 						$($elements).removeClass('error');
 					}
 				}
@@ -234,7 +234,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 			restrict: 'E',
 			replace: true,
 			scope: {
-				display:'=?',
+				display: '=?',
 				renderData: '=',
 				model: '=?',
 				placeholder: '=?',
@@ -252,14 +252,14 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 				</div>
 			`,
 			controller: function($scope, $element, $attrs) {
-				$scope.display = $scope.display?$scope.display:'name';
-				console.log($scope.display);
+				$scope.display = $scope.display ? $scope.display : 'name';
+				console.log($scope.renderData);
 				$scope.placeholder || ($scope.placeholder = '请选择')
 				$scope.model || ($scope.model = {
 					name: '',
 					value: ''
 				});
-				$scope.displayName = $scope.model[$scope.display]?$scope.model[$scope.display]:$scope.placeholder;
+				$scope.displayName = $scope.model[$scope.display] ? $scope.model[$scope.display] : $scope.placeholder;
 				$scope.itemClick = function(e, item) {
 					delete item.$$hashKey;
 					if(item[$scope.display] == $scope.displayName) {
@@ -267,11 +267,11 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 						e.preventDefault();
 						return;
 					}
-//					console.log(666)
+					//					console.log(666)
 					$scope.model = Object.assign({}, item);
 					$scope.displayName = $scope.model[$scope.display]
 					$scope.clickEvent && $scope.clickEvent(e, item);
-//					console.log(666)
+					//					console.log(666)
 				}
 			}
 		}
@@ -304,11 +304,10 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 		}
 	});
 
-	appDirectives.directive('newOrder', function($rootScope){
+	appDirectives.directive('newOrder', function($rootScope) {
 		return {
 			restrict: 'E',
-			scope:{
-			},
+			scope: {},
 			replace: true,
 			template: `
 				<div class="modal fade custom-modal" style="display:block;"  tabindex="-1" role="dialog" aria-hidden="true">
@@ -539,10 +538,10 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 				</div>
 			</div>
 			`,
-			controller: function($scope, $element ,$attrs){
+			controller: function($scope, $element, $attrs) {
 				$scope.title = '创建订单';
 			},
-			link: function($scope, $elements, $attrs, controllers){
+			link: function($scope, $elements, $attrs, controllers) {
 				$scope.$modal = $($elements);
 				var orderModelDefault = {
 					orderType: '',
@@ -562,22 +561,22 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 					level2Type: '',
 					storeId: ''
 				}
-				
-				$scope.orderModel&& ($scope.orderModel = Object.assign({}, orderModelDefault));
-				$scope.productModel&& ($scope.productModel = Object.assign({}, productModelDefault));
 
-				$scope.closeModal = function(){
+				$scope.orderModel && ($scope.orderModel = Object.assign({}, orderModelDefault));
+				$scope.productModel && ($scope.productModel = Object.assign({}, productModelDefault));
+
+				$scope.closeModal = function() {
 					$scope.$modal.modal('toggle')
 				}
 
-				$scope.submit = function(){
-					if($scope.orderForm.$valid){
+				$scope.submit = function() {
+					if($scope.orderForm.$valid) {
 						alert('提交')
 					}
 				}
 
-				$scope.$modal.on('hide.bs.modal', function(){
-					if($scope.orderForm.$dirty){
+				$scope.$modal.on('hide.bs.modal', function() {
+					if($scope.orderForm.$dirty) {
 						$scope.orderModel = Object.assign({}, orderModelDefault);
 						$scope.productModel = Object.assign({}, productModelDefault);
 						$scope.orderForm.$setPristine();
@@ -587,17 +586,17 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 			}
 		}
 	});
-//单选
-//<select chosen  placeholder-text-single="'请选择'" ng-model="selectModel.orderType"
-//    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" conver-to-number>
-//								<option value="">请选择</option>
-//    							</select>
-//多选
-// <select chosen multiple placeholder-text-multiple="'请选择'"
-//    ng-options="item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-model="selectModel.product">
-//    					
-	
-	appDirectives.directive('orderDetail', function($rootScope, appApi){
+	//单选
+	//<select chosen  placeholder-text-single="'请选择'" ng-model="selectModel.orderType"
+	//    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" conver-to-number>
+	//								<option value="">请选择</option>
+	//    							</select>
+	//多选
+	// <select chosen multiple placeholder-text-multiple="'请选择'"
+	//    ng-options="item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-model="selectModel.product">
+	//    					
+
+	appDirectives.directive('orderDetail', function($rootScope, appApi) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -754,59 +753,67 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 					</div>
 				</div>
 			`,
-			controller: function($scope, $element ,$attrs ){
+			controller: function($scope, $element, $attrs) {
 				var orderId;
-				$scope.back = function(){
+				$scope.back = function() {
 					$scope.detailShow = false;
 				}
 
-				function getData(orderType, orderNo){
+				function getData(orderType, orderNo) {
 					//订单详情
-					appApi.getOrderDetail({orderId: orderId} ,(data) => {
+					appApi.getOrderDetail({
+						orderId: orderId
+					}, (data) => {
 						data.formatCreatedTime = moment(data.createdTime).format("YYYY-MM-DD HH:mm:ss");
 						data.formatConfirmTime = !data.confirmTime ? '--' : moment(data.confirmTime).format("YYYY-MM-DD HH:mm:ss");
 						$scope.orderDetail = data;
 						NProgress.done();
 					});
 					//支付信息
-					appApi.getPayment({orderNo: orderNo} ,(data) => {
-						$scope.payment = data.map(function(item){
+					appApi.getPayment({
+						orderNo: orderNo
+					}, (data) => {
+						$scope.payment = data.map(function(item) {
 							item.paymentTimeFormat = moment(item.paymentTime).format("YYYY-MM-DD HH:mm:ss");
 						});
 					});
 
 					//代办事项
-					appApi.getAppointById({orderId: orderId} ,(data) => {
-						$scope.appoints = data.map(function(item){
-							if(item.reservationStartTime&&item.reservationEndTime)
-							var startDay = moment(item.reservationStartTime).format('YYYY-MM-DD');
+					appApi.getAppointById({
+						orderId: orderId
+					}, (data) => {
+						$scope.appoints = data.map(function(item) {
+							if(item.reservationStartTime && item.reservationEndTime)
+								var startDay = moment(item.reservationStartTime).format('YYYY-MM-DD');
 							var endDay = moment(item.reservationEndTime).format('YYYY-MM-DD');
-							if(startDay == endDate){
+							if(startDay == endDate) {
 								var startTime = moment(item.reservationStartTime).format('HH:mm');
 								var endTime = moment(item.reservationEndTime).format('HH:mm');
 								item.time = startDay + ' ' + startTime + '-' + endTime;
-							}else{
+							} else {
 								var startTime = moment(item.reservationStartTime).format('YYYY-MM-DD HH:mm');
 								var endTime = moment(item.reservationEndTime).format('YYYY-MM-DD HH:mm');
 								item.time = startTime + '-' + endTime;
 							}
-							return item; 
+							return item;
 						});
 					});
-					
+
 					//车辆详情
-					if(orderType != '1'){
-						appApi.getCarInfo({orderId: orderId} ,(data) => {
+					if(orderType != '1') {
+						appApi.getCarInfo({
+							orderId: orderId
+						}, (data) => {
 							$scope.carInfo = data;
 						});
 					}
 				}
 
-				$scope.$on('showDetail',function(e, data){
+				$scope.$on('showDetail', function(e, data) {
 					NProgress.start();
 					$scope.detailShow = true;
 
-					if(orderId != data.orderId){
+					if(orderId != data.orderId) {
 						orderId = data.orderId;
 						getData(data.type, data.orderNo);
 					}
@@ -814,50 +821,40 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 			}
 		}
 	});
-	appDirectives.directive('addPay', function($rootScope){
+	appDirectives.directive('addPay', function($rootScope,appApi) {
 		return {
 			restrict: 'E',
-			scope: {},
+			scope: {
+				orderNo:'=?'
+			},
 			replace: true,
 			template: `
-			<div class="modal fade custom-modal" style="display:block;" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">
 				<div class="modal-dialog modal-md">
 					<div class="modal-content">
 						<div class="modal-header">
 							支付信息(编号：89757)
 						</div>
 						<div class="modal-body">
+							<form name="payInfoForm" novalidate>
 							<div class="line">
 								<div class="item">
 									<span>金额&nbsp;:</span>
-									<input type="number" class="default-input"/>
+									<input type="number" class="transition-02 default-input" ng-model="payInfo.amount" name="amount" required ng-class="{'error':payInfoForm.$submitted&&payInfoForm.amount.$invalid}" />
 								</div>
 								<div class="item">
 									<span>支付类型&nbsp;:</span>
-									<div class="dropdown">
-										<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-											<span class="val pull-left">请选择</span>
-											<div class="pull-right">
-												<span class="arrow icon">&#xe792;</span>
-											</div>
-										</a>
-										<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-											<li>test</li>
-											<li>test</li>
-											<li>test</li>
-											<li>test</li>
-										</ul>
-									</div>
+									<drop-down class="transition-02" ng-class="{'error':payInfoForm.$submitted&&!payInfo.channel}" render-data="$root.enumData.payChannel" click-event="channelClick"></drop-down>
 								</div>
 								<div class="item">
 									<span>流水号&nbsp;:</span>
-									<input type="number" class="default-input"/>
+									<input type="number" class="transition-02 default-input" ng-model="payInfo.outTradeNo" name="outTradeNo" required ng-class="{'error':payInfoForm.$submitted&&payInfoForm.outTradeNo.$invalid}" />
 								</div>
 							</div>
 							<div class="line">
 								<div class="item special">
 									<span>备注&nbsp;:</span>
-									<textarea class="default-textarea"></textarea>
+									<textarea class="transition-02 default-textarea" ng-model="payInfo.comment" name="comment" required ng-class="{'error':payInfoForm.$submitted&&payInfoForm.comment.$invalid}"></textarea>
 								</div>
 							</div>
 							<div class="line">
@@ -865,28 +862,88 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 									<span>上传凭证&nbsp;:</span>
 									<div class="img-list">
 										<ul>
-											<li>
-																				
-											</li>
-											<li>
-												<img src="./static/7498226.jpg" width="100px" height="100px"/>
-												<a class="cycle-button del-img icon">&#xe60e;</a>
+											<a class="uplaod-btn" ng-class="{'uploading':uploading}">
+												<span ng-bind="percent"></span>
+											</a>
+											<li ng-repeat="item in imgUrls">
+												<img src="{{item}}"/>
+												<a class="cycle-button del-img icon" hm-tap="delImg($index)">&#xe60e;</a>
 											</li>
 										</ul>
 									</div>
 								</div>
 							</div>
+							</form>
 						</div>
 						<div class="modal-footer">
-							<a class="button">确定</a>
+							<a class="button" hm-tap="submitPayInfo()">确定</a>
 							<a class="button" data-dismiss="modal">取消</a>
 						</div>
 					</div>
 				</div>
 			</div>
 			`,
-			controller: function($scope, $element ,$attrs){
+			controller: function($scope, $element, $attrs) {
+				var ossInit = () =>{
+					var $container = $($element).find('.img-list');
+					var obj = {};
+					obj.container = $container[0];
+					obj.browserBtn = $container.find('.uplaod-btn')[0];
+					obj.dir = 'myfolder'; // 上传到哪个目录下
+					obj.prefix = 'pay_'; // 上传过后文件名的前缀,可以根据功能模块命名
+					obj.fileType = 'picture'; // 可以是picture或video, 支持的格式在upload.js中
+					obj.beforeUpload_fn = ()=>{
+						$scope.$apply(() => {
+							$scope.percent = 0+'%';
+						});
+					}
+					obj.uploading_fn = (percent)=> { // 上传中的回调
+						$scope.$apply(() => {
+							$scope.uploading = true;
+							$scope.percent = percent+'%';
+						});
+						console.log('上传进度：' + percent + ' %');
+					}
+					obj.success_fn = (data)=> { // 上传成功后的回调
+						console.log(data);
+						$scope.$apply(() => {
+							$scope.uploading = false;
+							$scope.imgUrls.push(data.fileUrl);
+						})
+					}
+					obj.error_fn  = ()=>{
+						$scope.$apply(() => {
+							$scope.uploading = false;
+						});
+					}
+					oss.init([obj]); // 页面可配置多个上传,放到数组中一起init
+				};
+				ossInit();
+				$scope.uploading = false;
+				$scope.imgUrls = [];
+				$scope.payInfo = {
+					orderNo:$scope.orderNo
+				};
 				
+				$scope.delImg = (i)=>{
+					$scope.imgUrls.splice(i,1);
+				};
+				$scope.channelClick = (e,i)=>{
+					console.log(e);
+					console.log(i);
+					$scope.payInfo.channel = i.value;
+				};
+				$scope.submitPayInfo = ()=>{
+					console.log($scope.payInfoForm);
+					$scope.payInfoForm.$submitted=true;
+					if($scope.payInfoForm.$valid){
+						$scope.payInfo.imgUrls = $scope.imgUrls.join();
+						console.log($scope.payInfo);
+						appApi.savePaymentOrder($scope.payInfo,(data)=>{
+							console.log(data);
+						});
+					}
+				}
 			}
 		}
 	});

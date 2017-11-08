@@ -586,7 +586,9 @@ input:active {
     height: 68px;
     line-height: 64px;
 }
-
+.default-input.error,.default-textarea.error{
+    border-color:color($colors,error);box-shadow: 0 0 20px color($colors,error);
+}
 
 /*-----------base-----------*/
 
@@ -690,6 +692,7 @@ body {
 
 .dropdown,
 .chosen-container {
+    &.error{border-color:color($colors,error);box-shadow: 0 0 20px color($colors,error);}
     padding: 0 20px;
     border: $border-width solid color($colors, bdSecondary);
     border-radius: $border-radius;
@@ -826,7 +829,7 @@ body {
 }
 
 .error-msg {
-    color: #ff8279;
+    color: color($colors,error);
 }
 
 .main-wrapper {

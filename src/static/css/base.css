@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - base
  * Author: Clearlove 7*
- * Updated: 2017-11-06 23:52
+ * Updated: 2017-11-09 00:59
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -476,6 +476,11 @@ input:active {
   height: 68px;
   line-height: 64px; }
 
+.default-input.error, .default-textarea.error {
+  border-color: #ff8279;
+  -webkit-box-shadow: 0 0 20px #ff8279;
+          box-shadow: 0 0 20px #ff8279; }
+
 /*-----------base-----------*/
 body,
 html {
@@ -566,6 +571,11 @@ body {
   padding: 0 20px;
   border: 2px solid #dcdcdc;
   border-radius: 5px; }
+  .dropdown.error,
+  .chosen-container.error {
+    border-color: #ff8279;
+    -webkit-box-shadow: 0 0 20px #ff8279;
+            box-shadow: 0 0 20px #ff8279; }
   .dropdown .val,
   .chosen-container .val {
     display: inline-block;

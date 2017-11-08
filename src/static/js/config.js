@@ -108,6 +108,8 @@ requirejs.config({
 		'particles':'libs/other/particles',
 		'jszip':'libs/other/jszip',
 		'iNoBounce':'libs/other/inobounce',
+		'plupload':'libs/upload/plupload.full.min',
+		'upload':'libs/upload/upload',
 //------------other----------------	
 		'common':'common',
 		'start':'start',

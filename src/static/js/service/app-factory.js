@@ -157,6 +157,12 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 	});
 	appFactorys.factory('enumData',function(){
 		return {
+			payChannel:[
+				{
+					name: '线下',
+					value: 4
+				}
+			],
 			orderStatus:[//订单状态
 				{
 					name:'待付款',

@@ -1,6 +1,6 @@
 'use strict';
 
-define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function (angular, moment, $, NProgress) {
+define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'Ps', 'daterange'], function (angular, moment, $, NProgress, oss) {
 	'use strict';
 
 	var appDirectives = angular.module('app.directives', []);
@@ -234,7 +234,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 			template: '\n\t\t\t\t<div class="dropdown">\n\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t<span class="val pull-left" ng-bind="displayName"></span>\n\t\t\t\t\t\t<i class="arrow icon pull-right">&#xe792;</i>\n\t\t\t\t\t</a>\n\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t<li ng-repeat="item in renderData track by $index" ng-bind="item[display]"  hm-tap="itemClick($event, item)"></li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t',
 			controller: function controller($scope, $element, $attrs) {
 				$scope.display = $scope.display ? $scope.display : 'name';
-				console.log($scope.display);
+				console.log($scope.renderData);
 				$scope.placeholder || ($scope.placeholder = '请选择');
 				$scope.model || ($scope.model = {
 					name: '',
@@ -352,21 +352,27 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 
 				function getData(orderType, orderNo) {
 					//订单详情
-					appApi.getOrderDetail({ orderId: orderId }, function (data) {
+					appApi.getOrderDetail({
+						orderId: orderId
+					}, function (data) {
 						data.formatCreatedTime = moment(data.createdTime).format("YYYY-MM-DD HH:mm:ss");
 						data.formatConfirmTime = !data.confirmTime ? '--' : moment(data.confirmTime).format("YYYY-MM-DD HH:mm:ss");
 						$scope.orderDetail = data;
 						NProgress.done();
 					});
 					//支付信息
-					appApi.getPayment({ orderNo: orderNo }, function (data) {
+					appApi.getPayment({
+						orderNo: orderNo
+					}, function (data) {
 						$scope.payment = data.map(function (item) {
 							item.paymentTimeFormat = moment(item.paymentTime).format("YYYY-MM-DD HH:mm:ss");
 						});
 					});
 
 					//代办事项
-					appApi.getAppointById({ orderId: orderId }, function (data) {
+					appApi.getAppointById({
+						orderId: orderId
+					}, function (data) {
 						$scope.appoints = data.map(function (item) {
 							if (item.reservationStartTime && item.reservationEndTime) var startDay = moment(item.reservationStartTime).format('YYYY-MM-DD');
 							var endDay = moment(item.reservationEndTime).format('YYYY-MM-DD');
@@ -385,7 +391,9 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 
 					//车辆详情
 					if (orderType != '1') {
-						appApi.getCarInfo({ orderId: orderId }, function (data) {
+						appApi.getCarInfo({
+							orderId: orderId
+						}, function (data) {
 							$scope.carInfo = data;
 						});
 					}
@@ -403,13 +411,78 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'Ps', 'daterange'], function
 			}
 		};
 	});
-	appDirectives.directive('addPay', function ($rootScope) {
+	appDirectives.directive('addPay', function ($rootScope, appApi) {
 		return {
 			restrict: 'E',
-			scope: {},
+			scope: {
+				orderNo: '=?'
+			},
 			replace: true,
-			template: '\n\t\t\t<div class="modal fade custom-modal" style="display:block;" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t<div class="modal-header">\n\t\t\t\t\t\t\t\u652F\u4ED8\u4FE1\u606F(\u7F16\u53F7\uFF1A89757)\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>\u91D1\u989D&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<input type="number" class="default-input"/>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>\u652F\u4ED8\u7C7B\u578B&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">\u8BF7\u9009\u62E9</span>\n\t\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>\u6D41\u6C34\u53F7&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<input type="number" class="default-input"/>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item special">\n\t\t\t\t\t\t\t\t\t<span>\u5907\u6CE8&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<textarea class="default-textarea"></textarea>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item special">\n\t\t\t\t\t\t\t\t\t<span>\u4E0A\u4F20\u51ED\u8BC1&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<div class="img-list">\n\t\t\t\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t\t\t\t\t<img src="./static/7498226.jpg" width="100px" height="100px"/>\n\t\t\t\t\t\t\t\t\t\t\t\t<a class="cycle-button del-img icon">&#xe60e;</a>\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t<a class="button">\u786E\u5B9A</a>\n\t\t\t\t\t\t\t<a class="button" data-dismiss="modal">\u53D6\u6D88</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t',
-			controller: function controller($scope, $element, $attrs) {}
+			template: '\n\t\t\t<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t<div class="modal-header">\n\t\t\t\t\t\t\t\u652F\u4ED8\u4FE1\u606F(\u7F16\u53F7\uFF1A89757)\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t<form name="payInfoForm" novalidate>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>\u91D1\u989D&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<input type="number" class="transition-02 default-input" ng-model="payInfo.amount" name="amount" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.amount.$invalid}" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>\u652F\u4ED8\u7C7B\u578B&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<drop-down class="transition-02" ng-class="{\'error\':payInfoForm.$submitted&&!payInfo.channel}" render-data="$root.enumData.payChannel" click-event="channelClick"></drop-down>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>\u6D41\u6C34\u53F7&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<input type="number" class="transition-02 default-input" ng-model="payInfo.outTradeNo" name="outTradeNo" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.outTradeNo.$invalid}" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item special">\n\t\t\t\t\t\t\t\t\t<span>\u5907\u6CE8&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<textarea class="transition-02 default-textarea" ng-model="payInfo.comment" name="comment" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.comment.$invalid}"></textarea>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item special">\n\t\t\t\t\t\t\t\t\t<span>\u4E0A\u4F20\u51ED\u8BC1&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<div class="img-list">\n\t\t\t\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t\t\t<a class="uplaod-btn" ng-class="{\'uploading\':uploading}">\n\t\t\t\t\t\t\t\t\t\t\t\t<span ng-bind="percent"></span>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<li ng-repeat="item in imgUrls">\n\t\t\t\t\t\t\t\t\t\t\t\t<img src="{{item}}"/>\n\t\t\t\t\t\t\t\t\t\t\t\t<a class="cycle-button del-img icon" hm-tap="delImg($index)">&#xe60e;</a>\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t<a class="button" hm-tap="submitPayInfo()">\u786E\u5B9A</a>\n\t\t\t\t\t\t\t<a class="button" data-dismiss="modal">\u53D6\u6D88</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t',
+			controller: function controller($scope, $element, $attrs) {
+				var ossInit = function ossInit() {
+					var $container = $($element).find('.img-list');
+					var obj = {};
+					obj.container = $container[0];
+					obj.browserBtn = $container.find('.uplaod-btn')[0];
+					obj.dir = 'myfolder'; // 上传到哪个目录下
+					obj.prefix = 'pay_'; // 上传过后文件名的前缀,可以根据功能模块命名
+					obj.fileType = 'picture'; // 可以是picture或video, 支持的格式在upload.js中
+					obj.beforeUpload_fn = function () {
+						$scope.$apply(function () {
+							$scope.percent = 0 + '%';
+						});
+					};
+					obj.uploading_fn = function (percent) {
+						// 上传中的回调
+						$scope.$apply(function () {
+							$scope.uploading = true;
+							$scope.percent = percent + '%';
+						});
+						console.log('上传进度：' + percent + ' %');
+					};
+					obj.success_fn = function (data) {
+						// 上传成功后的回调
+						console.log(data);
+						$scope.$apply(function () {
+							$scope.uploading = false;
+							$scope.imgUrls.push(data.fileUrl);
+						});
+					};
+					obj.error_fn = function () {
+						$scope.$apply(function () {
+							$scope.uploading = false;
+						});
+					};
+					oss.init([obj]); // 页面可配置多个上传,放到数组中一起init
+				};
+				ossInit();
+				$scope.uploading = false;
+				$scope.imgUrls = [];
+				$scope.payInfo = {
+					orderNo: $scope.orderNo
+				};
+
+				$scope.delImg = function (i) {
+					$scope.imgUrls.splice(i, 1);
+				};
+				$scope.channelClick = function (e, i) {
+					console.log(e);
+					console.log(i);
+					$scope.payInfo.channel = i.value;
+				};
+				$scope.submitPayInfo = function () {
+					console.log($scope.payInfoForm);
+					$scope.payInfoForm.$submitted = true;
+					if ($scope.payInfoForm.$valid) {
+						$scope.payInfo.imgUrls = $scope.imgUrls.join();
+						console.log($scope.payInfo);
+						appApi.savePaymentOrder($scope.payInfo, function (data) {
+							console.log(data);
+						});
+					}
+				};
+			}
 		};
 	});
 });
