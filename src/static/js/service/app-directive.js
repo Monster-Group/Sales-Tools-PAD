@@ -604,7 +604,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 			},
 			replace: true,
 			template: `
-				<div class="order-info" ng-show="detailShow">
+				<div class="order-info">
 					<header class="clearfix">
 						<a class="button pull-left" hm-tap="back">返回</a>
 						<span class="pull-left">订单详情&nbsp;&nbsp;(编号:{{orderDetail.orderNo}})</span>
@@ -613,7 +613,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 						<h3>购车人信息:</h3>
 						<div class="info-body">
 							<div>
-								<span>购买人:</span><i>{{orderDetail.buyerName}} {{ renderData.sex | formatGender}}</i>
+								<span>购买人:</span><i>{{orderDetail.buyerName}} {{'(' + (orderDetail.gender | formatGender) + ')'}}</i>
 							</div>
 							<div>
 								<span>购买人手机号:</span><i>{{orderDetail.buyerMobile}}</i>
@@ -666,16 +666,16 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 								<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>
 							</div>
 							<div>
-								<span>优惠金额:</span><i>{{orderDetail.discountPrice}}</i>
+								<span>优惠金额:</span><i>{{orderDetail.discountPrice  | currency:'￥'}}</i>
 							</div>
 							<div>
 								<span>数量:</span><i>{{orderDetail.quantity}}</i>
 							</div>
 							<div>
-								<span>原价:</span><i>{{orderDetail.productPrice}}</i>
+								<span>原价:</span><i>{{orderDetail.productPrice | currency:'￥'}}</i>
 							</div>
 							<div>
-								<span>现价:</span><i>{{orderDetail.productPrice - orderDetail.discountPrice}}</i>
+								<span>现价:</span><i>{{(orderDetail.productPrice - orderDetail.discountPrice)  | currency:'￥'}}</i>
 							</div>
 						</div>
 						<div class="info-body" ng-show="orderDetail&&orderDetail.type == 1">
@@ -704,7 +704,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 								<span>数量:</span><i>{{orderDetail.quantity}}</i>
 							</div>
 							<div>
-								<span>价格:</span><i>{{orderDetail.amount}}</i>
+								<span>价格:</span><i>{{orderDetail.amount  | currency:'￥'}}</i>
 							</div>
 						</div>
 					</div>
@@ -727,7 +727,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 							<a class="button">新增支付信息</a>
 						</div>
 					</div>
-					<div class="info-block pay-info" ng-show="orderDetail&&orderDetail.type != 1">
+					<div class="info-block pay-info" ng-show="carInfo.VIN">
 						<h3 class="clearfix">车辆信息：</h3>
 						<div class="info-body clearfix">
 							<div class="line pull-left" ng-repeat="item in carInfo track by $index">
@@ -736,27 +736,22 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 								<span class="">发动机号：{{item.no}}</span>
 							</div>
 						</div>
-						<div class="info-footer">
-							<a class="button">新增支付信息</a>
-						</div>
 					</div>
 					<div class="info-block appoint-info" ng-show="appoints.length > 0">
 						<h3 class="clearfix">邀约信息：</h3>
 						<div class="info-body clearfix">
 							<div class="line pull-left" ng-repeat="item in appoints track by $index">
-								<span class="appoint">{{deliveryStageName}}:  {{item.buyerName}} {{item.time}}</span>
+								<span class="appoint">{{item.deliveryStageName}}:  {{item.buyerName}} {{item.time}}</span>
 							</div>
-						</div>
-						<div class="info-footer">
-							<a class="button">新增支付信息</a>
 						</div>
 					</div>
 				</div>
 			`,
 			controller: function($scope, $element, $attrs) {
 				var orderId;
-				$scope.back = function() {
-					$scope.detailShow = false;
+				$scope.back = function(){
+					// $scope.detailShow = false;
+					$scope.$emit('detailClose');
 				}
 
 				function getData(orderType, orderNo) {
@@ -786,7 +781,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 							if(item.reservationStartTime && item.reservationEndTime)
 								var startDay = moment(item.reservationStartTime).format('YYYY-MM-DD');
 							var endDay = moment(item.reservationEndTime).format('YYYY-MM-DD');
-							if(startDay == endDate) {
+							if(startDay == endDay){
 								var startTime = moment(item.reservationStartTime).format('HH:mm');
 								var endTime = moment(item.reservationEndTime).format('HH:mm');
 								item.time = startDay + ' ' + startTime + '-' + endTime;
@@ -811,7 +806,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 
 				$scope.$on('showDetail', function(e, data) {
 					NProgress.start();
-					$scope.detailShow = true;
+					// $scope.detailShow = true;
 
 					if(orderId != data.orderId) {
 						orderId = data.orderId;
@@ -929,7 +924,6 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 					$scope.imgUrls.splice(i,1);
 				};
 				$scope.channelClick = (e,i)=>{
-					console.log(e);
 					console.log(i);
 					$scope.payInfo.channel = i.value;
 				};

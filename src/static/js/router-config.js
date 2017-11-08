@@ -78,18 +78,20 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 		});
 		app.filter('formatGender', function($rootScope) {
 			return function(genderId) {
-				var len = $rootScope.enumData.gender.length;
-				for(var i =0; i < len; i++) {
-					if($rootScope.enumData.gender[i].value == genderId){
-						return $rootScope.enumData.gender[i].name;
-					}
+				var gender;
+				switch(+genderId){
+					case 0: gender = '保密';break;
+					case 1: gender= '女';break;
+					case 2: gender = '男';break;
+					defaults: gender = '未知'
 				}
+				return gender;
 			};
 		});
 		app.filter('formatChannel', function(){
 			return function(channelId){
 				var channelName;
-				switch(channelId){
+				switch(+channelId){
 					case 1: channelName = '支付宝';break;
 					case 2: channelName= '微信';break;
 					case 3: channelName = '网银';break;

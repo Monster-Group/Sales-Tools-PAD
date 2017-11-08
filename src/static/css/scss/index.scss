@@ -57,8 +57,9 @@
     }
 }
 
-.order-info{position: absolute;top:0;width: 100%;left:0;padding:0 80px;
-background-color: color($colors, bg);line-height: 90px;
+.order-info{
+    // position: absolute;top:0;width: 100%;left:0;padding:0 80px;
+    background-color: color($colors, bg);line-height: 90px;
     header{padding:20px 0;margin-bottom: 10px;
         span{margin-left: 84px;}
     }

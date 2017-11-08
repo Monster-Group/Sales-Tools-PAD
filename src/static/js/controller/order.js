@@ -32,7 +32,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				},
 				{
 					data: 'createdTime',
-					width: '20%'
+					width: '16%'
 				},
 				{
 					data: 'productDetail',
@@ -40,7 +40,11 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				},
 				{
 					data: 'promotionName',
-					width: '15%'
+					width: '17%'
+				},
+				{
+					data: 'status',
+					width: '10%'
 				},
 				{
 					data: 'buyerName',
@@ -48,11 +52,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				},
 				{
 					data: 'buyerMobile',
-					width: '10%'
-				},
-				{
-					data: 'status',
-					width: '10%'
+					width: '12%'
 				}
 			],
 			columnDefs: [{
@@ -62,7 +62,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 					return moment(data).format("YYYY-MM-DD HH:mm:ss");
 				}
 			}, {
-				targets: 6,
+				targets: 4,
 				visible: true,
 				render: function(data, type, row, meta) {
 					return getOrderStatu(data);
@@ -113,7 +113,11 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			var data = $scope.dt.api(true).row(e.target).data();
 			// var orderId = data.orderId;
 			// var orderType = data.orderType;
-//			$scope.$broadcast('showDetail', data);
+			$scope.$apply(() => {
+				$scope.showDetail = true;
+			});
+			$scope.$broadcast('showDetail', data);
+
 			// var data = {
 			// 	orderNo: 111111111,
 			// 	buyerName: 'xxx',
@@ -121,6 +125,11 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			// }
 			
 		});
+
+		$scope.$on('detailClose', function(){
+			$scope.showDetail = false;
+		});
+		
 		$scope.stateClick = (e,i)=>{
 			console.log(i);
 			$scope.searchParams.orderStatus = i.state;
