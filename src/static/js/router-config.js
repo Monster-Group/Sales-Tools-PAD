@@ -1,7 +1,7 @@
 define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', 'appFactorys', 'appTemplates', 'appController','appTouch', 'angular-chosen', 'jquery', 'table'],
-	function(angular, require, enumData) {
+	function(angular, require) {
 		var app = angular.module('webapp', ['ngRoute', 'app.directives', 'app.services', 'app.factorys', 'app.template', 'app.controller','app.touch','localytics.directives']);
-		app.run(function($rootScope,$q, $location, dropdownMenuScrollbar, ArrayhasObj,appApi) {
+		app.run(function($rootScope,$q, $location, dropdownMenuScrollbar, ArrayhasObj,appApi,enumData) {
 			$rootScope.$on('$routeChangeStart', function(evt, next, current) {
 				$('.daterangepicker').remove();
 				$rootScope.path = $location.$$path;
@@ -11,7 +11,6 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 			$rootScope.loginfo = JSON.parse(localStorage.getItem('loginfo'));
 			$rootScope.pageSize = 20;
 			$rootScope.enumData = enumData;
-			console.log($rootScope.loginfo+'123');
 			if($rootScope.loginfo){
 				$rootScope.loginfo.provinceSet.forEach(function(p,pindex){
 					p.cityList.forEach(function(c,cindex){
@@ -33,9 +32,9 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 					//$window.history.pushState('', '');
 				}
 			});
-//			appApi.countMatterSum((data)=>{
-//				$rootScope.countMatterSum = data;
-//			});
+			appApi.countMatterSum((data)=>{
+				$rootScope.countMatterSum = data;
+			});
 			$rootScope.storeClick = function(e,i){
 				if(i==$rootScope.storeId){
 					e.stopPropagation();

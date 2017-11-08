@@ -1,5 +1,5 @@
 define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment','loading'], function(angular, tpl, Waves, NProgress, toastr,moment) {
-	function controller($scope, appApi,getOrderStatu,enumData,getMillisecond) {
+	function controller($scope,$rootScope, appApi,getOrderStatu,getMillisecond) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
 		Waves.attach('.load-more', ['waves-block','waves-green']);
@@ -20,7 +20,6 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		$scope.searchParams = {};
 		$scope.pageNum = 1;
 		$scope.orderStatus = '';
-		$scope.enumData = enumData;
 		$scope.dt = $scope.$table.dataTable({
 			order:[],
 			bFilter: false, //Disable search function
@@ -114,7 +113,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			var data = $scope.dt.api(true).row(e.target).data();
 			// var orderId = data.orderId;
 			// var orderType = data.orderType;
-			$scope.$broadcast('showDetail', data);
+//			$scope.$broadcast('showDetail', data);
 			// var data = {
 			// 	orderNo: 111111111,
 			// 	buyerName: 'xxx',
@@ -137,9 +136,9 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			loadData();
 		};
 		$scope.rest = ()=>{
-			$scope.$payModal.modal('show');
-//			$scope.searchParams = {};
-//			$('.dropdown-toggle').find('.val').text('请选择');
+			//$scope.$payModal.modal('show');
+			$scope.searchParams = {};
+			$('.dropdown-toggle').find('.val').text('请选择');
 		};
 		$scope.addOrder = function(e){
 			$(e.target).addClass('active');

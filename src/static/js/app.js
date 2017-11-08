@@ -5,6 +5,5 @@ define(['waves','iNoBounce','jquery','bootstrap','Ps','tap'],function(Waves,iNoB
 	$('.main_container>.left_col').perfectScrollbar({
 		suppressScrollX: true
 	});
-	console.log(iNoBounce)
 	iNoBounce.enable();
 });
