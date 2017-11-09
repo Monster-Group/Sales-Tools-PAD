@@ -1,11 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - index
  * Author: Clearlove 7*
-<<<<<<< HEAD
- * Updated: 2017-11-09 00:59
-=======
- * Updated: 2017-11-08 23:35
->>>>>>> 8d3afd3368fe951158d093dba07a24819b039952
+ * Updated: 2017-11-09 23:18
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -360,5 +356,14 @@
               display: inline-block; }
             .add-pay-modal .modal-dialog .modal-content .line .special .img-list .uplaod-btn.uploading:after {
               display: none; }
+          .add-pay-modal .modal-dialog .modal-content .line .special .img-list .error-msg {
+            position: absolute;
+            bottom: 0; }
     .add-pay-modal .modal-dialog .modal-content .line:last-child {
       margin-bottom: 40px; }
+
+.client .form-header .client-level {
+  width: 375px; }
+
+.client .form-header .rest {
+  margin-left: 54px; }

@@ -1,4 +1,4 @@
-define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'], function(angular, moment, $, NProgress,oss) {
+define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'daterange'], function(angular, moment, $, NProgress,oss,toastr) {
 	'use strict';
 	var appDirectives = angular.module('app.directives', []);
 	appDirectives.directive('ngScrollbar', function() {
@@ -242,7 +242,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 			},
 			template: `
 				<div class="dropdown">
-					<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+					<a href="#" data-toggle="dropdown" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
 						<span class="val pull-left" ng-bind="displayName"></span>
 						<i class="arrow icon pull-right">&#xe792;</i>
 					</a>
@@ -251,6 +251,13 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 					</ul>
 				</div>
 			`,
+			link: function($scope, $elements, $attrs, controllers) {
+				$($elements).find('.dropdown-toggle').on('tap',function(e){
+					$(this).dropdown('toggle');
+					e.stopPropagation();
+					e.preventDefault();
+				});
+			},
 			controller: function($scope, $element, $attrs) {
 				$scope.display = $scope.display ? $scope.display : 'name';
 				console.log($scope.renderData);
@@ -828,7 +835,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 				<div class="modal-dialog modal-md">
 					<div class="modal-content">
 						<div class="modal-header">
-							支付信息(编号：89757)
+							支付信息(编号：<i ng-bind="orderNo"></i>)
 						</div>
 						<div class="modal-body">
 							<form name="payInfoForm" novalidate>
@@ -843,7 +850,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 								</div>
 								<div class="item">
 									<span>流水号&nbsp;:</span>
-									<input type="number" class="transition-02 default-input" ng-model="payInfo.outTradeNo" name="outTradeNo" required ng-class="{'error':payInfoForm.$submitted&&payInfoForm.outTradeNo.$invalid}" />
+									<input type="text" class="transition-02 default-input" ng-model="payInfo.outTradeNo" name="outTradeNo" required ng-class="{'error':payInfoForm.$submitted&&payInfoForm.outTradeNo.$invalid}" />
 								</div>
 							</div>
 							<div class="line">
@@ -860,11 +867,12 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 											<a class="uplaod-btn" ng-class="{'uploading':uploading}">
 												<span ng-bind="percent"></span>
 											</a>
-											<li ng-repeat="item in imgUrls">
+											<li ng-repeat="item in imgUrl">
 												<img src="{{item}}"/>
 												<a class="cycle-button del-img icon" hm-tap="delImg($index)">&#xe60e;</a>
 											</li>
 										</ul>
+										<span class="error-msg" ng-show="payInfoForm.$submitted&&!payInfo.imgUrl">请至少上传一张图片</span>
 									</div>
 								</div>
 							</div>
@@ -903,7 +911,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 						console.log(data);
 						$scope.$apply(() => {
 							$scope.uploading = false;
-							$scope.imgUrls.push(data.fileUrl);
+							$scope.imgUrl.push(data.fileUrl);
 						})
 					}
 					obj.error_fn  = ()=>{
@@ -915,26 +923,27 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload', 'Ps', 'daterange'],
 				};
 				ossInit();
 				$scope.uploading = false;
-				$scope.imgUrls = [];
+				$scope.imgUrl = [];
 				$scope.payInfo = {
-					orderNo:$scope.orderNo
+					orderNo:$scope.orderNo,
+					paymentTimeStr:moment().format('YYYY-MM-DD HH:mm:ss')
 				};
-				
 				$scope.delImg = (i)=>{
-					$scope.imgUrls.splice(i,1);
+					$scope.imgUrl.splice(i,1);
 				};
 				$scope.channelClick = (e,i)=>{
 					console.log(i);
 					$scope.payInfo.channel = i.value;
 				};
 				$scope.submitPayInfo = ()=>{
-					console.log($scope.payInfoForm);
+					console.log($scope.payInfo);
 					$scope.payInfoForm.$submitted=true;
-					if($scope.payInfoForm.$valid){
-						$scope.payInfo.imgUrls = $scope.imgUrls.join();
+					if($scope.payInfoForm.$valid&&$scope.payInfo.channel&&$scope.imgUrl.length>0){
+						$scope.payInfo.imgUrl = $scope.imgUrl.join();
 						console.log($scope.payInfo);
 						appApi.savePaymentOrder($scope.payInfo,(data)=>{
 							console.log(data);
+							toastr.success('提交成功');
 						});
 					}
 				}

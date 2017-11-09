@@ -1,0 +1,42 @@
+<div class="module-wrapper client">
+	<div class="form-header">
+		<div class="line clearfix">
+			<div class="form-item">
+				<span class="form-tag">用户名:</span>
+				<div class="form-input-wrapper">
+					<input class="default-input" type="text" ng-model="searchParams.name" />
+				</div>
+			</div>
+			<div class="form-item">
+				<span class="form-tag">手机号:</span>
+				<div class="form-input-wrapper">
+					<input class="default-input" type="number" ng-model="searchParams.mobile" />
+				</div>
+			</div>
+			<div class="form-item">
+				<span class="form-tag">等级:</span>
+				<div class="form-input-wrapper">
+					<drop-down class="client-level" render-data="$root.enumData.userLevel" click-event="levelClick"></drop-down>
+				</div>
+			</div>
+			<a class="button pull-right rest" hm-tap="search()">搜索</a>
+			<a class="button pull-right" hm-tap="rest()">重置</a>
+		</div>
+	</div>
+	<table class="table table-hover table-bordered client-table">
+		<thead>
+			<tr>
+				<th>姓名</th>
+				<th>手机号</th>
+				<th>创建时间</th>
+				<th>等级</th>
+				<th>最近一次备注</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</div>
+
+
+

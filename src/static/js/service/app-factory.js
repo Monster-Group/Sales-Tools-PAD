@@ -75,6 +75,27 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 			return statu;
 		}
 	});
+	appFactorys.factory('getUserLv',function(){
+		return function(s){
+			let level = '';
+			switch(s){
+				case 0: level='O-订单' 
+				break;
+				case 1: level='H-7天内可交付' 
+				break;
+				case 2: level='A-半个月内可交付' 
+				break;
+				case 3: level='B-一个月内可成交' 
+				break;
+				case 4: level='C-2个月内能成交' 
+				break;
+				case 5: level='F-战败'
+				break;
+				defaults: level = '--'
+			};
+			return level;
+		}
+	});
 	appFactorys.factory('getMillisecond',function(){
 		return function(d){
 			return moment(d).valueOf();

@@ -155,6 +155,7 @@
                                 &:after{display:none;}
                             }
                         }
+                        .error-msg{position: absolute;bottom: 0;}
                     }
                 }
             }
@@ -162,3 +163,15 @@
         }
     }
 }
+
+
+
+.client{
+    .form-header{
+        .client-level{width:375px;}
+        .rest{margin-left:54px;}
+    }
+     
+}
+
+ 

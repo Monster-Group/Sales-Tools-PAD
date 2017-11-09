@@ -692,6 +692,7 @@ body {
 
 .dropdown,
 .chosen-container {
+    .dropdown-toggle{display: block;}
     &.error{border-color:color($colors,error);box-shadow: 0 0 20px color($colors,error);}
     padding: 0 20px;
     border: $border-width solid color($colors, bdSecondary);
@@ -760,7 +761,7 @@ body {
             }
             .modal-body {
                 padding: 0;
-                border-bottom: 1px solid color($colors, bdPrimary);
+                border-bottom: $border-width solid color($colors, bdPrimary);
             }
             .modal-footer {
                 padding: 30px 0;
@@ -795,25 +796,35 @@ body {
                 padding-right: 0;
             }
         }
-        tbody {
-            tr {
-                td:last-child {
-                    text-align: right;
-                    padding-right: 62px;
-                    .button {
-                        margin-left: 20px;
+        &.backlog-table{
+            tbody{
+                tr{
+                   td:last-child {
+                        text-align: right;
+                        padding-right: 62px;
+                        .button {
+                            margin-left: 20px;
+                        }
                     }
-                }
-                td.dataTables_empty {
-                    text-align: center;
+                    td.dataTables_empty {
+                        text-align: center;
+                    } 
                 }
             }
-            tr:hover{ background-color: #fff;}
+        }
+        tbody {
+            tr{
+                &:hover{ background-color: #fff;}
+            }
             td {
                 padding: 55px 0;
                 text-align: center;
                 border: none;
                 font-size: 28px;
+                border-bottom:$border-width solid #e3e7eb;
+                &.dataTables_empty{
+                    border-bottom:none;
+                }
             }
         }
     }
