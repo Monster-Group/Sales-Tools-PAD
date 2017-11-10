@@ -207,25 +207,25 @@ define(['angular', 'moment', 'jquery'], function (angular, moment, $) {
 			orderStatus: [//订单状态
 			{
 				name: '待付款',
-				state: 1
+				value: 1
 			}, {
 				name: '已关闭',
-				state: 2
+				value: 2
 			}, {
 				name: '已付款,待排产',
-				state: 3
+				value: 3
 			}, {
 				name: '已排产',
-				state: 4
+				value: 4
 			}, {
 				name: '已结清',
-				state: 5
+				value: 5
 			}, {
 				name: '申请退款',
-				state: 6
+				value: 6
 			}, {
 				name: '已退款',
-				state: 7
+				value: 7
 			}],
 			orderType: [//订单类型
 			{

@@ -1,42 +1,77 @@
 <div class="module-wrapper client">
-	<div class="form-header">
-		<div class="line clearfix">
-			<div class="form-item">
-				<span class="form-tag">用户名:</span>
-				<div class="form-input-wrapper">
-					<input class="default-input" type="text" ng-model="searchParams.name" />
+	<section class="client-list-wrapper hide">
+		<div class="form-header">
+			<div class="line clearfix">
+				<div class="form-item">
+					<span class="form-tag">用户名:</span>
+					<div class="form-input-wrapper">
+						<input class="default-input" type="text" ng-model="searchParams.name" />
+					</div>
 				</div>
-			</div>
-			<div class="form-item">
-				<span class="form-tag">手机号:</span>
-				<div class="form-input-wrapper">
-					<input class="default-input" type="number" ng-model="searchParams.mobile" />
+				<div class="form-item">
+					<span class="form-tag">手机号:</span>
+					<div class="form-input-wrapper">
+						<input class="default-input" type="number" ng-model="searchParams.mobile" />
+					</div>
 				</div>
-			</div>
-			<div class="form-item">
-				<span class="form-tag">等级:</span>
-				<div class="form-input-wrapper">
-					<drop-down class="client-level" render-data="$root.enumData.userLevel" click-event="levelClick"></drop-down>
+				<div class="form-item">
+					<span class="form-tag">等级:</span>
+					<div class="form-input-wrapper">
+						<drop-down class="client-level" render-data="$root.enumData.userLevel" model="searchParams.userLv"></drop-down>
+					</div>
 				</div>
+				<a class="button pull-right rest" hm-tap="search()">搜索</a>
+				<a class="button pull-right" hm-tap="rest($event)">重置</a>
 			</div>
-			<a class="button pull-right rest" hm-tap="search()">搜索</a>
-			<a class="button pull-right" hm-tap="rest()">重置</a>
 		</div>
-	</div>
-	<table class="table table-hover table-bordered client-table">
-		<thead>
-			<tr>
-				<th>姓名</th>
-				<th>手机号</th>
-				<th>创建时间</th>
-				<th>等级</th>
-				<th>最近一次备注</th>
-			</tr>
-		</thead>
-		<tbody>
-		</tbody>
-	</table>
+		<table class="table client-table">
+			<thead>
+				<tr>
+					<th>姓名</th>
+					<th>手机号</th>
+					<th>创建时间</th>
+					<th>等级</th>
+					<th>最近一次备注</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</section>
+	<section class="detail-tab">
+		<header>
+			<a class="go-back">返回</a>
+			<div class="tab-wrapper nav nav-tabs" role="tablist">
+				<a class="tab-item active" aria-controls="detail" role="tab" data-toggle="tab">用户信息</a>
+				<a class="tab-item" aria-controls="order" role="tab" data-toggle="tab">订单信息</a>
+				<a class="tab-item" aria-controls="remark" role="tab" data-toggle="tab">备注</a>
+			</div>
+		</header>
+		<div class="head">
+			<span>ID:<i>2019</i></span>
+			<span>姓名:<i>邢娜</i></span>
+			<span>手机号: <i>13856985478</i></span>
+		</div>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active fade in" id="detail">
+				<table class="table client-detail-table">
+					<thead>
+						<tr>
+							<th>姓名</th>
+							<th>手机号</th>
+							<th>创建时间</th>
+							<th>等级</th>
+							<th>最近一次备注</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="order">
+				12123123
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="remark">asdadasdsa</div>
+		</div>
+	</section>
 </div>
-
-
-

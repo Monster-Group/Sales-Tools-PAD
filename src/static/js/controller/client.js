@@ -92,14 +92,15 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress','toastr','moment
 			}
 		});
 		loadData();
-		$scope.levelClick = (e,i)=>{
-			$scope.searchParams.userLv = i.value;
-		};
 		$scope.search = ()=>{
 			$scope.pageNum = 1;
 			loadData();
 		};
-		
+		$scope.rest = (e)=>{
+			console.log(e);
+			e.stopPropagation();
+			e.preventDefault();
+		};
 		$('.client').on('tap','.load-more',function(e){
 			let top =$('.dataTables_scrollBody').scrollTop();
 			loadData(()=>{
@@ -111,6 +112,10 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress','toastr','moment
 			$scope.pageNum = 1;
 			$('.client-level').find('.val').text('请选择');
 			loadData();
+		});
+		$('.tab-wrapper').on('tap','.tab-item',function(){
+			console.log(123)
+			$(this).tab('show');
 		});
 	};
 	return {controller: controller, tpl: tpl};

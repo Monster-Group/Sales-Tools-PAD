@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - index
  * Author: Clearlove 7*
- * Updated: 2017-11-09 23:18
+ * Updated: 2017-11-10 23:01
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -367,3 +367,44 @@
 
 .client .form-header .rest {
   margin-left: 54px; }
+
+.detail-tab {
+  background-color: #f5f5f5; }
+  .detail-tab header {
+    height: 92px;
+    line-height: 90px;
+    font-size: 36px;
+    border: 2px solid #00c9a7;
+    border-radius: 20px;
+    text-align: center;
+    color: #00c9a7;
+    margin: 26px 0 43px 0; }
+    .detail-tab header a {
+      display: inline-block;
+      color: #00c9a7; }
+    .detail-tab header .go-back {
+      width: 236px;
+      float: left;
+      border-right: 2px solid #00c9a7; }
+    .detail-tab header .tab-wrapper {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      width: calc(100% - 236px);
+      float: left; }
+      .detail-tab header .tab-wrapper a {
+        -ms-flex-preferred-size: 33.33%;
+            flex-basis: 33.33%; }
+        .detail-tab header .tab-wrapper a.active {
+          background-image: -webkit-gradient(linear, left top, right top, from(#55da99), to(#46bebf));
+          background-image: linear-gradient(90deg, #55da99, #46bebf);
+          color: #fff; }
+  .detail-tab .head {
+    line-height: 98px;
+    font-size: 36px; }
+    .detail-tab .head span {
+      float: left;
+      margin-right: 160px;
+      color: #888; }
+      .detail-tab .head span i {
+        margin-left: 20px; }

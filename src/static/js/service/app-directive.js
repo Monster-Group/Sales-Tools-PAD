@@ -234,11 +234,12 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 			restrict: 'E',
 			replace: true,
 			scope: {
-				display: '=?',
-				renderData: '=',
-				model: '=?',
-				placeholder: '=?',
-				clickEvent: '=?'
+				display: '=?',//显示名字字段
+				renderData: '=',//渲染下拉列表数据  [{},{}]
+				model: '=?',//接受数据model   直接为选项的val值
+				placeholder: '=?',//默认显示文字
+				clickEvent: '=?',//选项点击回调事件，参数$event,item   item为所点击选项的整个对象
+				val:'=?'//点击选项取值的字段名
 			},
 			template: `
 				<div class="dropdown">
@@ -247,6 +248,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						<i class="arrow icon pull-right">&#xe792;</i>
 					</a>
 					<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+						<li hm-tap="itemClick($event, '')">请选择</li>
 						<li ng-repeat="item in renderData track by $index" ng-bind="item[display]"  hm-tap="itemClick($event, item)"></li>
 					</ul>
 				</div>
@@ -259,26 +261,28 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				});
 			},
 			controller: function($scope, $element, $attrs) {
+				let getDisplayName = (val)=>{
+					let name = '';
+					for(let item of $scope.renderData){
+						if(item[$scope.val] == val){
+							name = item[$scope.display];
+						}
+					}
+					return name;
+				};
+				$scope.val = $scope.val?$scope.val:'value';
 				$scope.display = $scope.display ? $scope.display : 'name';
-				console.log($scope.renderData);
-				$scope.placeholder || ($scope.placeholder = '请选择')
-				$scope.model || ($scope.model = {
-					name: '',
-					value: ''
-				});
-				$scope.displayName = $scope.model[$scope.display] ? $scope.model[$scope.display] : $scope.placeholder;
+				$scope.placeholder || ($scope.placeholder = '请选择');
+				$scope.displayName = $scope.model ? getDisplayName($scope.model) : $scope.placeholder;
 				$scope.itemClick = function(e, item) {
 					delete item.$$hashKey;
-					if(item[$scope.display] == $scope.displayName) {
-						e.stopPropagation();
+					if(item[$scope.val] == $scope.model) {
 						e.preventDefault();
-						return;
+						return false;
 					}
-					//					console.log(666)
-					$scope.model = Object.assign({}, item);
-					$scope.displayName = $scope.model[$scope.display]
+					$scope.model = item[$scope.val];
+					$scope.displayName = $scope.model?item[$scope.display]:$scope.placeholder;
 					$scope.clickEvent && $scope.clickEvent(e, item);
-					//					console.log(666)
 				}
 			}
 		}
@@ -846,7 +850,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 								</div>
 								<div class="item">
 									<span>支付类型&nbsp;:</span>
-									<drop-down class="transition-02" ng-class="{'error':payInfoForm.$submitted&&!payInfo.channel}" render-data="$root.enumData.payChannel" click-event="channelClick"></drop-down>
+									<drop-down class="transition-02" ng-class="{'error':payInfoForm.$submitted&&!payInfo.channel}" render-data="$root.enumData.payChannel" model="payInfo.channel"></drop-down>
 								</div>
 								<div class="item">
 									<span>流水号&nbsp;:</span>
@@ -930,10 +934,6 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				};
 				$scope.delImg = (i)=>{
 					$scope.imgUrl.splice(i,1);
-				};
-				$scope.channelClick = (e,i)=>{
-					console.log(i);
-					$scope.payInfo.channel = i.value;
 				};
 				$scope.submitPayInfo = ()=>{
 					console.log($scope.payInfo);
