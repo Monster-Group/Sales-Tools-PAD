@@ -57,7 +57,8 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress','toastr','moment
 				},
 				{
 					data: 'remarkContent',
-					width: '30%'
+					width: '30%',
+					orderable: false
 				}
 			],
 			columnDefs: [
