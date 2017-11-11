@@ -41,37 +41,256 @@
 	<section class="detail-tab">
 		<header>
 			<a class="go-back">返回</a>
-			<div class="tab-wrapper nav nav-tabs" role="tablist">
-				<a class="tab-item active" aria-controls="detail" role="tab" data-toggle="tab">用户信息</a>
-				<a class="tab-item" aria-controls="order" role="tab" data-toggle="tab">订单信息</a>
-				<a class="tab-item" aria-controls="remark" role="tab" data-toggle="tab">备注</a>
+			<div class="tab-wrapper" role="tablist">
+				<a class="tab-item active" data-target="#detail" role="tab" data-toggle="tab">用户信息</a>
+				<a class="tab-item user-order-list" data-target="#order" role="tab" data-toggle="tab">订单信息</a>
+				<a class="tab-item user-remark" data-target="#remark" role="tab" data-toggle="tab">备注</a>
 			</div>
 		</header>
-		<div class="head">
+		<div class="head clearfix">
 			<span>ID:<i>2019</i></span>
 			<span>姓名:<i>邢娜</i></span>
 			<span>手机号: <i>13856985478</i></span>
 		</div>
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active fade in" id="detail">
+				<div class="info-block">
+					<h3>基本信息:</h3>
+					<div class="info-body">
+						<div>
+							<span>购买人:<i>某某某</i></span>
+						</div>
+						<div>
+							<span>姓名:</span>
+							<input class="default-input" type="text" name="name" />
+						</div>
+						<div>
+							<span>性别:</span>
+							<drop-down render-data="$root.enumData.gender" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>年龄:</span>
+							<drop-down render-data="$root.enumData.age" model="searchParams.age"></drop-down>
+						</div>
+						<div>
+							<span>生日:</span>
+							<input class="default-input" type="text" name="age" />
+						</div>
+						<div>
+							<span>手机号:</span>
+							<input class="default-input" type="number" name="mobile" />
+						</div>
+						<div>
+							<span>QQ:</span>
+							<input class="default-input" type="text" name="qq" />
+						</div>
+						<div>
+							<span>微信:</span>
+							<input class="default-input" type="text" name="wechat" />
+						</div>
+						<div>
+							<span>邮箱:</span>
+							<input class="default-input" type="text" name="email" />
+						</div>
+						<div>
+							<span>户籍:</span>
+							<input class="default-input" type="text" name="email" />
+						</div>
+						<div>
+							<span>省:</span>
+							<drop-down render-data="$root.enumData.gender" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>市:</span>
+							<drop-down render-data="$root.enumData.gender" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>家庭住址:</span>
+							<input class="default-input" type="text" name="email" />
+						</div>
+						<div>
+							<span>小区:</span>
+							<input class="default-input" type="text" name="email" />
+						</div>
+						<div>
+							<span>是否已婚:</span>
+							<drop-down render-data="$root.enumData.gender" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>是否有小孩:</span>
+							<drop-down render-data="$root.enumData.gender" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>工作单位:</span>
+							<input class="default-input" type="text" name="email" />
+						</div>
+						<div>
+							<span>职务:</span>
+							<input class="default-input" type="text" name="email" />
+						</div>
+						<div>
+							<span>学历:</span>
+							<drop-down render-data="$root.enumData.education" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>用户状态:</span>
+							<drop-down render-data="$root.enumData.userStatus" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>等级:</span>
+							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>是否有赠品:</span>
+							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>是否有投诉:</span>
+							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>是否要回访:</span>
+							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+						</div>
+					</div>
+				</div>
+				<div class="info-block">
+					<h3>购买意向:</h3>
+					<div class="info-body">
+						<div>
+							<span>是否有车:</span>
+							<drop-down class="short" render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>已有车型:</span>
+							<input class="default-input short" type="text" name="email" />
+						</div>
+						<div>
+							<span>有车年限:</span>
+							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>已有车保险价格:</span>
+							<input class="default-input short" type="text" name="email" />
+						</div>
+						<div>
+							<span>已有车保险种内容:</span>
+							<input class="default-input short" type="text" name="email" />
+						</div>
+						<div>
+							<span>是否已试驾:</span>
+							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div class="has-textarea">
+							<span>试驾反馈:</span>
+							<textarea class="default-textarea" ng-model="remark" rows="4"></textarea>
+						</div>
+						<div class="has-textarea">
+							<span>产品建议:</span>
+							<textarea class="default-textarea" ng-model="remark" rows="4"></textarea>
+						</div>
+						<div class="has-textarea">
+							<span>购买意向:</span>
+							<textarea class="default-textarea" ng-model="remark" rows="4"></textarea>
+						</div>
+						<div>
+							<span>几个车位:</span>
+							<input class="default-input short" type="text" name="email" />
+						</div>
+						<div>
+							<span>车位情况:</span>
+							<input class="default-input short" type="text" name="email" />
+						</div>
+						<div>
+							<span>是否能充电:</span>
+							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>购车使用人:</span>
+							<drop-down class="short" render-data="$root.enumData.carUser" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>接受价格:</span>
+							<input class="default-input short" type="text" name="email" />
+						</div>
+						<div>
+							<span>购车用途:</span>
+							<drop-down render-data="$root.enumData.carUse" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>意向车型:</span>
+							<input class="default-input short" type="text" name="email" />
+						</div>
+						<div>
+							<span>意向配置:</span>
+							<input class="default-input short" type="text" name="email" />
+						</div>
+						<div>
+							<span>意向车色:</span>
+							<input class="default-input short" type="text" name="email" />
+						</div>
+						<div>
+							<span>购车关注因素:</span>
+							<drop-down class="short" render-data="$root.enumData.buyFocus" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>是否需要专属订制:</span>
+							<drop-down class="short" render-data="$root.enumData.buyFocus" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>信息来源渠道:</span>
+							<drop-down class="short" render-data="$root.enumData.infoSource" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>是否体验车用户:</span>
+							<drop-down class="short" render-data="$root.enumData.buyFocus" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>用户接触次数:</span>
+							<drop-down class="short" render-data="$root.enumData.infoSource" model="searchParams.promotionId"></drop-down>
+						</div>
+						<div>
+							<span>用户接触原因:</span>
+							<drop-down class="short" render-data="$root.enumData.infoSource" model="searchParams.promotionId"></drop-down>
+						</div>
+					</div>
+				</div>
+				<div class="btn-wrapper">
+					<a class="button" hm-tap="affirm()">确定</a>
+					<a class="button" hm-tap="detailRest()">重置</a>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="order">
 				<table class="table client-detail-table">
 					<thead>
 						<tr>
-							<th>姓名</th>
+							<th>订单号</th>
+							<th>下单时间</th>
+							<th>商品</th>
+							<th>团购名称</th>
+							<th>订单状态</th>
+							<th>购买人</th>
 							<th>手机号</th>
-							<th>创建时间</th>
-							<th>等级</th>
-							<th>最近一次备注</th>
 						</tr>
 					</thead>
 					<tbody>
 					</tbody>
 				</table>
 			</div>
-			<div role="tabpanel" class="tab-pane fade" id="order">
-				12123123
+			<div role="tabpanel" class="tab-pane fade" id="remark">
+				<table class="table remark-table">
+					<thead>
+						<tr>
+							<th>备注</th>
+							<th>等级</th>
+							<th>购买人</th>
+							<th>创建时间</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
 			</div>
-			<div role="tabpanel" class="tab-pane fade" id="remark">asdadasdsa</div>
 		</div>
 	</section>
 </div>
