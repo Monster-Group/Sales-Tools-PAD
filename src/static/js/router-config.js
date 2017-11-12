@@ -12,6 +12,10 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 			console.log($rootScope.loginfo);
 			$rootScope.pageSize = 20;
 			$rootScope.enumData = enumData;
+			appApi.regionList((data)=>{
+				console.log(data);
+				$rootScope.enumData.regionList = data;
+			});
 			if($rootScope.loginfo){
 				$rootScope.loginfo.provinceSet.forEach(function(p,pindex){
 					p.cityList.forEach(function(c,cindex){

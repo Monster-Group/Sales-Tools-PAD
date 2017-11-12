@@ -835,7 +835,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 			},
 			replace: true,
 			template: `
-			<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal fade custom-modal" style="display:block;" tabindex="-1" role="dialog" aria-hidden="true">
 				<div class="modal-dialog modal-md">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -891,6 +891,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 			</div>
 			`,
 			controller: function($scope, $element, $attrs) {
+				$scope.$modal = $($element);
 				var ossInit = () =>{
 					var $container = $($element).find('.img-list');
 					var obj = {};
@@ -946,7 +947,21 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 							toastr.success('提交成功');
 						});
 					}
-				}
+				};
+				$scope.$on('addPay', function(e, data) {
+					$scope.$modal.modal('show');
+				})
+				$scope.$modal.on('hide.bs.modal', function() {
+					if($scope.payInfoForm.$dirty) {
+						$scope.payInfo = {
+							orderNo:$scope.orderNo,
+							paymentTimeStr:moment().format('YYYY-MM-DD HH:mm:ss')
+						};
+						$scope.payInfoForm.$setPristine();
+						$scope.payInfoForm.$setUntouched();
+					}
+				});
+				
 			}
 		}
 	});

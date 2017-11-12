@@ -65,6 +65,12 @@ define(['angular','baseSet', 'jquery', 'sweetalert','Ps'], function(angular,base
 		}
 	});
 	appServices.service('appApi', ['$q','appHttp','$rootScope', function($q,appHttp,$rootScope) {
+		this.regionList = (suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/city/listBySelect',
+				success: suc
+			});
+		};
 		this.countMatterSum = (suc) => {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/matter/countMatterSum',

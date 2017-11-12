@@ -1,5 +1,5 @@
 <div class="module-wrapper client">
-	<section class="client-list-wrapper hide">
+	<section class="client-list-wrapper" ng-hide="detailModel">
 		<div class="form-header">
 			<div class="line clearfix">
 				<div class="form-item">
@@ -38,7 +38,7 @@
 			</tbody>
 		</table>
 	</section>
-	<section class="detail-tab">
+	<section class="detail-tab" ng-show="detailModel">
 		<header>
 			<a class="go-back">返回</a>
 			<div class="tab-wrapper" role="tablist">
@@ -48,9 +48,9 @@
 			</div>
 		</header>
 		<div class="head clearfix">
-			<span>ID:<i>2019</i></span>
-			<span>姓名:<i>邢娜</i></span>
-			<span>手机号: <i>13856985478</i></span>
+			<span>ID:<i ng-bind="detailModel.userId"></i></span>
+			<span>姓名:<i ng-bind="detailModel.realname"></i></span>
+			<span>手机号: <i ng-bind="detailModel.mobile"></i></span>
 		</div>
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active fade in" id="detail">
@@ -58,99 +58,99 @@
 					<h3>基本信息:</h3>
 					<div class="info-body">
 						<div>
-							<span>购买人:<i>某某某</i></span>
+							<span>ID:<i ng-bind="detailModel.userId"></i></span>
 						</div>
 						<div>
 							<span>姓名:</span>
-							<input class="default-input" type="text" name="name" />
+							<input class="default-input" type="text" name="name" ng-model="detailModel.realname" />
 						</div>
 						<div>
 							<span>性别:</span>
-							<drop-down render-data="$root.enumData.gender" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="$root.enumData.gender" model="detailModel.sex"></drop-down>
 						</div>
 						<div>
 							<span>年龄:</span>
-							<drop-down render-data="$root.enumData.age" model="searchParams.age"></drop-down>
+							<drop-down render-data="$root.enumData.age" model="detailModel.age"></drop-down>
 						</div>
 						<div>
 							<span>生日:</span>
-							<input class="default-input" type="text" name="age" />
+							<input class="default-input" type="text" name="birthday" ng-model="detailModel.birthday" />
 						</div>
 						<div>
 							<span>手机号:</span>
-							<input class="default-input" type="number" name="mobile" />
+							<input class="default-input" type="text" name="mobile" ng-model="detailModel.mobile" />
 						</div>
 						<div>
 							<span>QQ:</span>
-							<input class="default-input" type="text" name="qq" />
+							<input class="default-input" type="text" name="qq" ng-model="detailModel.qq" />
 						</div>
 						<div>
 							<span>微信:</span>
-							<input class="default-input" type="text" name="wechat" />
+							<input class="default-input" type="text" name="wechatNumber" ng-model="detailModel.wechatNumber" />
 						</div>
 						<div>
 							<span>邮箱:</span>
-							<input class="default-input" type="text" name="email" />
+							<input class="default-input" type="text" name="email" ng-model="detailModel.email" />
 						</div>
 						<div>
 							<span>户籍:</span>
-							<input class="default-input" type="text" name="email" />
+							<input class="default-input" type="text" name="censusRegister" ng-model="detailModel.censusRegister" />
 						</div>
 						<div>
 							<span>省:</span>
-							<drop-down render-data="$root.enumData.gender" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="$root.enumData.regionList" model="detailModel.province" display="'provinceName'" val="'provinceId'" click-event="provinceClick"></drop-down>
 						</div>
 						<div>
 							<span>市:</span>
-							<drop-down render-data="$root.enumData.gender" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="cityList" model="detailModel.city" display="'cityName'" val="'cityId'"></drop-down>
 						</div>
 						<div>
 							<span>家庭住址:</span>
-							<input class="default-input" type="text" name="email" />
+							<input class="default-input" type="text" name="homeAddress" ng-model="detailModel.homeAddress" />
 						</div>
 						<div>
 							<span>小区:</span>
-							<input class="default-input" type="text" name="email" />
+							<input class="default-input" type="text" name="plot" ng-model="detailModel.plot" />
 						</div>
 						<div>
 							<span>是否已婚:</span>
-							<drop-down render-data="$root.enumData.gender" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isMarried"></drop-down>
 						</div>
 						<div>
 							<span>是否有小孩:</span>
-							<drop-down render-data="$root.enumData.gender" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isKid"></drop-down>
 						</div>
 						<div>
 							<span>工作单位:</span>
-							<input class="default-input" type="text" name="email" />
+							<input class="default-input" type="text" name="company" ng-model="detailModel.company" />
 						</div>
 						<div>
 							<span>职务:</span>
-							<input class="default-input" type="text" name="email" />
+							<input class="default-input" type="text" name="job" ng-model="detailModel.job" />
 						</div>
 						<div>
 							<span>学历:</span>
-							<drop-down render-data="$root.enumData.education" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="$root.enumData.education" model="detailModel.education"></drop-down>
 						</div>
 						<div>
 							<span>用户状态:</span>
-							<drop-down render-data="$root.enumData.userStatus" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="$root.enumData.userStatus" model="detailModel.userStatus"></drop-down>
 						</div>
 						<div>
 							<span>等级:</span>
-							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="$root.enumData.userLevel" model="detailModel.userLv"></drop-down>
 						</div>
 						<div>
 							<span>是否有赠品:</span>
-							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isGift"></drop-down>
 						</div>
 						<div>
 							<span>是否有投诉:</span>
-							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isComplain"></drop-down>
 						</div>
 						<div>
 							<span>是否要回访:</span>
-							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isVisit"></drop-down>
 						</div>
 					</div>
 				</div>
@@ -159,99 +159,99 @@
 					<div class="info-body">
 						<div>
 							<span>是否有车:</span>
-							<drop-down class="short" render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+							<drop-down class="short" render-data="$root.enumData.yesOrNo" model="detailModel.isCar"></drop-down>
 						</div>
 						<div>
 							<span>已有车型:</span>
-							<input class="default-input short" type="text" name="email" />
+							<input class="default-input short" type="text" name="haveCar" ng-model="detailModel.haveCar"/>
 						</div>
 						<div>
 							<span>有车年限:</span>
-							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+							<input class="default-input short" type="number" name="haveCarYear" ng-model="detailModel.haveCarYear"/>
 						</div>
 						<div>
 							<span>已有车保险价格:</span>
-							<input class="default-input short" type="text" name="email" />
+							<input class="default-input short" type="text" name="carInsurancePrice" ng-model="detailModel.carInsurancePrice" />
 						</div>
 						<div>
 							<span>已有车保险种内容:</span>
-							<input class="default-input short" type="text" name="email" />
+							<input class="default-input short" type="text" name="carInsuranceContent" ng-model="detailModel.carInsuranceContent" />
 						</div>
 						<div>
 							<span>是否已试驾:</span>
-							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isTestDrive"></drop-down>
 						</div>
 						<div class="has-textarea">
 							<span>试驾反馈:</span>
-							<textarea class="default-textarea" ng-model="remark" rows="4"></textarea>
+							<textarea class="default-textarea" ng-model="detailModel.testDriveFeedback" rows="4"></textarea>
 						</div>
 						<div class="has-textarea">
 							<span>产品建议:</span>
-							<textarea class="default-textarea" ng-model="remark" rows="4"></textarea>
+							<textarea class="default-textarea" ng-model="detailModel.productProposal" rows="4"></textarea>
 						</div>
 						<div class="has-textarea">
 							<span>购买意向:</span>
-							<textarea class="default-textarea" ng-model="remark" rows="4"></textarea>
+							<textarea class="default-textarea" ng-model="detailModel.buyInclination" rows="4"></textarea>
 						</div>
 						<div>
 							<span>几个车位:</span>
-							<input class="default-input short" type="text" name="email" />
+							<input class="default-input short" type="text" name="carportNumber" ng-model="detailModel.carportNumber" />
 						</div>
 						<div>
 							<span>车位情况:</span>
-							<input class="default-input short" type="text" name="email" />
+							<input class="default-input short" type="text" name="carportCondition" ng-model="detailModel.carportCondition" />
 						</div>
 						<div>
 							<span>是否能充电:</span>
-							<drop-down render-data="$root.enumData.userLevel" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isRecharge"></drop-down>
 						</div>
 						<div>
 							<span>购车使用人:</span>
-							<drop-down class="short" render-data="$root.enumData.carUser" model="searchParams.promotionId"></drop-down>
+							<drop-down class="short" render-data="$root.enumData.carUser" model="detailModel.buyCarUser"></drop-down>
 						</div>
 						<div>
 							<span>接受价格:</span>
-							<input class="default-input short" type="text" name="email" />
+							<input class="default-input short" type="text" name="acceptPrice" ng-model="detailModel.acceptPrice" />
 						</div>
 						<div>
 							<span>购车用途:</span>
-							<drop-down render-data="$root.enumData.carUse" model="searchParams.promotionId"></drop-down>
+							<drop-down render-data="$root.enumData.carUse" model="detailModel.buyCarUse"></drop-down>
 						</div>
 						<div>
 							<span>意向车型:</span>
-							<input class="default-input short" type="text" name="email" />
+							<input class="default-input short" type="text" name="catTypeInclination" ng-model="detailModel.catTypeInclination"/>
 						</div>
 						<div>
 							<span>意向配置:</span>
-							<input class="default-input short" type="text" name="email" />
+							<input class="default-input short" type="text" name="deployInclination" ng-model="detailModel.deployInclination" />
 						</div>
 						<div>
 							<span>意向车色:</span>
-							<input class="default-input short" type="text" name="email" />
+							<input class="default-input short" type="text" name="carColorInclination" ng-model="detailModel.carColorInclination" />
 						</div>
 						<div>
 							<span>购车关注因素:</span>
-							<drop-down class="short" render-data="$root.enumData.buyFocus" model="searchParams.promotionId"></drop-down>
+							<drop-down class="short" render-data="$root.enumData.buyFocus" model="detailModel.buyCarFactor"></drop-down>
 						</div>
 						<div>
 							<span>是否需要专属订制:</span>
-							<drop-down class="short" render-data="$root.enumData.buyFocus" model="searchParams.promotionId"></drop-down>
+							<drop-down class="short" render-data="$root.enumData.yesOrNo" model="detailModel.isExclusive"></drop-down>
 						</div>
 						<div>
 							<span>信息来源渠道:</span>
-							<drop-down class="short" render-data="$root.enumData.infoSource" model="searchParams.promotionId"></drop-down>
+							<drop-down class="short" render-data="$root.enumData.infoSource" model="detailModel.infobahn"></drop-down>
 						</div>
 						<div>
 							<span>是否体验车用户:</span>
-							<drop-down class="short" render-data="$root.enumData.buyFocus" model="searchParams.promotionId"></drop-down>
+							<drop-down class="short" render-data="$root.enumData.yesOrNo" model="detailModel.isExperienceCar"></drop-down>
 						</div>
 						<div>
 							<span>用户接触次数:</span>
-							<drop-down class="short" render-data="$root.enumData.infoSource" model="searchParams.promotionId"></drop-down>
+							<input class="default-input short" type="text" name="customerCount" ng-model="detailModel.customerCount" />
 						</div>
 						<div>
 							<span>用户接触原因:</span>
-							<drop-down class="short" render-data="$root.enumData.infoSource" model="searchParams.promotionId"></drop-down>
+							<input class="default-input short" type="text" name="customerReason" ng-model="detailModel.customerReason" />
 						</div>
 					</div>
 				</div>

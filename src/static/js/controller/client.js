@@ -10,6 +10,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		$scope.pageNum = 1;
 		$scope.searchParams = {};
 		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
+		$scope.userId = '';
 		let loadData = (fn) => {
 			$scope.searchParams.accountId = $rootScope.loginfo.account.accountId;
 			$scope.searchParams.storeId = $rootScope.loginfo.account.storeId;
@@ -33,9 +34,16 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				}, 0);
 			});
 		};
-		let getDetail = () => {
-			appApi.getUserBack(31967, (data) => {
-				console.log(data);
+		let getDetail = (id) => {
+			$('body').loading();
+			appApi.getUserBack(id, (data) => {
+				$('body').find('.inline-loading').remove();
+				$scope.userDetail = data.user;
+				$scope.detailModel = $.extend(true,{},data.user);
+				console.log($scope.detailModel);
+				if(data.user.province){
+					getCityList(data.user.province);
+				}
 			});
 		};
 		let loadOrderList = (fn) => {
@@ -61,7 +69,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				}, 0);
 			});
 		};
-		getDetail();
+//		getDetail();
 		$scope.dt = $scope.$table.dataTable({
 			order: [],
 			bFilter: false, //Disable search function
@@ -221,7 +229,18 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				}
 			});
 		}
+		let getCityList = (id)=>{
+			$scope.cityList = [];
+			for(let item of $rootScope.enumData.regionList){
+				if(item.provinceId==id){
+					$scope.cityList = item.cityList;
+				}
+			};
+		};
 		loadData();
+		$scope.provinceClick = (e,i)=>{
+			getCityList(i.provinceId);
+		};
 		$scope.search = () => {
 			$scope.pageNum = 1;
 			loadData();
@@ -231,6 +250,14 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			e.stopPropagation();
 			e.preventDefault();
 		};
+		$('.client-table').on('tap','tbody tr',function(e){
+			var data = $scope.dt.api(true).row($(this)).data();
+			if(data.userId==$scope.userId){
+				
+			}else{
+				getDetail(data.userId);
+			}
+		});
 		$('.client').on('tap', '.load-more', function(e) {
 			let top = $('.dataTables_scrollBody').scrollTop();
 			loadData(() => {
