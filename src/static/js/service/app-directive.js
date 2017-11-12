@@ -831,7 +831,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 		return {
 			restrict: 'E',
 			scope: {
-				orderNo:'=?'
+				orderNo:'='
 			},
 			replace: true,
 			template: `
