@@ -283,7 +283,15 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 					$scope.model = item[$scope.val];
 					$scope.displayName = $scope.model?item[$scope.display]:$scope.placeholder;
 					$scope.clickEvent && $scope.clickEvent(e, item);
-				}
+				};
+				var watch = $scope.$watch('model', function (newVal, oldVal) {
+					if (newVal != oldVal) {
+						$scope.displayName = $scope.model ? getDisplayName($scope.model) : $scope.placeholder;
+					}
+				});
+				$scope.$on('$destroy', ()=>{
+					watch();
+				});
 			}
 		}
 	})
@@ -961,6 +969,287 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						$scope.payInfoForm.$setUntouched();
 					}
 				});
+				
+			}
+		}
+	});
+	appDirectives.directive('clientUpdate', function($rootScope,appApi) {
+		return {
+			restrict: 'E',
+			scope: {
+				id:'=?',
+				type:'='
+			},
+			replace: true,
+			template: `
+			<form name="clientForm" novalidate>
+				<div class="info-block">
+					<h3>基本信息:</h3>
+					<div class="info-body">
+						<div>
+							<span>ID:<i ng-bind="detailModel.userId"></i></span>
+						</div>
+						<div>
+							<span>姓名:</span>
+							<input class="default-input" type="text" name="name" ng-model="detailModel.realname" required ng-class="{'error':clientForm.$submitted&&clientForm.name.$invalid}" />
+						</div>
+						<div>
+							<span>性别:</span>
+							<drop-down render-data="$root.enumData.gender" model="detailModel.sex" ng-class="{'error':clientForm.$submitted&&!detailModel.sex}"></drop-down>
+						</div>
+						<div>
+							<span>年龄:</span>
+							<drop-down render-data="$root.enumData.age" model="detailModel.age"></drop-down>
+						</div>
+						<div>
+							<span>生日:</span>
+							<input class="default-input" type="text" name="birthdayStr" ng-model="detailModel.birthdayStr" />
+						</div>
+						<div>
+							<span>手机号:</span>
+							<input class="default-input" ng-readonly="type==1" type="text" name="mobile" ng-model="detailModel.mobile" required ng-class="{'error':clientForm.$submitted&&clientForm.mobile.$invalid}"/>
+						</div>
+						<div>
+							<span>QQ:</span>
+							<input class="default-input" type="text" name="qq" ng-model="detailModel.qq" />
+						</div>
+						<div>
+							<span>微信:</span>
+							<input class="default-input" type="text" name="wechatNumber" ng-model="detailModel.wechatNumber" />
+						</div>
+						<div>
+							<span>邮箱:</span>
+							<input class="default-input" type="text" name="email" ng-model="detailModel.email" />
+						</div>
+						<div>
+							<span>户籍:</span>
+							<input class="default-input" type="text" name="censusRegister" ng-model="detailModel.censusRegister" />
+						</div>
+						<div>
+							<span>省:</span>
+							<drop-down render-data="$root.enumData.regionList" model="detailModel.province" display="'provinceName'" val="'provinceId'" click-event="provinceClick" ng-class="{'error':clientForm.$submitted&&!detailModel.province}"></drop-down>
+						</div>
+						<div>
+							<span>市:</span>
+							<drop-down render-data="cityList" model="detailModel.city" display="'cityName'" val="'cityId'" ng-class="{'error':clientForm.$submitted&&!detailModel.city}"></drop-down>
+						</div>
+						<div>
+							<span>家庭住址:</span>
+							<input class="default-input" type="text" name="homeAddress" ng-model="detailModel.homeAddress" />
+						</div>
+						<div>
+							<span>小区:</span>
+							<input class="default-input" type="text" name="plot" ng-model="detailModel.plot" />
+						</div>
+						<div>
+							<span>是否已婚:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isMarried"></drop-down>
+						</div>
+						<div>
+							<span>是否有小孩:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isKid"></drop-down>
+						</div>
+						<div>
+							<span>工作单位:</span>
+							<input class="default-input" type="text" name="company" ng-model="detailModel.company" />
+						</div>
+						<div>
+							<span>职务:</span>
+							<input class="default-input" type="text" name="job" ng-model="detailModel.job" />
+						</div>
+						<div>
+							<span>学历:</span>
+							<drop-down render-data="$root.enumData.education" model="detailModel.education"></drop-down>
+						</div>
+						<div>
+							<span>用户状态:</span>
+							<drop-down render-data="$root.enumData.userStatus" model="detailModel.userStatus"></drop-down>
+						</div>
+						<div>
+							<span>等级:</span>
+							<drop-down render-data="$root.enumData.userLevel" model="detailModel.userLv"></drop-down>
+						</div>
+						<div>
+							<span>是否有赠品:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isGift"></drop-down>
+						</div>
+						<div>
+							<span>是否有投诉:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isComplain"></drop-down>
+						</div>
+						<div>
+							<span>是否要回访:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isVisit"></drop-down>
+						</div>
+					</div>
+				</div>
+				<div class="info-block">
+					<h3>购买意向:</h3>
+					<div class="info-body">
+						<div>
+							<span>是否有车:</span>
+							<drop-down class="short" render-data="$root.enumData.yesOrNo" model="detailModel.isCar"></drop-down>
+						</div>
+						<div>
+							<span>已有车型:</span>
+							<input class="default-input short" type="text" name="haveCar" ng-model="detailModel.haveCar"/>
+						</div>
+						<div>
+							<span>有车年限:</span>
+							<input class="default-input short" type="number" name="haveCarYear" ng-model="detailModel.haveCarYear"/>
+						</div>
+						<div>
+							<span>已有车保险价格:</span>
+							<input class="default-input short" type="text" name="carInsurancePrice" ng-model="detailModel.carInsurancePrice" />
+						</div>
+						<div>
+							<span>已有车保险种内容:</span>
+							<input class="default-input short" type="text" name="carInsuranceContent" ng-model="detailModel.carInsuranceContent" />
+						</div>
+						<div>
+							<span>是否已试驾:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isTestDrive"></drop-down>
+						</div>
+						<div class="has-textarea">
+							<span>试驾反馈:</span>
+							<textarea class="default-textarea" ng-model="detailModel.testDriveFeedback" rows="4"></textarea>
+						</div>
+						<div class="has-textarea">
+							<span>产品建议:</span>
+							<textarea class="default-textarea" ng-model="detailModel.productProposal" rows="4"></textarea>
+						</div>
+						<div class="has-textarea">
+							<span>购买意向:</span>
+							<textarea class="default-textarea" ng-model="detailModel.buyInclination" rows="4"></textarea>
+						</div>
+						<div>
+							<span>几个车位:</span>
+							<input class="default-input short" type="text" name="carportNumber" ng-model="detailModel.carportNumber" />
+						</div>
+						<div>
+							<span>车位情况:</span>
+							<input class="default-input short" type="text" name="carportCondition" ng-model="detailModel.carportCondition" />
+						</div>
+						<div>
+							<span>是否能充电:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isRecharge"></drop-down>
+						</div>
+						<div>
+							<span>购车使用人:</span>
+							<drop-down class="short" render-data="$root.enumData.carUser" model="detailModel.buyCarUser"></drop-down>
+						</div>
+						<div>
+							<span>接受价格:</span>
+							<input class="default-input short" type="text" name="acceptPrice" ng-model="detailModel.acceptPrice" />
+						</div>
+						<div>
+							<span>购车用途:</span>
+							<drop-down render-data="$root.enumData.carUse" model="detailModel.buyCarUse"></drop-down>
+						</div>
+						<div>
+							<span>意向车型:</span>
+							<input class="default-input short" type="text" name="catTypeInclination" ng-model="detailModel.catTypeInclination"/>
+						</div>
+						<div>
+							<span>意向配置:</span>
+							<input class="default-input short" type="text" name="deployInclination" ng-model="detailModel.deployInclination" />
+						</div>
+						<div>
+							<span>意向车色:</span>
+							<input class="default-input short" type="text" name="carColorInclination" ng-model="detailModel.carColorInclination" />
+						</div>
+						<div>
+							<span>购车关注因素:</span>
+							<drop-down class="short" render-data="$root.enumData.buyFocus" model="detailModel.buyCarFactor"></drop-down>
+						</div>
+						<div>
+							<span>是否需要专属订制:</span>
+							<drop-down class="short" render-data="$root.enumData.yesOrNo" model="detailModel.isExclusive"></drop-down>
+						</div>
+						<div>
+							<span>信息来源渠道:</span>
+							<drop-down class="short" render-data="$root.enumData.infoSource" model="detailModel.infobahn"></drop-down>
+						</div>
+						<div>
+							<span>是否体验车用户:</span>
+							<drop-down class="short" render-data="$root.enumData.yesOrNo" model="detailModel.isExperienceCar"></drop-down>
+						</div>
+						<div>
+							<span>用户接触次数:</span>
+							<input class="default-input short" type="text" name="customerCount" ng-model="detailModel.customerCount" />
+						</div>
+						<div>
+							<span>用户接触原因:</span>
+							<input class="default-input short" type="text" name="customerReason" ng-model="detailModel.customerReason" />
+						</div>
+					</div>
+				</div>
+				<div class="btn-wrapper">
+					<a class="button" hm-tap="affirm()">确定</a>
+					<a class="button" hm-tap="detailRest()">重置</a>
+				</div>
+			</div>`,
+			controller: function($scope, $element, $attrs) {
+				let detailIsChange = ()=>{
+					return !(JSON.stringify($scope.userDetail) == JSON.stringify($scope.detailModel));
+				};
+				let getDetail = () => {
+					$('body').loading();
+					appApi.getUserBack($scope.id, (data) => {
+						$('body').find('.inline-loading').remove();
+						delete data.user.createdTime;
+						delete data.user.updatedTime;
+						data.user.birthdayStr = data.user.birthday;
+						delete data.user.birthday;
+						$scope.detailData = data.user;
+						$scope.detailModel = $.extend(true,{},data.user);
+						$('body').find('.inline-loading').remove();
+						if(data.user.province){
+							getCityList(data.user.province);
+						}
+					});
+				};
+				let getCityList = (id)=>{
+					$scope.cityList = [];
+					for(let item of $rootScope.enumData.regionList){
+						if(item.provinceId==id){
+							$scope.cityList = item.cityList;
+						}
+					};
+				};
+				if($scope.type==1){
+					getDetail();
+				}else{
+					$scope.detailData = {};
+					$scope.detailModel = {};
+				};
+				$scope.provinceClick = (e,i)=>{
+					getCityList(i.provinceId);
+				};
+				$scope.affirm = () => {
+					$scope.clientForm.$submitted = true;
+					if(detailIsChange()){
+						setTimeout(()=>{
+							if($($element).find('.error').length==0){
+								if($scope.type==1){
+									console.log('update');
+									appApi.updateUserBack($scope.detailModel,(data)=>{
+										console.log(data);
+									});
+								}else{
+									appApi.saveUserBack($scope.detailModel,(data)=>{
+										console.log(data);
+									});
+								}
+							}
+						});
+					}else{
+						$scope.$broadcast('hideDetail');
+					}
+				};
+				$scope.detailRest = ()=>{
+					$scope.detailModel = $.extend(true,{},$scope.userDetail);
+				};
 				
 			}
 		}

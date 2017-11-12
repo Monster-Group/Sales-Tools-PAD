@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - base
  * Author: Clearlove 7*
- * Updated: 2017-11-12 18:30
+ * Updated: 2017-11-13 00:42
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -595,7 +595,8 @@ body {
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
     -webkit-transform-origin: center center;
-            transform-origin: center center; }
+            transform-origin: center center;
+    margin-left: 0; }
   .dropdown ul,
   .chosen-container ul {
     padding: 0 20px; }

@@ -79,10 +79,10 @@
     .info-body{padding:10px 64px;display:flex; flex-wrap: wrap;
         &>div{flex-basis:33.33%;padding:23px 0;line-height: 36px;word-break: break-all; display: flex;padding-right:20px;}
         span{word-break:keep-all;}
-        i{margin-left: 20px;}
     }
     .info-footer{text-align: right;padding:0 64px;}
 }
+.order-info .info-block .info-body i{margin-left: 20px;}
 .add-order-modal{margin-top: -1000px;
     .modal-dialog{font-size:28px;
         .modal-content{
