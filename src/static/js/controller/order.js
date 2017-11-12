@@ -61,7 +61,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				render: function(data, type, row, meta) {
 					return moment(data).format("YYYY-MM-DD HH:mm:ss");
 				}
-			}, {
+			},{
 				targets: 4,
 				visible: true,
 				render: function(data, type, row, meta) {

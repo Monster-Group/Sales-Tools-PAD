@@ -1,6 +1,6 @@
 'use strict';
 
-define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'Ps', 'daterange'], function (angular, moment, $, NProgress, oss) {
+define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr', 'Ps', 'daterange'], function (angular, moment, $, NProgress, oss, toastr) {
 	'use strict';
 
 	var appDirectives = angular.module('app.directives', []);
@@ -225,34 +225,66 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'Ps', 'daterange']
 			restrict: 'E',
 			replace: true,
 			scope: {
-				display: '=?',
-				renderData: '=',
-				model: '=?',
-				placeholder: '=?',
-				clickEvent: '=?'
+				display: '=?', //显示名字字段
+				renderData: '=', //渲染下拉列表数据  [{},{}]
+				model: '=?', //接受数据model   直接为选项的val值
+				placeholder: '=?', //默认显示文字
+				clickEvent: '=?', //选项点击回调事件，参数$event,item   item为所点击选项的整个对象
+				val: '=?' //点击选项取值的字段名
 			},
-			template: '\n\t\t\t\t<div class="dropdown">\n\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t<span class="val pull-left" ng-bind="displayName"></span>\n\t\t\t\t\t\t<i class="arrow icon pull-right">&#xe792;</i>\n\t\t\t\t\t</a>\n\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t<li ng-repeat="item in renderData track by $index" ng-bind="item[display]"  hm-tap="itemClick($event, item)"></li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t',
-			controller: function controller($scope, $element, $attrs) {
-				$scope.display = $scope.display ? $scope.display : 'name';
-				console.log($scope.renderData);
-				$scope.placeholder || ($scope.placeholder = '请选择');
-				$scope.model || ($scope.model = {
-					name: '',
-					value: ''
+			template: '\n\t\t\t\t<div class="dropdown">\n\t\t\t\t\t<a href="#" data-toggle="dropdown" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t<span class="val pull-left" ng-bind="displayName"></span>\n\t\t\t\t\t\t<i class="arrow icon pull-right">&#xe792;</i>\n\t\t\t\t\t</a>\n\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t<li hm-tap="itemClick($event, \'\')">\u8BF7\u9009\u62E9</li>\n\t\t\t\t\t\t<li ng-repeat="item in renderData track by $index" ng-bind="item[display]"  hm-tap="itemClick($event, item)"></li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t',
+			link: function link($scope, $elements, $attrs, controllers) {
+				$($elements).find('.dropdown-toggle').on('tap', function (e) {
+					$(this).dropdown('toggle');
+					e.stopPropagation();
+					e.preventDefault();
 				});
-				$scope.displayName = $scope.model[$scope.display] ? $scope.model[$scope.display] : $scope.placeholder;
+			},
+			controller: function controller($scope, $element, $attrs) {
+				var getDisplayName = function getDisplayName(val) {
+					var name = '';
+					var _iteratorNormalCompletion = true;
+					var _didIteratorError = false;
+					var _iteratorError = undefined;
+
+					try {
+						for (var _iterator = $scope.renderData[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+							var item = _step.value;
+
+							if (item[$scope.val] == val) {
+								name = item[$scope.display];
+							}
+						}
+					} catch (err) {
+						_didIteratorError = true;
+						_iteratorError = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion && _iterator.return) {
+								_iterator.return();
+							}
+						} finally {
+							if (_didIteratorError) {
+								throw _iteratorError;
+							}
+						}
+					}
+
+					return name;
+				};
+				$scope.val = $scope.val ? $scope.val : 'value';
+				$scope.display = $scope.display ? $scope.display : 'name';
+				$scope.placeholder || ($scope.placeholder = '请选择');
+				$scope.displayName = $scope.model ? getDisplayName($scope.model) : $scope.placeholder;
 				$scope.itemClick = function (e, item) {
 					delete item.$$hashKey;
-					if (item[$scope.display] == $scope.displayName) {
-						e.stopPropagation();
+					if (item[$scope.val] == $scope.model) {
 						e.preventDefault();
-						return;
+						return false;
 					}
-					//					console.log(666)
-					$scope.model = Object.assign({}, item);
-					$scope.displayName = $scope.model[$scope.display];
+					$scope.model = item[$scope.val];
+					$scope.displayName = $scope.model ? item[$scope.display] : $scope.placeholder;
 					$scope.clickEvent && $scope.clickEvent(e, item);
-					//					console.log(666)
 				};
 			}
 		};
@@ -419,7 +451,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'Ps', 'daterange']
 				orderNo: '=?'
 			},
 			replace: true,
-			template: '\n\t\t\t<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t<div class="modal-header">\n\t\t\t\t\t\t\t\u652F\u4ED8\u4FE1\u606F(\u7F16\u53F7\uFF1A89757)\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t<form name="payInfoForm" novalidate>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>\u91D1\u989D&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<input type="number" class="transition-02 default-input" ng-model="payInfo.amount" name="amount" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.amount.$invalid}" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>\u652F\u4ED8\u7C7B\u578B&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<drop-down class="transition-02" ng-class="{\'error\':payInfoForm.$submitted&&!payInfo.channel}" render-data="$root.enumData.payChannel" click-event="channelClick"></drop-down>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>\u6D41\u6C34\u53F7&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<input type="number" class="transition-02 default-input" ng-model="payInfo.outTradeNo" name="outTradeNo" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.outTradeNo.$invalid}" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item special">\n\t\t\t\t\t\t\t\t\t<span>\u5907\u6CE8&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<textarea class="transition-02 default-textarea" ng-model="payInfo.comment" name="comment" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.comment.$invalid}"></textarea>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item special">\n\t\t\t\t\t\t\t\t\t<span>\u4E0A\u4F20\u51ED\u8BC1&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<div class="img-list">\n\t\t\t\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t\t\t<a class="uplaod-btn" ng-class="{\'uploading\':uploading}">\n\t\t\t\t\t\t\t\t\t\t\t\t<span ng-bind="percent"></span>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<li ng-repeat="item in imgUrls">\n\t\t\t\t\t\t\t\t\t\t\t\t<img src="{{item}}"/>\n\t\t\t\t\t\t\t\t\t\t\t\t<a class="cycle-button del-img icon" hm-tap="delImg($index)">&#xe60e;</a>\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t<a class="button" hm-tap="submitPayInfo()">\u786E\u5B9A</a>\n\t\t\t\t\t\t\t<a class="button" data-dismiss="modal">\u53D6\u6D88</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t',
+			template: '\n\t\t\t<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t<div class="modal-header">\n\t\t\t\t\t\t\t\u652F\u4ED8\u4FE1\u606F(\u7F16\u53F7\uFF1A<i ng-bind="orderNo"></i>)\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t<form name="payInfoForm" novalidate>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>\u91D1\u989D&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<input type="number" class="transition-02 default-input" ng-model="payInfo.amount" name="amount" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.amount.$invalid}" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>\u652F\u4ED8\u7C7B\u578B&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<drop-down class="transition-02" ng-class="{\'error\':payInfoForm.$submitted&&!payInfo.channel}" render-data="$root.enumData.payChannel" model="payInfo.channel"></drop-down>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>\u6D41\u6C34\u53F7&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<input type="text" class="transition-02 default-input" ng-model="payInfo.outTradeNo" name="outTradeNo" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.outTradeNo.$invalid}" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item special">\n\t\t\t\t\t\t\t\t\t<span>\u5907\u6CE8&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<textarea class="transition-02 default-textarea" ng-model="payInfo.comment" name="comment" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.comment.$invalid}"></textarea>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item special">\n\t\t\t\t\t\t\t\t\t<span>\u4E0A\u4F20\u51ED\u8BC1&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<div class="img-list">\n\t\t\t\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t\t\t<a class="uplaod-btn" ng-class="{\'uploading\':uploading}">\n\t\t\t\t\t\t\t\t\t\t\t\t<span ng-bind="percent"></span>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<li ng-repeat="item in imgUrl">\n\t\t\t\t\t\t\t\t\t\t\t\t<img src="{{item}}"/>\n\t\t\t\t\t\t\t\t\t\t\t\t<a class="cycle-button del-img icon" hm-tap="delImg($index)">&#xe60e;</a>\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t<span class="error-msg" ng-show="payInfoForm.$submitted&&!payInfo.imgUrl">\u8BF7\u81F3\u5C11\u4E0A\u4F20\u4E00\u5F20\u56FE\u7247</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t<a class="button" hm-tap="submitPayInfo()">\u786E\u5B9A</a>\n\t\t\t\t\t\t\t<a class="button" data-dismiss="modal">\u53D6\u6D88</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t',
 			controller: function controller($scope, $element, $attrs) {
 				var ossInit = function ossInit() {
 					var $container = $($element).find('.img-list');
@@ -447,7 +479,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'Ps', 'daterange']
 						console.log(data);
 						$scope.$apply(function () {
 							$scope.uploading = false;
-							$scope.imgUrls.push(data.fileUrl);
+							$scope.imgUrl.push(data.fileUrl);
 						});
 					};
 					obj.error_fn = function () {
@@ -459,26 +491,23 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'Ps', 'daterange']
 				};
 				ossInit();
 				$scope.uploading = false;
-				$scope.imgUrls = [];
+				$scope.imgUrl = [];
 				$scope.payInfo = {
-					orderNo: $scope.orderNo
+					orderNo: $scope.orderNo,
+					paymentTimeStr: moment().format('YYYY-MM-DD HH:mm:ss')
 				};
-
 				$scope.delImg = function (i) {
-					$scope.imgUrls.splice(i, 1);
-				};
-				$scope.channelClick = function (e, i) {
-					console.log(i);
-					$scope.payInfo.channel = i.value;
+					$scope.imgUrl.splice(i, 1);
 				};
 				$scope.submitPayInfo = function () {
-					console.log($scope.payInfoForm);
+					console.log($scope.payInfo);
 					$scope.payInfoForm.$submitted = true;
-					if ($scope.payInfoForm.$valid) {
-						$scope.payInfo.imgUrls = $scope.imgUrls.join();
+					if ($scope.payInfoForm.$valid && $scope.payInfo.channel && $scope.imgUrl.length > 0) {
+						$scope.payInfo.imgUrl = $scope.imgUrl.join();
 						console.log($scope.payInfo);
 						appApi.savePaymentOrder($scope.payInfo, function (data) {
 							console.log(data);
+							toastr.success('提交成功');
 						});
 					}
 				};

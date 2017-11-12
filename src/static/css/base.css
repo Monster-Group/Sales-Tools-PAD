@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - base
  * Author: Clearlove 7*
- * Updated: 2017-11-08 23:35
+ * Updated: 2017-11-11 23:46
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -571,6 +571,9 @@ body {
   padding: 0 20px;
   border: 2px solid #dcdcdc;
   border-radius: 5px; }
+  .dropdown .dropdown-toggle,
+  .chosen-container .dropdown-toggle {
+    display: block; }
   .dropdown.error,
   .chosen-container.error {
     border-color: #ff8279;
@@ -643,7 +646,7 @@ body {
       border-bottom: none; }
     .custom-modal .modal-dialog .modal-content .modal-body {
       padding: 0;
-      border-bottom: 1px solid #00c9a7; }
+      border-bottom: 2px solid #00c9a7; }
     .custom-modal .modal-dialog .modal-content .modal-footer {
       padding: 30px 0;
       text-align: center;
@@ -669,12 +672,12 @@ body {
   .dataTables_wrapper .dataTable thead th.sorting_desc,
   .dataTables_wrapper .dataTable thead th.sorting {
     padding-right: 0; }
-  .dataTables_wrapper .dataTable tbody tr td:last-child {
+  .dataTables_wrapper .dataTable.backlog-table tbody tr td:last-child {
     text-align: right;
     padding-right: 62px; }
-    .dataTables_wrapper .dataTable tbody tr td:last-child .button {
+    .dataTables_wrapper .dataTable.backlog-table tbody tr td:last-child .button {
       margin-left: 20px; }
-  .dataTables_wrapper .dataTable tbody tr td.dataTables_empty {
+  .dataTables_wrapper .dataTable.backlog-table tbody tr td.dataTables_empty {
     text-align: center; }
   .dataTables_wrapper .dataTable tbody tr:hover {
     background-color: #fff; }
@@ -682,7 +685,10 @@ body {
     padding: 55px 0;
     text-align: center;
     border: none;
-    font-size: 28px; }
+    font-size: 28px;
+    border-bottom: 2px solid #e3e7eb; }
+    .dataTables_wrapper .dataTable tbody td.dataTables_empty {
+      border-bottom: none; }
 
 .dataTables_wrapper .tap-table tbody tr:hover td {
   color: #00c9a7; }

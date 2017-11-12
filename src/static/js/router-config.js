@@ -9,6 +9,7 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 			});
 			$rootScope.storeList = [];
 			$rootScope.loginfo = JSON.parse(localStorage.getItem('loginfo'));
+			console.log($rootScope.loginfo);
 			$rootScope.pageSize = 20;
 			$rootScope.enumData = enumData;
 			if($rootScope.loginfo){
@@ -101,11 +102,11 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 				return channelName;
 			}
 		});
-		app.config(['$routeProvider', '$controllerProvider','hammerDefaultOptsProvider','$httpProvider',
-			function($routeProvider, $controllerProvider,hammerDefaultOptsProvider,$httpProvider) {
+		app.config(['$routeProvider', '$controllerProvider','$httpProvider','hammerDefaultOptsProvider',
+			function($routeProvider, $controllerProvider,$httpProvider,hammerDefaultOptsProvider) {
 				hammerDefaultOptsProvider.set({
 	        		recognizers: [[Hammer.Tap, {time: 150}],[Hammer.Swipe,{enable: true,direction: Hammer.DIRECTION_HORIZONTAL}]]});
-	        		$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+	        	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 			    $httpProvider.defaults.transformRequest = [function(data) {
 			      return angular.isObject(data) && String(data) !== '[object File]' ? $.param(data) : data;
 			    }];
@@ -119,6 +120,11 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 						//模块的代码路径
 						path: 'static/js/controller/order.js?v=' + stamp,
 						controller: 'orderController'
+					},
+					'/client': { //路由
+						//模块的代码路径
+						path: 'static/js/controller/client.js?v=' + stamp,
+						controller: 'clientController'
 					}
 				};
 				//默认跳转到某个路由

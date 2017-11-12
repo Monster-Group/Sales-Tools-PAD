@@ -2086,12 +2086,11 @@ if (typeof jQuery === 'undefined') {
     var $this    = this.element
     var $ul      = $this.closest('ul:not(.dropdown-menu)')
     var selector = $this.data('target')
-
+	
     if (!selector) {
       selector = $this.attr('href')
       selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
     }
-
     if ($this.parent('li').hasClass('active')) return
 
     var $previous = $ul.find('.active:last a')
@@ -2127,7 +2126,6 @@ if (typeof jQuery === 'undefined') {
     var transition = callback
       && $.support.transition
       && ($active.length && $active.hasClass('fade') || !!container.find('> .fade').length)
-
     function next() {
       $active
         .removeClass('active')
@@ -2136,7 +2134,6 @@ if (typeof jQuery === 'undefined') {
         .end()
         .find('[data-toggle="tab"]')
           .attr('aria-expanded', false)
-
       element
         .addClass('active')
         .find('[data-toggle="tab"]')
@@ -2178,7 +2175,6 @@ if (typeof jQuery === 'undefined') {
     return this.each(function () {
       var $this = $(this)
       var data  = $this.data('bs.tab')
-
       if (!data) $this.data('bs.tab', (data = new Tab(this)))
       if (typeof option == 'string') data[option]()
     })

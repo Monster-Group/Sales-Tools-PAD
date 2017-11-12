@@ -177,6 +177,25 @@ define(['angular', 'baseSet', 'jquery', 'sweetalert', 'Ps'], function (angular, 
 				success: suc
 			});
 		};
+		this.listUserBackSales = function (data, page, suc) {
+			var obj = Object.assign({}, data);
+			obj.page = page;
+			obj.pageSize = $rootScope.pageSize;
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/user/listUserBackSales',
+				data: obj,
+				success: suc
+			});
+		};
+		this.getUserBack = function (id, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/user/getUserBack',
+				data: {
+					userId: id
+				},
+				success: suc
+			});
+		};
 	}]);
 	appServices.service('ArrayhasObj', function () {
 		Array.prototype.hasObj = function (obj) {
