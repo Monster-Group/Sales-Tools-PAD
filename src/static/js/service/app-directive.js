@@ -827,10 +827,10 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				$scope.addPay = ()=>{
 					$scope.$emit('addPay');
 				};
-				$rootScope.$on('loadPayInfo', function(e, data) {
+				let getPayInfo = $rootScope.$on('loadPayInfo', function(e, data) {
 					loadPayInfo(orderNo);
 				});
-				$scope.$on('showDetail', function(e, data) {
+				let showDetail = $scope.$on('showDetail', function(e, data) {
 					NProgress.start();
 					// $scope.detailShow = true;
 					if(orderId != data.orderId) {
@@ -838,7 +838,11 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						orderNo = data.orderNo;
 						getData(data.type, data.orderNo);
 					}
-				})
+				});
+				$scope.$on('$destory', function() {
+					getPayInfo();
+					showDetail();
+				});
 			}
 		}
 	});
@@ -975,13 +979,16 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 					$scope.payInfoForm.$setPristine();
 					$scope.payInfoForm.$setUntouched();
 				});
-				$scope.$on('showAddPay', function(e,id) {
+				let showAddPay = $scope.$on('showAddPay', function(e,id) {
 					$scope.$modal.modal('show');
 					$scope.orderNo = id;
 					$scope.payInfo = {
 						orderNo:$scope.orderNo,
 						paymentTimeStr:moment().format('YYYY-MM-DD HH:mm:ss')
 					};
+				});
+				$scope.$on('$destory', function() {
+					showAddPay();
 				});
 			}
 		}
@@ -1016,7 +1023,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						</div>
 						<div>
 							<span>生日:</span>
-							<input class="default-input" type="text" name="birthdayStr" ng-model="detailModel.birthdayStr" />
+							<input class="default-input" type="date" name="birthdayStr" ng-model="detailModel.birthdayStr" ng-if="detailModel.birthdayStr"/>
 						</div>
 						<div>
 							<span>手机号:</span>
@@ -1204,6 +1211,8 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				</div>
 			</div>`,
 			controller: function($scope, $element, $attrs) {
+				$scope.detailData = {};
+				$scope.detailModel = {};
 				let detailIsChange = ()=>{
 					return !(JSON.stringify($scope.userDetail) == JSON.stringify($scope.detailModel));
 				};
@@ -1213,7 +1222,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						$('body').find('.inline-loading').remove();
 						delete data.user.createdTime;
 						delete data.user.updatedTime;
-						data.user.birthdayStr = data.user.birthday;
+						data.user.birthdayStr = moment(data.user.birthday)._d;
 						delete data.user.birthday;
 						$scope.detailData = data.user;
 						$scope.detailModel = $.extend(true,{},data.user);
@@ -1233,9 +1242,6 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				};
 				if($scope.type==1){
 					getDetail();
-				}else{
-					$scope.detailData = {};
-					$scope.detailModel = {};
 				};
 				$scope.provinceClick = (e,i)=>{
 					getCityList(i.provinceId);
@@ -1245,18 +1251,22 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 					setTimeout(()=>{
 						if($($element).find('.error').length==0){
 							$scope.showError = false;
+							let postData = $.extend(true, {}, $scope.detailModel);
+							postData.birthdayStr = moment(postData.birthdayStr).format('YYYY-MM-DD');
 							if($scope.type==1){
 								console.log('update');
-								appApi.updateUserBack($scope.detailModel,(data)=>{
+								appApi.updateUserBack(postData,(data)=>{
 									console.log(data);
 									toastr.success('成功更新用户资料');
 									$scope.$emit('hideDetail');
+									$rootScope.$broadcast('loadClientList');
 								});
 							}else{
-								appApi.saveUserBack($scope.detailModel,(data)=>{
+								appApi.saveUserBack(postData,(data)=>{
 									console.log(data);
 									toastr.success('成功新建用户');
 									$scope.$emit('hideAddClient');
+									$rootScope.$broadcast('loadClientList');
 								});
 							}
 						}else{
