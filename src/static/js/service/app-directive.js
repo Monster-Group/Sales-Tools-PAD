@@ -315,7 +315,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 		}
 	});
 
-	appDirectives.directive('newOrder', function($rootScope) {
+	appDirectives.directive('newOrder', function($rootScope, appApi, enumData) {
 		return {
 			restrict: 'E',
 			scope: {},
@@ -331,86 +331,49 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 									<div class="item">
 										<span>类别:</span>
 										<select chosen  placeholder-text-single="'请选择'" ng-model="orderModel.orderType"
-		    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" conver-to-number>
+		    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256">
 											<option value="">请选择</option>
 		    							</select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>车系:</span>
-										 <select chosen multiple placeholder-text-multiple="'请选择'"
-		    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-model="orderModel.product">
+										 <select chosen disabled width="256" ng-model="orderModel.product">
+										 	<option value="" select>E-100</option>
 		    							</select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>车型:</span>
-										<div class="dropdown">
-											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-												<span class="val pull-left">请选择</span>
-												<div class="pull-right">
-													<span class="arrow icon">&#xe792;</span>
-												</div>
-											</a>
-											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-											</ul>
-										</div>
+										<select name="" chosen placeholder-text-single="'请选择'" ng-model='selectProduct' width="256" disable-search="true" ng-change="productChange(selectProduct)"  ng-options="item.productId as item.productName for item in listCar">
+											<option value="">请选择</option>
+										</select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>车顶颜色:</span>
-										<drop-down render-data="$root.enumData.orderType" click-event="itemClick"></drop-down>
+										<select name="" chosen placeholder-text-single="'请选择'" ng-change="changeColorOne(selectColorOne)" width="256"  ng-model="selectColorOne" ng-options="item for item in colorOne.select" id="" disable-search="true">
+											<option value="">请选择</option>
+										</select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>车身颜色:</span>
-										<div class="dropdown">
-											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-												<span class="val pull-left">请选择</span>
-												<div class="pull-right">
-													<span class="arrow icon">&#xe792;</span>
-												</div>
-											</a>
-											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-											</ul>
-										</div>
+										<select name="" chosen placeholder-text-single="'请选择'" ng-change="changeColorTow(selectColorTow)" width="256"  ng-model="selectColorTow" ng-options=" item for item in colorTow.select" id="" disable-search="true">
+											<option value="">请选择</option>
+										</select>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0">
+										<span>内饰颜色:</span>
+										<select name="" chosen placeholder-text-single="'请选择'" width="256"  ng-model="orderModel.level3Type" ng-options="item for item in colorThree.select" id="" disable-search="true">
+											<option value="">请选择</option>
+										</select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>配件:</span>
-										<div class="dropdown">
-											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-												<span class="val pull-left">请选择</span>
-												<div class="pull-right">
-													<span class="arrow icon">&#xe792;</span>
-												</div>
-											</a>
-											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-											</ul>
-										</div>
+										<select name="" multiple chosen placeholder-text-multiple="'请选择'" width="256"  ng-model="orderModel.data" ng-options="item.productId as item.productName for item in peiList" id="" disable-search="true">
+										</select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>活动优惠:</span>
 										<div class="dropdown">
-											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-												<span class="val pull-left">请选择</span>
-												<div class="pull-right">
-													<span class="arrow icon">&#xe792;</span>
-												</div>
-											</a>
-											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-											</ul>
+											<select name="" chosen ng-change="promotionChange(selectPromotion)" width="256" chosen id="" ng-model="selectPromotion" ng-options="item.promotionName for item in promotions"></select>
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
@@ -572,10 +535,72 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 					level2Type: '',
 					storeId: ''
 				}
-
+				$scope.colorOne = {}
+				$scope.colorTow = {}
+				$scope.colorThree = {}
 				$scope.orderModel && ($scope.orderModel = Object.assign({}, orderModelDefault));
 				$scope.productModel && ($scope.productModel = Object.assign({}, productModelDefault));
 
+				//获取车辆列表
+				appApi.listCar((data) => {
+					$scope.listCar = data.map((item) => {
+						return {productName: item.productName.split('-')[1], productId: item.productId, defaultPrice: item.defaultPrice, deposit: item.deposit, peiList: item.peiList}
+					})
+				})
+
+				//获取活动
+				appApi.getPromotion((data) => {
+					$scope.promotions = data;
+					console.log($scope.promotions)
+				})
+
+				function getColor(data, fn){
+					appApi.getCarColor(data, (d) => {
+						fn(d)
+					})
+				}
+				$scope.productChange = (product) => {
+					console.log('select: ', product);
+					if($scope.orderModel.productId == product.productId) return;
+
+					$scope.orderModel.productId = product.productId;
+					$scope.peiList = product.peiList;
+					getColor({productId: product.productId}, (data) => {
+						$scope.colorOne = data;
+					})
+				}
+				$scope.changeColorOne = (colorOne) => {
+					if(colorOne === $scope.orderModel.level1Type) return;
+					$scope.orderModel.level1Type = colorOne;
+					$scope.orderModel.level2Type = '';
+					$scope.orderModel.level3Type = '';
+					getColor({
+							product: $scope.orderModel.productId,
+							level1Type: colorOne
+						}, (data) => {
+							$scope.colorTow = d;
+						})
+				}
+
+				$scope.changeColorTow = (colorTow) => {
+					if(colorTow === $scope.orderModel.level1Type) return;
+
+					$scope.orderModel.level2Type = colorTow;
+					$scope.orderModel.level3Type = '';
+					getColor({
+							product: $scope.orderModel.productId,
+							level1Type: $scope.orderModel.level1Type,
+							level2Type: $scope.orderModel.level2Type,
+						}, (data) => {
+							$scope.colorTow = d;
+						})
+				}
+
+				$scope.promotionChange = (promotion) => {
+					if(promotion.promotionId === $scope.orderModel.promotionId) return;
+
+					$scope.orderModel.promotionId = promotion.promotionId;
+				}
 				$scope.closeModal = function() {
 					$scope.$modal.modal('toggle')
 				}
@@ -607,7 +632,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 	//    ng-options="item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-model="selectModel.product">
 	//    					
 
-	appDirectives.directive('orderDetail', function($rootScope, appApi) {
+	appDirectives.directive('orderDetail', function($rootScope, appApi, getOrderStatu) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -656,7 +681,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 								<span>优惠审核状态:</span><i>{{orderDetail.organization}}</i>
 							</div>
 							<div>
-								<span>提车地址:</span><i>ccccc</i>
+								<span>提车地址:</span><i>{{orderDetail.storeAddress}}</i>
 							</div>
 							<div>
 								<span>公司:</span><i>{{orderDetail.organization}}</i>
@@ -665,13 +690,10 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 								<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>
 							</div>
 							<div>
-								<span>支付时间:</span><i>15012119780906771X1501</i>
-							</div>
-							<div>
 								<span>结清时间:</span><i>{{orderDetail.formatConfirmTime}}</i>
 							</div>
 							<div>
-								<span>状态:</span><i>{{orderDetail.deliveryStageName}}</i>
+								<span>状态:</span><i>{{orderDetail.statusName }}</i>
 							</div>
 							<div>
 								<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>
@@ -680,7 +702,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 								<span>优惠金额:</span><i>{{orderDetail.discountPrice  | currency:'￥'}}</i>
 							</div>
 							<div>
-								<span>数量:</span><i>{{orderDetail.quantity}}</i>
+								<span>数量:</span><i>{{orderDetail.quantity || 1}}</i>
 							</div>
 							<div>
 								<span>原价:</span><i>{{orderDetail.productPrice | currency:'￥'}}</i>
@@ -694,7 +716,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 								<span>优惠审核状态:</span><i>15012119780906771X150121</i>
 							</div>
 							<div>
-								<span>提货地址:</span><i>15012119780906771X1501</i>
+								<span>提货地址:</span><i>{{orderDetail.storeAddress}}</i>
 							</div>
 							<div>
 								<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>
@@ -706,16 +728,16 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 								<span>结清时间:</span><i>{{orderDetail.formatConfirmTime}}</i>
 							</div>
 							<div>
-								<span>状态:</span><i>{{orderDetail.deliveryStageName}}</i>
+								<span>状态:</span><i>{{orderDetail.statusName}}</i>
 							</div>
 							<div>
 								<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>
 							</div>
 							<div>
-								<span>数量:</span><i>{{orderDetail.quantity}}</i>
+								<span>数量:</span><i>{{orderDetail.quantity || 1}}</i>
 							</div>
 							<div>
-								<span>价格:</span><i>{{orderDetail.amount  | currency:'￥'}}</i>
+								<span>价格:</span><i>{{(orderDetail.amount * 1)  | currency:'￥'}}</i>
 							</div>
 						</div>
 					</div>
@@ -735,7 +757,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 							</div>
 						</div>
 						<div class="info-footer">
-							<a class="button">新增支付信息</a>
+							<a class="button" ng-click="addPayBtn()">新增支付信息</a>
 						</div>
 					</div>
 					<div class="info-block pay-info" ng-show="carInfo.VIN">
@@ -756,15 +778,21 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 							</div>
 						</div>
 					</div>
+					<add-pay class="add-pay-modal" order-no="orderNo" ng-if="addPayModal"></add-pay>
 				</div>
 			`,
 			controller: function($scope, $element, $attrs) {
 				var orderId;
+				$scope.addPayModal = false
 				$scope.back = function(){
 					// $scope.detailShow = false;
 					$scope.$emit('detailClose');
 				}
 
+				$scope.addPayBtn = function(){
+					$scope.addPayModal = true;
+					$('.add-pay-modal').modal()
+				}
 				function getData(orderType, orderNo) {
 					//订单详情
 					appApi.getOrderDetail({
@@ -772,6 +800,8 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 					}, (data) => {
 						data.formatCreatedTime = moment(data.createdTime).format("YYYY-MM-DD HH:mm:ss");
 						data.formatConfirmTime = !data.confirmTime ? '--' : moment(data.confirmTime).format("YYYY-MM-DD HH:mm:ss");
+						data.statusName = getOrderStatu(data.status);
+						$scope.orderNo = data.orderNo;
 						$scope.orderDetail = data;
 						NProgress.done();
 					});
@@ -781,6 +811,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 					}, (data) => {
 						$scope.payment = data.map(function(item) {
 							item.paymentTimeFormat = moment(item.paymentTime).format("YYYY-MM-DD HH:mm:ss");
+							return item;
 						});
 					});
 

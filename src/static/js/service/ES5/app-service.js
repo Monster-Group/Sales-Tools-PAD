@@ -196,6 +196,28 @@ define(['angular', 'baseSet', 'jquery', 'sweetalert', 'Ps'], function (angular, 
 				success: suc
 			});
 		};
+
+		this.getPromotion = function (suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/promotion/listProotionOrder',
+				success: suc
+			});
+		};
+
+		this.listCar = function (suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/product/listCar',
+				success: suc
+			});
+		};
+
+		this.getCarColor = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/product/listCarColor',
+				data: data,
+				success: suc
+			});
+		};
 	}]);
 	appServices.service('ArrayhasObj', function () {
 		Array.prototype.hasObj = function (obj) {

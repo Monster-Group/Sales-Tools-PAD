@@ -194,6 +194,28 @@ define(['angular','baseSet', 'jquery', 'sweetalert','Ps'], function(angular,base
 				success: suc
 			})
 		}
+
+		this.getPromotion = (suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/promotion/listProotionOrder',
+				success: suc
+			})
+		}
+
+		this.listCar = (suc) =>  {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/product/listCar',
+				success: suc
+			})
+		}
+
+		this.getCarColor = (data, suc) =>  {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/product/listCarColor',
+				data: data,
+				success: suc
+			})
+		}
 	}]);
 	appServices.service('ArrayhasObj',function() {
 		Array.prototype.hasObj = function(obj){
