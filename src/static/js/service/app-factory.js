@@ -178,6 +178,16 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 	});
 	appFactorys.factory('enumData',function(){
 		return {
+			yesOrNo:[
+				{
+					name:'是',
+					value: 1
+				},
+				{
+					name:'否',
+					value: 0
+				}
+			],
 			payChannel:[
 				{
 					name: '线下',

@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - base
  * Author: Clearlove 7*
- * Updated: 2017-11-11 23:46
+ * Updated: 2017-11-13 17:53
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -595,16 +595,17 @@ body {
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
     -webkit-transform-origin: center center;
-            transform-origin: center center; }
+            transform-origin: center center;
+    margin-left: 0; }
   .dropdown ul,
   .chosen-container ul {
     padding: 0 20px; }
   .dropdown .dropdown-menu,
   .chosen-container .dropdown-menu {
+    -webkit-box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     max-height: 354px;
     overflow-y: scroll;
-    -webkit-box-shadow: none;
-            box-shadow: none;
     width: calc(100% + 4px);
     border: 2px solid #dcdcdc;
     left: -2px;
@@ -654,6 +655,9 @@ body {
       border-top: none; }
       .custom-modal .modal-dialog .modal-content .modal-footer .button:first-child {
         margin-right: 150px; }
+
+.dataTables_wrapper .table-tool-bar {
+  display: none; }
 
 .dataTables_wrapper .dataTables_scrollBody {
   -webkit-overflow-scrolling: touch; }

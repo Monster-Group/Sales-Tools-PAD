@@ -65,6 +65,12 @@ define(['angular','baseSet', 'jquery', 'sweetalert','Ps'], function(angular,base
 		}
 	});
 	appServices.service('appApi', ['$q','appHttp','$rootScope', function($q,appHttp,$rootScope) {
+		this.regionList = (suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/city/listBySelect',
+				success: suc
+			});
+		};
 		this.countMatterSum = (suc) => {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/matter/countMatterSum',
@@ -97,6 +103,17 @@ define(['angular','baseSet', 'jquery', 'sweetalert','Ps'], function(angular,base
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/order/searchOrderList',
 				data:obj,
+				success: suc
+			});
+		};
+		this.listOrderByAccount = (id,page,suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/listOrderByAccount',
+				data:{
+					userId:id,
+					page:page,
+					pageSize:$rootScope.pageSize
+				},
 				success: suc
 			});
 		};
@@ -154,6 +171,12 @@ define(['angular','baseSet', 'jquery', 'sweetalert','Ps'], function(angular,base
 				success: suc
 			});
 		}
+		this.listStoreMall = (suc) => {
+       		appHttp.appPost({
+       			url: baseSet.postServer + 'api/v2/store/listStoreMall',
+       			success: suc
+       		})
+       	}
 		this.getAppointById = (data, suc) => {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/matter/showAppointById',
@@ -213,6 +236,41 @@ define(['angular','baseSet', 'jquery', 'sweetalert','Ps'], function(angular,base
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/product/listCarColor',
 				data: data,
+				success: suc
+			})
+		}
+		this.listClassifyLv1 = (suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/product/listClassifyLV1Back',
+				success: suc
+			})
+		}
+		this.listRemarkBack = (id,page, suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/account/listRemarkBack',
+				data:{
+					userId:id,
+					page:page,
+					pageSize:$rootScope.pageSize
+				},
+				success: suc
+			})
+		}
+		this.saveUserBack = (data,suc) => {
+			var obj = Object.assign({}, data);
+			obj.isSales = 1;
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/user/saveUserBack',
+				data: obj,
+				success: suc
+			})
+		}
+		this.updateUserBack = (data,suc) => {
+			var obj = Object.assign({}, data);
+			obj.isSales = 1;
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/user/updateUserBack',
+				data: obj,
 				success: suc
 			})
 		}

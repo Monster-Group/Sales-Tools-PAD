@@ -69,7 +69,7 @@
         .pay-amount{width: 200px;}
         .pay-date{width: 304px;float:right;}
         .info-body{display:block;
-            .line{width: 100%;}
+            .line{width: 100%; display: block;}
         }
     }
 }
@@ -79,10 +79,10 @@
     .info-body{padding:10px 64px;display:flex; flex-wrap: wrap;
         &>div{flex-basis:33.33%;padding:23px 0;line-height: 36px;word-break: break-all; display: flex;padding-right:20px;}
         span{word-break:keep-all;}
-        i{margin-left: 20px;}
     }
     .info-footer{text-align: right;padding:0 64px;}
 }
+.order-info .info-block .info-body i{margin-left: 20px;}
 .add-order-modal{margin-top: -1000px;
     .modal-dialog{font-size:28px;
         .modal-content{
@@ -120,7 +120,7 @@
 }
 
 .add-pay-modal{margin-top: -1200px;
-    .modal-dialog{font-size:28px;
+    .modal-dialog{font-size:28px;margin-top:-400px;
         .modal-content{
             .modal-header{
                 font-size:66px;padding: 0;line-height: 174px;text-align: center;
@@ -174,9 +174,11 @@
 }
 
  
-.detail-tab{background-color: color($colors, bg);
+.detail-tab,.add-client-wrapper{background-color: color($colors, bg);
     header{height:92px;line-height:90px;font-size:36px; border:$border-width solid color($colors,bdPrimary);border-radius:20px;text-align: center;color:color($colors,bdPrimary); margin:26px 0 43px 0;
-        a{display: inline-block;color: color($colors,bdPrimary);}
+        a{display: inline-block;color: color($colors,bdPrimary);border-right:$border-width solid color($colors,bdPrimary);
+            &:last-child{border-right: none;}
+        }
         .go-back{width: 236px;float:left;border-right:$border-width solid color($colors,bdPrimary);}
         .tab-wrapper{display: flex;width:calc(100% - 236px);float:left;
             a{flex-basis:33.33%;
@@ -184,7 +186,7 @@
             }
         }
     }
-    .head{line-height:98px;font-size:36px;
+    .head{line-height:98px;font-size:36px;height:98px;
         span{float:left;margin-right: 160px;color:color($colors, formTag);
             i{margin-left:20px;}
         }
@@ -203,7 +205,12 @@
             }
         }
     }
-    .btn-wrapper{padding:50px 0;text-align: center;background-color: #fff;margin-bottom:100px;
+    .btn-wrapper{padding:50px 0;text-align: center;background-color: #fff;margin-bottom:100px;position: relative;
         .button:last-child{margin-left:30px;}
+        .error-msg{position: absolute;left:40px;line-height: 90px;}
     }
+}
+
+.add-client-wrapper{
+    .cancel-wrapper{padding:20px 0;margin-bottom: 15px;text-align: left;background-color: transparent;}
 }

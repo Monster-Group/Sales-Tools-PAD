@@ -1,17 +1,18 @@
 define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment','loading'], function(angular, tpl, Waves, NProgress, toastr,moment) {
-	function controller($scope,$rootScope, appApi,getOrderStatu,getMillisecond) {
+	function controller($scope,$rootScope, appApi,getOrderStatu,getMillisecond,$timeout) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
 		Waves.attach('.load-more', ['waves-block','waves-green']);
 		NProgress.done();
 		$scope.$table = $('.order-table');
-		setTimeout(()=>{
+		$scope.showAddPay = false;
+		$timeout(()=>{
 			$scope.$addModal = $('.add-order-modal');
 			$scope.$payModal = $('.add-pay-modal');
 			$scope.$addModal.find('.modal-dialog').css('margin-top','-'+$scope.$addModal.find('.modal-dialog').outerHeight()/2+'px');
 			$scope.$payModal.find('.modal-dialog').css('margin-top','-'+$scope.$payModal.find('.modal-dialog').outerHeight()/2+'px');
 			$scope.$addModal.hide();
-//			$scope.$payModal.hide();
+			$scope.$payModal.hide();
 			$scope.$addModal.on('hidden.bs.modal',()=>{
 				$('.add-btn').removeClass('active');
 			});
@@ -85,15 +86,17 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 					$scope.dt.fnClearTable();
 				};
 				if(data.pageNum==data.pages){
-					$('.order').find('.load-more').remove();
+					$('.order').find('.load-more').hide();
+				}else{
+					$('.order').find('.load-more').show();
 				};
 				if(data.list.length==0) return;
 				$scope.dt.fnAddData(data.list);
-				setTimeout(()=>{
+				$timeout(()=>{
 					$('body').find('.inline-loading').remove();
 				},0);
 				if(!fn) return;
-				setTimeout(()=>{
+				$timeout(()=>{
 					fn();
 				},0);
 			});
@@ -111,19 +114,13 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		});
 		$scope.$table.on('tap', 'tbody tr', (e) =>{
 			var data = $scope.dt.api(true).row(e.target).data();
-			// var orderId = data.orderId;
 			// var orderType = data.orderType;
 			$scope.$apply(() => {
+				$scope.orderId = data.orderId;
+				$scope.orderNo = data.orderNo;
 				$scope.showDetail = true;
 			});
 			$scope.$broadcast('showDetail', data);
-
-			// var data = {
-			// 	orderNo: 111111111,
-			// 	buyerName: 'xxx',
-			// 	sex: 1 
-			// }
-			
 		});
 
 		$scope.$on('detailClose', function(){
@@ -153,6 +150,13 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			$(e.target).addClass('active');
 			$scope.$addModal.modal('show');
 		};
+		$scope.$on('addPay', function(e) {
+			console.log(666)
+			$scope.showAddPay = true;
+			$timeout(()=>{
+				$scope.$broadcast('showAddPay',$scope.orderNo);
+			},0)
+		})
 		
 	};
 	return {controller: controller, tpl: tpl};

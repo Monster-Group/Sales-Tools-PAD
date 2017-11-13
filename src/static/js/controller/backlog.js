@@ -25,7 +25,9 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 					$scope.dt.fnClearTable();
 				};
 				if(data.pageNum==data.pages){
-					$('.backlog').find('.load-more').remove();
+					$('.backlog').find('.load-more').hide();
+				}else{
+					$('.backlog').find('.load-more').show();
 				};
 				setTimeout(()=>{
 					$('body').find('.inline-loading').remove();

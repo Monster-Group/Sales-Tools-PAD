@@ -1,15 +1,19 @@
 define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'moment', 'loading'], function(angular, tpl, Waves, NProgress, toastr, moment) {
-	function controller($scope, $rootScope, appApi, getUserLv, watch,getOrderStatu) {
+	function controller($scope, $rootScope, appApi, getUserLv,getOrderStatu) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block', 'waves-light']);
 		NProgress.done();
 		$scope.$table = $('.client-table');
 		$scope.$detailTable = $('.client-detail-table');
 		$scope.$remarkTable = $('.remark-table');
-		console.log($scope.$detailTable.outerWidth());
 		$scope.pageNum = 1;
+		$scope.orderpageNum = 1;
+		$scope.remarkPageNum = 1;
+		$scope.headHide = true;
+		$scope.showAddClient = false;
 		$scope.searchParams = {};
 		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
+		$scope.userId = '';
 		let loadData = (fn) => {
 			$scope.searchParams.accountId = $rootScope.loginfo.account.accountId;
 			$scope.searchParams.storeId = $rootScope.loginfo.account.storeId;
@@ -20,7 +24,9 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				};
 				$scope.pageNum++;
 				if(data.userList.pageNum == data.userList.pages) {
-					$('.client').find('.load-more').remove();
+					$('.client').find('.load-more').hide();
+				}else{
+					$('.client').find('.load-more').show();
 				};
 				setTimeout(() => {
 					$('body').find('.inline-loading').remove();
@@ -33,35 +39,53 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				}, 0);
 			});
 		};
-		let getDetail = () => {
-			appApi.getUserBack(31967, (data) => {
-				console.log(data);
-			});
-		};
 		let loadOrderList = (fn) => {
 			$('body').loading();
-			appApi.searchOrderList({}, $scope.pageNum, (data) => {
-				console.log(data);
-				$scope.tableData = data;
-				$scope.pageNum++;
-				if(data.pageNum == 1) {
+			appApi.listOrderByAccount($scope.userId, $scope.orderpageNum, (data) => {
+				$scope.orderpageNum++;
+				$('#order').data('load','no');
+				if(data.pageNum <= 1) {
 					$scope.ddt.fnClearTable();
 				};
 				if(data.pageNum == data.pages) {
-					$('#order').find('.load-more').remove();
+					$('#order').find('.load-more').hide();
+				}else{
+					$('#order').find('.load-more').show();
 				};
+				$('body').find('.inline-loading').remove();
 				if(data.list.length == 0) return;
 				$scope.ddt.fnAddData(data.list);
-				setTimeout(() => {
-					$('body').find('.inline-loading').remove();
-				}, 0);
 				if(!fn) return;
 				setTimeout(() => {
 					fn();
 				}, 0);
 			});
 		};
-		getDetail();
+		
+		let loadRemark = (fn)=>{
+			$('body').loading();
+			appApi.listRemarkBack($scope.userId,$scope.remarkPageNum,(data)=>{
+				console.log(data);
+				$scope.remarkPageNum++;
+				$('#remark').data('load','no');
+				if(data.pageNum <= 1) {
+					$scope.remarkDt.fnClearTable();
+				};
+				if(data.pageNum == data.pages) {
+					$('#remark').find('.load-more').hide();
+				}else{
+					$('#remark').find('.load-more').show();
+				};
+				$('body').find('.inline-loading').remove();
+				if(data.list.length == 0) return;
+				$scope.remarkDt.fnAddData(data.list);
+				if(!fn) return;
+				setTimeout(() => {
+					fn();
+				}, 0);
+			});
+		}
+//		getDetail();
 		$scope.dt = $scope.$table.dataTable({
 			order: [],
 			bFilter: false, //Disable search function
@@ -125,7 +149,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				bFilter: false, //Disable search function
 				bPaginate: false, //hide pagination,
 				buttons: {},
-				scrollY: $scope.tableScollHeight,
+				scrollY: $scope.detailTableScollHeight,
 				columns: [{
 						data: 'orderNo',
 						width: '15%'
@@ -182,9 +206,9 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				bFilter: false, //Disable search function
 				bPaginate: false, //hide pagination,
 				buttons: {},
-//				scrollY: $scope.tableScollHeight,
+				scrollY: $scope.remarkTableScollHeight,
 				columns: [{
-						data: 'remark',
+						data: 'remarkContent',
 						width: '45%'
 					},
 					{
@@ -192,7 +216,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 						width: '20%'
 					},
 					{
-						data: 'buyName',
+						data: 'nickname',
 						width: '15%'
 					},
 					{
@@ -222,38 +246,66 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			});
 		}
 		loadData();
+		$scope.goBack = ()=>{
+			$scope.showDetail = false;
+		};
+		$scope.cancel = ()=>{
+			$scope.showAddClient = false;
+		};
 		$scope.search = () => {
 			$scope.pageNum = 1;
 			loadData();
 		};
 		$scope.rest = (e) => {
-			console.log(e);
-			e.stopPropagation();
-			e.preventDefault();
+			$scope.searchParams = {};
+			$('.client-level .dropdown-toggle').find('.val').text('请选择');
 		};
-		$('.client').on('tap', '.load-more', function(e) {
-			let top = $('.dataTables_scrollBody').scrollTop();
+		$scope.addClient = ()=>{
+			$scope.showAddClient = true;
+		};
+		$('.client-table').on('tap','tbody tr',function(e){
+			var data = $scope.dt.api(true).row($(this)).data();
+			$('.detail-info').tab('show').addClass('active').siblings('a').removeClass('active');
+			$scope.$apply(() => {
+				$scope.activeUser = data;
+				$scope.userId = data.userId;
+				$scope.showDetail = true;
+			})
+		});
+		$('.client-list-wrapper').on('tap', '.load-more', function(e) {
+			let top = $('.client-list-wrapper .dataTables_scrollBody').scrollTop();
 			loadData(() => {
-				$('.dataTables_scrollBody').scrollTop(top);
+				$('.client-list-wrapper .dataTables_scrollBody').scrollTop(top);
 			});
 		});
-		watch((n, o) => {
-			$scope.searchParams = {};
-			$scope.pageNum = 1;
-			$('.client-level').find('.val').text('请选择');
-			loadData();
+		$('#order').on('tap', '.load-more', function(e) {
+			let top = $('#order .dataTables_scrollBody').scrollTop();
+			loadOrderList(() => {
+				$('#order .dataTables_scrollBody').scrollTop(top);
+			});
+		});
+		$('#remark').on('tap', '.load-more', function(e) {
+			let top = $('#remark .dataTables_scrollBody').scrollTop();
+			loadRemark(() => {
+				$('#remark .dataTables_scrollBody').scrollTop(top);
+			});
 		});
 		$('.user-order-list').on('shown.bs.tab', function() {
 			if(!$scope.ddt) {
+				$scope.detailTableScollHeight = $(window).height() - $scope.$detailTable.offset().top - $scope.$table.find('thead').outerHeight() - 160;
+				console.log($scope.detailTableScollHeight);
 				ddt();
-				loadOrderList();
-			}
+			};
+			$scope.orderpageNum = 1;
+			loadOrderList();
 		});
 		$('.user-remark').on('shown.bs.tab', function() {
 			if(!$scope.remarkDt) {
+				$scope.remarkTableScollHeight = $(window).height() - $scope.$remarkTable.offset().top - $scope.$table.find('thead').outerHeight() - 160;
 				remarkDt();
-//				loadOrderList();
-			}
+			};
+			$scope.remarkPageNum = 1;
+			loadRemark();
 		});
 		$('.tab-wrapper').on('tap', '.tab-item', function(e) {
 			e.stopPropagation();
@@ -261,7 +313,23 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			if($(this).hasClass('active')) return;
 			$(this).tab('show');
 			$(this).addClass('active').siblings('a').removeClass('active');
+			if($(this).data('target')=='#detail'){
+				$scope.$apply(() => {
+					$scope.headHide = true;
+				});
+			}else{
+				$scope.$apply(() => {
+					$scope.headHide = false;
+				});
+			}
 		});
+		$scope.$on('hideDetail', function(e) {
+			$scope.showDetail = false;
+		});
+		$scope.$on('hideAddClient', function(e) {
+			console.log(123123)
+			$scope.showAddClient = false;
+		})
 	};
 	return {
 		controller: controller,

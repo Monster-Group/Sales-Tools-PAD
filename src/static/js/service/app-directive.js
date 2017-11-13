@@ -273,7 +273,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				$scope.val = $scope.val?$scope.val:'value';
 				$scope.display = $scope.display ? $scope.display : 'name';
 				$scope.placeholder || ($scope.placeholder = '请选择');
-				$scope.displayName = $scope.model ? getDisplayName($scope.model) : $scope.placeholder;
+				$scope.displayName = ($scope.model===undefined||$scope.model==='')?$scope.placeholder:getDisplayName($scope.model);
 				$scope.itemClick = function(e, item) {
 					delete item.$$hashKey;
 					if(item[$scope.val] == $scope.model) {
@@ -281,9 +281,16 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						return false;
 					}
 					$scope.model = item[$scope.val];
-					$scope.displayName = $scope.model?item[$scope.display]:$scope.placeholder;
 					$scope.clickEvent && $scope.clickEvent(e, item);
-				}
+				};
+				var watch = $scope.$watch('model', function (newVal, oldVal) {
+					if (newVal != oldVal) {
+						$scope.displayName = ($scope.model===undefined||$scope.model==='')?$scope.placeholder:getDisplayName($scope.model);
+					}
+				});
+				$scope.$on('$destroy', ()=>{
+					watch();
+				});
 			}
 		}
 	})
@@ -318,7 +325,9 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 	appDirectives.directive('newOrder', function($rootScope, appApi, enumData) {
 		return {
 			restrict: 'E',
-			scope: {},
+			scope: {
+				userId: '='
+			},
 			replace: true,
 			template: `
 				<div class="modal fade custom-modal" style="display:block;"  tabindex="-1" role="dialog" aria-hidden="true">
@@ -343,7 +352,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>车型:</span>
-										<select name="" chosen placeholder-text-single="'请选择'" ng-model='selectProduct' width="256" disable-search="true" ng-change="productChange(selectProduct)"  ng-options="item.productId as item.productName for item in listCar">
+										<select name="" chosen placeholder-text-single="'请选择'" ng-model='selectProduct' width="256" disable-search="true" ng-change="productChange(selectProduct)"  ng-options="item.productName for item in listCar">
 											<option value="">请选择</option>
 										</select>
 									</div>
@@ -372,49 +381,11 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>活动优惠:</span>
-										<div class="dropdown">
-											<select name="" chosen ng-change="promotionChange(selectPromotion)" width="256" chosen id="" ng-model="selectPromotion" ng-options="item.promotionName for item in promotions"></select>
-										</div>
+										<select name="" chosen  placeholder-text-single="'请选择'" ng-change="promotionChange(selectPromotion)" width="256" chosen id="" ng-model="selectPromotion" ng-options="item.promotionName for item in promotions" disable-search="true"></select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>提车门店:</span>
-										<div class="dropdown">
-											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-												<span class="val pull-left">请选择</span>
-												<div class="pull-right">
-													<span class="arrow icon">&#xe792;</span>
-												</div>
-											</a>
-											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-											</ul>
-										</div>
-									</div>
-									<div class="item" ng-if="orderModel.orderType === 0">
-										<span>提车门店:</span>
-										<div class="dropdown">
-											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-												<span class="val pull-left">请选择</span>
-												<div class="pull-right">
-													<span class="arrow icon">&#xe792;</span>
-												</div>
-											</a>
-											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-											</ul>
-										</div>
-									</div>
-									<div class="item" ng-if="orderModel.orderType === 0">
-										<span>身份证:</span>
-										<div class="form-input-wrapper">
-											<input class="default-input" ng-model="orderModel.cardId" type="text" />
-										</div>
+										<select name="" chosen  placeholder-text-single="'请选择'" width="256" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true"></select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>公司:</span>
@@ -422,72 +393,56 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 											<input class="default-input" type="text" />
 										</div>
 									</div>
+									<div class="item" ng-if="orderModel.orderType === 0&&userId">
+										<span>手机号:</span>
+										<div class="form-input-wrapper">
+											<input class="default-input" ng-model="orderModel.mobile" type="text" />
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0&&userId">
+										<span>姓名:</span>
+										<div class="form-input-wrapper">
+											<input class="default-input" ng-model="orderModel.realname" type="text" />
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0&&userId">
+										<span>身份证:</span>
+										<div class="form-input-wrapper">
+											<input class="default-input" ng-model="orderModel.cardId" type="text" />
+										</div>
+									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>分类1:</span>
-										<div class="dropdown">
-											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-												<span class="val pull-left">请选择</span>
-												<div class="pull-right">
-													<span class="arrow icon">&#xe792;</span>
-												</div>
-											</a>
-											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-											</ul>
-										</div>
+										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="changeLv1(classlv1)" ng-model="classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true"></select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>分类2:</span>
-										<div class="dropdown">
-											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-												<span class="val pull-left">请选择</span>
-												<div class="pull-right">
-													<span class="arrow icon">&#xe792;</span>
-												</div>
-											</a>
-											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-											</ul>
-										</div>
+										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="changeLv2(classlv2)" ng-model="classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true"></select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>商品:</span>
-										<div class="dropdown">
-											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-												<span class="val pull-left">请选择</span>
-												<div class="pull-right">
-													<span class="arrow icon">&#xe792;</span>
-												</div>
-											</a>
-											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-											</ul>
-										</div>
+										<select name="" width="256" placeholder-text-single="'请选择'" ng-model="productModel.productId" ng-options="item.productId as item.productName for item in listClassLv3" id="" disable-search="true"></select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>提货地点:</span>
-										<div class="dropdown">
-											<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-												<span class="val pull-left">请选择</span>
-												<div class="pull-right">
-													<span class="arrow icon">&#xe792;</span>
-												</div>
-											</a>
-											<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-												<li>test</li>
-											</ul>
+										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true"></select>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 1&&userId">
+										<span>手机号:</span>
+										<div class="form-input-wrapper">
+											<input class="default-input" ng-model="productModel.mobile" type="text" />
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 1&&userId">
+										<span>姓名:</span>
+										<div class="form-input-wrapper">
+											<input class="default-input" ng-model="productModel.realname" type="text" />
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 1&&userId">
+										<span>身份证:</span>
+										<div class="form-input-wrapper">
+											<input class="default-input" ng-model="productModel.cardId" type="text" />
 										</div>
 									</div>
 								</div>
@@ -495,7 +450,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						</div>
 						<div class="modal-footer">
 							<div class="price-info" ng-if="orderModel.orderType === 0">
-								<p>车价:<i>35800</i></p>
+								<p>车价:<i>{{}}</i></p>
 								<p>配件:<i>35800</i></p>
 								<p>活动优惠:<i>35800</i></p>
 								<p class="total color-bdprimary">总价:<i>95800</i></p>
@@ -504,7 +459,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 								<p>总价:<i>000</i></p>
 							</div>
 							<div class="btn-wrapper">
-								<a class="button">确定</a>
+								<a class="button" hm-tap="submit">确定</a>
 								<a class="button" hm-tap="closeModal">取消</a>
 							</div>
 						</div>
@@ -527,12 +482,13 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 					promotionId: '',
 					storeId: '',
 					idCard: '',
-					company: ''
+					company: '',
+
 				}
 				var productModelDefault = {
-					product: '',
-					level1Type: '',
-					level2Type: '',
+					productId: '',
+					// level1Type: '',
+					// level2Type: '',
 					storeId: ''
 				}
 				$scope.colorOne = {}
@@ -554,9 +510,23 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 					console.log($scope.promotions)
 				})
 
+				//获取提车点
+				appApi.listStoreMall((data) => {
+					$scope.listStore = data;
+				})
+
+				//获取商品的分类
+				appApi.listClassifyLv1((data) => {
+					$scope.listClassLv1 = data;
+				})
 				function getColor(data, fn){
 					appApi.getCarColor(data, (d) => {
-						fn(d)
+						fn(d);
+					})
+				}
+				function getProductType(data, fn){
+					appApi.listClassify(data, (d) => {
+						fn(d);
 					})
 				}
 				$scope.productChange = (product) => {
@@ -565,6 +535,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 
 					$scope.orderModel.productId = product.productId;
 					$scope.peiList = product.peiList;
+					$scope.carPrice = product.price;
 					getColor({productId: product.productId}, (data) => {
 						$scope.colorOne = data;
 					})
@@ -596,6 +567,16 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						})
 				}
 
+				$scope.changeLv1 = (classlv1) => {
+					getProductType({subtype: classlv1}, (data) => {
+						$scope.listClassLv2 = data;
+					});
+				}
+				$scope.changeLv2 = (classlv2) => {
+					getProductType({subtype: $scope.classlv1, subtype2: classlv2}, (data) => {
+						$scope.listClassLv3 = data;
+					});
+				}
 				$scope.promotionChange = (promotion) => {
 					if(promotion.promotionId === $scope.orderModel.promotionId) return;
 
@@ -606,6 +587,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				}
 
 				$scope.submit = function() {
+					console.log($scope.orderModel);
 					if($scope.orderForm.$valid) {
 						alert('提交')
 					}
@@ -757,7 +739,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 							</div>
 						</div>
 						<div class="info-footer">
-							<a class="button" ng-click="addPayBtn()">新增支付信息</a>
+							<a class="button" hm-tap="addPay()">新增支付信息</a>
 						</div>
 					</div>
 					<div class="info-block pay-info" ng-show="carInfo.VIN">
@@ -784,15 +766,24 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 			controller: function($scope, $element, $attrs) {
 				var orderId;
 				$scope.addPayModal = false
+
+				var orderId,orderNo;
 				$scope.back = function(){
 					// $scope.detailShow = false;
 					$scope.$emit('detailClose');
 				}
 
-				$scope.addPayBtn = function(){
-					$scope.addPayModal = true;
-					$('.add-pay-modal').modal()
-				}
+				let loadPayInfo = (orderNo)=>{
+					appApi.getPayment({
+						orderNo: orderNo
+					}, (data) => {
+						$scope.payment = data.map(function(item) {
+							item.paymentTimeFormat = moment(item.paymentTime).format("YYYY-MM-DD HH:mm:ss");
+							return item;
+						});
+					});
+				};
+
 				function getData(orderType, orderNo) {
 					//订单详情
 					appApi.getOrderDetail({
@@ -814,6 +805,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 							return item;
 						});
 					});
+					loadPayInfo(orderNo);
 
 					//代办事项
 					appApi.getAppointById({
@@ -845,13 +837,18 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						});
 					}
 				}
-
+				$scope.addPay = ()=>{
+					$scope.$emit('addPay');
+				};
+				$rootScope.$on('loadPayInfo', function(e, data) {
+					loadPayInfo(orderNo);
+				});
 				$scope.$on('showDetail', function(e, data) {
 					NProgress.start();
 					// $scope.detailShow = true;
-
 					if(orderId != data.orderId) {
 						orderId = data.orderId;
+						orderNo = data.orderNo;
 						getData(data.type, data.orderNo);
 					}
 				})
@@ -862,11 +859,11 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 		return {
 			restrict: 'E',
 			scope: {
-				orderNo:'=?'
+				orderNo:'='
 			},
 			replace: true,
 			template: `
-			<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal fade custom-modal" style="display:block;" tabindex="-1" role="dialog" aria-hidden="true">
 				<div class="modal-dialog modal-md">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -881,7 +878,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 								</div>
 								<div class="item">
 									<span>支付类型&nbsp;:</span>
-									<drop-down class="transition-02" ng-class="{'error':payInfoForm.$submitted&&!payInfo.channel}" render-data="$root.enumData.payChannel" model="payInfo.channel"></drop-down>
+									<drop-down class="transition-02" ng-class="{'error':payInfoForm.$submitted&&(payInfo.channel===undefined||payInfo.channel==='')}" render-data="$root.enumData.payChannel" model="payInfo.channel"></drop-down>
 								</div>
 								<div class="item">
 									<span>流水号&nbsp;:</span>
@@ -922,7 +919,9 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 			</div>
 			`,
 			controller: function($scope, $element, $attrs) {
-				var ossInit = () =>{
+				$scope.$modal = $($element);
+				$scope.initUpload = false;
+				$scope.ossInit = () =>{
 					var $container = $($element).find('.img-list');
 					var obj = {};
 					obj.container = $container[0];
@@ -955,29 +954,335 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						});
 					}
 					oss.init([obj]); // 页面可配置多个上传,放到数组中一起init
+					$scope.initUpload = true;
 				};
-				ossInit();
 				$scope.uploading = false;
 				$scope.imgUrl = [];
-				$scope.payInfo = {
-					orderNo:$scope.orderNo,
-					paymentTimeStr:moment().format('YYYY-MM-DD HH:mm:ss')
-				};
 				$scope.delImg = (i)=>{
 					$scope.imgUrl.splice(i,1);
 				};
 				$scope.submitPayInfo = ()=>{
-					console.log($scope.payInfo);
 					$scope.payInfoForm.$submitted=true;
 					if($scope.payInfoForm.$valid&&$scope.payInfo.channel&&$scope.imgUrl.length>0){
 						$scope.payInfo.imgUrl = $scope.imgUrl.join();
 						console.log($scope.payInfo);
 						appApi.savePaymentOrder($scope.payInfo,(data)=>{
-							console.log(data);
+							console.log(1231323);
 							toastr.success('提交成功');
+							$scope.$modal.modal('hide');
+							$rootScope.$broadcast('loadPayInfo');
 						});
 					}
-				}
+				};
+				$scope.$modal.on('shown.bs.modal', function() {
+					if(!$scope.initUpload){
+						$scope.ossInit();
+					}
+				});
+				$scope.$modal.on('hide.bs.modal', function() {
+					if($scope.payInfoForm.$dirty) {
+						$scope.payInfo = {};
+					};
+					$scope.uploading = false;
+					$scope.imgUrl = [];
+					$scope.payInfoForm.$setPristine();
+					$scope.payInfoForm.$setUntouched();
+				});
+				$scope.$on('showAddPay', function(e,id) {
+					$scope.$modal.modal('show');
+					$scope.orderNo = id;
+					$scope.payInfo = {
+						orderNo:$scope.orderNo,
+						paymentTimeStr:moment().format('YYYY-MM-DD HH:mm:ss')
+					};
+				});
+			}
+		}
+	});
+	appDirectives.directive('clientUpdate', function($rootScope,appApi) {
+		return {
+			restrict: 'E',
+			scope: {
+				id:'=?',
+				type:'='
+			},
+			replace: true,
+			template: `
+			<form name="clientForm" novalidate>
+				<div class="info-block">
+					<h3>基本信息:</h3>
+					<div class="info-body">
+						<div ng-if="type==1">
+							<span>ID:<i ng-bind="detailModel.userId"></i></span>
+						</div>
+						<div>
+							<span>姓名:</span>
+							<input class="default-input" type="text" name="name" ng-model="detailModel.realname" required ng-class="{'error':clientForm.$submitted&&clientForm.name.$invalid}" />
+						</div>
+						<div>
+							<span>性别:</span>
+							<drop-down render-data="$root.enumData.gender" model="detailModel.sex" ng-class="{'error':clientForm.$submitted&&(detailModel.sex===undefined||detailModel.sex==='')}"></drop-down>
+						</div>
+						<div>
+							<span>年龄:</span>
+							<drop-down render-data="$root.enumData.age" model="detailModel.age"></drop-down>
+						</div>
+						<div>
+							<span>生日:</span>
+							<input class="default-input" type="text" name="birthdayStr" ng-model="detailModel.birthdayStr" />
+						</div>
+						<div>
+							<span>手机号:</span>
+							<input class="default-input" ng-readonly="type==1" type="text" name="mobile" ng-model="detailModel.mobile" required ng-class="{'error':clientForm.$submitted&&clientForm.mobile.$invalid}"/>
+						</div>
+						<div>
+							<span>QQ:</span>
+							<input class="default-input" type="text" name="qq" ng-model="detailModel.qq" />
+						</div>
+						<div>
+							<span>微信:</span>
+							<input class="default-input" type="text" name="wechatNumber" ng-model="detailModel.wechatNumber" />
+						</div>
+						<div>
+							<span>邮箱:</span>
+							<input class="default-input" type="text" name="email" ng-model="detailModel.email" />
+						</div>
+						<div>
+							<span>户籍:</span>
+							<input class="default-input" type="text" name="censusRegister" ng-model="detailModel.censusRegister" />
+						</div>
+						<div>
+							<span>省:</span>
+							<drop-down render-data="$root.enumData.regionList" model="detailModel.province" display="'provinceName'" val="'provinceId'" click-event="provinceClick" ng-class="{'error':clientForm.$submitted&&!detailModel.province}"></drop-down>
+						</div>
+						<div>
+							<span>市:</span>
+							<drop-down render-data="cityList" model="detailModel.city" display="'cityName'" val="'cityId'" ng-class="{'error':clientForm.$submitted&&!detailModel.city}"></drop-down>
+						</div>
+						<div>
+							<span>家庭住址:</span>
+							<input class="default-input" type="text" name="homeAddress" ng-model="detailModel.homeAddress" />
+						</div>
+						<div>
+							<span>小区:</span>
+							<input class="default-input" type="text" name="plot" ng-model="detailModel.plot" />
+						</div>
+						<div>
+							<span>是否已婚:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isMarried"></drop-down>
+						</div>
+						<div>
+							<span>是否有小孩:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isKid"></drop-down>
+						</div>
+						<div>
+							<span>工作单位:</span>
+							<input class="default-input" type="text" name="company" ng-model="detailModel.company" />
+						</div>
+						<div>
+							<span>职务:</span>
+							<input class="default-input" type="text" name="job" ng-model="detailModel.job" />
+						</div>
+						<div>
+							<span>学历:</span>
+							<drop-down render-data="$root.enumData.education" model="detailModel.education"></drop-down>
+						</div>
+						<div>
+							<span>用户状态:</span>
+							<drop-down render-data="$root.enumData.userStatus" model="detailModel.userStatus"></drop-down>
+						</div>
+						<div>
+							<span>等级:</span>
+							<drop-down render-data="$root.enumData.userLevel" model="detailModel.userLv"></drop-down>
+						</div>
+						<div>
+							<span>是否有赠品:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isGift"></drop-down>
+						</div>
+						<div>
+							<span>是否有投诉:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isComplain"></drop-down>
+						</div>
+						<div>
+							<span>是否要回访:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isVisit"></drop-down>
+						</div>
+					</div>
+				</div>
+				<div class="info-block">
+					<h3>购买意向:</h3>
+					<div class="info-body">
+						<div>
+							<span>是否有车:</span>
+							<drop-down class="short" render-data="$root.enumData.yesOrNo" model="detailModel.isCar"></drop-down>
+						</div>
+						<div>
+							<span>已有车型:</span>
+							<input class="default-input short" type="text" name="haveCar" ng-model="detailModel.haveCar"/>
+						</div>
+						<div>
+							<span>有车年限:</span>
+							<input class="default-input short" type="number" name="haveCarYear" ng-model="detailModel.haveCarYear"/>
+						</div>
+						<div>
+							<span>已有车保险价格:</span>
+							<input class="default-input short" type="text" name="carInsurancePrice" ng-model="detailModel.carInsurancePrice" />
+						</div>
+						<div>
+							<span>已有车保险种内容:</span>
+							<input class="default-input short" type="text" name="carInsuranceContent" ng-model="detailModel.carInsuranceContent" />
+						</div>
+						<div>
+							<span>是否已试驾:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isTestDrive"></drop-down>
+						</div>
+						<div class="has-textarea">
+							<span>试驾反馈:</span>
+							<textarea class="default-textarea" ng-model="detailModel.testDriveFeedback" rows="4"></textarea>
+						</div>
+						<div class="has-textarea">
+							<span>产品建议:</span>
+							<textarea class="default-textarea" ng-model="detailModel.productProposal" rows="4"></textarea>
+						</div>
+						<div class="has-textarea">
+							<span>购买意向:</span>
+							<textarea class="default-textarea" ng-model="detailModel.buyInclination" rows="4"></textarea>
+						</div>
+						<div>
+							<span>几个车位:</span>
+							<input class="default-input short" type="text" name="carportNumber" ng-model="detailModel.carportNumber" />
+						</div>
+						<div>
+							<span>车位情况:</span>
+							<input class="default-input short" type="text" name="carportCondition" ng-model="detailModel.carportCondition" />
+						</div>
+						<div>
+							<span>是否能充电:</span>
+							<drop-down render-data="$root.enumData.yesOrNo" model="detailModel.isRecharge"></drop-down>
+						</div>
+						<div>
+							<span>购车使用人:</span>
+							<drop-down class="short" render-data="$root.enumData.carUser" model="detailModel.buyCarUser"></drop-down>
+						</div>
+						<div>
+							<span>接受价格:</span>
+							<input class="default-input short" type="text" name="acceptPrice" ng-model="detailModel.acceptPrice" />
+						</div>
+						<div>
+							<span>购车用途:</span>
+							<drop-down render-data="$root.enumData.carUse" model="detailModel.buyCarUse"></drop-down>
+						</div>
+						<div>
+							<span>意向车型:</span>
+							<input class="default-input short" type="text" name="catTypeInclination" ng-model="detailModel.catTypeInclination"/>
+						</div>
+						<div>
+							<span>意向配置:</span>
+							<input class="default-input short" type="text" name="deployInclination" ng-model="detailModel.deployInclination" />
+						</div>
+						<div>
+							<span>意向车色:</span>
+							<input class="default-input short" type="text" name="carColorInclination" ng-model="detailModel.carColorInclination" />
+						</div>
+						<div>
+							<span>购车关注因素:</span>
+							<drop-down class="short" render-data="$root.enumData.buyFocus" model="detailModel.buyCarFactor"></drop-down>
+						</div>
+						<div>
+							<span>是否需要专属订制:</span>
+							<drop-down class="short" render-data="$root.enumData.yesOrNo" model="detailModel.isExclusive"></drop-down>
+						</div>
+						<div>
+							<span>信息来源渠道:</span>
+							<drop-down class="short" render-data="$root.enumData.infoSource" model="detailModel.infobahn"></drop-down>
+						</div>
+						<div>
+							<span>是否体验车用户:</span>
+							<drop-down class="short" render-data="$root.enumData.yesOrNo" model="detailModel.isExperienceCar"></drop-down>
+						</div>
+						<div>
+							<span>用户接触次数:</span>
+							<input class="default-input short" type="text" name="customerCount" ng-model="detailModel.customerCount" />
+						</div>
+						<div>
+							<span>用户接触原因:</span>
+							<input class="default-input short" type="text" name="customerReason" ng-model="detailModel.customerReason" />
+						</div>
+					</div>
+				</div>
+				<div class="btn-wrapper">
+					<i class="error-msg" ng-if="showError&&clientForm.$submitted">请完整且正确的填写客户信息</i>
+					<a class="button" hm-tap="affirm()">确定</a>
+					<a class="button" hm-tap="detailRest()">重置</a>
+				</div>
+			</div>`,
+			controller: function($scope, $element, $attrs) {
+				let detailIsChange = ()=>{
+					return !(JSON.stringify($scope.userDetail) == JSON.stringify($scope.detailModel));
+				};
+				let getDetail = () => {
+					$('body').loading();
+					appApi.getUserBack($scope.id, (data) => {
+						$('body').find('.inline-loading').remove();
+						delete data.user.createdTime;
+						delete data.user.updatedTime;
+						data.user.birthdayStr = data.user.birthday;
+						delete data.user.birthday;
+						$scope.detailData = data.user;
+						$scope.detailModel = $.extend(true,{},data.user);
+						$('body').find('.inline-loading').remove();
+						if(data.user.province){
+							getCityList(data.user.province);
+						}
+					});
+				};
+				let getCityList = (id)=>{
+					$scope.cityList = [];
+					for(let item of $rootScope.enumData.regionList){
+						if(item.provinceId==id){
+							$scope.cityList = item.cityList;
+						}
+					};
+				};
+				if($scope.type==1){
+					getDetail();
+				}else{
+					$scope.detailData = {};
+					$scope.detailModel = {};
+				};
+				$scope.provinceClick = (e,i)=>{
+					getCityList(i.provinceId);
+				};
+				$scope.affirm = () => {
+					$scope.clientForm.$submitted = true;
+					setTimeout(()=>{
+						if($($element).find('.error').length==0){
+							$scope.showError = false;
+							if($scope.type==1){
+								console.log('update');
+								appApi.updateUserBack($scope.detailModel,(data)=>{
+									console.log(data);
+									toastr.success('成功更新用户资料');
+									$scope.$emit('hideDetail');
+								});
+							}else{
+								appApi.saveUserBack($scope.detailModel,(data)=>{
+									console.log(data);
+									toastr.success('成功新建用户');
+									$scope.$emit('hideAddClient');
+								});
+							}
+						}else{
+							$scope.$apply(() => {
+								$scope.showError = true;
+							});
+						}
+					});
+				};
+				$scope.detailRest = ()=>{
+					$scope.detailModel = $.extend(true,{},$scope.userDetail);
+				};
+				
 			}
 		}
 	});
