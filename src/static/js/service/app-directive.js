@@ -766,12 +766,21 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				</div>
 			`,
 			controller: function($scope, $element, $attrs) {
-				var orderId;
+				var orderId,orderNo;
 				$scope.back = function(){
 					// $scope.detailShow = false;
 					$scope.$emit('detailClose');
 				}
-
+				let loadPayInfo = (orderNo)=>{
+					appApi.getPayment({
+						orderNo: orderNo
+					}, (data) => {
+						$scope.payment = data.map(function(item) {
+							item.paymentTimeFormat = moment(item.paymentTime).format("YYYY-MM-DD HH:mm:ss");
+							return item;
+						});
+					});
+				};
 				function getData(orderType, orderNo) {
 					//订单详情
 					appApi.getOrderDetail({
@@ -783,13 +792,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						NProgress.done();
 					});
 					//支付信息
-					appApi.getPayment({
-						orderNo: orderNo
-					}, (data) => {
-						$scope.payment = data.map(function(item) {
-							item.paymentTimeFormat = moment(item.paymentTime).format("YYYY-MM-DD HH:mm:ss");
-						});
-					});
+					loadPayInfo(orderNo);
 
 					//代办事项
 					appApi.getAppointById({
@@ -824,12 +827,15 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				$scope.addPay = ()=>{
 					$scope.$emit('addPay');
 				};
+				$rootScope.$on('loadPayInfo', function(e, data) {
+					loadPayInfo(orderNo);
+				});
 				$scope.$on('showDetail', function(e, data) {
 					NProgress.start();
 					// $scope.detailShow = true;
-
 					if(orderId != data.orderId) {
 						orderId = data.orderId;
+						orderNo = data.orderNo;
 						getData(data.type, data.orderNo);
 					}
 				})
@@ -943,15 +949,15 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 					$scope.imgUrl.splice(i,1);
 				};
 				$scope.submitPayInfo = ()=>{
-					console.log($scope.payInfo);
 					$scope.payInfoForm.$submitted=true;
 					if($scope.payInfoForm.$valid&&$scope.payInfo.channel&&$scope.imgUrl.length>0){
 						$scope.payInfo.imgUrl = $scope.imgUrl.join();
 						console.log($scope.payInfo);
 						appApi.savePaymentOrder($scope.payInfo,(data)=>{
-							console.log(data);
+							console.log(1231323);
 							toastr.success('提交成功');
 							$scope.$modal.modal('hide');
+							$rootScope.$broadcast('loadPayInfo');
 						});
 					}
 				};
@@ -962,16 +968,12 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				});
 				$scope.$modal.on('hide.bs.modal', function() {
 					if($scope.payInfoForm.$dirty) {
-						$scope.$apply(()=>{
-							$scope.payInfo = {};
-						});
+						$scope.payInfo = {};
 					};
-					$scope.$apply(()=>{
-						$scope.uploading = false;
-						$scope.imgUrl = [];
-					});
+					$scope.uploading = false;
+					$scope.imgUrl = [];
 					$scope.payInfoForm.$setPristine();
-						$scope.payInfoForm.$setUntouched();
+					$scope.payInfoForm.$setUntouched();
 				});
 				$scope.$on('showAddPay', function(e,id) {
 					$scope.$modal.modal('show');

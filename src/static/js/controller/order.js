@@ -117,6 +117,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			// var orderType = data.orderType;
 			$scope.$apply(() => {
 				$scope.orderId = data.orderId;
+				$scope.orderNo = data.orderNo;
 				$scope.showDetail = true;
 			});
 			$scope.$broadcast('showDetail', data);
@@ -153,7 +154,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			console.log(666)
 			$scope.showAddPay = true;
 			$timeout(()=>{
-				$scope.$broadcast('showAddPay',$scope.orderId);
+				$scope.$broadcast('showAddPay',$scope.orderNo);
 			},0)
 		})
 		
