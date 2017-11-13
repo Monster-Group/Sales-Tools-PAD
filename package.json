@@ -36,7 +36,8 @@
     "gulp-uglify": "^3.0.0",
     "jshint": "2.9.3",
     "rev-hash": "^1.0.0",
-    "through2": "^2.0.3"
+    "through2": "^2.0.3",
+    "gulp-clean-css": "^3.9.0"
   },
   "dependencies": {
     "angular-chosen-localytics": "^1.8.0"

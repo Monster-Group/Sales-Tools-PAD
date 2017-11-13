@@ -339,8 +339,5 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 	        loadClientList();
 	    });
 	};
-	return {
-		controller: controller,
-		tpl: tpl
-	};
+	return {controller: controller, tpl: tpl};
 });

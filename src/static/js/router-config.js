@@ -1,9 +1,8 @@
-define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', 'appFactorys', 'appTemplates', 'appController','appTouch', 'angular-chosen', 'jquery', 'table'],
+define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', 'appFactorys', 'appTemplates', 'appTouch', 'angular-chosen', 'jquery', 'table'],
 	function(angular, require) {
-		var app = angular.module('webapp', ['ngRoute', 'app.directives', 'app.services', 'app.factorys', 'app.template', 'app.controller','app.touch','localytics.directives']);
+		var app = angular.module('webapp', ['ngRoute', 'app.directives', 'app.services', 'app.factorys', 'app.template', 'app.touch','localytics.directives']);
 		app.run(function($rootScope,$q, $location, dropdownMenuScrollbar, ArrayhasObj,appApi,enumData) {
 			$rootScope.$on('$routeChangeStart', function(evt, next, current) {
-				$('.daterangepicker').remove();
 				$rootScope.path = $location.$$path;
 				console.log($rootScope.path);
 			});
@@ -12,7 +11,7 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 			console.log($rootScope.loginfo);
 			$rootScope.pageSize = 20;
 			$rootScope.enumData = enumData;
-			appApi.regionList((data)=>{
+			appApi.regionList(function(data){
 				console.log(data);
 				$rootScope.enumData.regionList = data;
 			});
@@ -37,7 +36,7 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 					//$window.history.pushState('', '');
 				}
 			});
-			appApi.countMatterSum((data)=>{
+			appApi.countMatterSum(function(data){
 				$rootScope.countMatterSum = data;
 			});
 			$rootScope.storeClick = function(e,i){

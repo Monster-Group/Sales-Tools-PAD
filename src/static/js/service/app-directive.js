@@ -1,4 +1,4 @@
-define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'daterange'], function(angular, moment, $, NProgress,oss,toastr) {
+define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(angular, moment, $, NProgress,oss,toastr) {
 	'use strict';
 	var appDirectives = angular.module('app.directives', []);
 	appDirectives.directive('ngScrollbar', function() {
