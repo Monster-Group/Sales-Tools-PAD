@@ -10,6 +10,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		$scope.orderpageNum = 1;
 		$scope.remarkPageNum = 1;
 		$scope.headHide = true;
+		$scope.showAddClient = false;
 		$scope.searchParams = {};
 		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
 		$scope.userId = '';
@@ -23,7 +24,9 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				};
 				$scope.pageNum++;
 				if(data.userList.pageNum == data.userList.pages) {
-					$('.client').find('.load-more').remove();
+					$('.client').find('.load-more').hide();
+				}else{
+					$('.client').find('.load-more').show();
 				};
 				setTimeout(() => {
 					$('body').find('.inline-loading').remove();
@@ -39,14 +42,15 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		let loadOrderList = (fn) => {
 			$('body').loading();
 			appApi.listOrderByAccount($scope.userId, $scope.orderpageNum, (data) => {
-				console.log(data);
 				$scope.orderpageNum++;
 				$('#order').data('load','no');
-				if(data.pageNum == 1) {
+				if(data.pageNum <= 1) {
 					$scope.ddt.fnClearTable();
 				};
 				if(data.pageNum == data.pages) {
-					$('#order').find('.load-more').remove();
+					$('#order').find('.load-more').hide();
+				}else{
+					$('#order').find('.load-more').show();
 				};
 				$('body').find('.inline-loading').remove();
 				if(data.list.length == 0) return;
@@ -57,17 +61,20 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				}, 0);
 			});
 		};
+		
 		let loadRemark = (fn)=>{
 			$('body').loading();
 			appApi.listRemarkBack($scope.userId,$scope.remarkPageNum,(data)=>{
 				console.log(data);
 				$scope.remarkPageNum++;
 				$('#remark').data('load','no');
-				if(data.pageNum == 1) {
+				if(data.pageNum <= 1) {
 					$scope.remarkDt.fnClearTable();
 				};
 				if(data.pageNum == data.pages) {
-					$('#remark').find('.load-more').remove();
+					$('#remark').find('.load-more').hide();
+				}else{
+					$('#remark').find('.load-more').show();
 				};
 				$('body').find('.inline-loading').remove();
 				if(data.list.length == 0) return;
@@ -242,6 +249,9 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		$scope.goBack = ()=>{
 			$scope.showDetail = false;
 		};
+		$scope.cancel = ()=>{
+			$scope.showAddClient = false;
+		};
 		$scope.search = () => {
 			$scope.pageNum = 1;
 			loadData();
@@ -250,20 +260,15 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			$scope.searchParams = {};
 			$('.client-level .dropdown-toggle').find('.val').text('请选择');
 		};
+		$scope.addClient = ()=>{
+			$scope.showAddClient = true;
+		};
 		$('.client-table').on('tap','tbody tr',function(e){
 			var data = $scope.dt.api(true).row($(this)).data();
 			$('.detail-info').tab('show').addClass('active').siblings('a').removeClass('active');
-			console.log(data.userId);
-			console.log($scope.userId);
-			if(data.userId==$scope.userId){
-				$('#order,#remark').data('load','no');
-			}else{
-				$('#order,#remark').data('load','yes');
-				$scope.$apply(() => {
-					$scope.userId = data.userId;
-				})
-			}
 			$scope.$apply(() => {
+				$scope.activeUser = data;
+				$scope.userId = data.userId;
 				$scope.showDetail = true;
 			})
 		});
@@ -273,29 +278,34 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				$('.client-list-wrapper .dataTables_scrollBody').scrollTop(top);
 			});
 		});
+		$('#order').on('tap', '.load-more', function(e) {
+			let top = $('#order .dataTables_scrollBody').scrollTop();
+			loadOrderList(() => {
+				$('#order .dataTables_scrollBody').scrollTop(top);
+			});
+		});
+		$('#remark').on('tap', '.load-more', function(e) {
+			let top = $('#remark .dataTables_scrollBody').scrollTop();
+			loadRemark(() => {
+				$('#remark .dataTables_scrollBody').scrollTop(top);
+			});
+		});
 		$('.user-order-list').on('shown.bs.tab', function() {
 			if(!$scope.ddt) {
-				$scope.detailTableScollHeight = $(window).height() - $scope.$detailTable.offset().top - $scope.$table.find('thead').outerHeight() - 100;
+				$scope.detailTableScollHeight = $(window).height() - $scope.$detailTable.offset().top - $scope.$table.find('thead').outerHeight() - 160;
+				console.log($scope.detailTableScollHeight);
 				ddt();
-				loadOrderList();
-			}else{
-				if($('#order').data('load')=='yes'){
-					$scope.orderpageNum = 1;
-					loadOrderList();
-				}
-			}
+			};
+			$scope.orderpageNum = 1;
+			loadOrderList();
 		});
 		$('.user-remark').on('shown.bs.tab', function() {
 			if(!$scope.remarkDt) {
-				$scope.remarkTableScollHeight = $(window).height() - $scope.$remarkTable.offset().top - $scope.$table.find('thead').outerHeight() - 100;
+				$scope.remarkTableScollHeight = $(window).height() - $scope.$remarkTable.offset().top - $scope.$table.find('thead').outerHeight() - 160;
 				remarkDt();
-				loadRemark();
-			}else{
-				if($('#order').data('load')=='yes'){
-					$scope.remarkPageNum = 1;
-					loadRemark();
-				}
-			}
+			};
+			$scope.remarkPageNum = 1;
+			loadRemark();
 		});
 		$('.tab-wrapper').on('tap', '.tab-item', function(e) {
 			e.stopPropagation();
@@ -314,8 +324,11 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			}
 		});
 		$scope.$on('hideDetail', function(e) {
-			console.log(123)
 			$scope.showDetail = false;
+		});
+		$scope.$on('hideAddClient', function(e) {
+			console.log(123123)
+			$scope.showAddClient = false;
 		})
 	};
 	return {

@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - ./dist - index
  * Author: Clearlove 7*
- * Updated: 2017-11-13 00:42
+ * Updated: 2017-11-13 10:58
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -249,7 +249,8 @@
 .add-pay-modal {
   margin-top: -1200px; }
   .add-pay-modal .modal-dialog {
-    font-size: 28px; }
+    font-size: 28px;
+    margin-top: -400px; }
     .add-pay-modal .modal-dialog .modal-content .modal-header {
       font-size: 66px;
       padding: 0;
@@ -370,9 +371,9 @@
 .client .form-header .rest {
   margin-left: 54px; }
 
-.detail-tab {
+.detail-tab, .add-client-wrapper {
   background-color: #f5f5f5; }
-  .detail-tab header {
+  .detail-tab header, .add-client-wrapper header {
     height: 92px;
     line-height: 90px;
     font-size: 36px;
@@ -381,47 +382,51 @@
     text-align: center;
     color: #00c9a7;
     margin: 26px 0 43px 0; }
-    .detail-tab header a {
+    .detail-tab header a, .add-client-wrapper header a {
       display: inline-block;
-      color: #00c9a7; }
-    .detail-tab header .go-back {
+      color: #00c9a7;
+      border-right: 2px solid #00c9a7; }
+      .detail-tab header a:last-child, .add-client-wrapper header a:last-child {
+        border-right: none; }
+    .detail-tab header .go-back, .add-client-wrapper header .go-back {
       width: 236px;
       float: left;
       border-right: 2px solid #00c9a7; }
-    .detail-tab header .tab-wrapper {
+    .detail-tab header .tab-wrapper, .add-client-wrapper header .tab-wrapper {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
       width: calc(100% - 236px);
       float: left; }
-      .detail-tab header .tab-wrapper a {
+      .detail-tab header .tab-wrapper a, .add-client-wrapper header .tab-wrapper a {
         -ms-flex-preferred-size: 33.33%;
             flex-basis: 33.33%; }
-        .detail-tab header .tab-wrapper a.active {
+        .detail-tab header .tab-wrapper a.active, .add-client-wrapper header .tab-wrapper a.active {
           background-image: -webkit-gradient(linear, left top, right top, from(#55da99), to(#46bebf));
           background-image: linear-gradient(90deg, #55da99, #46bebf);
           color: #fff; }
-  .detail-tab .head {
+  .detail-tab .head, .add-client-wrapper .head {
     line-height: 98px;
-    font-size: 36px; }
-    .detail-tab .head span {
+    font-size: 36px;
+    height: 98px; }
+    .detail-tab .head span, .add-client-wrapper .head span {
       float: left;
       margin-right: 160px;
       color: #888; }
-      .detail-tab .head span i {
+      .detail-tab .head span i, .add-client-wrapper .head span i {
         margin-left: 20px; }
-  .detail-tab .tab-content {
+  .detail-tab .tab-content, .add-client-wrapper .tab-content {
     width: 100%; }
-    .detail-tab .tab-content .tab-pane {
+    .detail-tab .tab-content .tab-pane, .add-client-wrapper .tab-content .tab-pane {
       width: 100%; }
-  .detail-tab .info-block {
+  .detail-tab .info-block, .add-client-wrapper .info-block {
     font-size: 36px;
     color: #888; }
-    .detail-tab .info-block .info-body {
+    .detail-tab .info-block .info-body, .add-client-wrapper .info-block .info-body {
       -webkit-box-pack: justify;
           -ms-flex-pack: justify;
               justify-content: space-between; }
-      .detail-tab .info-block .info-body > div {
+      .detail-tab .info-block .info-body > div, .add-client-wrapper .info-block .info-body > div {
         -ms-flex-preferred-size: 580px;
             flex-basis: 580px;
         display: -webkit-box;
@@ -432,21 +437,32 @@
                 justify-content: space-between;
         line-height: 68px;
         padding: 30px 0; }
-        .detail-tab .info-block .info-body > div .default-input, .detail-tab .info-block .info-body > div .dropdown {
+        .detail-tab .info-block .info-body > div .default-input, .detail-tab .info-block .info-body > div .dropdown, .add-client-wrapper .info-block .info-body > div .default-input, .add-client-wrapper .info-block .info-body > div .dropdown {
           width: 368px;
           line-height: 64px;
           background-color: #f5f5f5; }
-        .detail-tab .info-block .info-body > div .default-input.short, .detail-tab .info-block .info-body > div .dropdown.short {
+        .detail-tab .info-block .info-body > div .default-input.short, .detail-tab .info-block .info-body > div .dropdown.short, .add-client-wrapper .info-block .info-body > div .default-input.short, .add-client-wrapper .info-block .info-body > div .dropdown.short {
           width: 260px; }
-        .detail-tab .info-block .info-body > div.has-textarea {
+        .detail-tab .info-block .info-body > div.has-textarea, .add-client-wrapper .info-block .info-body > div.has-textarea {
           -ms-flex-preferred-size: 100%;
               flex-basis: 100%; }
-          .detail-tab .info-block .info-body > div.has-textarea span {
+          .detail-tab .info-block .info-body > div.has-textarea span, .add-client-wrapper .info-block .info-body > div.has-textarea span {
             margin-right: 168px; }
-  .detail-tab .btn-wrapper {
+  .detail-tab .btn-wrapper, .add-client-wrapper .btn-wrapper {
     padding: 50px 0;
     text-align: center;
     background-color: #fff;
-    margin-bottom: 100px; }
-    .detail-tab .btn-wrapper .button:last-child {
+    margin-bottom: 100px;
+    position: relative; }
+    .detail-tab .btn-wrapper .button:last-child, .add-client-wrapper .btn-wrapper .button:last-child {
       margin-left: 30px; }
+    .detail-tab .btn-wrapper .error-msg, .add-client-wrapper .btn-wrapper .error-msg {
+      position: absolute;
+      left: 40px;
+      line-height: 90px; }
+
+.add-client-wrapper .cancel-wrapper {
+  padding: 20px 0;
+  margin-bottom: 15px;
+  text-align: left;
+  background-color: transparent; }

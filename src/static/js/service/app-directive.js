@@ -273,7 +273,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				$scope.val = $scope.val?$scope.val:'value';
 				$scope.display = $scope.display ? $scope.display : 'name';
 				$scope.placeholder || ($scope.placeholder = '请选择');
-				$scope.displayName = $scope.model ? getDisplayName($scope.model) : $scope.placeholder;
+				$scope.displayName = ($scope.model===undefined||$scope.model==='')?$scope.placeholder:getDisplayName($scope.model);
 				$scope.itemClick = function(e, item) {
 					delete item.$$hashKey;
 					if(item[$scope.val] == $scope.model) {
@@ -281,12 +281,11 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						return false;
 					}
 					$scope.model = item[$scope.val];
-					$scope.displayName = $scope.model?item[$scope.display]:$scope.placeholder;
 					$scope.clickEvent && $scope.clickEvent(e, item);
 				};
 				var watch = $scope.$watch('model', function (newVal, oldVal) {
 					if (newVal != oldVal) {
-						$scope.displayName = $scope.model ? getDisplayName($scope.model) : $scope.placeholder;
+						$scope.displayName = ($scope.model===undefined||$scope.model==='')?$scope.placeholder:getDisplayName($scope.model);
 					}
 				});
 				$scope.$on('$destroy', ()=>{
@@ -743,7 +742,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 							</div>
 						</div>
 						<div class="info-footer">
-							<a class="button">新增支付信息</a>
+							<a class="button" hm-tap="addPay()">新增支付信息</a>
 						</div>
 					</div>
 					<div class="info-block pay-info" ng-show="carInfo.VIN">
@@ -822,7 +821,9 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						});
 					}
 				}
-
+				$scope.addPay = ()=>{
+					$scope.$emit('addPay');
+				};
 				$scope.$on('showDetail', function(e, data) {
 					NProgress.start();
 					// $scope.detailShow = true;
@@ -858,7 +859,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 								</div>
 								<div class="item">
 									<span>支付类型&nbsp;:</span>
-									<drop-down class="transition-02" ng-class="{'error':payInfoForm.$submitted&&!payInfo.channel}" render-data="$root.enumData.payChannel" model="payInfo.channel"></drop-down>
+									<drop-down class="transition-02" ng-class="{'error':payInfoForm.$submitted&&(payInfo.channel===undefined||payInfo.channel==='')}" render-data="$root.enumData.payChannel" model="payInfo.channel"></drop-down>
 								</div>
 								<div class="item">
 									<span>流水号&nbsp;:</span>
@@ -900,7 +901,8 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 			`,
 			controller: function($scope, $element, $attrs) {
 				$scope.$modal = $($element);
-				var ossInit = () =>{
+				$scope.initUpload = false;
+				$scope.ossInit = () =>{
 					var $container = $($element).find('.img-list');
 					var obj = {};
 					obj.container = $container[0];
@@ -933,14 +935,10 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						});
 					}
 					oss.init([obj]); // 页面可配置多个上传,放到数组中一起init
+					$scope.initUpload = true;
 				};
-				ossInit();
 				$scope.uploading = false;
 				$scope.imgUrl = [];
-				$scope.payInfo = {
-					orderNo:$scope.orderNo,
-					paymentTimeStr:moment().format('YYYY-MM-DD HH:mm:ss')
-				};
 				$scope.delImg = (i)=>{
 					$scope.imgUrl.splice(i,1);
 				};
@@ -953,23 +951,36 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						appApi.savePaymentOrder($scope.payInfo,(data)=>{
 							console.log(data);
 							toastr.success('提交成功');
+							$scope.$modal.modal('hide');
 						});
 					}
 				};
-				$scope.$on('addPay', function(e, data) {
-					$scope.$modal.modal('show');
-				})
-				$scope.$modal.on('hide.bs.modal', function() {
-					if($scope.payInfoForm.$dirty) {
-						$scope.payInfo = {
-							orderNo:$scope.orderNo,
-							paymentTimeStr:moment().format('YYYY-MM-DD HH:mm:ss')
-						};
-						$scope.payInfoForm.$setPristine();
-						$scope.payInfoForm.$setUntouched();
+				$scope.$modal.on('shown.bs.modal', function() {
+					if(!$scope.initUpload){
+						$scope.ossInit();
 					}
 				});
-				
+				$scope.$modal.on('hide.bs.modal', function() {
+					if($scope.payInfoForm.$dirty) {
+						$scope.$apply(()=>{
+							$scope.payInfo = {};
+						});
+					};
+					$scope.$apply(()=>{
+						$scope.uploading = false;
+						$scope.imgUrl = [];
+					});
+					$scope.payInfoForm.$setPristine();
+						$scope.payInfoForm.$setUntouched();
+				});
+				$scope.$on('showAddPay', function(e,id) {
+					$scope.$modal.modal('show');
+					$scope.orderNo = id;
+					$scope.payInfo = {
+						orderNo:$scope.orderNo,
+						paymentTimeStr:moment().format('YYYY-MM-DD HH:mm:ss')
+					};
+				});
 			}
 		}
 	});
@@ -986,7 +997,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				<div class="info-block">
 					<h3>基本信息:</h3>
 					<div class="info-body">
-						<div>
+						<div ng-if="type==1">
 							<span>ID:<i ng-bind="detailModel.userId"></i></span>
 						</div>
 						<div>
@@ -995,7 +1006,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						</div>
 						<div>
 							<span>性别:</span>
-							<drop-down render-data="$root.enumData.gender" model="detailModel.sex" ng-class="{'error':clientForm.$submitted&&!detailModel.sex}"></drop-down>
+							<drop-down render-data="$root.enumData.gender" model="detailModel.sex" ng-class="{'error':clientForm.$submitted&&(detailModel.sex===undefined||detailModel.sex==='')}"></drop-down>
 						</div>
 						<div>
 							<span>年龄:</span>
@@ -1185,6 +1196,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 					</div>
 				</div>
 				<div class="btn-wrapper">
+					<i class="error-msg" ng-if="showError&&clientForm.$submitted">请完整且正确的填写客户信息</i>
 					<a class="button" hm-tap="affirm()">确定</a>
 					<a class="button" hm-tap="detailRest()">重置</a>
 				</div>
@@ -1228,24 +1240,29 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				};
 				$scope.affirm = () => {
 					$scope.clientForm.$submitted = true;
-					if(detailIsChange()){
-						setTimeout(()=>{
-							if($($element).find('.error').length==0){
-								if($scope.type==1){
-									console.log('update');
-									appApi.updateUserBack($scope.detailModel,(data)=>{
-										console.log(data);
-									});
-								}else{
-									appApi.saveUserBack($scope.detailModel,(data)=>{
-										console.log(data);
-									});
-								}
+					setTimeout(()=>{
+						if($($element).find('.error').length==0){
+							$scope.showError = false;
+							if($scope.type==1){
+								console.log('update');
+								appApi.updateUserBack($scope.detailModel,(data)=>{
+									console.log(data);
+									toastr.success('成功更新用户资料');
+									$scope.$emit('hideDetail');
+								});
+							}else{
+								appApi.saveUserBack($scope.detailModel,(data)=>{
+									console.log(data);
+									toastr.success('成功新建用户');
+									$scope.$emit('hideAddClient');
+								});
 							}
-						});
-					}else{
-						$scope.$broadcast('hideDetail');
-					}
+						}else{
+							$scope.$apply(() => {
+								$scope.showError = true;
+							});
+						}
+					});
 				};
 				$scope.detailRest = ()=>{
 					$scope.detailModel = $.extend(true,{},$scope.userDetail);

@@ -778,6 +778,7 @@ body {
 }
 
 .dataTables_wrapper {
+    .table-tool-bar{display: none;}
     .dataTables_scrollBody{-webkit-overflow-scrolling: touch;}
     .dataTable {background-color: #fff;
         border: none;

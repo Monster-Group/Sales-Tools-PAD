@@ -1,5 +1,5 @@
 <div class="module-wrapper client">
-	<section class="client-list-wrapper" ng-hide="showDetail">
+	<section class="client-list-wrapper" ng-hide="showDetail||showAddClient">
 		<div class="form-header">
 			<div class="line clearfix">
 				<div class="form-item">
@@ -37,7 +37,14 @@
 			<tbody>
 			</tbody>
 		</table>
+		<button class="cycle-button icon add-btn transition-05" hm-tap="addClient($event)">&#xe606;</button>
 	</section>
+	<div class="add-client-wrapper" ng-if="showAddClient">
+		<div class="cancel-wrapper">
+			<a class="cancel button" hm-tap="cancel()">返回</a>
+		</div>
+		<client-update type="0"></client-update>
+	</div>
 	<section class="detail-tab" ng-show="showDetail">
 		<header>
 			<a class="go-back" hm-tap="goBack()">返回</a>
@@ -48,9 +55,9 @@
 			</div>
 		</header>
 		<div class="head clearfix" ng-hide="headHide">
-			<span>ID:<i ng-bind="detailModel.userId"></i></span>
-			<span>姓名:<i ng-bind="detailModel.realname"></i></span>
-			<span>手机号: <i ng-bind="detailModel.mobile"></i></span>
+			<span>ID:<i ng-bind="activeUser.userId"></i></span>
+			<span>姓名:<i ng-bind="activeUser.realname"></i></span>
+			<span>手机号: <i ng-bind="activeUser.mobile"></i></span>
 		</div>
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active fade in" id="detail">
