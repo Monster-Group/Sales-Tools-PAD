@@ -1,4 +1,4 @@
-define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'daterange'], function(angular, moment, $, NProgress,oss,toastr) {
+define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(angular, moment, $, NProgress,oss,toastr) {
 	'use strict';
 	var appDirectives = angular.module('app.directives', []);
 	appDirectives.directive('ngScrollbar', function() {
@@ -108,94 +108,6 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				if(opt && opt.class) {
 					$this.addClass(opt.class);
 				}
-			}
-		}
-	});
-	appDirectives.directive('dateRangePicker', function($rootScope, $parse) {
-		return {
-			template: '<div class="clearfix default-input date-range-picker-wrapper"><i class="icon icon-right" ng-click="pickerToggle()">&#xe618;</i><input class="date-range-picker" readonly="readonly"/></div>',
-			replace: true,
-			scope: {
-				model: '=',
-				apply: '=?',
-				opt: '=options',
-				picker: '=?'
-			},
-			controller: function($scope, $element, $attrs) {
-				var $this = $($element);
-				var $input = $this.find('input');
-				var size = $attrs.size ? $attrs.size : null;
-				var opt = $scope.opt ? $scope.opt : {};
-				var thisClass = $attrs.class;
-				var noToday = $attrs.noToday ? true : false;
-				var options, startDate, endDate;
-				if(!noToday) {
-					startDate = moment();
-					endDate = moment();
-					options = {
-						size: size,
-						maxDate: moment(),
-						ranges: {
-							'今天': [moment(), moment()],
-							'最近7天': [moment().subtract(6, 'days'), moment()],
-							'最近14天': [moment().subtract(13, 'days'), moment()],
-							'最近30天': [moment().subtract(29, 'days'), moment()]
-						}
-					};
-				} else {
-					startDate = moment().subtract(7, 'days');
-					endDate = moment().subtract(1, 'days');
-					options = {
-						size: size,
-						maxDate: moment().subtract(1, 'days'),
-						startDate: moment().subtract(7, 'days'),
-						endDate: moment().subtract(1, 'days'),
-						ranges: {
-							'最近7天': [moment().subtract(7, 'days'), moment().subtract(1, 'days')],
-							'最近14天': [moment().subtract(14, 'days'), moment().subtract(1, 'days')],
-							'最近30天': [moment().subtract(30, 'days'), moment().subtract(1, 'days')]
-						}
-					};
-				};
-				var opts = $.extend({}, options, opt);
-				if(!$attrs.free) {
-					opts.minDate = moment().subtract(90, 'days');
-				};
-				if(!$scope.model || $scope.model == '') {
-					$scope.model = undefined;
-				} else {
-					opts.startDate = moment($scope.model.split('|')[0]);
-					opts.endDate = moment($scope.model.split('|')[1]);
-				};
-				$this.addClass(thisClass);
-				$input.daterangepicker(opts);
-				$scope.picker = $input.data('daterangepicker');
-				$scope.pickerToggle = function() {
-					$scope.picker.show();
-				};
-				$input.on('show.daterangepicker', function() {
-					$this.addClass('open');
-				});
-				$input.on('hide.daterangepicker', function() {
-					$this.removeClass('open');
-				});
-				$input.on('apply.daterangepicker',
-					function(ev, picker) {
-						console.log(picker);
-						$(this).val(
-							picker.chosenLabel != '自定义时间' ? picker.chosenLabel :
-							picker.startDate.format('YYYY-MM-DD') == picker.endDate.format('YYYY-MM-DD') ? picker.startDate.format('YYYY-MM-DD') : picker.startDate.format('YYYY-MM-DD') +
-							'至' +
-							picker.endDate.format('YYYY-MM-DD'));
-						$scope.model = picker
-							.startDate.format('YYYY-MM-DD') +
-							'|' +
-							picker.endDate.format('YYYY-MM-DD');
-						$rootScope.$digest();
-						if($scope.apply) {
-							$scope.apply();
-						}
-					});
 			}
 		}
 	});
@@ -840,10 +752,10 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				$scope.addPay = ()=>{
 					$scope.$emit('addPay');
 				};
-				$rootScope.$on('loadPayInfo', function(e, data) {
+				let getPayInfo = $rootScope.$on('loadPayInfo', function(e, data) {
 					loadPayInfo(orderNo);
 				});
-				$scope.$on('showDetail', function(e, data) {
+				let showDetail = $scope.$on('showDetail', function(e, data) {
 					NProgress.start();
 					// $scope.detailShow = true;
 					if(orderId != data.orderId) {
@@ -851,7 +763,11 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						orderNo = data.orderNo;
 						getData(data.type, data.orderNo);
 					}
-				})
+				});
+				$scope.$on('$destory', function() {
+					getPayInfo();
+					showDetail();
+				});
 			}
 		}
 	});
@@ -988,13 +904,16 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 					$scope.payInfoForm.$setPristine();
 					$scope.payInfoForm.$setUntouched();
 				});
-				$scope.$on('showAddPay', function(e,id) {
+				let showAddPay = $scope.$on('showAddPay', function(e,id) {
 					$scope.$modal.modal('show');
 					$scope.orderNo = id;
 					$scope.payInfo = {
 						orderNo:$scope.orderNo,
 						paymentTimeStr:moment().format('YYYY-MM-DD HH:mm:ss')
 					};
+				});
+				$scope.$on('$destory', function() {
+					showAddPay();
 				});
 			}
 		}
@@ -1029,7 +948,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						</div>
 						<div>
 							<span>生日:</span>
-							<input class="default-input" type="text" name="birthdayStr" ng-model="detailModel.birthdayStr" />
+							<input class="default-input" type="date" name="birthdayStr" ng-model="detailModel.birthdayStr" ng-if="detailModel.birthdayStr"/>
 						</div>
 						<div>
 							<span>手机号:</span>
@@ -1217,6 +1136,8 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				</div>
 			</div>`,
 			controller: function($scope, $element, $attrs) {
+				$scope.detailData = {};
+				$scope.detailModel = {};
 				let detailIsChange = ()=>{
 					return !(JSON.stringify($scope.userDetail) == JSON.stringify($scope.detailModel));
 				};
@@ -1226,7 +1147,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 						$('body').find('.inline-loading').remove();
 						delete data.user.createdTime;
 						delete data.user.updatedTime;
-						data.user.birthdayStr = data.user.birthday;
+						data.user.birthdayStr = moment(data.user.birthday)._d;
 						delete data.user.birthday;
 						$scope.detailData = data.user;
 						$scope.detailModel = $.extend(true,{},data.user);
@@ -1246,9 +1167,6 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 				};
 				if($scope.type==1){
 					getDetail();
-				}else{
-					$scope.detailData = {};
-					$scope.detailModel = {};
 				};
 				$scope.provinceClick = (e,i)=>{
 					getCityList(i.provinceId);
@@ -1258,18 +1176,22 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr', 'Ps', 'dat
 					setTimeout(()=>{
 						if($($element).find('.error').length==0){
 							$scope.showError = false;
+							let postData = $.extend(true, {}, $scope.detailModel);
+							postData.birthdayStr = moment(postData.birthdayStr).format('YYYY-MM-DD');
 							if($scope.type==1){
 								console.log('update');
-								appApi.updateUserBack($scope.detailModel,(data)=>{
+								appApi.updateUserBack(postData,(data)=>{
 									console.log(data);
 									toastr.success('成功更新用户资料');
 									$scope.$emit('hideDetail');
+									$rootScope.$broadcast('loadClientList');
 								});
 							}else{
-								appApi.saveUserBack($scope.detailModel,(data)=>{
+								appApi.saveUserBack(postData,(data)=>{
 									console.log(data);
 									toastr.success('成功新建用户');
 									$scope.$emit('hideAddClient');
+									$rootScope.$broadcast('loadClientList');
 								});
 							}
 						}else{

@@ -122,10 +122,6 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			});
 			$scope.$broadcast('showDetail', data);
 		});
-
-		$scope.$on('detailClose', function(){
-			$scope.showDetail = false;
-		});
 		
 		$scope.stateClick = (e,i)=>{
 			console.log(i);
@@ -150,14 +146,19 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			$(e.target).addClass('active');
 			$scope.$addModal.modal('show');
 		};
-		$scope.$on('addPay', function(e) {
-			console.log(666)
+		let detailClose = $scope.$on('detailClose', function(){
+			$scope.showDetail = false;
+		});
+		let addPay = $scope.$on('addPay', function(e) {
 			$scope.showAddPay = true;
 			$timeout(()=>{
 				$scope.$broadcast('showAddPay',$scope.orderNo);
 			},0)
-		})
-		
+		});
+		$scope.$on('$destory', function() {
+			detailClose();
+			addPay();
+		});
 	};
 	return {controller: controller, tpl: tpl};
 });

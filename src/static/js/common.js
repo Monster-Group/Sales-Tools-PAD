@@ -1,3 +1,3 @@
-define(['angular', 'require','js.cookie','moment', 'angular-route','appDirectives','appServices','appFactorys','appTemplates','jquery','Ps','daterange','waves','sweetalert','bootstrap','nprogress','tap'], function(){
+define(['angular', 'require','angular-route','appDirectives','appServices','appFactorys','appTouch','appTemplates','jquery','waves','sweetalert','bootstrap','nprogress','tap','iNoBounce','moment','upload','toastr','table','loading'], function(){
 	
 });

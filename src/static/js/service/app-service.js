@@ -1,4 +1,4 @@
-define(['angular','baseSet', 'jquery', 'sweetalert','Ps'], function(angular,baseSet,$,swal) {
+define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$,swal) {
 	'use strict';
 	var appServices = angular.module('app.services', []);
 	appServices.service('appHttp', function($http){

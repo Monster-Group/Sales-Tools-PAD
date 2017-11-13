@@ -6,16 +6,18 @@
 var project = './src',
 	projectDev = './dev',
 	projectDist = './dist',
+	postServer = 'http://baojun.saojie.me',
+	postPort = '';
 	outDir = '';
 
 
 
-getWrapper = function(name) {
+var getWrapper = function(name) {
 	return "define(['angular'], function(angular) {\n" +
 		"try {\n" +
-		"  module = angular.module('" + name + "');\n" +
+		"  var module = angular.module('" + name + "');\n" +
 		"} catch (e) {\n" +
-		"  module = angular.module('" + name + "', []);\n" +
+		"  var module = angular.module('" + name + "', []);\n" +
 		"};\n";
 };
 var wrapperEnd = "\n})";
@@ -23,7 +25,7 @@ var wrapperEnd = "\n})";
 var gulp = require('gulp'),
 	sass = require('gulp-sass'),
 	babel = require('gulp-babel'),
-	minifycss = require('gulp-minify-css'), //css压缩    
+	minifycss = require('gulp-clean-css'), //css压缩
 	amdOptimize = require('amd-optimize'), //requirejs打包
 	jshint = require('gulp-jshint'), //js语法检查          
 	uglify = require('gulp-uglify'), //压缩混淆
@@ -44,7 +46,7 @@ var gulp = require('gulp'),
 
 
 var header = '/*-----------------------\n' +
-	' * Site:  Sales-Tools-PAD - ' + projectDist + ' - {{ name }}\n' +
+	' * Site:  Sales-Tools-PAD - {{ name }}\n' +
 	' * Author: Clearlove 7*\n' +
 	' * Updated: {{ date }}\n' +
 	' * Version: {{ version }}\n' +
@@ -110,9 +112,6 @@ gulp.task('update', function() {
 gulp.task('cssmin', function() {
 	var name = 'main.min.css';
 	return gulp.src(['./' + project + '/static/css/**/**.css',
-			'!./' + project + '/static/css/theme/**.css',
-			'!./' + project + '/static/css/base/highlight.css',
-			'!./' + project + '/static/css/lite.css',
 			'!./' + project + '/static/css/login.css',
 			'!./' + project + '/static/css/main.min.css'
 		])
@@ -185,13 +184,6 @@ gulp.task('watch', function() {
 });
 
 
-gulp.task('fontrev', function() {
-	return gulp.src('./' + project + '/static/fonts/*.*')
-		.pipe(rev())
-		.pipe(gulp.dest('./' + project + '/static/fonts/'))
-		.pipe(rev.manifest())
-		.pipe(gulp.dest('./' + project + '/static/rev/fonts/'));
-});
 
 gulp.task('css', ['cssmin'], function() {
 	return gulp.src(['./' + project + '/static/rev/fonts/*.json', './' + project + '/static/css/main.min.css'])
@@ -200,11 +192,17 @@ gulp.task('css', ['cssmin'], function() {
 });
 
 gulp.task('baseSet', function() {
-	var stream, name;
-	name = 'baseSet';
+	var stream;
 	stream = gulp.src('./' + project + '/static/js/libs/default/baseSet.js')
-		.pipe(replace('{{ version }}', version))
-		.pipe(replace('{{ prevVersion }}', prevVersion))
+//		.pipe(replace('\''+postServer+'/\'', 'window.location.origin+\'/\''))
+		.pipe(gulp.dest('./' + project + '/static/js/libs/default/'));
+	return stream;
+});
+
+gulp.task('returnBaseSet', ['startJs'],function() {
+	var stream;
+	stream = gulp.src('./' + project + '/static/js/libs/default/baseSet.js')
+		.pipe(replace('window.location.origin+\'/\'','\''+postServer+'/\''))
 		.pipe(gulp.dest('./' + project + '/static/js/libs/default/'));
 	return stream;
 });
@@ -215,7 +213,7 @@ gulp.task('router', function() {
 		.pipe(gulp.dest('./' + project + '/static/js/'));
 });
 
-gulp.task('routerClean', ['startJs'], function() {
+gulp.task('routerClean', ['returnBaseSet'], function() {
 	return gulp.src('./' + project + '/static/js/router-config.js')
 		.pipe(replace('$templateCache.get(getTplName(key)+\'.html\')', 'ret.tpl'))
 		.pipe(gulp.dest('./' + project + '/static/js/'));
@@ -287,7 +285,7 @@ gulp.task('indexJs', ['ctrMini', 'routerClean', 'configJs'], function() {
 	return stream;
 });
 
-gulp.task('startJs', ['router', 'tpl'], function() {
+gulp.task('startJs', ['router', 'tpl','baseSet'], function() {
 	var name = 'start';
 	return gulp.src('./' + project + '/static/js/*.js')
 		.pipe(amdOptimize(name, {
@@ -311,19 +309,21 @@ gulp.task('index', ['indexJs', 'cssmin'], function() {
 			'css': './static/css/main.min.css?v={{ version }}',
 			'js': {
 				src: [
-					['./static/js/libs/require/require.min.js', './static/js/main.min.js?v={{ version }}']
+					['./static/js/require.min.js', './static/js/main.min.js?v={{ version }}']
 				],
 				tpl: '<script src="%s" data-main="%s"></script>'
 			}
 		}))
 		.pipe(replace('{{ version }}', randomString(10)))
 		.pipe(htmlmin({
-			collapseWhitespace: true
+			collapseWhitespace: true,
+			minifyJS: true
 		}))
 		.pipe(gulp.dest('./' + projectDist + '/'));
 });
 
-gulp.task('loginJs', function() {
+
+gulp.task('loginJs',['baseSet'],function() {
 	var jsDst = './' + projectDist + '/static/js/',
 		stream, name;
 	name = 'login';
@@ -370,7 +370,7 @@ gulp.task('loginHtml', function() {
 			'css': './static/css/login.min.css?v={{ version }}',
 			'js': {
 				src: [
-					['./static/js/libs/require/require.min.js', './static/js/login.min.js?v={{ version }}']
+					['./static/js/require.min.js', './static/js/login.min.js?v={{ version }}']
 				],
 				tpl: '<script src="%s" data-main="%s"></script>'
 			}
@@ -381,8 +381,15 @@ gulp.task('loginHtml', function() {
 		}))
 		.pipe(gulp.dest('./' + projectDist + '/'));
 });
-
-gulp.task('login', ['loginJs', 'loginCssmin', 'loginHtml'], function() {
+gulp.task('loginBaseSet', ['loginJs'], function() {
+	var stream, name;
+	name = 'baseSet';
+	stream = gulp.src('./' + project + '/static/js/libs/default/baseSet.js')
+		.pipe(replace('window.location.origin+\'/\'','\''+postServer+':'+postPort+'/\''))
+		.pipe(gulp.dest('./' + project + '/static/js/libs/default/'));
+	return stream;
+});
+gulp.task('login', ['loginBaseSet', 'loginCssmin', 'loginHtml'], function() {
 	var jsDst = './' + projectDist + '/static/js/',
 		stream, name;
 	name = 'login.min';
@@ -396,6 +403,8 @@ gulp.task('login', ['loginJs', 'loginCssmin', 'loginHtml'], function() {
 		.pipe(gulp.dest(jsDst));
 	return stream;
 });
+
+
 
 function randomString(len) {　　
 	len = len || 32;　　

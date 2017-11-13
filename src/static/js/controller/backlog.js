@@ -156,9 +156,6 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 				isSkip:1
 			});
 		};
-		$scope.test = (e)=>{
-			$(e.target).closest('a').toggleClass('active');
-		};
 		$scope.$modal.on('hidden.bs.modal', () => {
 			$scope.remark = '';
 			$scope.$digest();

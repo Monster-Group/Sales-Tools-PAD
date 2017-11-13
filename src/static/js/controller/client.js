@@ -323,16 +323,21 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				});
 			}
 		});
-		$scope.$on('hideDetail', function(e) {
+		let hideDetail  = $scope.$on('hideDetail', (e)=> {
 			$scope.showDetail = false;
 		});
-		$scope.$on('hideAddClient', function(e) {
-			console.log(123123)
+		let hideAddClient  = $scope.$on('hideAddClient', (e)=> {
 			$scope.showAddClient = false;
-		})
+		});
+		let loadClientList  = $rootScope.$on('loadClientList',(e)=> {
+			$scope.pageNum = 1;
+			loadData();
+		});
+		$scope.$on('$destory', function() {
+	        hideDetail(); // 退订事件
+	        hideAddClient();
+	        loadClientList();
+	    });
 	};
-	return {
-		controller: controller,
-		tpl: tpl
-	};
+	return {controller: controller, tpl: tpl};
 });
