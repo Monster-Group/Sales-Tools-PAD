@@ -1,7 +1,7 @@
 /*-----------------------
- * Site:  Sales-Tools-PAD - ./dist - start
+ * Site:  Sales-Tools-PAD - start
  * Author: Clearlove 7*
- * Updated: 2017-11-13 23:40
+ * Updated: 2017-11-15 01:34
  * Version: 1.0.0
  * -----------------------*/
 define('angular', [], function () {
@@ -20588,12 +20588,12 @@ define('appDirectives', [
             }
         };
     });
-    appDirectives.directive('newOrder', function ($rootScope) {
+    appDirectives.directive('newOrder', function ($rootScope, appApi, enumData) {
         return {
             restrict: 'E',
-            scope: {},
+            scope: { userId: '=' },
             replace: true,
-            template: '\n\t\t\t\t<div class="modal fade custom-modal" style="display:block;"  tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t\t<div class="modal-header">{{title}}</div>\n\t\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t\t<form id="orderForm" name="orderForm" novalidate onsubmit="return false;">\n\t\t\t\t\t\t\t\t<div class="config">\n\t\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t\t<span>类别:</span>\n\t\t\t\t\t\t\t\t\t\t<select chosen  placeholder-text-single="\'请选择\'" ng-model="orderModel.orderType"\n\t\t    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" conver-to-number>\n\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t    \t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车系:</span>\n\t\t\t\t\t\t\t\t\t\t <select chosen multiple placeholder-text-multiple="\'请选择\'"\n\t\t    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-model="orderModel.product">\n\t\t    \t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车型:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">请选择</span>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车顶颜色:</span>\n\t\t\t\t\t\t\t\t\t\t<drop-down render-data="$root.enumData.orderType" click-event="itemClick"></drop-down>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车身颜色:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">请选择</span>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>配件:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">请选择</span>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>活动优惠:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">请选择</span>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>提车门店:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">请选择</span>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>提车门店:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">请选择</span>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>身份证:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.cardId" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>公司:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>分类1:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">请选择</span>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>分类2:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">请选择</span>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>商品:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">请选择</span>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>提货地点:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="dropdown">\n\t\t\t\t\t\t\t\t\t\t\t<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t\t\t\t\t\t\t<span class="val pull-left">请选择</span>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class="arrow icon">&#xe792;</span>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t\t<li>test</li>\n\t\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t<div class="price-info" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t<p>车价:<i>35800</i></p>\n\t\t\t\t\t\t\t\t<p>配件:<i>35800</i></p>\n\t\t\t\t\t\t\t\t<p>活动优惠:<i>35800</i></p>\n\t\t\t\t\t\t\t\t<p class="total color-bdprimary">总价:<i>95800</i></p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="price-info" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t<p>总价:<i>000</i></p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="btn-wrapper">\n\t\t\t\t\t\t\t\t<a class="button">确定</a>\n\t\t\t\t\t\t\t\t<a class="button" hm-tap="closeModal">取消</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t',
+            template: '\n\t\t\t\t<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t\t<div class="modal-header">{{title}}</div>\n\t\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t\t<form id="orderForm" name="orderForm" novalidate onsubmit="return false;">\n\t\t\t\t\t\t\t\t<div class="config">\n\t\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t\t<span>类别:</span>\n\t\t\t\t\t\t\t\t\t\t<select chosen  placeholder-text-single="\'请选择\'" ng-model="orderModel.orderType"\n\t\t    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t    \t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车系:</span>\n\t\t\t\t\t\t\t\t\t\t <select chosen disabled width="256" ng-model="orderModel.product">\n\t\t\t\t\t\t\t\t\t\t \t<option value="" select>E-100</option>\n\t\t    \t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车型:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen placeholder-text-single="\'请选择\'" ng-model=\'selectProduct\' width="256" disable-search="true" ng-change="productChange(selectProduct)"  ng-options="item.productName for item in listCar">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车顶颜色:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen placeholder-text-single="\'请选择\'" ng-change="changeColorOne(selectOrder.selectColorOne)" width="256"  ng-model="selectOrder.selectColorOne" ng-options="item for item in colorOne.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车身颜色:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen placeholder-text-single="\'请选择\'" ng-change="changeColorTow(selectOrder.selectColorTow)" width="256"  ng-model="selectOrder.selectColorTow" ng-options=" item for item in colorTow.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>内饰颜色:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen placeholder-text-single="\'请选择\'" width="256"  ng-model="orderModel.level3Type" ng-options="item for item in colorThree.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>配件:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" multiple chosen placeholder-text-multiple="\'请选择\'" width="256" ng-change="selectPei(orderModel.data)"  ng-model="orderModel.data" ng-options="item.productId as item.productName for item in peiList" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>活动优惠:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen  placeholder-text-single="\'请选择\'" ng-change="promotionChange(selectOrder.selectPromotion)" width="256" chosen id="" ng-model="selectOrder.selectPromotion" ng-options="item.promotionName for item in promotions" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t<span class="subjoin" ng-bind="selectOrder.selectPromotion.discount"></span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>提车门店:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen  placeholder-text-single="\'请选择\'" width="256" ng-model="orderModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>公司:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.organization" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>手机号:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.mobile" required type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>姓名:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.realname" required type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>身份证:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.cardId" required type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>分类1:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen width="256" placeholder-text-single="\'请选择\'" ng-change="changeLv1(selectOrder.classlv1)" ng-model="selectOrder.classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>分类2:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen width="256" placeholder-text-single="\'请选择\'" ng-change="changeLv2(selectOrder.classlv2)" ng-model="selectOrder.classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>商品:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen width="256" placeholder-text-single="\'请选择\'" ng-change="chooseProduct(selectOrder.selectProduct)" ng-model="selectOrder.selectProduct" ng-options="item.productName for item in productsData" id="" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>提货地点:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen width="256" placeholder-text-single="\'请选择\'" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>手机号:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="productModel.mobile" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>姓名:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="productModel.realname" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>身份证:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="productModel.cardId" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t<div class="price-info" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t<p>车价:<i>{{carPrice}}</i></p>\n\t\t\t\t\t\t\t\t<p>配件:<i>{{peiPrice}}</i></p>\n\t\t\t\t\t\t\t\t<p>活动优惠:<i>{{selectOrder.selectPromotion.discount}}</i></p>\n\t\t\t\t\t\t\t\t<p class="total color-bdprimary">总价:<i>{{getSum()}}</i></p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="price-info" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t<p>总价:<i>{{productPrice}}</i></p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="btn-wrapper">\n\t\t\t\t\t\t\t\t<a class="button" hm-tap="submit">确定</a>\n\t\t\t\t\t\t\t\t<a class="button" hm-tap="closeModal">取消</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t',
             controller: function controller($scope, $element, $attrs) {
                 $scope.title = '创建订单';
             },
@@ -20604,29 +20604,196 @@ define('appDirectives', [
                     product: '',
                     level1Type: '',
                     level2Type: '',
-                    userId: '',
                     data: '',
                     promotionId: '',
                     storeId: '',
                     idCard: '',
-                    company: ''
+                    organization: ''
                 };
                 var productModelDefault = {
-                    product: '',
-                    level1Type: '',
-                    level2Type: '',
+                    productId: '',
                     storeId: ''
                 };
-                $scope.orderModel && ($scope.orderModel = Object.assign({}, orderModelDefault));
-                $scope.productModel && ($scope.productModel = Object.assign({}, productModelDefault));
+                function init() {
+                    $scope.colorOne = {};
+                    $scope.colorTow = {};
+                    $scope.colorThree = {};
+                    $scope.orderModel || ($scope.orderModel = Object.assign({}, orderModelDefault));
+                    $scope.productModel || ($scope.productModel = Object.assign({}, productModelDefault));
+                    $scope.selectOrder = {
+                        selectColorOne: '',
+                        selectColorTow: '',
+                        selectPromotion: {},
+                        classlv1: '',
+                        classlv2: '',
+                        selectOrder: {}
+                    };
+                }
+                init();
+                appApi.listCar(function (data) {
+                    $scope.listCar = data.map(function (item) {
+                        return {
+                            productName: item.productName.split('-')[1],
+                            productId: item.productId,
+                            defaultPrice: item.defaultPrice,
+                            deposit: item.deposit,
+                            peiList: item.peiList
+                        };
+                    });
+                });
+                appApi.getPromotion(function (data) {
+                    $scope.promotions = data;
+                    console.log($scope.promotions);
+                });
+                appApi.listStoreMall(function (data) {
+                    $scope.listStore = data;
+                });
+                appApi.listClassifyLv1(function (data) {
+                    $scope.listClassLv1 = data;
+                });
+                function getColor(data, fn) {
+                    appApi.getCarColor(data, function (d) {
+                        fn(d);
+                    });
+                }
+                function getProductType(data, fn) {
+                    appApi.listClassify(data, function (d) {
+                        fn(d);
+                    });
+                }
+                $scope.productChange = function (product) {
+                    console.log('select: ', product);
+                    if ($scope.orderModel.productId == product.productId)
+                        return;
+                    $scope.orderModel.productId = product.productId;
+                    $scope.peiList = product.peiList;
+                    $scope.carPrice = product.defaultPrice;
+                    $scope.colorThree = {};
+                    $scope.colorTow = {};
+                    $scope.selectOrder.selectOrderOne = '';
+                    $scope.selectOrder.selectColorTow = '';
+                    $scope.orderModel.level1Type = '';
+                    $scope.orderModel.level2Type = '';
+                    $scope.orderModel.level3Type = '';
+                    getColor({ productId: product.productId }, function (data) {
+                        $scope.colorOne = data;
+                    });
+                };
+                $scope.changeColorOne = function (colorOne) {
+                    if (colorOne === $scope.orderModel.level1Type)
+                        return;
+                    $scope.orderModel.level1Type = colorOne;
+                    $scope.orderModel.level2Type = '';
+                    $scope.orderModel.level3Type = '';
+                    $scope.selectOrder.selectColorTow = '';
+                    $scope.colorThree = {};
+                    getColor({
+                        productId: $scope.orderModel.productId,
+                        level1Type: colorOne
+                    }, function (data) {
+                        $scope.colorTow = data;
+                    });
+                };
+                $scope.changeColorTow = function (colorTow) {
+                    if (colorTow === $scope.orderModel.level1Type)
+                        return;
+                    $scope.orderModel.level2Type = colorTow;
+                    $scope.orderModel.level3Type = '';
+                    getColor({
+                        productId: $scope.orderModel.productId,
+                        level1Type: $scope.orderModel.level1Type,
+                        level2Type: $scope.orderModel.level2Type
+                    }, function (data) {
+                        $scope.colorThree = data;
+                    });
+                };
+                var typeObj = {};
+                $scope.changeLv1 = function (classlv1) {
+                    if (classlv1 === typeObj.classlv1)
+                        return;
+                    typeObj.classlv1 = classlv1;
+                    $scope.productsData = [];
+                    $scope.classlv2 = '';
+                    if (classlv1 === '')
+                        return;
+                    getProductType({ subtype: classlv1 }, function (data) {
+                        $scope.listClassLv2 = data.list;
+                    });
+                };
+                $scope.changeLv2 = function (classlv2) {
+                    appApi.listProduct({
+                        subtype: $scope.classlv1,
+                        subtype2: classlv2
+                    }, function (data) {
+                        $scope.productsData = data;
+                    });
+                };
+                $scope.promotionChange = function (promotion) {
+                    if (promotion.promotionId === $scope.orderModel.promotionId)
+                        return;
+                    $scope.orderModel.promotionId = promotion.promotionId;
+                };
+                $scope.selectPei = function (peiArr) {
+                    var peiPrice = 0;
+                    $scope.peiList.forEach(function (item) {
+                        if (peiArr.indexOf(item.productId) > -1) {
+                            peiPrice += Number(item.default_price);
+                        }
+                    });
+                    $scope.peiPrice = peiPrice;
+                };
+                $scope.chooseProduct = function (product) {
+                    $scope.productModel.productId = product.productId;
+                    $scope.productPrice = product.defaultPrice;
+                };
                 $scope.closeModal = function () {
                     $scope.$modal.modal('toggle');
+                    init();
+                };
+                $scope.getSum = function () {
+                    var carPrice = angular.isNumber($scope.carPrice) ? +$scope.carPrice : 0;
+                    var pei = angular.isNumber($scope.peiPrice) ? +$scope.peiPrice : 0;
+                    var discount = angular.isNumber($scope.selectOrder.selectPromotion) ? +$scope.discount : 0;
+                    return carPrice + pei - discount;
                 };
                 $scope.submit = function () {
+                    console.log($scope.orderModel);
+                    console.log($scope.productModel);
                     if ($scope.orderForm.$valid) {
-                        alert('提交');
+                        if ($scope.orderModel.orderType == 0) {
+                            var orderModel = Object.assign({}, $scope.orderModel);
+                            orderModel.data = orderModel.data && orderModel.data.join(',');
+                            delete orderModel.orderType;
+                            if ($scope.userId)
+                                orderModel.userId = $scope.userId;
+                            getCreateOrder().call(this, orderModel, fn_success, fn_fail);
+                        } else {
+                            var productModel = Object.assign({}, $scope.productModel);
+                            if ($scope.userId)
+                                productModel.userId = $scope.userId;
+                            getProductOrder().call(this, productModel, fn_success, fn_fail);
+                        }
                     }
                 };
+                function fn_success(res) {
+                    $scope.closeModal();
+                }
+                function fn_fail() {
+                }
+                function getCreateOrder() {
+                    if ($scope.userId) {
+                        return appApi.createOrderWithUserId;
+                    } else {
+                        return appApi.createOrder;
+                    }
+                }
+                function getProductOrder() {
+                    if ($scope.userId) {
+                        return appApi.createProductWithUserId;
+                    } else {
+                        return appApi.createProduct;
+                    }
+                }
                 $scope.$modal.on('hide.bs.modal', function () {
                     if ($scope.orderForm.$dirty) {
                         $scope.orderModel = Object.assign({}, orderModelDefault);
@@ -20638,17 +20805,24 @@ define('appDirectives', [
             }
         };
     });
-    appDirectives.directive('orderDetail', function ($rootScope, appApi) {
+    appDirectives.directive('orderDetail', function ($rootScope, appApi, getOrderStatu) {
         return {
             restrict: 'E',
             scope: { orderId: '=' },
             replace: true,
-            template: '\n\t\t\t\t<div class="order-info">\n\t\t\t\t\t<header class="clearfix">\n\t\t\t\t\t\t<a class="button pull-left" hm-tap="back">返回</a>\n\t\t\t\t\t\t<span class="pull-left">订单详情&nbsp;&nbsp;(编号:{{orderDetail.orderNo}})</span>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class="info-block">\n\t\t\t\t\t\t<h3>购车人信息:</h3>\n\t\t\t\t\t\t<div class="info-body">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人:</span><i>{{orderDetail.buyerName}} {{\'(\' + (orderDetail.gender | formatGender) + \')\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人手机号:</span><i>{{orderDetail.buyerMobile}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人证件号码:</span><i>{{orderDetail.buyerIdCard}}</i >\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>收货人姓名:</span><i>{{orderDetail.buyerName}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>收货人手机号:</span><i>{{orderDetail.buyerMobile}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block">\n\t\t\t\t\t\t<h3>订单信息:</h3>\n\t\t\t\t\t\t<div class="info-body" ng-show="orderDetail&&orderDetail.type != 1">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>活动名称:</span><i>{{orderDetail.promotionName}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>活动条款:</span><i>{{orderDetail.terms}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>活动金额:</span><i>{{orderDetail.discountPrice}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>优惠审核状态:</span><i>{{orderDetail.organization}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>提车地址:</span><i>ccccc</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>公司:</span><i>{{orderDetail.organization}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>支付时间:</span><i>15012119780906771X1501</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>结清时间:</span><i>{{orderDetail.formatConfirmTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>状态:</span><i>{{orderDetail.deliveryStageName}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>优惠金额:</span><i>{{orderDetail.discountPrice  | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>数量:</span><i>{{orderDetail.quantity}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>原价:</span><i>{{orderDetail.productPrice | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>现价:</span><i>{{(orderDetail.productPrice - orderDetail.discountPrice)  | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="info-body" ng-show="orderDetail&&orderDetail.type == 1">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>优惠审核状态:</span><i>15012119780906771X150121</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>提货地址:</span><i>15012119780906771X1501</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>支付时间:</span><i>{{orderDetail.formatPaymentTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>结清时间:</span><i>{{orderDetail.formatConfirmTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>状态:</span><i>{{orderDetail.deliveryStageName}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>数量:</span><i>{{orderDetail.quantity}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>价格:</span><i>{{orderDetail.amount  | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block pay-info">\n\t\t\t\t\t\t<h3 class="clearfix">\n\t\t\t\t\t\t\t<span class="channel">支付渠道</span>\n\t\t\t\t\t\t\t<span class="pay-no">支付号</span>\n\t\t\t\t\t\t\t<span class="pay-amount">支付金额</span>\n\t\t\t\t\t\t\t<span class="pay-date">支付时间</span>\n\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t<div class="info-body clearfix">\n\t\t\t\t\t\t\t<div class="line pull-left" ng-repeat="item in payment track by $index">\n\t\t\t\t\t\t\t\t<span class="channel">{{item.channel | formatChannel}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-no">{{item.paymentId}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-amount">{{item.amount}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-date">{{item.paymentTimeFormat}}</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="info-footer">\n\t\t\t\t\t\t\t<a class="button" hm-tap="addPay()">新增支付信息</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block pay-info" ng-show="carInfo.VIN">\n\t\t\t\t\t\t<h3 class="clearfix">车辆信息\uFF1A</h3>\n\t\t\t\t\t\t<div class="info-body clearfix">\n\t\t\t\t\t\t\t<div class="line pull-left" ng-repeat="item in carInfo track by $index">\n\t\t\t\t\t\t\t\t<span class="vin">VIN:{{item.VIN }}</span>\n\t\t\t\t\t\t\t\t<span class="vsn">VSN: {{item.VSN}}</span>\n\t\t\t\t\t\t\t\t<span class="">发动机号\uFF1A{{item.no}}</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block appoint-info" ng-show="appoints.length > 0">\n\t\t\t\t\t\t<h3 class="clearfix">邀约信息\uFF1A</h3>\n\t\t\t\t\t\t<div class="info-body clearfix">\n\t\t\t\t\t\t\t<div class="line pull-left" ng-repeat="item in appoints track by $index">\n\t\t\t\t\t\t\t\t<span class="appoint">{{item.deliveryStageName}}:  {{item.buyerName}} {{item.time}}</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t',
+            template: '\n\t\t\t\t<div class="order-info">\n\t\t\t\t\t<header class="clearfix">\n\t\t\t\t\t\t<a class="button pull-left" hm-tap="back">返回</a>\n\t\t\t\t\t\t<span class="pull-left">订单详情&nbsp;&nbsp;(编号:{{orderDetail.orderNo}})</span>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class="info-block">\n\t\t\t\t\t\t<h3>购车人信息:</h3>\n\t\t\t\t\t\t<div class="info-body">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人:</span><i>{{orderDetail.buyerName}} {{\'(\' + (orderDetail.gender | formatGender) + \')\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人手机号:</span><i>{{orderDetail.buyerMobile}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人证件号码:</span><i>{{orderDetail.buyerIdCard}}</i >\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>收货人姓名:</span><i>{{orderDetail.buyerName}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>收货人手机号:</span><i>{{orderDetail.buyerMobile}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block">\n\t\t\t\t\t\t<h3>订单信息:</h3>\n\t\t\t\t\t\t<div class="info-body" ng-show="orderDetail&&orderDetail.type != 1">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>活动名称:</span><i>{{orderDetail.promotionName}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>活动条款:</span><i>{{orderDetail.terms}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>活动金额:</span><i>{{orderDetail.discountPrice}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>优惠审核状态:</span><i>{{orderDetail.organization}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>提车地址:</span><i>{{orderDetail.storeAddress}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>公司:</span><i>{{orderDetail.organization}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>结清时间:</span><i>{{orderDetail.formatConfirmTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>状态:</span><i>{{orderDetail.statusName }}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>优惠金额:</span><i>{{orderDetail.discountPrice  | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>数量:</span><i>{{orderDetail.quantity || 1}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>原价:</span><i>{{orderDetail.productPrice | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>现价:</span><i>{{(orderDetail.productPrice - orderDetail.discountPrice)  | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="info-body" ng-show="orderDetail&&orderDetail.type == 1">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>优惠审核状态:</span><i>15012119780906771X150121</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>提货地址:</span><i>{{orderDetail.storeAddress}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>支付时间:</span><i>{{orderDetail.formatPaymentTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>结清时间:</span><i>{{orderDetail.formatConfirmTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>状态:</span><i>{{orderDetail.statusName}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>数量:</span><i>{{orderDetail.quantity || 1}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>价格:</span><i>{{(orderDetail.amount * 1)  | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block pay-info">\n\t\t\t\t\t\t<h3 class="clearfix">\n\t\t\t\t\t\t\t<span class="channel">支付渠道</span>\n\t\t\t\t\t\t\t<span class="pay-no">支付号</span>\n\t\t\t\t\t\t\t<span class="pay-amount">支付金额</span>\n\t\t\t\t\t\t\t<span class="pay-date">支付时间</span>\n\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t<div class="info-body clearfix">\n\t\t\t\t\t\t\t<div class="line pull-left" ng-repeat="item in payment track by $index">\n\t\t\t\t\t\t\t\t<span class="channel">{{item.channel | formatChannel}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-no">{{item.paymentId}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-amount">{{item.amount}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-date">{{item.paymentTimeFormat}}</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="info-footer">\n\t\t\t\t\t\t\t<a class="button" hm-tap="addPay()">新增支付信息</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block pay-info" ng-show="carInfo.VIN">\n\t\t\t\t\t\t<h3 class="clearfix">车辆信息\uFF1A</h3>\n\t\t\t\t\t\t<div class="info-body clearfix">\n\t\t\t\t\t\t\t<div class="line pull-left" ng-repeat="item in carInfo track by $index">\n\t\t\t\t\t\t\t\t<span class="vin">VIN:{{item.VIN }}</span>\n\t\t\t\t\t\t\t\t<span class="vsn">VSN: {{item.VSN}}</span>\n\t\t\t\t\t\t\t\t<span class="">发动机号\uFF1A{{item.no}}</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block appoint-info" ng-show="appoints.length > 0">\n\t\t\t\t\t\t<h3 class="clearfix">邀约信息\uFF1A</h3>\n\t\t\t\t\t\t<div class="info-body clearfix">\n\t\t\t\t\t\t\t<div class="line pull-left" ng-repeat="item in appoints track by $index">\n\t\t\t\t\t\t\t\t<span class="appoint">{{item.deliveryStageName}}:  {{item.buyerName}} {{item.time}}</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<add-pay class="add-pay-modal" order-no="orderNo" ng-if="addPayModal"></add-pay>\n\t\t\t\t</div>\n\t\t\t',
             controller: function controller($scope, $element, $attrs) {
+                var orderId;
+                $scope.addPayModal = false;
                 var orderId, orderNo;
                 $scope.back = function () {
                     $scope.$emit('detailClose');
                 };
+                function init() {
+                    $scope.orderDetail = {};
+                    $scope.payment = [];
+                    $scope.appoints = [];
+                }
                 var loadPayInfo = function loadPayInfo(orderNo) {
                     appApi.getPayment({ orderNo: orderNo }, function (data) {
                         $scope.payment = data.map(function (item) {
@@ -20661,8 +20835,16 @@ define('appDirectives', [
                     appApi.getOrderDetail({ orderId: orderId }, function (data) {
                         data.formatCreatedTime = moment(data.createdTime).format('YYYY-MM-DD HH:mm:ss');
                         data.formatConfirmTime = !data.confirmTime ? '--' : moment(data.confirmTime).format('YYYY-MM-DD HH:mm:ss');
+                        data.statusName = getOrderStatu(data.status);
+                        $scope.orderNo = data.orderNo;
                         $scope.orderDetail = data;
                         NProgress.done();
+                    });
+                    appApi.getPayment({ orderNo: orderNo }, function (data) {
+                        $scope.payment = data.map(function (item) {
+                            item.paymentTimeFormat = moment(item.paymentTime).format('YYYY-MM-DD HH:mm:ss');
+                            return item;
+                        });
                     });
                     loadPayInfo(orderNo);
                     appApi.getAppointById({ orderId: orderId }, function (data) {
@@ -22395,6 +22577,34 @@ define('appServices', [
                     success: suc
                 });
             };
+            this.createOrder = function (data, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/order/createCarOrderBackTwo',
+                    data: data,
+                    success: suc
+                });
+            };
+            this.createOrderWithUserId = function (data, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/order/createCarOrderBack',
+                    data: data,
+                    success: suc
+                });
+            };
+            this.createProduct = function (data, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/order/cretaeProductOrderBackTwo',
+                    data: data,
+                    success: suc
+                });
+            };
+            this.createProductWithUserId = function (data, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/order/cretaeProductOrderBack',
+                    data: data,
+                    success: suc
+                });
+            };
             this.detailOrder = function (id, suc) {
                 appHttp.appPost({
                     url: baseSet.postServer + 'api/v2/matter/detailOrder',
@@ -22443,6 +22653,12 @@ define('appServices', [
                     success: suc
                 });
             };
+            this.listStoreMall = function (suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/store/listStoreMall',
+                    success: suc
+                });
+            };
             this.getAppointById = function (data, suc) {
                 appHttp.appPost({
                     url: baseSet.postServer + 'api/v2/matter/showAppointById',
@@ -22478,6 +22694,45 @@ define('appServices', [
                 appHttp.appPost({
                     url: baseSet.postServer + 'api/v2/user/getUserBack',
                     data: { userId: id },
+                    success: suc
+                });
+            };
+            this.getPromotion = function (suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/promotion/listProotionOrder',
+                    success: suc
+                });
+            };
+            this.listCar = function (suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/product/listCar',
+                    success: suc
+                });
+            };
+            this.getCarColor = function (data, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/product/listCarColor',
+                    data: data,
+                    success: suc
+                });
+            };
+            this.listClassifyLv1 = function (suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/product/listClassifyLV1Back',
+                    success: suc
+                });
+            };
+            this.listClassify = function (data, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/product/listClassifyBack',
+                    data: data,
+                    success: suc
+                });
+            };
+            this.listProduct = function (data, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/product/listProductByClassify',
+                    data: data,
                     success: suc
                 });
             };
@@ -22585,31 +22840,31 @@ define('appFactorys', [
             var statu = '';
             switch (s) {
             case 1:
-                statu = '待交尾款(待邀约)';
+                statu = '待交尾款';
                 break;
             case 2:
-                statu = '待交尾款(待分配)';
+                statu = '待交尾款';
                 break;
             case 3:
-                statu = '待交尾款(代执行)';
+                statu = '待交尾款';
                 break;
             case 4:
-                statu = '待交车(待邀约)';
+                statu = '待交车';
                 break;
             case 5:
-                statu = '待交车(待分配)';
+                statu = '待交车';
                 break;
             case 6:
-                statu = '待交车(待执行)';
+                statu = '待交车';
                 break;
             case 7:
-                statu = '待上牌(待邀约)';
+                statu = '待上牌';
                 break;
             case 8:
-                statu = '待上牌 (待分配)';
+                statu = '待上牌';
                 break;
             case 9:
-                statu = '待上牌(待执行)';
+                statu = '待上牌';
                 break;
             case 10:
                 statu = '完成';
@@ -22762,6 +23017,41 @@ define('appFactorys', [
             }
             ;
             return data;
+        };
+    });
+    appFactorys.factory('dateArray', function () {
+        return function () {
+            var obj = {
+                date: [],
+                time: [
+                    '09:00-09:30',
+                    '09:30-10:00',
+                    '10:00-10:30',
+                    '10:30-11:00',
+                    '11:00-11:30',
+                    '11:30-12:00',
+                    '12:00-12:30',
+                    '12:30-13:00',
+                    '13:00-13:30',
+                    '13:30-14:00',
+                    '14:00-14:30',
+                    '14:30-15:00',
+                    '15:00-15:30',
+                    '15:30-16:00',
+                    '16:00-16:30'
+                ]
+            };
+            for (var i = 0; i < 365; i++) {
+                obj.date.push({
+                    week: moment().add(i, 'days').format('ddd'),
+                    year: moment().add(i, 'days').format('YYYY'),
+                    month: moment().add(i, 'days').format('MM'),
+                    day: moment().add(i, 'days').format('DD'),
+                    date: moment().add(i, 'days').format('YYYY-MM-DD')
+                });
+            }
+            ;
+            return obj;
         };
     });
     appFactorys.factory('enumData', function () {
@@ -23092,13 +23382,13 @@ define('appTemplates', ['angular'], function (angular) {
     angular.module('app.template').run([
         '$templateCache',
         function ($templateCache) {
-            $templateCache.put('backlog.html', '<div class="module-wrapper backlog"><div class="form-header"><div class="line clearfix"><div class="form-item"><span class="form-tag">筛选条件:</span><div class="form-input-wrapper"><a class="checkbox" hm-tap="statusClick($event,3)" ng-class="{\'active\':stageIds.indexOf(3)>-1}"><i><em class="icon transition-02">&#xe605;</em> </i><span>待交尾款</span></a></div><div class="form-input-wrapper"><a class="checkbox" hm-tap="statusClick($event,6)" ng-class="{\'active\':stageIds.indexOf(6)>-1}"><i><em class="icon transition-02">&#xe605;</em> </i><span>待交车</span></a></div><div class="form-input-wrapper"><a class="checkbox" hm-tap="statusClick($event,9)" ng-class="{\'active\':stageIds.indexOf(9)>-1}"><i><em class="icon transition-02">&#xe605;</em> </i><span>待上牌</span></a></div></div><a class="button pull-right" hm-tap="search()">搜索</a></div></div><table class="table table-hover table-bordered backlog-table"><thead><tr><th>姓名</th><th>电话</th><th>商品详情</th><th>订单价格</th><th>当前状态</th><th></th></tr></thead><tbody></tbody></table></div><div class="modal fade custom-modal task-modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: block"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header">{{title}}</div><div class="modal-body"><p class="title">备注:</p><textarea class="default-textarea" ng-model="remark" rows="4"></textarea></div><div class="modal-footer"><a class="button" hm-tap="affirm()">确定</a> <a class="button" data-dismiss="modal">取消</a></div></div></div></div>');
+            $templateCache.put('backlog.html', '<div class="module-wrapper backlog"><div class="form-header"><div class="line clearfix"><div class="form-item"><span class="form-tag">筛选条件:</span><div class="form-input-wrapper"><a class="checkbox" hm-tap="statusClick($event,3)" ng-class="{\'active\':stageIds.indexOf(3)>-1}"><i><em class="icon transition-02">&#xe605;</em> </i><span>待交尾款</span></a></div><div class="form-input-wrapper"><a class="checkbox" hm-tap="statusClick($event,6)" ng-class="{\'active\':stageIds.indexOf(6)>-1}"><i><em class="icon transition-02">&#xe605;</em> </i><span>待交车</span></a></div><div class="form-input-wrapper"><a class="checkbox" hm-tap="statusClick($event,9)" ng-class="{\'active\':stageIds.indexOf(9)>-1}"><i><em class="icon transition-02">&#xe605;</em> </i><span>待上牌</span></a></div></div><a class="button pull-right" hm-tap="search()">搜索</a></div></div><table class="table table-hover table-bordered backlog-table"><thead><tr><th>姓名</th><th>电话</th><th>商品详情</th><th>订单价格</th><th>当前状态</th><th></th></tr></thead><tbody></tbody></table></div><div class="modal fade custom-modal task-modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: block"><div class="modal-dialog modal-md"><div class="modal-content"><div class="modal-header">{{title}}</div><div class="modal-body"><p class="title">备注:</p><textarea class="default-textarea" ng-model="remark" ng-class="{\'error\':submited&&(remark==undefined||remark==\'\')}" rows="4"></textarea><div class="date-time-picker-wrapper"><p class="invite-time"><span class="tag">邀约时间:</span><i ng-if="isSkip==0">{{dateStr}}</i><i class="time" ng-if="isSkip==0">{{timeStr}}</i></p><div class="date-time-picker"><div class="date-pick-wrapper"><a class="left-arrow arrow icon">&#xe607;</a><div class="date-wapper swiper-container"><div class="swiper-wrapper clearfix" ng-style="wrapperStyle"><a class="date-item swiper-slide" ng-repeat="item in dateObj.date" hm-tap="dayClick(e,item,$index)" repeat-finish="dateFinish()" ng-class="{\'active\':$index==$dateIndex&&isSkip==0}"><span class="week-day">{{item.week}}</span> <span class="day">{{item.day}}</span></a></div></div><a class="right-arrow arrow icon">&#xe600;</a></div><div class="time-wrapper"><a class="time-item transition-02" ng-repeat="time in dateObj.time" hm-tap="timeClick($event,time)" ng-class="{\'active\':timeStr==time&&isSkip==0}">{{time}}</a></div></div><div class="skip clearfix"><a class="checkbox" hm-tap="skip()" ng-class="{\'active\':isSkip==1}"><i><em class="icon transition-02">&#xe605;</em> </i><span>跳过此项</span></a></div><p class="skip-info">选择下一次来店的邀约时间\uFF0C无需邀约顾问再次电话邀约</p></div></div><div class="modal-footer"><a class="button" hm-tap="affirm()">确定</a> <a class="button" data-dismiss="modal">取消</a></div></div></div></div>');
         }
     ]);
     angular.module('app.template').run([
         '$templateCache',
         function ($templateCache) {
-            $templateCache.put('client.html', '<div class="module-wrapper client"><section class="client-list-wrapper" ng-hide="showDetail||showAddClient"><div class="form-header"><div class="line clearfix"><div class="form-item"><span class="form-tag">用户名:</span><div class="form-input-wrapper"><input class="default-input" type="text" ng-model="searchParams.name"></div></div><div class="form-item"><span class="form-tag">手机号:</span><div class="form-input-wrapper"><input class="default-input" type="number" ng-model="searchParams.mobile"></div></div><div class="form-item"><span class="form-tag">等级:</span><div class="form-input-wrapper"><drop-down class="client-level" render-data="$root.enumData.userLevel" model="searchParams.userLv"></drop-down></div></div><a class="button pull-right rest" hm-tap="search()">搜索</a> <a class="button pull-right" hm-tap="rest($event)">重置</a></div></div><table class="table client-table"><thead><tr><th>姓名</th><th>手机号</th><th>创建时间</th><th>等级</th><th>最近一次备注</th></tr></thead><tbody></tbody></table><button class="cycle-button icon add-btn transition-05" hm-tap="addClient($event)">&#xe606;</button></section><div class="add-client-wrapper" ng-if="showAddClient"><div class="cancel-wrapper"><a class="cancel button" hm-tap="cancel()">返回</a></div><client-update type="0"></client-update></div><section class="detail-tab" ng-show="showDetail"><header><a class="go-back" hm-tap="goBack()">返回</a><div class="tab-wrapper" role="tablist"><a class="tab-item detail-info active" data-target="#detail" role="tab" data-toggle="tab">用户信息</a> <a class="tab-item user-order-list" data-target="#order" role="tab" data-toggle="tab">订单信息</a> <a class="tab-item user-remark" data-target="#remark" role="tab" data-toggle="tab">备注</a></div></header><div class="head clearfix" ng-hide="headHide"><span>ID:<i ng-bind="activeUser.userId"></i></span> <span>姓名:<i ng-bind="activeUser.realname"></i></span> <span>手机号: <i ng-bind="activeUser.mobile"></i></span></div><div class="tab-content"><div role="tabpanel" class="tab-pane active fade in" id="detail"><client-update detail-data="userDetail" detail-model="detailModel" type="1" id="userId" ng-if="showDetail"></client-update></div><div role="tabpanel" class="tab-pane fade" id="order"><table class="table client-detail-table"><thead><tr><th>订单号</th><th>下单时间</th><th>商品</th><th>团购名称</th><th>订单状态</th><th>购买人</th><th>手机号</th></tr></thead><tbody></tbody></table><button class="cycle-button icon add-btn transition-05" hm-tap="addOrder($event)">&#xe606;</button></div><div role="tabpanel" class="tab-pane fade" id="remark"><table class="table remark-table"><thead><tr><th>备注</th><th>等级</th><th>购买人</th><th>创建时间</th></tr></thead><tbody></tbody></table></div></div></section></div>');
+            $templateCache.put('client.html', '<div class="module-wrapper client"><section class="client-list-wrapper" ng-hide="showDetail||showAddClient"><div class="form-header"><div class="line clearfix"><div class="form-item"><span class="form-tag">用户名:</span><div class="form-input-wrapper"><input class="default-input" type="text" ng-model="searchParams.name"></div></div><div class="form-item"><span class="form-tag">手机号:</span><div class="form-input-wrapper"><input class="default-input" type="number" ng-model="searchParams.mobile"></div></div><div class="form-item"><span class="form-tag">等级:</span><div class="form-input-wrapper"><drop-down class="client-level" render-data="$root.enumData.userLevel" model="searchParams.userLv"></drop-down></div></div><a class="button pull-right rest" hm-tap="search()">搜索</a> <a class="button pull-right" hm-tap="rest($event)">重置</a></div></div><table class="table client-table"><thead><tr><th>姓名</th><th>手机号</th><th>创建时间</th><th>等级</th><th>最近一次备注</th></tr></thead><tbody></tbody></table><button class="cycle-button icon add-btn transition-05" hm-tap="addClient($event)">&#xe606;</button></section><div class="add-client-wrapper" ng-if="showAddClient"><div class="cancel-wrapper"><a class="cancel button" hm-tap="cancel()">返回</a></div><client-update type="0"></client-update></div><section class="detail-tab" ng-show="showDetail"><header><a class="go-back" hm-tap="goBack()">返回</a><div class="tab-wrapper" role="tablist"><a class="tab-item detail-info active" data-target="#detail" role="tab" data-toggle="tab">用户信息</a> <a class="tab-item user-order-list" data-target="#order" role="tab" data-toggle="tab">订单信息</a> <a class="tab-item user-remark" data-target="#remark" role="tab" data-toggle="tab">备注</a></div></header><div class="head clearfix" ng-hide="headHide"><span>ID:<i ng-bind="activeUser.userId"></i></span> <span>姓名:<i ng-bind="activeUser.realname"></i></span> <span>手机号: <i ng-bind="activeUser.mobile"></i></span></div><div class="tab-content"><div role="tabpanel" class="tab-pane active fade in" id="detail"><client-update detail-data="userDetail" detail-model="detailModel" type="1" id="userId" ng-if="showDetail"></client-update></div><div role="tabpanel" class="tab-pane fade" id="order"><table class="table client-detail-table"><thead><tr><th>订单号</th><th>下单时间</th><th>商品</th><th>团购名称</th><th>订单状态</th><th>购买人</th><th>手机号</th></tr></thead><tbody></tbody></table><button class="cycle-button icon add-btn transition-05" hm-tap="addOrder($event)">&#xe606;</button></div><div role="tabpanel" class="tab-pane fade" id="remark"><table class="table remark-table"><thead><tr><th>备注</th><th>等级</th><th>购买人</th><th>创建时间</th></tr></thead><tbody></tbody></table></div></div><new-order user-id="userId" class="add-order-modal"></new-order></section></div>');
         }
     ]);
     angular.module('app.template').run([
@@ -31258,8 +31548,8 @@ define('router-config', [
             case 2:
                 gender = '男';
                 break;
-                defaults:
-                    gender = '未知';
+            default:
+                gender = '未知';
             }
             return gender;
         };
@@ -31280,8 +31570,8 @@ define('router-config', [
             case 4:
                 channelName = '线下';
                 break;
-                defaults:
-                    channelName = '--';
+            default:
+                channelName = '--';
             }
             return channelName;
         };
