@@ -121,45 +121,29 @@ define(['angular', 'baseSet', 'jquery', 'sweetalert'], function (angular, baseSe
 		};
 		this.createOrder = function (data, suc) {
 			appHttp.appPost({
-				url: baseSet.postServer + 'api/v2/order/createCarOrderBackTow',
-				data: {
-					userId: id,
-					page: page,
-					pageSize: $rootScope.pageSize
-				},
+				url: baseSet.postServer + 'api/v2/order/createCarOrderBackTwo',
+				data: data,
 				success: suc
 			});
 		};
 		this.createOrderWithUserId = function (data, suc) {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/order/createCarOrderBack',
-				data: {
-					userId: id,
-					page: page,
-					pageSize: $rootScope.pageSize
-				},
+				data: data,
 				success: suc
 			});
 		};
 		this.createProduct = function (data, suc) {
 			appHttp.appPost({
-				url: baseSet.postServer + 'api/v2/order/createProductOrderTow',
-				data: {
-					userId: id,
-					page: page,
-					pageSize: $rootScope.pageSize
-				},
+				url: baseSet.postServer + 'api/v2/order/cretaeProductOrderBackTwo',
+				data: data,
 				success: suc
 			});
 		};
-		this.createProductWithUserId = function (data, fuc) {
+		this.createProductWithUserId = function (data, suc) {
 			appHttp.appPost({
-				url: baseSet.postServer + 'api/v2/order/createProductOrder',
-				data: {
-					userId: id,
-					page: page,
-					pageSize: $rootScope.pageSize
-				},
+				url: baseSet.postServer + 'api/v2/order/cretaeProductOrderBack',
+				data: data,
 				success: suc
 			});
 		};

@@ -242,7 +242,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 			},
 			replace: true,
 			template: `
-				<div class="modal fade custom-modal" style="display:block;"  tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog modal-md">
 						<div class="modal-content">
 							<div class="modal-header">{{title}}</div>
@@ -300,45 +300,45 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>提车门店:</span>
-										<select name="" chosen  placeholder-text-single="'请选择'" width="256" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true">
+										<select name="" chosen  placeholder-text-single="'请选择'" width="256" ng-model="orderModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true">
 											<option value="">请选择</option>
 										</select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>公司:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" type="text" />
+											<input class="default-input" ng-model="orderModel.organization" type="text" />
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0&&!userId">
 										<span>手机号:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" ng-model="orderModel.mobile" type="text" />
+											<input class="default-input" ng-model="orderModel.mobile" required type="text" />
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0&&!userId">
 										<span>姓名:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" ng-model="orderModel.realname" type="text" />
+											<input class="default-input" ng-model="orderModel.realname" required type="text" />
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0&&!userId">
 										<span>身份证:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" ng-model="orderModel.cardId" type="text" />
+											<input class="default-input" ng-model="orderModel.cardId" required type="text" />
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>分类1:</span>
-										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="changeLv1(classlv1)" ng-model="classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true"></select>
+										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="changeLv1(selectOrder.classlv1)" ng-model="selectOrder.classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true"></select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>分类2:</span>
-										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="changeLv2(classlv2)" ng-model="classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true"></select>
+										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="changeLv2(selectOrder.classlv2)" ng-model="selectOrder.classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true"></select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>商品:</span>
-										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="chooseProduct(selectProduct)" ng-model="selectProduct" ng-options="item.productName for item in productsData" id="" disable-search="true"></select>
+										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="chooseProduct(selectOrder.selectProduct)" ng-model="selectOrder.selectProduct" ng-options="item.productName for item in productsData" id="" disable-search="true"></select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>提货地点:</span>
@@ -394,12 +394,11 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					product: '',
 					level1Type: '',
 					level2Type: '',
-					userId: '',
 					data: '',
 					promotionId: '',
 					storeId: '',
 					idCard: '',
-					company: '',
+					organization: ''
 
 				}
 				var productModelDefault = {
@@ -412,12 +411,15 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					$scope.colorOne = {}
 					$scope.colorTow = {}
 					$scope.colorThree = {}
-					$scope.orderModel && ($scope.orderModel = Object.assign({}, orderModelDefault));
-					$scope.productModel && ($scope.productModel = Object.assign({}, productModelDefault));
+					$scope.orderModel || ($scope.orderModel = Object.assign({}, orderModelDefault));
+					$scope.productModel || ($scope.productModel = Object.assign({}, productModelDefault));
 					$scope.selectOrder = {
 						selectColorOne: '',
 						selectColorTow: '',
-						selectPromotion: {}
+						selectPromotion: {},
+						classlv1: '',
+						classlv2: '',
+						selectOrder: {}
 					}
 				}
 				init();
@@ -552,10 +554,16 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					console.log($scope.productModel);
 					
 					if($scope.orderForm.$valid) {
-						if($scope.orderForm.orderType == 0){
-							getCreateOrder().call(this, $scope.orderModel, fn_success, fn_fail)
+						if($scope.orderModel.orderType == 0){
+							var orderModel = Object.assign({}, $scope.orderModel);
+							orderModel.data = orderModel.data&&orderModel.data.join(',');
+							delete orderModel.orderType
+							if($scope.userId) orderModel.userId = $scope.userId;
+							getCreateOrder().call(this, orderModel, fn_success, fn_fail)
 						}else{
-							getProductOrder().call(this, $scope.orderModel, fn_success, fn_fail)
+							var productModel = Object.assign({}, $scope.productModel)
+							if($scope.userId) productModel.userId = $scope.userId;
+							getProductOrder().call(this, productModel, fn_success, fn_fail)
 						}
 					}
 				}
