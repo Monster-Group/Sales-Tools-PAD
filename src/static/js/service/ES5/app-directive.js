@@ -238,7 +238,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr'], functio
 				userId: '='
 			},
 			replace: true,
-			template: '\n\t\t\t\t<div class="modal fade custom-modal" style="display:block;"  tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t\t<div class="modal-header">{{title}}</div>\n\t\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t\t<form id="orderForm" name="orderForm" novalidate onsubmit="return false;">\n\t\t\t\t\t\t\t\t<div class="config">\n\t\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t\t<span>\u7C7B\u522B:</span>\n\t\t\t\t\t\t\t\t\t\t<select chosen  placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-model="orderModel.orderType"\n\t\t    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">\u8BF7\u9009\u62E9</option>\n\t\t    \t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u8F66\u7CFB:</span>\n\t\t\t\t\t\t\t\t\t\t <select chosen disabled width="256" ng-model="orderModel.product">\n\t\t\t\t\t\t\t\t\t\t \t<option value="" select>E-100</option>\n\t\t    \t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u8F66\u578B:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-model=\'selectProduct\' width="256" disable-search="true" ng-change="productChange(selectProduct)"  ng-options="item.productName for item in listCar">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">\u8BF7\u9009\u62E9</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u8F66\u9876\u989C\u8272:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-change="changeColorOne(selectColorOne)" width="256"  ng-model="selectColorOne" ng-options="item for item in colorOne.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">\u8BF7\u9009\u62E9</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u8F66\u8EAB\u989C\u8272:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-change="changeColorTow(selectColorTow)" width="256"  ng-model="selectColorTow" ng-options=" item for item in colorTow.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">\u8BF7\u9009\u62E9</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u5185\u9970\u989C\u8272:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen placeholder-text-single="\'\u8BF7\u9009\u62E9\'" width="256"  ng-model="orderModel.level3Type" ng-options="item for item in colorThree.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">\u8BF7\u9009\u62E9</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u914D\u4EF6:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" multiple chosen placeholder-text-multiple="\'\u8BF7\u9009\u62E9\'" width="256"  ng-model="orderModel.data" ng-options="item.productId as item.productName for item in peiList" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u6D3B\u52A8\u4F18\u60E0:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen  placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-change="promotionChange(selectPromotion)" width="256" chosen id="" ng-model="selectPromotion" ng-options="item.promotionName for item in promotions" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u63D0\u8F66\u95E8\u5E97:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen  placeholder-text-single="\'\u8BF7\u9009\u62E9\'" width="256" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u516C\u53F8:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&userId">\n\t\t\t\t\t\t\t\t\t\t<span>\u624B\u673A\u53F7:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.mobile" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&userId">\n\t\t\t\t\t\t\t\t\t\t<span>\u59D3\u540D:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.realname" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&userId">\n\t\t\t\t\t\t\t\t\t\t<span>\u8EAB\u4EFD\u8BC1:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.cardId" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>\u5206\u7C7B1:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen width="256" placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-change="changeLv1(classlv1)" ng-model="classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>\u5206\u7C7B2:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen width="256" placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-change="changeLv2(classlv2)" ng-model="classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>\u5546\u54C1:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" width="256" placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-model="productModel.productId" ng-options="item.productId as item.productName for item in listClassLv3" id="" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>\u63D0\u8D27\u5730\u70B9:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen width="256" placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&userId">\n\t\t\t\t\t\t\t\t\t\t<span>\u624B\u673A\u53F7:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="productModel.mobile" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&userId">\n\t\t\t\t\t\t\t\t\t\t<span>\u59D3\u540D:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="productModel.realname" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&userId">\n\t\t\t\t\t\t\t\t\t\t<span>\u8EAB\u4EFD\u8BC1:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="productModel.cardId" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t<div class="price-info" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t<p>\u8F66\u4EF7:<i>{{}}</i></p>\n\t\t\t\t\t\t\t\t<p>\u914D\u4EF6:<i>35800</i></p>\n\t\t\t\t\t\t\t\t<p>\u6D3B\u52A8\u4F18\u60E0:<i>35800</i></p>\n\t\t\t\t\t\t\t\t<p class="total color-bdprimary">\u603B\u4EF7:<i>95800</i></p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="price-info" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t<p>\u603B\u4EF7:<i>000</i></p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="btn-wrapper">\n\t\t\t\t\t\t\t\t<a class="button" hm-tap="submit">\u786E\u5B9A</a>\n\t\t\t\t\t\t\t\t<a class="button" hm-tap="closeModal">\u53D6\u6D88</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t',
+			template: '\n\t\t\t\t<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t\t<div class="modal-header">{{title}}</div>\n\t\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t\t<form id="orderForm" name="orderForm" novalidate onsubmit="return false;">\n\t\t\t\t\t\t\t\t<div class="config">\n\t\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t\t<span>\u7C7B\u522B:</span>\n\t\t\t\t\t\t\t\t\t\t<select chosen  placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-model="orderModel.orderType"\n\t\t    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">\u8BF7\u9009\u62E9</option>\n\t\t    \t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u8F66\u7CFB:</span>\n\t\t\t\t\t\t\t\t\t\t <select chosen disabled width="256" ng-model="orderModel.product">\n\t\t\t\t\t\t\t\t\t\t \t<option value="" select>E-100</option>\n\t\t    \t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u8F66\u578B:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-model=\'selectProduct\' width="256" disable-search="true" ng-change="productChange(selectProduct)"  ng-options="item.productName for item in listCar">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">\u8BF7\u9009\u62E9</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u8F66\u9876\u989C\u8272:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-change="changeColorOne(selectOrder.selectColorOne)" width="256"  ng-model="selectOrder.selectColorOne" ng-options="item for item in colorOne.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">\u8BF7\u9009\u62E9</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u8F66\u8EAB\u989C\u8272:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-change="changeColorTow(selectOrder.selectColorTow)" width="256"  ng-model="selectOrder.selectColorTow" ng-options=" item for item in colorTow.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">\u8BF7\u9009\u62E9</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u5185\u9970\u989C\u8272:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen placeholder-text-single="\'\u8BF7\u9009\u62E9\'" width="256"  ng-model="orderModel.level3Type" ng-options="item for item in colorThree.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">\u8BF7\u9009\u62E9</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u914D\u4EF6:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" multiple chosen placeholder-text-multiple="\'\u8BF7\u9009\u62E9\'" width="256" ng-change="selectPei(orderModel.data)"  ng-model="orderModel.data" ng-options="item.productId as item.productName for item in peiList" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u6D3B\u52A8\u4F18\u60E0:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen  placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-change="promotionChange(selectOrder.selectPromotion)" width="256" chosen id="" ng-model="selectOrder.selectPromotion" ng-options="item.promotionName for item in promotions" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">\u8BF7\u9009\u62E9</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t<span class="subjoin" ng-bind="selectOrder.selectPromotion.discount"></span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u63D0\u8F66\u95E8\u5E97:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen  placeholder-text-single="\'\u8BF7\u9009\u62E9\'" width="256" ng-model="orderModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">\u8BF7\u9009\u62E9</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>\u516C\u53F8:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.organization" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>\u624B\u673A\u53F7:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.mobile" required type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>\u59D3\u540D:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.realname" required type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>\u8EAB\u4EFD\u8BC1:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.cardId" required type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>\u5206\u7C7B1:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen width="256" placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-change="changeLv1(selectOrder.classlv1)" ng-model="selectOrder.classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>\u5206\u7C7B2:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen width="256" placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-change="changeLv2(selectOrder.classlv2)" ng-model="selectOrder.classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>\u5546\u54C1:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen width="256" placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-change="chooseProduct(selectOrder.selectProduct)" ng-model="selectOrder.selectProduct" ng-options="item.productName for item in productsData" id="" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>\u63D0\u8D27\u5730\u70B9:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen width="256" placeholder-text-single="\'\u8BF7\u9009\u62E9\'" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true"></select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>\u624B\u673A\u53F7:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="productModel.mobile" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>\u59D3\u540D:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="productModel.realname" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>\u8EAB\u4EFD\u8BC1:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="productModel.cardId" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t<div class="price-info" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t<p>\u8F66\u4EF7:<i>{{carPrice}}</i></p>\n\t\t\t\t\t\t\t\t<p>\u914D\u4EF6:<i>{{peiPrice}}</i></p>\n\t\t\t\t\t\t\t\t<p>\u6D3B\u52A8\u4F18\u60E0:<i>{{selectOrder.selectPromotion.discount}}</i></p>\n\t\t\t\t\t\t\t\t<p class="total color-bdprimary">\u603B\u4EF7:<i>{{getSum()}}</i></p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="price-info" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t<p>\u603B\u4EF7:<i>{{productPrice}}</i></p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="btn-wrapper">\n\t\t\t\t\t\t\t\t<a class="button" hm-tap="submit">\u786E\u5B9A</a>\n\t\t\t\t\t\t\t\t<a class="button" hm-tap="closeModal">\u53D6\u6D88</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t',
 			controller: function controller($scope, $element, $attrs) {
 				$scope.title = '创建订单';
 			},
@@ -249,12 +249,11 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr'], functio
 					product: '',
 					level1Type: '',
 					level2Type: '',
-					userId: '',
 					data: '',
 					promotionId: '',
 					storeId: '',
 					idCard: '',
-					company: ''
+					organization: ''
 
 				};
 				var productModelDefault = {
@@ -263,12 +262,22 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr'], functio
 					// level2Type: '',
 					storeId: ''
 				};
-				$scope.colorOne = {};
-				$scope.colorTow = {};
-				$scope.colorThree = {};
-				$scope.orderModel && ($scope.orderModel = Object.assign({}, orderModelDefault));
-				$scope.productModel && ($scope.productModel = Object.assign({}, productModelDefault));
-
+				function init() {
+					$scope.colorOne = {};
+					$scope.colorTow = {};
+					$scope.colorThree = {};
+					$scope.orderModel || ($scope.orderModel = Object.assign({}, orderModelDefault));
+					$scope.productModel || ($scope.productModel = Object.assign({}, productModelDefault));
+					$scope.selectOrder = {
+						selectColorOne: '',
+						selectColorTow: '',
+						selectPromotion: {},
+						classlv1: '',
+						classlv2: '',
+						selectOrder: {}
+					};
+				}
+				init();
 				//获取车辆列表
 				appApi.listCar(function (data) {
 					$scope.listCar = data.map(function (item) {
@@ -301,13 +310,23 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr'], functio
 						fn(d);
 					});
 				}
+
 				$scope.productChange = function (product) {
 					console.log('select: ', product);
 					if ($scope.orderModel.productId == product.productId) return;
 
 					$scope.orderModel.productId = product.productId;
 					$scope.peiList = product.peiList;
-					$scope.carPrice = product.price;
+					$scope.carPrice = product.defaultPrice;
+
+					$scope.colorThree = {};
+					$scope.colorTow = {};
+					$scope.selectOrder.selectOrderOne = '';
+					$scope.selectOrder.selectColorTow = '';
+					$scope.orderModel.level1Type = '';
+					$scope.orderModel.level2Type = '';
+					$scope.orderModel.level3Type = '';
+
 					getColor({ productId: product.productId }, function (data) {
 						$scope.colorOne = data;
 					});
@@ -317,11 +336,13 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr'], functio
 					$scope.orderModel.level1Type = colorOne;
 					$scope.orderModel.level2Type = '';
 					$scope.orderModel.level3Type = '';
+					$scope.selectOrder.selectColorTow = '';
+					$scope.colorThree = {};
 					getColor({
-						product: $scope.orderModel.productId,
+						productId: $scope.orderModel.productId,
 						level1Type: colorOne
 					}, function (data) {
-						$scope.colorTow = d;
+						$scope.colorTow = data;
 					});
 				};
 
@@ -331,22 +352,28 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr'], functio
 					$scope.orderModel.level2Type = colorTow;
 					$scope.orderModel.level3Type = '';
 					getColor({
-						product: $scope.orderModel.productId,
+						productId: $scope.orderModel.productId,
 						level1Type: $scope.orderModel.level1Type,
 						level2Type: $scope.orderModel.level2Type
 					}, function (data) {
-						$scope.colorTow = d;
+						$scope.colorThree = data;
 					});
 				};
-
+				var typeObj = {};
 				$scope.changeLv1 = function (classlv1) {
+					if (classlv1 === typeObj.classlv1) return;
+					typeObj.classlv1 = classlv1;
+					$scope.productsData = [];
+					$scope.classlv2 = '';
+
+					if (classlv1 === '') return;
 					getProductType({ subtype: classlv1 }, function (data) {
-						$scope.listClassLv2 = data;
+						$scope.listClassLv2 = data.list;
 					});
 				};
 				$scope.changeLv2 = function (classlv2) {
-					getProductType({ subtype: $scope.classlv1, subtype2: classlv2 }, function (data) {
-						$scope.listClassLv3 = data;
+					appApi.listProduct({ subtype: $scope.classlv1, subtype2: classlv2 }, function (data) {
+						$scope.productsData = data;
 					});
 				};
 				$scope.promotionChange = function (promotion) {
@@ -354,17 +381,66 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr'], functio
 
 					$scope.orderModel.promotionId = promotion.promotionId;
 				};
+				$scope.selectPei = function (peiArr) {
+					var peiPrice = 0;
+					$scope.peiList.forEach(function (item) {
+						if (peiArr.indexOf(item.productId) > -1) {
+							peiPrice += Number(item.default_price);
+						}
+					});
+					$scope.peiPrice = peiPrice;
+				};
+				$scope.chooseProduct = function (product) {
+					$scope.productModel.productId = product.productId;
+					$scope.productPrice = product.defaultPrice;
+				};
 				$scope.closeModal = function () {
 					$scope.$modal.modal('toggle');
+					init();
 				};
-
+				$scope.getSum = function () {
+					var carPrice = angular.isNumber($scope.carPrice) ? +$scope.carPrice : 0;
+					var pei = angular.isNumber($scope.peiPrice) ? +$scope.peiPrice : 0;
+					var discount = angular.isNumber($scope.selectOrder.selectPromotion) ? +$scope.discount : 0;
+					return carPrice + pei - discount;
+				};
 				$scope.submit = function () {
 					console.log($scope.orderModel);
+					console.log($scope.productModel);
+
 					if ($scope.orderForm.$valid) {
-						alert('提交');
+						if ($scope.orderModel.orderType == 0) {
+							var orderModel = Object.assign({}, $scope.orderModel);
+							orderModel.data = orderModel.data && orderModel.data.join(',');
+							delete orderModel.orderType;
+							if ($scope.userId) orderModel.userId = $scope.userId;
+							getCreateOrder().call(this, orderModel, fn_success, fn_fail);
+						} else {
+							var productModel = Object.assign({}, $scope.productModel);
+							if ($scope.userId) productModel.userId = $scope.userId;
+							getProductOrder().call(this, productModel, fn_success, fn_fail);
+						}
 					}
 				};
+				function fn_success(res) {
+					$scope.closeModal();
+				}
+				function fn_fail() {}
+				function getCreateOrder() {
+					if ($scope.userId) {
+						return appApi.createOrderWithUserId;
+					} else {
+						return appApi.createOrder;
+					}
+				}
 
+				function getProductOrder() {
+					if ($scope.userId) {
+						return appApi.createProductWithUserId;
+					} else {
+						return appApi.createProduct;
+					}
+				}
 				$scope.$modal.on('hide.bs.modal', function () {
 					if ($scope.orderForm.$dirty) {
 						$scope.orderModel = Object.assign({}, orderModelDefault);
@@ -403,6 +479,12 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr'], functio
 					// $scope.detailShow = false;
 					$scope.$emit('detailClose');
 				};
+
+				function init() {
+					$scope.orderDetail = {};
+					$scope.payment = [];
+					$scope.appoints = [];
+				}
 
 				var loadPayInfo = function loadPayInfo(orderNo) {
 					appApi.getPayment({

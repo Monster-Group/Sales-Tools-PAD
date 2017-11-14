@@ -6,6 +6,11 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		$scope.$table = $('.client-table');
 		$scope.$detailTable = $('.client-detail-table');
 		$scope.$remarkTable = $('.remark-table');
+		$scope.$addModal = $('.add-order-modal');
+		$scope.$addModal.on('hidden.bs.modal',()=>{
+			$('.add-btn').removeClass('active');
+			//reload
+		});
 		$scope.pageNum = 1;
 		$scope.orderpageNum = 1;
 		$scope.remarkPageNum = 1;
@@ -263,6 +268,10 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		$scope.addClient = ()=>{
 			$scope.showAddClient = true;
 		};
+		$scope.addOrder = (e) => {
+			$(e.target).addClass('active');
+			$scope.$addModal.modal('show');
+		}
 		$('.client-table').on('tap','tbody tr',function(e){
 			var data = $scope.dt.api(true).row($(this)).data();
 			$('.detail-info').tab('show').addClass('active').siblings('a').removeClass('active');

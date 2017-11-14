@@ -242,7 +242,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 			},
 			replace: true,
 			template: `
-				<div class="modal fade custom-modal" style="display:block;"  tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog modal-md">
 						<div class="modal-content">
 							<div class="modal-header">{{title}}</div>
@@ -270,13 +270,13 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>车顶颜色:</span>
-										<select name="" chosen placeholder-text-single="'请选择'" ng-change="changeColorOne(selectColorOne)" width="256"  ng-model="selectColorOne" ng-options="item for item in colorOne.select" id="" disable-search="true">
+										<select name="" chosen placeholder-text-single="'请选择'" ng-change="changeColorOne(selectOrder.selectColorOne)" width="256"  ng-model="selectOrder.selectColorOne" ng-options="item for item in colorOne.select" id="" disable-search="true">
 											<option value="">请选择</option>
 										</select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>车身颜色:</span>
-										<select name="" chosen placeholder-text-single="'请选择'" ng-change="changeColorTow(selectColorTow)" width="256"  ng-model="selectColorTow" ng-options=" item for item in colorTow.select" id="" disable-search="true">
+										<select name="" chosen placeholder-text-single="'请选择'" ng-change="changeColorTow(selectOrder.selectColorTow)" width="256"  ng-model="selectOrder.selectColorTow" ng-options=" item for item in colorTow.select" id="" disable-search="true">
 											<option value="">请选择</option>
 										</select>
 									</div>
@@ -288,70 +288,75 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>配件:</span>
-										<select name="" multiple chosen placeholder-text-multiple="'请选择'" width="256"  ng-model="orderModel.data" ng-options="item.productId as item.productName for item in peiList" id="" disable-search="true">
+										<select name="" multiple chosen placeholder-text-multiple="'请选择'" width="256" ng-change="selectPei(orderModel.data)"  ng-model="orderModel.data" ng-options="item.productId as item.productName for item in peiList" id="" disable-search="true">
 										</select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>活动优惠:</span>
-										<select name="" chosen  placeholder-text-single="'请选择'" ng-change="promotionChange(selectPromotion)" width="256" chosen id="" ng-model="selectPromotion" ng-options="item.promotionName for item in promotions" disable-search="true"></select>
+										<select name="" chosen  placeholder-text-single="'请选择'" ng-change="promotionChange(selectOrder.selectPromotion)" width="256" chosen id="" ng-model="selectOrder.selectPromotion" ng-options="item.promotionName for item in promotions" disable-search="true">
+											<option value="">请选择</option>
+										</select>
+										<span class="subjoin" ng-bind="selectOrder.selectPromotion.discount"></span>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>提车门店:</span>
-										<select name="" chosen  placeholder-text-single="'请选择'" width="256" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true"></select>
+										<select name="" chosen  placeholder-text-single="'请选择'" width="256" ng-model="orderModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true">
+											<option value="">请选择</option>
+										</select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>公司:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" type="text" />
+											<input class="default-input" ng-model="orderModel.organization" type="text" />
 										</div>
 									</div>
-									<div class="item" ng-if="orderModel.orderType === 0&&userId">
+									<div class="item" ng-if="orderModel.orderType === 0&&!userId">
 										<span>手机号:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" ng-model="orderModel.mobile" type="text" />
+											<input class="default-input" ng-model="orderModel.mobile" required type="text" />
 										</div>
 									</div>
-									<div class="item" ng-if="orderModel.orderType === 0&&userId">
+									<div class="item" ng-if="orderModel.orderType === 0&&!userId">
 										<span>姓名:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" ng-model="orderModel.realname" type="text" />
+											<input class="default-input" ng-model="orderModel.realname" required type="text" />
 										</div>
 									</div>
-									<div class="item" ng-if="orderModel.orderType === 0&&userId">
+									<div class="item" ng-if="orderModel.orderType === 0&&!userId">
 										<span>身份证:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" ng-model="orderModel.cardId" type="text" />
+											<input class="default-input" ng-model="orderModel.cardId" required type="text" />
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>分类1:</span>
-										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="changeLv1(classlv1)" ng-model="classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true"></select>
+										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="changeLv1(selectOrder.classlv1)" ng-model="selectOrder.classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true"></select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>分类2:</span>
-										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="changeLv2(classlv2)" ng-model="classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true"></select>
+										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="changeLv2(selectOrder.classlv2)" ng-model="selectOrder.classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true"></select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>商品:</span>
-										<select name="" width="256" placeholder-text-single="'请选择'" ng-model="productModel.productId" ng-options="item.productId as item.productName for item in listClassLv3" id="" disable-search="true"></select>
+										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="chooseProduct(selectOrder.selectProduct)" ng-model="selectOrder.selectProduct" ng-options="item.productName for item in productsData" id="" disable-search="true"></select>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>提货地点:</span>
 										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true"></select>
 									</div>
-									<div class="item" ng-if="orderModel.orderType === 1&&userId">
+									<div class="item" ng-if="orderModel.orderType === 1&&!userId">
 										<span>手机号:</span>
 										<div class="form-input-wrapper">
 											<input class="default-input" ng-model="productModel.mobile" type="text" />
 										</div>
 									</div>
-									<div class="item" ng-if="orderModel.orderType === 1&&userId">
+									<div class="item" ng-if="orderModel.orderType === 1&&!userId">
 										<span>姓名:</span>
 										<div class="form-input-wrapper">
 											<input class="default-input" ng-model="productModel.realname" type="text" />
 										</div>
 									</div>
-									<div class="item" ng-if="orderModel.orderType === 1&&userId">
+									<div class="item" ng-if="orderModel.orderType === 1&&!userId">
 										<span>身份证:</span>
 										<div class="form-input-wrapper">
 											<input class="default-input" ng-model="productModel.cardId" type="text" />
@@ -362,13 +367,13 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 						</div>
 						<div class="modal-footer">
 							<div class="price-info" ng-if="orderModel.orderType === 0">
-								<p>车价:<i>{{}}</i></p>
-								<p>配件:<i>35800</i></p>
-								<p>活动优惠:<i>35800</i></p>
-								<p class="total color-bdprimary">总价:<i>95800</i></p>
+								<p>车价:<i>{{carPrice}}</i></p>
+								<p>配件:<i>{{peiPrice}}</i></p>
+								<p>活动优惠:<i>{{selectOrder.selectPromotion.discount}}</i></p>
+								<p class="total color-bdprimary">总价:<i>{{getSum()}}</i></p>
 							</div>
 							<div class="price-info" ng-if="orderModel.orderType === 1">
-								<p>总价:<i>000</i></p>
+								<p>总价:<i>{{productPrice}}</i></p>
 							</div>
 							<div class="btn-wrapper">
 								<a class="button" hm-tap="submit">确定</a>
@@ -389,12 +394,11 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					product: '',
 					level1Type: '',
 					level2Type: '',
-					userId: '',
 					data: '',
 					promotionId: '',
 					storeId: '',
 					idCard: '',
-					company: '',
+					organization: ''
 
 				}
 				var productModelDefault = {
@@ -403,12 +407,22 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					// level2Type: '',
 					storeId: ''
 				}
-				$scope.colorOne = {}
-				$scope.colorTow = {}
-				$scope.colorThree = {}
-				$scope.orderModel && ($scope.orderModel = Object.assign({}, orderModelDefault));
-				$scope.productModel && ($scope.productModel = Object.assign({}, productModelDefault));
-
+				function init(){
+					$scope.colorOne = {}
+					$scope.colorTow = {}
+					$scope.colorThree = {}
+					$scope.orderModel || ($scope.orderModel = Object.assign({}, orderModelDefault));
+					$scope.productModel || ($scope.productModel = Object.assign({}, productModelDefault));
+					$scope.selectOrder = {
+						selectColorOne: '',
+						selectColorTow: '',
+						selectPromotion: {},
+						classlv1: '',
+						classlv2: '',
+						selectOrder: {}
+					}
+				}
+				init();
 				//获取车辆列表
 				appApi.listCar((data) => {
 					$scope.listCar = data.map((item) => {
@@ -441,13 +455,23 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 						fn(d);
 					})
 				}
+
 				$scope.productChange = (product) => {
 					console.log('select: ', product);
 					if($scope.orderModel.productId == product.productId) return;
 
 					$scope.orderModel.productId = product.productId;
 					$scope.peiList = product.peiList;
-					$scope.carPrice = product.price;
+					$scope.carPrice = product.defaultPrice;
+
+					$scope.colorThree = {};
+					$scope.colorTow = {};
+					$scope.selectOrder.selectOrderOne = '';
+					$scope.selectOrder.selectColorTow = '';
+					$scope.orderModel.level1Type = '';
+					$scope.orderModel.level2Type = '';
+					$scope.orderModel.level3Type = '';
+
 					getColor({productId: product.productId}, (data) => {
 						$scope.colorOne = data;
 					})
@@ -457,11 +481,13 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					$scope.orderModel.level1Type = colorOne;
 					$scope.orderModel.level2Type = '';
 					$scope.orderModel.level3Type = '';
+					$scope.selectOrder.selectColorTow = '';
+					$scope.colorThree = {}
 					getColor({
-							product: $scope.orderModel.productId,
+							productId: $scope.orderModel.productId,
 							level1Type: colorOne
 						}, (data) => {
-							$scope.colorTow = d;
+							$scope.colorTow = data;
 						})
 				}
 
@@ -471,22 +497,28 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					$scope.orderModel.level2Type = colorTow;
 					$scope.orderModel.level3Type = '';
 					getColor({
-							product: $scope.orderModel.productId,
+							productId: $scope.orderModel.productId,
 							level1Type: $scope.orderModel.level1Type,
 							level2Type: $scope.orderModel.level2Type,
 						}, (data) => {
-							$scope.colorTow = d;
+							$scope.colorThree = data;
 						})
 				}
-
+				var typeObj = {}
 				$scope.changeLv1 = (classlv1) => {
+					if(classlv1 === typeObj.classlv1) return;
+					typeObj.classlv1 = classlv1;
+					$scope.productsData = [];
+					$scope.classlv2 = '';
+
+					if(classlv1 === '') return;
 					getProductType({subtype: classlv1}, (data) => {
-						$scope.listClassLv2 = data;
+						$scope.listClassLv2 = data.list;
 					});
 				}
 				$scope.changeLv2 = (classlv2) => {
-					getProductType({subtype: $scope.classlv1, subtype2: classlv2}, (data) => {
-						$scope.listClassLv3 = data;
+					appApi.listProduct({subtype: $scope.classlv1, subtype2: classlv2}, (data) => {
+						$scope.productsData = data;
 					});
 				}
 				$scope.promotionChange = (promotion) => {
@@ -494,17 +526,68 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 
 					$scope.orderModel.promotionId = promotion.promotionId;
 				}
-				$scope.closeModal = function() {
-					$scope.$modal.modal('toggle')
+				$scope.selectPei = (peiArr) => {
+					var peiPrice = 0;
+					$scope.peiList.forEach(function(item){
+						if(peiArr.indexOf(item.productId) > -1){
+							peiPrice += Number(item.default_price);
+						}
+					});
+					$scope.peiPrice = peiPrice;
 				}
-
+				$scope.chooseProduct = (product) => {
+					$scope.productModel.productId = product.productId;
+					$scope.productPrice = product.defaultPrice;
+				}
+				$scope.closeModal = function() {
+					$scope.$modal.modal('toggle');
+					init();
+				}
+				$scope.getSum = function(){
+					var carPrice = angular.isNumber($scope.carPrice) ? +$scope.carPrice : 0;
+					var pei = angular.isNumber($scope.peiPrice)  ? +$scope.peiPrice : 0;
+					var discount = angular.isNumber($scope.selectOrder.selectPromotion) ? +$scope.discount : 0 ;
+					return carPrice + pei - discount;
+				}
 				$scope.submit = function() {
 					console.log($scope.orderModel);
+					console.log($scope.productModel);
+					
 					if($scope.orderForm.$valid) {
-						alert('提交')
+						if($scope.orderModel.orderType == 0){
+							var orderModel = Object.assign({}, $scope.orderModel);
+							orderModel.data = orderModel.data&&orderModel.data.join(',');
+							delete orderModel.orderType
+							if($scope.userId) orderModel.userId = $scope.userId;
+							getCreateOrder().call(this, orderModel, fn_success, fn_fail)
+						}else{
+							var productModel = Object.assign({}, $scope.productModel)
+							if($scope.userId) productModel.userId = $scope.userId;
+							getProductOrder().call(this, productModel, fn_success, fn_fail)
+						}
+					}
+				}
+				function fn_success(res){
+					$scope.closeModal();
+				}
+				function fn_fail(){
+
+				}
+				function getCreateOrder(){
+					if($scope.userId){
+						return appApi.createOrderWithUserId;
+					}else{
+						return appApi.createOrder					
 					}
 				}
 
+				function getProductOrder(){
+					if($scope.userId){
+						return appApi.createProductWithUserId;
+					}else{
+						return appApi.createProduct					
+					}
+				}
 				$scope.$modal.on('hide.bs.modal', function() {
 					if($scope.orderForm.$dirty) {
 						$scope.orderModel = Object.assign({}, orderModelDefault);
@@ -683,6 +766,12 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 				$scope.back = function(){
 					// $scope.detailShow = false;
 					$scope.$emit('detailClose');
+				}
+
+				function init(){
+					$scope.orderDetail = {};
+					$scope.payment = [];
+					$scope.appoints = [];
 				}
 
 				let loadPayInfo = (orderNo)=>{

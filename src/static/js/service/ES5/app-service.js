@@ -119,6 +119,34 @@ define(['angular', 'baseSet', 'jquery', 'sweetalert'], function (angular, baseSe
 				success: suc
 			});
 		};
+		this.createOrder = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/createCarOrderBackTwo',
+				data: data,
+				success: suc
+			});
+		};
+		this.createOrderWithUserId = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/createCarOrderBack',
+				data: data,
+				success: suc
+			});
+		};
+		this.createProduct = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/cretaeProductOrderBackTwo',
+				data: data,
+				success: suc
+			});
+		};
+		this.createProductWithUserId = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/cretaeProductOrderBack',
+				data: data,
+				success: suc
+			});
+		};
 		this.detailOrder = function (id, suc) {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/matter/detailOrder',
@@ -244,6 +272,20 @@ define(['angular', 'baseSet', 'jquery', 'sweetalert'], function (angular, baseSe
 		this.listClassifyLv1 = function (suc) {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/product/listClassifyLV1Back',
+				success: suc
+			});
+		};
+		this.listClassify = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/product/listClassifyBack',
+				data: data,
+				success: suc
+			});
+		};
+		this.listProduct = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/product/listProductByClassify',
+				data: data,
 				success: suc
 			});
 		};
