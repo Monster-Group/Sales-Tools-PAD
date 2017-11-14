@@ -117,6 +117,50 @@ define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$
 				success: suc
 			});
 		};
+		this.createOrder = (data, suc) =>{
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/createCarOrderBackTow',
+				data:{
+					userId:id,
+					page:page,
+					pageSize:$rootScope.pageSize
+				},
+				success: suc
+			});
+		}
+		this.createOrderWithUserId = (data, suc) =>{
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/createCarOrderBack',
+				data:{
+					userId:id,
+					page:page,
+					pageSize:$rootScope.pageSize
+				},
+				success: suc
+			});
+		}
+		this.createProduct = (data, suc) =>{
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/createProductOrderTow',
+				data:{
+					userId:id,
+					page:page,
+					pageSize:$rootScope.pageSize
+				},
+				success: suc
+			});
+		}
+		this.createProductWithUserId = (data, fuc) =>{
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/createProductOrder',
+				data:{
+					userId:id,
+					page:page,
+					pageSize:$rootScope.pageSize
+				},
+				success: suc
+			});
+		}
 		this.detailOrder = (id,suc) => {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/matter/detailOrder',
@@ -242,6 +286,20 @@ define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$
 		this.listClassifyLv1 = (suc) => {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/product/listClassifyLV1Back',
+				success: suc
+			})
+		}
+		this.listClassify = (data, suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/product/listClassifyBack',
+				data: data,
+				success: suc
+			})
+		}
+		this.listProduct = (data, suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/product/listProductByClassify',
+				data: data,
 				success: suc
 			})
 		}
