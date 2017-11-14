@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - base
  * Author: Clearlove 7*
- * Updated: 2017-11-14 22:52
+ * Updated: 2017-11-15 00:31
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -708,9 +708,6 @@ body {
   overflow: hidden; }
 
 .swiper-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   height: 100%;
   position: relative;
   -webkit-transform-style: preserve-3d;
@@ -724,8 +721,6 @@ body {
 
 .swiper-wrapper .swiper-slide {
   float: left;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
   position: relative;
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d; }

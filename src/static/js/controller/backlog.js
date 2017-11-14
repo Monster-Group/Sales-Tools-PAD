@@ -1,9 +1,10 @@
-define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','moment','loading'], function(angular, tpl, Waves, NProgress,toastr,moment) {
+define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','moment','loading','swiper'], function(angular, tpl, Waves, NProgress,toastr,moment) {
 	function controller($scope,appApi,getStatuDisplay,toThousands,watch,dateArray) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
 		NProgress.done();
 		$scope.dateObj = dateArray();
+		console.log($scope.dateObj);
 		$scope.$modal = $('.task-modal');
 		$scope.title = '完成任务';
 		$scope.$table = $('.backlog-table');
@@ -12,8 +13,11 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 		$scope.postUrl = '';
 		$scope.remark = '';
 		$scope.pageNum = 1;
-		$scope.$modal.find('.modal-dialog').css('margin-top','-'+$scope.$modal.find('.modal-dialog').outerHeight()/2+'px');
-		$scope.$modal.hide();
+		$scope.$dateIndex = 0;
+		$scope.isSkip = 1;
+		$scope.dateStr = moment().format('YYYY-MM-DD');
+		$scope.timeStr = '09:00-09:30';
+		$scope.revampData = {};
 		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
 		console.log($scope.$modal.find('.modal-dialog').outerHeight());
 		let loadData = (fn) =>{
@@ -124,7 +128,9 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 			e.preventDefault();
 			var data = $scope.dt.api(true)
 			.row($(this).parents('tr')).data();
-			$scope.title = '改约任务';
+			$scope.$apply(()=>{
+				$scope.title = '改约任务';
+			});
 			$scope.postUrl = 'updateAppoint';
 			$scope.$modal.data('data',data).modal('show');
 		});
@@ -133,7 +139,9 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 			e.preventDefault();
 			var data = $scope.dt.api(true)
 			.row($(this).parents('tr')).data();
-			$scope.title = '完成任务';
+			$scope.$apply(()=>{
+				$scope.title = '完成任务';
+			});
 			$scope.postUrl = 'finishAppoint';
 			$scope.$modal.data('data',data).modal('show');
 		});
@@ -144,26 +152,80 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 			});
 		});
 		$scope.affirm = ()=>{
+			$scope.submited = true;
 			let data = $scope.$modal.data('data');
-			console.log(data);
-			updateAppoint({
-				orderId:data.orderId,
-				orderDeliveryId:data.orderDeliveryId,
-				startTime:null,
-				endTime:null,
-				remark:$scope.remark,
-				isSkip:1
-			});
+			if($scope.remark!=undefined&&$scope.remark!=''){
+				if($scope.isSkip == 1){
+					$scope.revampData = {
+						orderId:data.orderId,
+						orderDeliveryId:data.orderDeliveryId,
+						startTime:null,
+						endTime:null,
+						remark:$scope.remark,
+						isSkip:1
+					};
+				}else{
+					$scope.revampData = {
+						orderId:data.orderId,
+						orderDeliveryId:data.orderDeliveryId,
+						startTime:$scope.dateStr+' '+$scope.timeStr.split('-')[0],
+						endTime:$scope.dateStr+' '+$scope.timeStr.split('-')[1],
+						remark:$scope.remark,
+						isSkip:0
+					};
+				}
+				console.log($scope.revampData)
+				updateAppoint($scope.revampData);
+			}
 		};
 		$scope.$modal.on('hidden.bs.modal', () => {
+			$scope.$dateIndex = 0;
+			$scope.isSkip = 1;
+			$scope.dateStr = moment().format('YYYY-MM-DD');
+			$scope.timeStr = '09:00-09:30';
+			$scope.revampData = {};
+			$scope.submited = false;
 			$scope.remark = '';
 			$scope.$digest();
+		});
+		$scope.$modal.on('shown.bs.modal', () => {
+			if(!$scope.Swiper){
+				setTimeout(()=>{
+					$scope.Swiper = new Swiper('.swiper-container',{
+						freeMode : true,
+						slidesPerView: 'auto',
+						roundLengths : true,
+						prevButton:'.date-time-picker .left-arrow',
+						nextButton:'.date-time-picker .right-arrow'
+					});
+				},0);
+			}
 		});
 		watch((n,o)=>{
 			$scope.stageIds = [];
 			$scope.pageNum = 1;
 			loadData();
 		});
+		
+		$scope.dateFinish = ()=>{
+			$scope.wrapperStyle = {
+				width:365*106+'px'
+			};
+			$scope.$modal.find('.modal-dialog').css('margin-top','-'+$scope.$modal.find('.modal-dialog').outerHeight()/2+'px');
+			$scope.$modal.hide();
+		};
+		$scope.dayClick = (e,item,index)=>{
+			$scope.$dateIndex = index;
+			$scope.dateStr = item.date;
+			$scope.isSkip = 0;
+		};
+		$scope.timeClick = (e,item)=>{
+			$scope.timeStr = item;
+			$scope.isSkip = 0;
+		};
+		$scope.skip = ()=>{
+			$scope.isSkip = $scope.isSkip==0?1:0;
+		}
 	};
 	return {controller: controller, tpl: tpl};
 });

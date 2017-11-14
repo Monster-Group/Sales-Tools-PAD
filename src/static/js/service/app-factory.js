@@ -200,6 +200,7 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 			};
 			for(let i = 0;i<365;i++){
 				obj.date.push({
+					week:moment().add(i, 'days').format('ddd'),
 					year:moment().add(i, 'days').format('YYYY'),
 					month:moment().add(i, 'days').format('MM'),
 					day:moment().add(i, 'days').format('DD'),

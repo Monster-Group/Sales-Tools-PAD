@@ -858,7 +858,6 @@ body {
 }
 
 .swiper-wrapper {
-    display: flex;
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
@@ -869,7 +868,6 @@ body {
 
 .swiper-wrapper .swiper-slide {
     float: left;
-    flex-shrink: 0;
     position: relative;
     transform-style: preserve-3d;
 }
