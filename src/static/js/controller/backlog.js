@@ -1,8 +1,9 @@
-define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loading'], function(angular, tpl, Waves, NProgress,toastr) {
-	function controller($scope,appApi,getStatuDisplay,toThousands,watch) {
+define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','moment','loading'], function(angular, tpl, Waves, NProgress,toastr,moment) {
+	function controller($scope,appApi,getStatuDisplay,toThousands,watch,dateArray) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
 		NProgress.done();
+		$scope.dateObj = dateArray();
 		$scope.$modal = $('.task-modal');
 		$scope.title = '完成任务';
 		$scope.$table = $('.backlog-table');
@@ -45,6 +46,10 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 				$scope.remark = '';
 				toastr.success('提交成功');
 				$scope.$modal.modal('hide');
+				let top =$('.dataTables_scrollBody').scrollTop();
+				loadData(()=>{
+					$('.dataTables_scrollBody').scrollTop(top);
+				});
 			});
 		};
 		loadData();
@@ -71,7 +76,7 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 					width: '10%'
 				},
 				{
-					data: 'status',
+					data: 'deliveryStageName',
 					width: '10%'
 				},
 				{
@@ -87,12 +92,6 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','loadi
 					return '￥'+data;
 				}
 			},{
-				targets: 4,
-				visible: true,
-				render: function(data, type, row, meta) {
-					return getStatuDisplay(data);
-				}
-			}, {
 				targets: 5,
 				visible: true,
 				orderable:false,

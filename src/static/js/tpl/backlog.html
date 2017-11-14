@@ -46,13 +46,42 @@
 		</tbody>
 	</table>
 </div>
-<div class="modal fade custom-modal task-modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: block;">
+<div class="modal fade custom-modal task-modal show in" tabindex="-1" role="dialog" aria-hidden="true" style="display: block;">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="modal-header">{{title}}</div>
 			<div class="modal-body">
 				<p class="title">备注:</p>
 				<textarea class="default-textarea" ng-model="remark" rows="4"></textarea>
+				<div class="date-time-picker-wrapper">
+					<p class="invite-time"><span class="tag">邀约时间:</span>2017-11-11</p>
+					<div class="date-time-picker">
+						<div class="date-pick-wrapper">
+							<a class="left-arrow arrow icon">&#xe607;</a>
+							<div class="date-wapper">
+								<a class="date-item">
+									<span class="week-day">周日</span>
+									<span class="day">22</span>
+								</a>
+								<a class="date-item active">
+									<span class="week-day">周日</span>
+									<span class="day">22</span>
+								</a>
+								<a class="date-item">
+									<span class="week-day">周日</span>
+									<span class="day">22</span>
+								</a>
+							</div>
+							<a class="right-arrow arrow icon">&#xe600;</a>
+						</div>
+						<div class="time-wrapper">
+							<a class="time-item" ng-repeat="time in dateObj.time">{{time}}</a>
+						</div>
+					</div>
+					<div class="skip">
+						
+					</div>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<a class="button" hm-tap="affirm()">确定</a>

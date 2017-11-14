@@ -9,7 +9,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		$timeout(()=>{
 			$scope.$addModal = $('.add-order-modal');
 			$scope.$payModal = $('.add-pay-modal');
-			$scope.$addModal.find('.modal-dialog').css('margin-top','-'+$scope.$addModal.find('.modal-dialog').outerHeight()/2+'px');
+//			$scope.$addModal.find('.modal-dialog').css('margin-top','-'+$scope.$addModal.find('.modal-dialog').outerHeight()/2+'px');
 			$scope.$payModal.find('.modal-dialog').css('margin-top','-'+$scope.$payModal.find('.modal-dialog').outerHeight()/2+'px');
 			$scope.$addModal.hide();
 			$scope.$payModal.hide();

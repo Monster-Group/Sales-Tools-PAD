@@ -29,23 +29,23 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 		return function(s){
 			let statu = '';
 			switch(s){
-				case 1: statu='待交尾款(待邀约)' 
+				case 1: statu='待交尾款' 
 				break;
-				case 2: statu='待交尾款(待分配)' 
+				case 2: statu='待交尾款' 
 				break;
-				case 3: statu='待交尾款(代执行)' 
+				case 3: statu='待交尾款' 
 				break;
-				case 4: statu='待交车(待邀约)' 
+				case 4: statu='待交车' 
 				break;
-				case 5: statu='待交车(待分配)' 
+				case 5: statu='待交车' 
 				break;
-				case 6: statu='待交车(待执行)' 
+				case 6: statu='待交车' 
 				break;
-				case 7: statu='待上牌(待邀约)' 
+				case 7: statu='待上牌' 
 				break;
-				case 8: statu='待上牌 (待分配)' 
+				case 8: statu='待上牌' 
 				break;
-				case 9: statu='待上牌(待执行)' 
+				case 9: statu='待上牌' 
 				break;
 				case 10: statu='完成' 
 				break;
@@ -174,6 +174,39 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 				return moment(data).format('YYYY-MM-DD HH:mm');
 			};
 			return data;
+		}
+	});
+	appFactorys.factory('dateArray',function(){
+		return function(){
+			let obj = {
+				date:[],
+				time:[
+					'09:00-09:30',
+					'09:30-10:00',
+					'10:00-10:30',
+					'10:30-11:00',
+					'11:00-11:30',
+					'11:30-12:00',
+					'12:00-12:30',
+					'12:30-13:00',
+					'13:00-13:30',
+					'13:30-14:00',
+					'14:00-14:30',
+					'14:30-15:00',
+					'15:00-15:30',
+					'15:30-16:00',
+					'16:00-16:30',
+				]
+			};
+			for(let i = 0;i<365;i++){
+				obj.date.push({
+					year:moment().add(i, 'days').format('YYYY'),
+					month:moment().add(i, 'days').format('MM'),
+					day:moment().add(i, 'days').format('DD'),
+					date:moment().add(i, 'days').format('YYYY-MM-DD')
+				})
+			};
+			return obj;
 		}
 	});
 	appFactorys.factory('enumData',function(){
