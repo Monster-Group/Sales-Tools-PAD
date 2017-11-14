@@ -422,7 +422,9 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr'], functio
 						}
 					}
 				};
-				function fn_success(res) {}
+				function fn_success(res) {
+					$scope.closeModal();
+				}
 				function fn_fail() {}
 				function getCreateOrder() {
 					if ($scope.userId) {
@@ -477,6 +479,12 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr'], functio
 					// $scope.detailShow = false;
 					$scope.$emit('detailClose');
 				};
+
+				function init() {
+					$scope.orderDetail = {};
+					$scope.payment = [];
+					$scope.appoints = [];
+				}
 
 				var loadPayInfo = function loadPayInfo(orderNo) {
 					appApi.getPayment({

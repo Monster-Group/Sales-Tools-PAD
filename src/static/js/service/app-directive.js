@@ -568,7 +568,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					}
 				}
 				function fn_success(res){
-
+					$scope.closeModal();
 				}
 				function fn_fail(){
 
@@ -766,6 +766,12 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 				$scope.back = function(){
 					// $scope.detailShow = false;
 					$scope.$emit('detailClose');
+				}
+
+				function init(){
+					$scope.orderDetail = {};
+					$scope.payment = [];
+					$scope.appoints = [];
 				}
 
 				let loadPayInfo = (orderNo)=>{

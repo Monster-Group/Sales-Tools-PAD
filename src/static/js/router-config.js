@@ -87,7 +87,7 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 					case 0: gender = '保密';break;
 					case 1: gender= '女';break;
 					case 2: gender = '男';break;
-					defaults: gender = '未知'
+					default: gender = '未知'
 				}
 				return gender;
 			};
@@ -100,7 +100,7 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 					case 2: channelName= '微信';break;
 					case 3: channelName = '网银';break;
 					case 4: channelName = '线下';break;
-					defaults: channelName = '--'
+					default: channelName = '--'
 				}
 				return channelName;
 			}
