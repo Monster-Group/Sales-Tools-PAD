@@ -71,6 +71,12 @@ define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$
 				success: suc
 			});
 		};
+		this.logout = (suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/account/loginOut',
+				success: suc
+			});
+		};
 		this.countMatterSum = (suc) => {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/matter/countMatterSum',
@@ -313,6 +319,13 @@ define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/user/updateUserBack',
 				data: obj,
+				success: suc
+			})
+		}
+		this.saveRemark = (data,suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/account/saveRemark',
+				data: data,
 				success: suc
 			})
 		}

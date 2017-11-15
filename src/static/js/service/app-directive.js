@@ -905,7 +905,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 												<span ng-bind="percent"></span>
 											</a>
 											<li ng-repeat="item in imgUrl">
-												<img src="{{item}}"/>
+												<img ng-src="{{item}}"/>
 												<a class="cycle-button del-img icon" hm-tap="delImg($index)">&#xe60e;</a>
 											</li>
 										</ul>
@@ -1037,11 +1037,11 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 						</div>
 						<div>
 							<span>生日:</span>
-							<input class="default-input" type="date" name="birthdayStr" ng-model="detailModel.birthdayStr" ng-if="detailModel.birthdayStr"/>
+							<input class="default-input" type="date" name="birthdayStr" ng-model="detailModel.birthdayStr"/>
 						</div>
 						<div>
 							<span>手机号:</span>
-							<input class="default-input" ng-readonly="type==1" type="text" name="mobile" ng-model="detailModel.mobile" required ng-class="{'error':clientForm.$submitted&&clientForm.mobile.$invalid}"/>
+							<input class="default-input" ng-readonly="type==1" type="text" name="mobile" ng-model="detailModel.mobile" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" ng-class="{'error':clientForm.$submitted&&clientForm.mobile.$invalid}"/>
 						</div>
 						<div>
 							<span>QQ:</span>

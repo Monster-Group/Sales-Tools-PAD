@@ -50,7 +50,12 @@
 		<!-- endbuild -->
 	</head>
 		<header class="root-header">
-			<div class="user-photo pull-left"></div>
+			<div class="user-info pull-left">
+				<div class="user-photo">
+					<img src="static/img/photo.png"/>
+				</div>
+				<p class="user-name" ng-bind="loginfo.account.nickname"></p>
+			</div>
 			<h1 class="pull-left" style="display: none;" ng-class="{'show':$root.countMatterSum}"><i ng-bind="$root.countMatterSum.date"></i>今天你有<i ng-bind="$root.countMatterSum.matterSum"></i>位顾客要接待</h1>
 			<div class="dropdown store-change pull-right">
 				<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
@@ -77,7 +82,7 @@
 						</a>
 					</li>
 				</ul>
-				
+				<a class="button logout" hm-tap="$root.logout()">退出登录</a>
 			</aside>
 			<section class="main-container" ng-view>
 			</section>

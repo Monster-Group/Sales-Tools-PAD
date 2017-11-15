@@ -1,15 +1,22 @@
 define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'moment', 'loading'], function(angular, tpl, Waves, NProgress, toastr, moment) {
-	function controller($scope, $rootScope, appApi, getUserLv,getOrderStatu) {
+	function controller($scope, $rootScope, appApi, getUserLv,getOrderStatu,$timeout,$compile) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block', 'waves-light']);
 		NProgress.done();
 		$scope.$table = $('.client-table');
 		$scope.$detailTable = $('.client-detail-table');
 		$scope.$remarkTable = $('.remark-table');
+		$scope.$remarkModal = $('.remark-modal');
 		$scope.$addModal = $('.add-order-modal');
 		$scope.$addModal.on('hidden.bs.modal',()=>{
 			$('.add-btn').removeClass('active');
 			//reload
+		});
+		$scope.$remarkModal.on('hidden.bs.modal',()=>{
+			$('.add-remark').removeClass('active');
+			$scope.remark = '';
+			$scope.remarkForm.$setPristine();
+			$scope.remarkForm.$setUntouched();
 		});
 		$scope.pageNum = 1;
 		$scope.orderpageNum = 1;
@@ -19,11 +26,27 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		$scope.searchParams = {};
 		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
 		$scope.userId = '';
+		$timeout(()=>{
+			$scope.$remarkModal.find('.modal-dialog').css('margin-top','-'+$scope.$remarkModal.find('.modal-dialog').outerHeight()/2+'px');
+			$scope.$remarkModal.hide();
+		},0);
+		let getUserLvOp = (lv)=>{
+			let tmp = '';
+			for(let item of $rootScope.enumData.userLevel){
+				if(item.value==lv){
+					tmp+='<li class="active" data-val="'+item.value+'">'+item.name+'</li>';
+				}else{
+					tmp+='<li data-val="'+item.value+'">'+item.name+'</li>';
+				}
+			};
+			return tmp;
+		};
 		let loadData = (fn) => {
 			$scope.searchParams.accountId = $rootScope.loginfo.account.accountId;
 			$scope.searchParams.storeId = $rootScope.loginfo.account.storeId;
 			$('body').loading();
 			appApi.listUserBackSales($scope.searchParams, $scope.pageNum, (data) => {
+				$scope.userList = data.userList;
 				if(data.userList.pageNum <= 1) {
 					$scope.dt.fnClearTable();
 				};
@@ -130,7 +153,19 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 					targets: 3,
 					visible: true,
 					render: function(data, type, row, meta) {
-						return getUserLv(parseInt(data));
+						let user = row.userId;
+						let name = data?getUserLv(parseInt(data)):'请选择';
+						let opList = getUserLvOp(data);
+						let tpl = `<div class="dropdown userLv-change" data-user="${user}">
+									<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+										<span class="val pull-left">${name}</span>
+										<span class="arrow icon pull-right">&#xe792;</span>
+									</a>
+									<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
+										${opList}
+									</ul>
+								</div>`;
+						return tpl;
 					}
 				},
 				{
@@ -264,22 +299,63 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		$scope.rest = (e) => {
 			$scope.searchParams = {};
 			$('.client-level .dropdown-toggle').find('.val').text('请选择');
+			$scope.pageNum = 1;
+			loadData();
 		};
 		$scope.addClient = ()=>{
 			$scope.showAddClient = true;
 		};
+		$scope.addRemark = (e)=>{
+			$(e.target).addClass('active');
+			$scope.$remarkModal.modal('show');
+		};
 		$scope.addOrder = (e) => {
 			$(e.target).addClass('active');
 			$scope.$addModal.modal('show');
-		}
-		$('.client-table').on('tap','tbody tr',function(e){
+		};
+		$scope.affirm = ()=>{
+			$scope.remarkForm.$submitted = true;
+			if($scope.remarkForm.$valid){
+				appApi.saveRemark({
+					remarkContent:$scope.remark,
+					userId:$scope.userId
+				},(data)=>{
+					$scope.$remarkModal.modal('hide');
+				});
+			}
+		};
+		$scope.$table.on('tap','.dropdown .dropdown-toggle',function(e){
+			$(this).dropdown('toggle');
+			e.stopPropagation();
+			e.preventDefault();
+		});
+		$scope.$table.on('tap','.dropdown-menu li',function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			if($(this).hasClass('active')) return;
+			let $dropdown = $(this).closest('.dropdown');
+			let $dropdownToggle = $dropdown.find('.dropdown-toggle');
+			let userId = $dropdown.data('user');
+			let $val = $dropdown.find('.val');
+			appApi.updateUserBack({
+				userId:userId,
+				userLv:$(this).data('val')
+			},()=>{
+				$dropdownToggle.dropdown('toggle');
+				$val.text($(this).text());
+				$(this).addClass('active').siblings('li').removeClass('active');
+			});
+		});
+		$scope.$table.on('tap','tbody tr',function(e){
+			e.preventDefault();
+			e.stopPropagation();
 			var data = $scope.dt.api(true).row($(this)).data();
 			$('.detail-info').tab('show').addClass('active').siblings('a').removeClass('active');
 			$scope.$apply(() => {
 				$scope.activeUser = data;
 				$scope.userId = data.userId;
 				$scope.showDetail = true;
-			})
+			});
 		});
 		$('.client-list-wrapper').on('tap', '.load-more', function(e) {
 			let top = $('.client-list-wrapper .dataTables_scrollBody').scrollTop();

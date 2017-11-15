@@ -617,13 +617,18 @@ body {
     width: 100%;
     background-color: #fff;
     z-index: 91;
-    padding: 85px 80px;
-    .user-photo {
+    padding: 65px 80px;
+    .user-info{
         width: 146px;
-        height: 146px;
-        border-radius: 50%;
-        display: inline-block;
-        background-color: #323946;
+        height: 186px;
+        .user-photo {
+            width: 146px;
+            height: 146px;
+            border-radius: 50%;
+            display: inline-block;
+            img{width: 146px;height: 146px;}
+        }
+        .user-name{line-height:40px;font-size:36px;text-align: center;}
     }
     h1 {
         line-height: 146px;
@@ -636,6 +641,7 @@ body {
         line-height: 70px;
         background-color: color($colors, bg);
         font-size: 36px;
+        margin-top:37px;
     }
 }
 
@@ -681,6 +687,9 @@ body {
             }
         }
     }
+}
+.logout{
+    position: absolute;bottom:80px;left:28px;width:240px;text-align: center;padding: 0;
 }
 
 .main-container {

@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - base
  * Author: Clearlove 7*
- * Updated: 2017-11-15 00:31
+ * Updated: 2017-11-15 20:10
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -503,13 +503,22 @@ body {
   width: 100%;
   background-color: #fff;
   z-index: 91;
-  padding: 85px 80px; }
-  .root-header .user-photo {
+  padding: 65px 80px; }
+  .root-header .user-info {
     width: 146px;
-    height: 146px;
-    border-radius: 50%;
-    display: inline-block;
-    background-color: #323946; }
+    height: 186px; }
+    .root-header .user-info .user-photo {
+      width: 146px;
+      height: 146px;
+      border-radius: 50%;
+      display: inline-block; }
+      .root-header .user-info .user-photo img {
+        width: 146px;
+        height: 146px; }
+    .root-header .user-info .user-name {
+      line-height: 40px;
+      font-size: 36px;
+      text-align: center; }
   .root-header h1 {
     line-height: 146px;
     padding-left: 150px;
@@ -519,7 +528,8 @@ body {
     height: 72px;
     line-height: 70px;
     background-color: #f5f5f5;
-    font-size: 36px; }
+    font-size: 36px;
+    margin-top: 37px; }
 
 .main-content {
   padding-left: 316px;
@@ -558,6 +568,14 @@ body {
       border-left-color: #00c9a7; }
       .aside li a.active i {
         border-bottom-color: #00c9a7; }
+
+.logout {
+  position: absolute;
+  bottom: 80px;
+  left: 28px;
+  width: 240px;
+  text-align: center;
+  padding: 0; }
 
 .main-container {
   width: 100%; }

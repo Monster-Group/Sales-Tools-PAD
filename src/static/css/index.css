@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - index
  * Author: Clearlove 7*
- * Updated: 2017-11-15 00:31
+ * Updated: 2017-11-15 20:10
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -105,7 +105,7 @@
 .order .form-header .form-item .dorder-date {
   width: 690px; }
 
-.task-modal .modal-body .title {
+.task-modal .modal-body .title, .remark-modal .modal-body .title {
   line-height: 94px;
   font-size: 36px;
   color: #888; }
@@ -368,11 +368,20 @@
     .add-pay-modal .modal-dialog .modal-content .line:last-child {
       margin-bottom: 40px; }
 
-.client .form-header .client-level {
+.client .form-header .client-level, .backlog .form-header .client-level {
   width: 375px; }
 
-.client .form-header .rest {
-  margin-left: 54px; }
+.client .form-header .rest, .backlog .form-header .rest {
+  margin-right: 54px; }
+
+.client .client-table .userLv-change, .backlog .client-table .userLv-change {
+  width: 80%;
+  line-height: 68px;
+  margin: 0 auto;
+  background-color: #f5f5f5; }
+
+.dataTables_wrapper .dataTable.client-table tbody td {
+  padding: 40px 0; }
 
 .detail-tab, .add-client-wrapper {
   background-color: #f5f5f5; }

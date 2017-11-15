@@ -15,6 +15,11 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 				console.log(data);
 				$rootScope.enumData.regionList = data;
 			});
+			$rootScope.logout = function(){
+				appApi.logout(function(data){
+					window.location.href = 'login.html';
+				});
+			};
 			if($rootScope.loginfo){
 				$rootScope.loginfo.provinceSet.forEach(function(p,pindex){
 					p.cityList.forEach(function(c,cindex){

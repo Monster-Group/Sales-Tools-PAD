@@ -123,6 +123,11 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 			$scope.pageNum = 1;
 			loadData();
 		};
+		$scope.rest = (e) => {
+			$scope.stageIds = [];
+			$scope.pageNum = 1;
+			loadData();
+		};
 		$scope.$table.on('tap','.move-appoint',function(e){
 			e.stopPropagation();
 			e.preventDefault();

@@ -138,9 +138,10 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			loadData();
 		};
 		$scope.rest = ()=>{
-			//$scope.$payModal.modal('show');
 			$scope.searchParams = {};
 			$('.dropdown-toggle').find('.val').text('请选择');
+			$scope.pageNum = 1;
+			loadData();
 		};
 		$scope.addOrder = function(e){
 			$(e.target).addClass('active');
