@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - base
  * Author: Clearlove 7*
- * Updated: 2017-11-15 20:10
+ * Updated: 2017-11-16 09:15
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -568,14 +568,13 @@ body {
       border-left-color: #00c9a7; }
       .aside li a.active i {
         border-bottom-color: #00c9a7; }
-
-.logout {
-  position: absolute;
-  bottom: 80px;
-  left: 28px;
-  width: 240px;
-  text-align: center;
-  padding: 0; }
+  .aside .logout {
+    position: absolute;
+    bottom: 80px;
+    left: 28px;
+    width: 240px;
+    text-align: center;
+    padding: 0; }
 
 .main-container {
   width: 100%; }
