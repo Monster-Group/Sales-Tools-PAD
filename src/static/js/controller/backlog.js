@@ -1,5 +1,5 @@
 define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','moment','loading','swiper'], function(angular, tpl, Waves, NProgress,toastr,moment) {
-	function controller($scope,appApi,getStatuDisplay,toThousands,watch,dateArray) {
+	function controller($scope,$rootScope,appApi,getStatuDisplay,toThousands,watch,dateArray) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
 		NProgress.done();
@@ -20,6 +20,9 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 		$scope.revampData = {};
 		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
 		console.log($scope.$modal.find('.modal-dialog').outerHeight());
+		appApi.countMatterSum(function(data){
+			$rootScope.countMatterSum = data;
+		});
 		let loadData = (fn) =>{
 			$('body').loading();
 			appApi.searchMatter($scope.stageIds,$scope.pageNum,(data)=>{
@@ -53,6 +56,9 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 				let top =$('.dataTables_scrollBody').scrollTop();
 				loadData(()=>{
 					$('.dataTables_scrollBody').scrollTop(top);
+				});
+				appApi.countMatterSum(function(data){
+					$rootScope.countMatterSum = data;
 				});
 			});
 		};

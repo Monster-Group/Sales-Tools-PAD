@@ -80,8 +80,7 @@ html {
   height: 100%;
   background: #fff;
   -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  -webkit-overflow-scrolling: touch; }
+  -ms-text-size-adjust: 100%; }
 
 body,
 html {
@@ -401,7 +400,7 @@ input:active {
 .btn.load span {
   opacity: 0; }
 
-.button {
+.main-content .button {
   display: inline-block;
   padding: 0 85px;
   line-height: 90px;
@@ -453,9 +452,9 @@ input:active {
           transform: rotate(180deg);
   color: #fff; }
 
-.load-more {
-  height: 90px;
-  width: 100%;
+.main-content .load-more {
+  height: 96px;
+  width: calc(100% - 4px);
   border-radius: 10px;
   line-height: 90px;
   border: 2px solid #00c9a7;
@@ -463,9 +462,11 @@ input:active {
   font-size: 36px;
   color: #00c9a7;
   display: inline-block;
-  margin-top: 20px; }
+  margin-top: 20px;
+  margin-bottom: 20px; }
 
 .default-input {
+  color: #000;
   float: left;
   background-color: transparent;
   font-size: 36px;
@@ -602,7 +603,8 @@ body {
     max-width: calc(100% - 40px);
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap; }
+    white-space: nowrap;
+    color: #000; }
   .dropdown .arrow,
   .chosen-container .arrow {
     display: inline-block;
@@ -652,7 +654,9 @@ body {
   top: 50%;
   left: 50%;
   margin-left: -859px;
-  z-index: 9999; }
+  z-index: 9999;
+  max-height: 70%;
+  overflow-y: scroll; }
   .custom-modal .modal-dialog .modal-content {
     border-radius: 5px;
     padding: 0 60px; }

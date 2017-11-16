@@ -94,7 +94,7 @@ define(['tools','checkLogin','baseSet','local','loader','sweetalert','jquery'],f
 								title: '登录信息异常',
 								confirmButtonText:'确定',
 								onClose:function(){
-									window.location.href='login.html';
+									window.location.href='index.html';
 								}
 							});
 						}else{

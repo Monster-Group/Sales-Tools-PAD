@@ -49,7 +49,6 @@
         .dorder-date{width: 690px;}
     }
 }
-
 .task-modal,.remark-modal{
     .modal-body{
         .title{line-height: 94px;font-size:36px;color:color($colors, formTag);}
@@ -79,7 +78,7 @@
         &>div{flex-basis:33.33%;padding:23px 0;line-height: 36px;word-break: break-all; display: flex;padding-right:20px;}
         span{word-break:keep-all;}
     }
-    .info-footer{text-align: right;padding:0 64px;}
+    .info-footer{text-align: right;padding:0 64px 40px;height:130px;}
 }
 .order-info .info-block .info-body i{margin-left: 20px;}
 .add-order-modal{
@@ -176,9 +175,10 @@
 .dataTables_wrapper .dataTable.client-table tbody td{
     padding:40px 0;
 }
- 
+.detail-tab{padding-top:161px;}
 .detail-tab,.add-client-wrapper{background-color: color($colors, bg);
-    header{height:92px;line-height:90px;font-size:36px; border:$border-width solid color($colors,bdPrimary);border-radius:20px;text-align: center;color:color($colors,bdPrimary); margin:26px 0 43px 0;
+    header{padding-top:26px;margin-top:-161px;z-index: 999;background-color:color($colors,bg);position: fixed;width: 2260px;
+        .wrapper{height:92px;line-height:90px;font-size:36px; border:$border-width solid color($colors,bdPrimary);border-radius:20px;  text-align: center;color:color($colors,bdPrimary);box-shadow:0 0 40px rgba(0,0,0,0.15);}
         a{display: inline-block;color: color($colors,bdPrimary);border-right:$border-width solid color($colors,bdPrimary);
             &:last-child{border-right: none;}
         }

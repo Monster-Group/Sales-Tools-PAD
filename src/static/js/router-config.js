@@ -7,6 +7,9 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 				console.log($rootScope.path);
 			});
 			$rootScope.storeList = [];
+			if(!localStorage.getItem('loginfo')){
+				window.location.href = 'index.html';
+			};
 			$rootScope.loginfo = JSON.parse(localStorage.getItem('loginfo'));
 			console.log($rootScope.loginfo);
 			$rootScope.pageSize = 20;
@@ -17,7 +20,7 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 			});
 			$rootScope.logout = function(){
 				appApi.logout(function(data){
-					window.location.href = 'login.html';
+					window.location.href = 'index.html';
 				});
 			};
 			if($rootScope.loginfo){
