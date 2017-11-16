@@ -509,7 +509,7 @@ input:active {
 }
 
 //button
-.button {
+.main-content .button {
     display: inline-block;
     padding: 0 85px;
     line-height: 90px;
@@ -561,7 +561,7 @@ input:active {
     transform: rotate(180deg);color: #fff;
 }
 
-.load-more {
+.main-content .load-more {
     height: 96px;
     width: calc(100% - 4px);
     border-radius: 10px;
@@ -762,6 +762,7 @@ body {
         left: 50%;
         margin-left: -859px;
         z-index: 9999;
+        max-height: 70%;overflow-y: scroll;
         .modal-content {
             border-radius: $border-radius;
             padding: 0 60px;

@@ -175,9 +175,10 @@
 .dataTables_wrapper .dataTable.client-table tbody td{
     padding:40px 0;
 }
- 
+.detail-tab{padding-top:161px;}
 .detail-tab,.add-client-wrapper{background-color: color($colors, bg);
-    header{height:92px;line-height:90px;font-size:36px; border:$border-width solid color($colors,bdPrimary);border-radius:20px;text-align: center;color:color($colors,bdPrimary); margin:26px 0 43px 0;
+    header{padding-top:26px;margin-top:-161px;z-index: 999;background-color:color($colors,bg);position: fixed;width: 2260px;
+        .wrapper{height:92px;line-height:90px;font-size:36px; border:$border-width solid color($colors,bdPrimary);border-radius:20px;  text-align: center;color:color($colors,bdPrimary);box-shadow:0 0 40px rgba(0,0,0,0.15);}
         a{display: inline-block;color: color($colors,bdPrimary);border-right:$border-width solid color($colors,bdPrimary);
             &:last-child{border-right: none;}
         }

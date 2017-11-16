@@ -47,11 +47,13 @@
 	</div>
 	<section class="detail-tab" ng-show="showDetail">
 		<header>
-			<a class="go-back" hm-tap="goBack()">返回</a>
-			<div class="tab-wrapper" role="tablist">
-				<a class="tab-item detail-info active" data-target="#detail" role="tab" data-toggle="tab">用户信息</a>
-				<a class="tab-item user-order-list" data-target="#order" role="tab" data-toggle="tab">订单信息</a>
-				<a class="tab-item user-remark" data-target="#remark" role="tab" data-toggle="tab">备注</a>
+			<div class="wrapper">
+				<a class="go-back" hm-tap="goBack()">返回</a>
+				<div class="tab-wrapper" role="tablist">
+					<a class="tab-item detail-info active" data-target="#detail" role="tab" data-toggle="tab">用户信息</a>
+					<a class="tab-item user-order-list" data-target="#order" role="tab" data-toggle="tab">订单信息</a>
+					<a class="tab-item user-remark" data-target="#remark" role="tab" data-toggle="tab">备注</a>
+				</div>
 			</div>
 		</header>
 		<div class="head clearfix" ng-hide="headHide">

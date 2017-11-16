@@ -400,7 +400,7 @@ input:active {
 .btn.load span {
   opacity: 0; }
 
-.button {
+.main-content .button {
   display: inline-block;
   padding: 0 85px;
   line-height: 90px;
@@ -452,7 +452,7 @@ input:active {
           transform: rotate(180deg);
   color: #fff; }
 
-.load-more {
+.main-content .load-more {
   height: 96px;
   width: calc(100% - 4px);
   border-radius: 10px;
@@ -654,7 +654,9 @@ body {
   top: 50%;
   left: 50%;
   margin-left: -859px;
-  z-index: 9999; }
+  z-index: 9999;
+  max-height: 70%;
+  overflow-y: scroll; }
   .custom-modal .modal-dialog .modal-content {
     border-radius: 5px;
     padding: 0 60px; }

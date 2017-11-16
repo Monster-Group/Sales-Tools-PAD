@@ -384,17 +384,28 @@
 .dataTables_wrapper .dataTable.client-table tbody td {
   padding: 40px 0; }
 
+.detail-tab {
+  padding-top: 161px; }
+
 .detail-tab, .add-client-wrapper {
   background-color: #f5f5f5; }
   .detail-tab header, .add-client-wrapper header {
-    height: 92px;
-    line-height: 90px;
-    font-size: 36px;
-    border: 2px solid #00c9a7;
-    border-radius: 20px;
-    text-align: center;
-    color: #00c9a7;
-    margin: 26px 0 43px 0; }
+    padding-top: 26px;
+    margin-top: -161px;
+    z-index: 999;
+    background-color: #f5f5f5;
+    position: fixed;
+    width: 2260px; }
+    .detail-tab header .wrapper, .add-client-wrapper header .wrapper {
+      height: 92px;
+      line-height: 90px;
+      font-size: 36px;
+      border: 2px solid #00c9a7;
+      border-radius: 20px;
+      text-align: center;
+      color: #00c9a7;
+      -webkit-box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+              box-shadow: 0 0 40px rgba(0, 0, 0, 0.15); }
     .detail-tab header a, .add-client-wrapper header a {
       display: inline-block;
       color: #00c9a7;
