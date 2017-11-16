@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - index
  * Author: Clearlove 7*
- * Updated: 2017-11-16 09:15
+ * Updated: 2017-11-16 20:48
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -171,7 +171,8 @@
       word-break: keep-all; }
   .info-block .info-footer {
     text-align: right;
-    padding: 0 64px; }
+    padding: 0 64px 40px;
+    height: 130px; }
 
 .order-info .info-block .info-body i {
   margin-left: 20px; }

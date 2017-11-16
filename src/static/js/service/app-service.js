@@ -33,7 +33,7 @@ define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$
 							title: '登录信息异常,请重新登录',
 							confirmButtonText: '确定',
 							onClose: function() {
-								window.location.href = 'login.html';
+								window.location.href = 'index.html';
 							}
 						});
 					} else {

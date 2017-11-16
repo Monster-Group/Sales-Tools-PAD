@@ -1,4 +1,4 @@
-define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'moment', 'loading'], function(angular, tpl, Waves, NProgress, toastr, moment) {
+define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'moment', 'iNoBounce','loading'], function(angular, tpl, Waves, NProgress, toastr, moment,iNoBounce) {
 	function controller($scope, $rootScope, appApi, getUserLv,getOrderStatu,$timeout,$compile) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block', 'waves-light']);
@@ -30,6 +30,9 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			$scope.$remarkModal.find('.modal-dialog').css('margin-top','-'+$scope.$remarkModal.find('.modal-dialog').outerHeight()/2+'px');
 			$scope.$remarkModal.hide();
 		},0);
+		appApi.countMatterSum(function(data){
+			$rootScope.countMatterSum = data;
+		});
 		let getUserLvOp = (lv)=>{
 			let tmp = '';
 			for(let item of $rootScope.enumData.userLevel){
@@ -288,6 +291,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		loadData();
 		$scope.goBack = ()=>{
 			$scope.showDetail = false;
+			iNoBounce.enable();
 		};
 		$scope.cancel = ()=>{
 			$scope.showAddClient = false;
@@ -321,6 +325,8 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 					userId:$scope.userId
 				},(data)=>{
 					$scope.$remarkModal.modal('hide');
+					$scope.remarkPageNum = 1;
+					loadRemark();
 				});
 			}
 		};
@@ -347,6 +353,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			});
 		});
 		$scope.$table.on('tap','tbody tr',function(e){
+			iNoBounce.disable();
 			e.preventDefault();
 			e.stopPropagation();
 			var data = $scope.dt.api(true).row($(this)).data();
@@ -375,6 +382,9 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				$('#remark .dataTables_scrollBody').scrollTop(top);
 			});
 		});
+		$('.detail-info').on('shown.bs.tab', function() {
+			iNoBounce.disable();
+		});
 		$('.user-order-list').on('shown.bs.tab', function() {
 			if(!$scope.ddt) {
 				$scope.detailTableScollHeight = $(window).height() - $scope.$detailTable.offset().top - $scope.$table.find('thead').outerHeight() - 160;
@@ -383,6 +393,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			};
 			$scope.orderpageNum = 1;
 			loadOrderList();
+			iNoBounce.enable();
 		});
 		$('.user-remark').on('shown.bs.tab', function() {
 			if(!$scope.remarkDt) {
@@ -391,6 +402,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			};
 			$scope.remarkPageNum = 1;
 			loadRemark();
+			iNoBounce.enable();
 		});
 		$('.tab-wrapper').on('tap', '.tab-item', function(e) {
 			e.stopPropagation();

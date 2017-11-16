@@ -304,7 +304,7 @@ gulp.task('startJs', ['router', 'tpl','baseSet'], function() {
 });
 
 gulp.task('index', ['indexJs', 'cssmin'], function() {
-	return gulp.src('./' + project + '/index.html')
+	return gulp.src('./' + project + '/ipad.html')
 		.pipe(htmlreplace({
 			'css': './static/css/main.min.css?v={{ version }}',
 			'js': {
@@ -365,7 +365,7 @@ gulp.task('loginCss', ['fontrev', 'loginCssmin'], function() {
 });
 
 gulp.task('loginHtml', function() {
-	gulp.src('./' + project + '/login.html')
+	gulp.src('./' + project + '/index.html')
 		.pipe(htmlreplace({
 			'css': './static/css/login.min.css?v={{ version }}',
 			'js': {

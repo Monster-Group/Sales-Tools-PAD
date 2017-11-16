@@ -1,103 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-cn">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="renderer" content="webkit" />
-		<meta name="format-detection" content="telephone=no" />
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta content="yes" name="apple-touch-fullscreen">
-		<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="blank">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<script>
-			!function(userAgent){
-				if(!!userAgent.match(/AppleWebKit.*Mobile.*/)){
-					var screen_w = parseInt(window.screen.width),
-					    scale = screen_w / 2736;
-					    //alert(screen_w);
-					    //alert(scale);
-				    if (/Android (\d+\.\d+)/.test(userAgent)) {
-				        var version = parseFloat(RegExp.$1);
-				        if(userAgent.indexOf("MX")>-1&&version>=5){
-				        	//alert(userAgent)
-				        	document.write('<meta name="viewport" content="width=2736,minimum-scale = ' + scale + ", maximum-scale = " + scale + ', target-densitydpi=device-dpi">');
-				        }else{
-				        	document.write(version > 2.3 ? '<meta name="viewport" content="width=750, minimum-scale = ' + scale + ", maximum-scale = " + scale + ', target-densitydpi=device-dpi">': '<meta name="viewport" content="width=2736, target-densitydpi=device-dpi">');
-				        };
-				    } else {
-				        document.write('<meta name="viewport" content="width=2736, user-scalable=no, target-densitydpi=device-dpi">');
-				    }
-				}else{
-					document.write('<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no,user-scalable=no">');
-				}
-			}(navigator.userAgent);
-        </script>
-		<title>销售工具</title>
+		<meta name="renderer" content="webkit"/>
+		<title>登录</title>
 		<link rel="shortcut icon" href="favicon.ico" />
 		<link rel="bookmark" href="favicon.ico" />
 		<!-- build:css -->
-		<link rel="stylesheet" href="static/css/base/animate.css" />
-		<link rel="stylesheet" href="./static/css/base/bootstrap.css" />
-		<link rel="stylesheet" href="./static/css/base/chosen.css" />
-		<link rel="stylesheet" href="./static/css/base/dataTables.bootstrap.css" />
-		<link rel="stylesheet" href="./static/css/base/nprogress.css" />
-		<link rel="stylesheet" href="./static/css/base/waves.css">
-		<link rel="stylesheet" href="./static/css/base/toastr.css">
+		<link rel="stylesheet" href="./static/css/base/bootstrap.css">
 		<link rel="stylesheet" href="./static/css/base/sweetalert2.css">
-		<link rel="stylesheet" href="./static/css/base.css" />
-		<link rel="stylesheet" href="./static/css/index.css" />
+		<link rel="stylesheet" href="./static/css/login.css">
 		<!-- endbuild -->
 	</head>
-		<header class="root-header">
-			<div class="user-info pull-left">
-				<div class="user-photo">
-					<img src="static/img/photo.png"/>
-				</div>
-				<p class="user-name" ng-bind="loginfo.account.nickname"></p>
-			</div>
-			<h1 class="pull-left" style="display: none;" ng-class="{'show':$root.countMatterSum}"><i ng-bind="$root.countMatterSum.date"></i>今天你有<i ng-bind="$root.countMatterSum.matterSum"></i>位顾客要接待</h1>
-			<div class="dropdown store-change pull-right">
-				<a href="#" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-					<span class="val pull-left" ng-bind="$root.storeName"></span>
-					<span class="arrow icon pull-right">&#xe792;</span>
-				</a>
-				<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">
-					<li ng-repeat="item in $root.storeList" ng-click="storeClick($event,item)">{{item.storeName}}</li>
-				</ul>
-			</div>
-		</header>
-		<section class="main-content">
-			<aside class="aside">
-				<ul class="clearfix">
-					<li>
-						<a href="#client" class="transition-02" ng-class="{'active':$root.path=='/client'}"><i>我的客户</i></a>
-					</li>
-					<li>
-						<a href="#order" class="transition-02" ng-class="{'active':$root.path=='/order'}"><i>我的订单</i></a>
-					</li>
-					<li>
-						<a href="#backlog" class="transition-02"  ng-class="{'active':$root.path=='/backlog'}">
-							<i>待办事项</i>
-						</a>
-					</li>
-				</ul>
-				<a class="button logout" hm-tap="$root.logout()">退出登录</a>
-			</aside>
-			<section class="main-container" ng-view>
-			</section>
-		</section>
 	<body>
+		<div class="wrapper login-wrapper" id="login-wrapper">
+			<div class="block-center wd-xl">
+				<!-- START panel-->
+				<div class="panel-dark panel-flat">
+					<div class="panel-header">
+						<svg class="svg-icon" aria-hidden="true">
+						  <use xlink:href="#icon-danashujulogo"></use>
+						</svg>
+						<p class="cname">销售工具</p>
+						<p class="ename">Sales-Tools</p>
+					</div>
+					<div class="panel panel-body">
+						<p class="text-center pv tit clearfix"><span class="pull-left">登录</span></p>
+						<form role="form" novalidate="" class="mb-lg login-form">
+							<div class="form-group has-feedback">
+								<input id="user-name" type="text" placeholder="用户名" autocomplete="off" required class="form-control" name="loginName" />
+								<span class="form-control-feedback text-muted icon">&#xe611;</span>
+							</div>
+							<div class="form-group has-feedback">
+								<input id="password" type="password" placeholder="密码" required class="form-control" name="password">
+								<span class="form-control-feedback text-muted icon">&#xe66d;</span>
+							</div>
+							<div class="clearfix error-msg"></div>
+							<div class="text-center">
+								<a class="btn btn-success btn-lg btn-block btn-login"><span>登&nbsp;&nbsp;录</span><i class="icon">&#xe62c;</i></a>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- END panel-->
+			</div>
+			<div class="p-lg text-center copyright">
+				<span>&copy;</span>
+				<span>2017</span>
+				<span>-</span>
+				<span>Sales-Tools-PAD</span>
+			</div>
+		</div>
 		<!-- build:js -->
-		<!--<script src="static/js/libs/other/vconsole.min.js"></script>
+		<script src="./static/js/libs/require/require.min.js" data-main="./static/js/config.js"></script>
 		<script>
-			var vConsole = new VConsole();
-		</script>-->
-		<script src="./static/js/libs/require/require.min.js" data-main="./static/js/config.js?v=999"></script>
-		<script type="text/javascript">
-			require(["./static/js/start.js?v=999"]);
+			require(['./static/js/login.js'])
 		</script>
 		<!-- endbuild -->
 	</body>
-
 </html>

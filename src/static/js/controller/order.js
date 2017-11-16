@@ -1,4 +1,4 @@
-define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment','loading'], function(angular, tpl, Waves, NProgress, toastr,moment) {
+define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment','iNoBounce','loading'], function(angular, tpl, Waves, NProgress, toastr,moment,iNoBounce) {
 	function controller($scope,$rootScope, appApi,getOrderStatu,getMillisecond,$timeout) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
@@ -21,6 +21,9 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		$scope.searchParams = {};
 		$scope.pageNum = 1;
 		$scope.orderStatus = '';
+		appApi.countMatterSum(function(data){
+			$rootScope.countMatterSum = data;
+		});
 		$scope.dt = $scope.$table.dataTable({
 			order:[],
 			bFilter: false, //Disable search function
@@ -90,11 +93,11 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				}else{
 					$('.order').find('.load-more').show();
 				};
-				if(data.list.length==0) return;
-				$scope.dt.fnAddData(data.list);
 				$timeout(()=>{
 					$('body').find('.inline-loading').remove();
 				},0);
+				if(data.list.length==0) return;
+				$scope.dt.fnAddData(data.list);
 				if(!fn) return;
 				$timeout(()=>{
 					fn();
@@ -120,6 +123,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				$scope.orderNo = data.orderNo;
 				$scope.showDetail = true;
 			});
+			iNoBounce.disable();
 			$scope.$broadcast('showDetail', data);
 		});
 		
@@ -132,8 +136,8 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		};
 		$scope.search = ()=>{
 			if($('.form-header').find('.error-msg').is(':visible')) return;
-			$scope.searchParams.startTime = $scope.startTime?getMillisecond($scope.startTime):'';
-			$scope.searchParams.endTime = $scope.endTime?getMillisecond($scope.endTime):'';
+			$scope.searchParams.startTime = $scope.startTime?moment($scope.startTime).format("YYYY-MM-DD HH:mm:ss"):'';
+			$scope.searchParams.endTime = $scope.endTime?moment($scope.endTime).format("YYYY-MM-DD HH:mm:ss"):'';
 			$scope.pageNum = 1;
 			loadData();
 		};
@@ -149,6 +153,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		};
 		let detailClose = $scope.$on('detailClose', function(){
 			$scope.showDetail = false;
+			iNoBounce.enable();
 		});
 		let addPay = $scope.$on('addPay', function(e) {
 			$scope.showAddPay = true;

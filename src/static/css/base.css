@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - base
  * Author: Clearlove 7*
- * Updated: 2017-11-16 09:15
+ * Updated: 2017-11-16 20:48
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -80,8 +80,7 @@ html {
   height: 100%;
   background: #fff;
   -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  -webkit-overflow-scrolling: touch; }
+  -ms-text-size-adjust: 100%; }
 
 body,
 html {
@@ -454,8 +453,8 @@ input:active {
   color: #fff; }
 
 .load-more {
-  height: 90px;
-  width: 100%;
+  height: 96px;
+  width: calc(100% - 4px);
   border-radius: 10px;
   line-height: 90px;
   border: 2px solid #00c9a7;
@@ -463,9 +462,11 @@ input:active {
   font-size: 36px;
   color: #00c9a7;
   display: inline-block;
-  margin-top: 20px; }
+  margin-top: 20px;
+  margin-bottom: 20px; }
 
 .default-input {
+  color: #000;
   float: left;
   background-color: transparent;
   font-size: 36px;
@@ -602,7 +603,8 @@ body {
     max-width: calc(100% - 40px);
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap; }
+    white-space: nowrap;
+    color: #000; }
   .dropdown .arrow,
   .chosen-container .arrow {
     display: inline-block;
