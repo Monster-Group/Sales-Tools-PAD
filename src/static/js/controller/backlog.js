@@ -1,5 +1,5 @@
 define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','moment','loading','swiper'], function(angular, tpl, Waves, NProgress,toastr,moment) {
-	function controller($scope,$rootScope,appApi,getStatuDisplay,toThousands,watch,dateArray) {
+	function controller($scope,$rootScope,appApi,getStatuDisplay,toThousands,watch,dateArray,$timeout) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
 		NProgress.done();
@@ -20,6 +20,11 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 		$scope.revampData = {};
 		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
 		console.log($scope.$modal.find('.modal-dialog').outerHeight());
+		$timeout(()=>{
+			$scope.$payModal = $('.add-pay-modal');
+			$scope.$payModal.find('.modal-dialog').css('margin-top','-'+$scope.$payModal.find('.modal-dialog').outerHeight()/2+'px');
+			$scope.$payModal.hide();
+		},0);
 		appApi.countMatterSum(function(data){
 			$rootScope.countMatterSum = data;
 		});
