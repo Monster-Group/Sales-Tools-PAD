@@ -177,6 +177,16 @@
 .order-info .info-block .info-body i {
   margin-left: 20px; }
 
+.add-order-modal .form-submited .ng-invalid .chosen-container {
+  border-color: #ff8279;
+  -webkit-box-shadow: 0 0 20px #ff8279;
+          box-shadow: 0 0 20px #ff8279; }
+
+.add-order-modal .form-submited .default-input.ng-invalid {
+  border-color: #ff8279;
+  -webkit-box-shadow: 0 0 20px #ff8279;
+          box-shadow: 0 0 20px #ff8279; }
+
 .add-order-modal .modal-dialog {
   font-size: 28px;
   top: 0;

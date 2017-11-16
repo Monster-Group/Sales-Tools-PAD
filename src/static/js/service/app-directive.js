@@ -247,14 +247,16 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 						<div class="modal-content">
 							<div class="modal-header">{{title}}</div>
 							<div class="modal-body">
-								<form id="orderForm" name="orderForm" novalidate onsubmit="return false;">
+								<form id="orderForm" name="orderForm" novalidate onsubmit="return false;" ng-class="{'form-submited': orderForm.$submitted}">
 								<div class="config">
 									<div class="item">
 										<span>类别:</span>
-										<select chosen  placeholder-text-single="'请选择'" ng-model="orderModel.orderType"
-		    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256">
-											<option value="">请选择</option>
-		    							</select>
+										<div ng-class="{'ng-invalid': orderForm.chebie.$invalid}">
+											<select name="chebie" chosen required placeholder-text-single="'请选择'" ng-model="orderModel.orderType"
+			    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256">
+												<option value="">请选择</option>
+			    							</select>
+		    							</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>车系:</span>
@@ -264,27 +266,35 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>车型:</span>
-										<select name="" chosen placeholder-text-single="'请选择'" ng-model='selectProduct' width="256" disable-search="true" ng-change="productChange(selectProduct)"  ng-options="item.productName for item in listCar">
-											<option value="">请选择</option>
-										</select>
+										<div ng-class="{'ng-invalid': orderForm.chexing.$invalid}">
+											<select name="chexing" chosen required placeholder-text-single="'请选择'" ng-model='selectProduct' width="256" disable-search="true" ng-change="productChange(selectProduct)"  ng-options="item.productName for item in listCar">
+												<option value="">请选择</option>
+											</select>
+										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>车顶颜色:</span>
-										<select name="" chosen placeholder-text-single="'请选择'" ng-change="changeColorOne(selectOrder.selectColorOne)" width="256"  ng-model="selectOrder.selectColorOne" ng-options="item for item in colorOne.select" id="" disable-search="true">
-											<option value="">请选择</option>
-										</select>
+										<div ng-class="{'ng-invalid': orderForm.cheding.$invalid}">
+											<select name="cheding" chosen required placeholder-text-single="'请选择'" ng-change="changeColorOne(selectOrder.selectColorOne)" width="256"  ng-model="selectOrder.selectColorOne" ng-options="item for item in colorOne.select" id="" disable-search="true">
+												<option value="">请选择</option>
+											</select>
+										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>车身颜色:</span>
-										<select name="" chosen placeholder-text-single="'请选择'" ng-change="changeColorTow(selectOrder.selectColorTow)" width="256"  ng-model="selectOrder.selectColorTow" ng-options=" item for item in colorTow.select" id="" disable-search="true">
-											<option value="">请选择</option>
-										</select>
+										<div ng-class="{'ng-invalid': orderForm.cheshen.$invalid}">
+											<select name="cheshen" chosen required placeholder-text-single="'请选择'" ng-change="changeColorTow(selectOrder.selectColorTow)" width="256"  ng-model="selectOrder.selectColorTow" ng-options=" item for item in colorTow.select" id="" disable-search="true">
+												<option value="">请选择</option>
+											</select>
+										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>内饰颜色:</span>
-										<select name="" chosen placeholder-text-single="'请选择'" width="256"  ng-model="orderModel.level3Type" ng-options="item for item in colorThree.select" id="" disable-search="true">
-											<option value="">请选择</option>
-										</select>
+										<div ng-class="{'ng-invalid': orderForm.neishi.$invalid}">
+											<select name="neishi" chosen required placeholder-text-single="'请选择'" width="256"  ng-model="orderModel.level3Type" ng-options="item for item in colorThree.select" id="" disable-search="true">
+												<option value="">请选择</option>
+											</select>
+										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>配件:</span>
@@ -300,9 +310,11 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>提车门店:</span>
-										<select name="" chosen  placeholder-text-single="'请选择'" width="256" ng-model="orderModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true">
-											<option value="">请选择</option>
-										</select>
+										<div ng-class="{'ng-invalid': orderForm.tiche.$invalid}">
+											<select name="tiche" chosen required placeholder-text-single="'请选择'" width="256" ng-model="orderModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true">
+												<option value="">请选择</option>
+											</select>
+										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>公司:</span>
@@ -330,36 +342,44 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>分类1:</span>
-										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="changeLv1(selectOrder.classlv1)" ng-model="selectOrder.classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true"></select>
+										<div ng-class="{'ng-invalid': orderForm.class1.$invalid}">
+											<select name="class1" chosen required width="256" placeholder-text-single="'请选择'" ng-change="changeLv1(selectOrder.classlv1)" ng-model="selectOrder.classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true"></select>
+										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>分类2:</span>
-										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="changeLv2(selectOrder.classlv2)" ng-model="selectOrder.classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true"></select>
+										<div ng-class="{'ng-invalid': orderForm.class2.$invalid}">
+											<select name="class2" chosen required width="256" placeholder-text-single="'请选择'" ng-change="changeLv2(selectOrder.classlv2)" ng-model="selectOrder.classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true"></select>
+										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>商品:</span>
-										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-change="chooseProduct(selectOrder.selectProduct)" ng-model="selectOrder.selectProduct" ng-options="item.productName for item in productsData" id="" disable-search="true"></select>
+										<div ng-class="{'ng-invalid': orderForm.chep.$invalid}">
+											<select name="chep" chosen required width="256" placeholder-text-single="'请选择'" ng-change="chooseProduct(selectOrder.selectProduct)" ng-model="selectOrder.selectProduct" ng-options="item.productName for item in productsData" id="" disable-search="true"></select>
+										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>提货地点:</span>
-										<select name="" chosen width="256" placeholder-text-single="'请选择'" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true"></select>
+										<div ng-class="{'ng-invalid': orderForm.tihuo.$invalid}">
+											<select name="tihuo" chosen required width="256" placeholder-text-single="'请选择'" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true"></select>
+										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1&&!userId">
 										<span>手机号:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" ng-model="productModel.mobile" type="text" />
+											<input class="default-input" name="buyerphone" required ng-model="productModel.mobile" type="text" />
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1&&!userId">
 										<span>姓名:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" ng-model="productModel.realname" type="text" />
+											<input class="default-input" name="realname" required ng-model="productModel.realname" type="text" />
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1&&!userId">
 										<span>身份证:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" ng-model="productModel.cardId" type="text" />
+											<input class="default-input" name="cardId" required ng-model="productModel.cardId" type="text" />
 										</div>
 									</div>
 								</div>
@@ -466,7 +486,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 
 					$scope.colorThree = {};
 					$scope.colorTow = {};
-					$scope.selectOrder.selectOrderOne = '';
+					$scope.selectOrder.selectColorOne = '';
 					$scope.selectOrder.selectColorTow = '';
 					$scope.orderModel.level1Type = '';
 					$scope.orderModel.level2Type = '';
@@ -552,7 +572,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 				$scope.submit = function() {
 					console.log($scope.orderModel);
 					console.log($scope.productModel);
-					
+					$scope.orderForm.$submitted = true;
 					if($scope.orderForm.$valid) {
 						if($scope.orderModel.orderType == 0){
 							var orderModel = Object.assign({}, $scope.orderModel);

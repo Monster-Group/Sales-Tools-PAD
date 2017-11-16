@@ -82,6 +82,12 @@
 }
 .order-info .info-block .info-body i{margin-left: 20px;}
 .add-order-modal{
+    .form-submited{
+        .ng-invalid{
+            .chosen-container{border-color:color($colors,error);box-shadow: 0 0 20px color($colors,error);}
+        }
+        .default-input.ng-invalid{border-color:color($colors,error);box-shadow: 0 0 20px color($colors,error);}
+    }
     .modal-dialog{font-size:28px;top:0;margin-top: 100px;
         .modal-content{
             .modal-header{
