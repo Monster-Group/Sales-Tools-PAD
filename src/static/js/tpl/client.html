@@ -1,5 +1,5 @@
 <div class="module-wrapper client">
-	<section class="client-list-wrapper" ng-hide="showDetail||showAddClient">
+	<section class="client-list-wrapper" ng-hide="showDetail||showAddClient||showOrderDetail">
 		<div class="form-header">
 			<div class="line clearfix">
 				<div class="form-item">
@@ -45,7 +45,7 @@
 		</div>
 		<client-update type="0"></client-update>
 	</div>
-	<section class="detail-tab" ng-show="showDetail">
+	<section class="detail-tab" ng-show="showDetail&&!showOrderDetail">
 		<header>
 			<a class="go-back" hm-tap="goBack()">返回</a>
 			<div class="tab-wrapper" role="tablist">
@@ -99,6 +99,7 @@
 		</div>
 		<new-order user-id="userId" class="add-order-modal"></new-order>
 	</section>
+	<order-detail ng-show="showOrderDetail" class="animated fadeIn"></order-detail>
 </div>
 
 
@@ -121,3 +122,4 @@
 		</div>
 	</div>
 </div>
+<add-pay class="add-pay-modal" order-no="orderId"></add-pay>

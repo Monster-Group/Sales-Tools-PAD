@@ -115,12 +115,14 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		$scope.$table.on('tap', 'tbody tr', (e) =>{
 			var data = $scope.dt.api(true).row(e.target).data();
 			// var orderType = data.orderType;
-			$scope.$apply(() => {
-				$scope.orderId = data.orderId;
-				$scope.orderNo = data.orderNo;
-				$scope.showDetail = true;
-			});
-			$scope.$broadcast('showDetail', data);
+			if(data){
+				$scope.$apply(() => {
+					$scope.orderId = data.orderId;
+					$scope.orderNo = data.orderNo;
+					$scope.showDetail = true;
+					$scope.$broadcast('showDetail', data);
+				});
+			}
 		});
 		
 		$scope.stateClick = (e,i)=>{

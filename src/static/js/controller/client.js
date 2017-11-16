@@ -8,6 +8,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		$scope.$remarkTable = $('.remark-table');
 		$scope.$remarkModal = $('.remark-modal');
 		$scope.$addModal = $('.add-order-modal');
+		$scope.$payModal = $('.add-pay-modal');
 		$scope.$addModal.on('hidden.bs.modal',()=>{
 			$('.add-btn').removeClass('active');
 			//reload
@@ -27,7 +28,9 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
 		$scope.userId = '';
 		$timeout(()=>{
+			$scope.$payModal.find('.modal-dialog').css('margin-top','-'+$scope.$payModal.find('.modal-dialog').outerHeight()/2+'px');
 			$scope.$remarkModal.find('.modal-dialog').css('margin-top','-'+$scope.$remarkModal.find('.modal-dialog').outerHeight()/2+'px');
+			$scope.$payModal.hide()
 			$scope.$remarkModal.hide();
 		},0);
 		let getUserLvOp = (lv)=>{
@@ -356,6 +359,25 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				$scope.userId = data.userId;
 				$scope.showDetail = true;
 			});
+		});
+		$scope.$detailTable.on('tap', 'tbody tr', function(e){
+			var data = $scope.ddt.api(true).row($(this)).data();
+			if(data){
+				$scope.$apply(() => {
+					$scope.showOrderDetail = true;
+					$scope.orderNo = data.orderNo;
+					$scope.$broadcast('showDetail', data);
+				})
+			}
+		});
+		let detailOrderClose = $scope.$on('detailClose', function(){
+			$scope.showOrderDetail = false;
+		});
+		let addPay = $scope.$on('addPay', function(e) {
+			$scope.showAddPay = true;
+			$timeout(()=>{
+				$scope.$broadcast('showAddPay',$scope.orderNo);
+			},0)
 		});
 		$('.client-list-wrapper').on('tap', '.load-more', function(e) {
 			let top = $('.client-list-wrapper .dataTables_scrollBody').scrollTop();

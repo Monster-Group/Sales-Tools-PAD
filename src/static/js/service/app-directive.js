@@ -724,6 +724,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 							<span class="pay-no">支付号</span>
 							<span class="pay-amount">支付金额</span>
 							<span class="pay-date">支付时间</span>
+							<span class="pay-memo">备注</span>
 						</h3>
 						<div class="info-body clearfix">
 							<div class="line pull-left" ng-repeat="item in payment track by $index">
@@ -731,6 +732,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 								<span class="pay-no">{{item.paymentId}}</span>
 								<span class="pay-amount">{{item.amount}}</span>
 								<span class="pay-date">{{item.paymentTimeFormat}}</span>
+								<span class="pay-memo">{{item.comment}}</span>
 							</div>
 						</div>
 						<div class="info-footer">
@@ -847,6 +849,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 				let showDetail = $scope.$on('showDetail', function(e, data) {
 					NProgress.start();
 					// $scope.detailShow = true;
+					init();
 					if(orderId != data.orderId) {
 						orderId = data.orderId;
 						orderNo = data.orderNo;

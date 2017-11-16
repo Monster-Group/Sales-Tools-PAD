@@ -1,5 +1,5 @@
 <div class="module-wrapper backlog">
-	<div class="form-header">
+	<div class="form-header" ng-hide="showOrderDetail">
 		<div class="line clearfix">
 			<div class="form-item">
 				<span class="form-tag">筛选条件:</span>
@@ -46,6 +46,7 @@
 		<tbody>
 		</tbody>
 	</table>
+	<order-detail ng-show="showOrderDetail" class="animated fadeIn"></order-detail>
 </div>
 <div class="modal fade custom-modal task-modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: block;">
 	<div class="modal-dialog modal-md">
@@ -91,5 +92,5 @@
 		</div>
 	</div>
 </div>
-
+<add-pay class="add-pay-modal" order-no="orderId"></add-pay>
 
