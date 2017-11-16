@@ -15,7 +15,7 @@
             .icon-right{right: 0;}
             .icon-left{left: 0;}
         }
-        .start-date,.end-date{width:276px;margin:0;font-size: 32px;}
+        .start-date,.end-date{width:276px;margin:0;font-size:28px;}
         .bridge{margin:0 40px;}
         .end{margin-left: 0;}
         .date-picker{
@@ -42,7 +42,9 @@
 
 .order{
     .form-header .form-item{
-        .tuan-name{width:276px;}
+        .tuan-name{width:276px;
+            .dropdown-menu{width:500px;}
+        }
         .buy-man{width:232px;}
         .buy-man-num{width: 284px;}
         .order-state{width: 343px;}
@@ -61,11 +63,12 @@
         span{margin-left: 84px;}
     }
     .pay-info{
-        span{display: inline-block;float:left;text-align: center;}
-        .channel{width: 200px;text-align: left;}
-        .pay-no{width: 1040px;}
+        span{display: inline-block;float:left;text-align: center;word-break:break-word;}
+        .channel{width: 200px;}
+        .pay-no{width: 740px;}
         .pay-amount{width: 200px;}
-        .pay-date{width: 304px;float:right;}
+        .pay-date{width: 504px;float:left;}
+        .pay-memo{width: 400px;float:right;}
         .info-body{display:block;
             .line{width: 100%; display: block;}
         }

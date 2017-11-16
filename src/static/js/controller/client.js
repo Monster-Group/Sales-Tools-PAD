@@ -356,7 +356,6 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			});
 		});
 		$scope.$table.on('tap','tbody tr',function(e){
-			iNoBounce.disable();
 			e.preventDefault();
 			e.stopPropagation();
 			var data = $scope.dt.api(true).row($(this)).data();
@@ -374,17 +373,9 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 					$scope.showOrderDetail = true;
 					$scope.orderNo = data.orderNo;
 					$scope.$broadcast('showDetail', data);
-				})
+				});
+				iNoBounce.disable();
 			}
-		});
-		let detailOrderClose = $scope.$on('detailClose', function(){
-			$scope.showOrderDetail = false;
-		});
-		let addPay = $scope.$on('addPay', function(e) {
-			$scope.showAddPay = true;
-			$timeout(()=>{
-				$scope.$broadcast('showAddPay',$scope.orderNo);
-			},0)
 		});
 		$('.client-list-wrapper').on('tap', '.load-more', function(e) {
 			let top = $('.client-list-wrapper .dataTables_scrollBody').scrollTop();
@@ -442,6 +433,16 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				});
 			}
 		});
+		let addPay = $scope.$on('addPay', function(e) {
+			$scope.showAddPay = true;
+			$timeout(()=>{
+				$scope.$broadcast('showAddPay',$scope.orderNo);
+			},0)
+		});
+		let detailOrderClose = $scope.$on('detailClose', function(){
+			$scope.showOrderDetail = false;
+			iNoBounce.enable();
+		});
 		let hideDetail  = $scope.$on('hideDetail', (e)=> {
 			$scope.showDetail = false;
 		});
@@ -453,9 +454,11 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			loadData();
 		});
 		$scope.$on('$destory', function() {
+			addPay();
 	        hideDetail(); // 退订事件
 	        hideAddClient();
 	        loadClientList();
+	        detailOrderClose();
 	    });
 	};
 	return {controller: controller, tpl: tpl};

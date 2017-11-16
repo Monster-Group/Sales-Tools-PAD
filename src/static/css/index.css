@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - index
  * Author: Clearlove 7*
- * Updated: 2017-11-14 23:37
+ * Updated: 2017-11-16 20:48
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -45,7 +45,7 @@
     .form-header .form-item .start-date, .form-header .form-item .end-date {
       width: 276px;
       margin: 0;
-      font-size: 32px; }
+      font-size: 28px; }
     .form-header .form-item .bridge {
       margin: 0 40px; }
     .form-header .form-item .end {
@@ -92,6 +92,8 @@
 
 .order .form-header .form-item .tuan-name {
   width: 276px; }
+  .order .form-header .form-item .tuan-name .dropdown-menu {
+    width: 500px; }
 
 .order .form-header .form-item .buy-man {
   width: 232px; }
@@ -121,16 +123,19 @@
   .order-info .pay-info span {
     display: inline-block;
     float: left;
-    text-align: center; }
+    text-align: center;
+    word-break: break-word; }
   .order-info .pay-info .channel {
-    width: 200px;
-    text-align: left; }
+    width: 200px; }
   .order-info .pay-info .pay-no {
-    width: 1040px; }
+    width: 740px; }
   .order-info .pay-info .pay-amount {
     width: 200px; }
   .order-info .pay-info .pay-date {
-    width: 304px;
+    width: 504px;
+    float: left; }
+  .order-info .pay-info .pay-memo {
+    width: 400px;
     float: right; }
   .order-info .pay-info .info-body {
     display: block; }

@@ -139,7 +139,7 @@ define(['angular', 'require', 'angular-route', 'appDirectives', 'appServices', '
 					}
 				};
 				//默认跳转到某个路由
-				var defaultRoute = '/order';
+				var defaultRoute = '/client';
 				//出现未定义路由跳转
 				$routeProvider.otherwise({
 					redirectTo: defaultRoute

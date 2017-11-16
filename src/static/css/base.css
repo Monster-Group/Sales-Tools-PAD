@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - base
  * Author: Clearlove 7*
- * Updated: 2017-11-14 23:37
+ * Updated: 2017-11-16 20:48
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -60,7 +60,7 @@ a.icon.active {
 
 /* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
 input[type=text],
-input[type=number] {
+input[type=number], input[type="date"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none; }
