@@ -775,7 +775,6 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr'], functio
 			}
 		};
 	});
-
 	appDirectives.directive('idcardCheck', function () {
 		return {
 			require: '?ngModel',

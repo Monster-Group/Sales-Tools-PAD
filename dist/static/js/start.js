@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - start
  * Author: Clearlove 7*
- * Updated: 2017-11-17 23:48
+ * Updated: 2017-11-18 00:03
  * Version: 1.0.0
  * -----------------------*/
 define('angular', [], function () {
@@ -33846,7 +33846,6 @@ define('app', [
         'waves-green'
     ]);
     iNoBounce.enable();
-    $('.main-container').height($(window).height() - 316);
 });
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
