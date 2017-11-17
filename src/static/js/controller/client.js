@@ -1,4 +1,4 @@
-define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'moment', 'loading'], function(angular, tpl, Waves, NProgress, toastr, moment) {
+define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'moment','loading'], function(angular, tpl, Waves, NProgress, toastr, moment) {
 	function controller($scope, $rootScope, appApi, getUserLv,getOrderStatu,$timeout,$compile) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block', 'waves-light']);
@@ -119,7 +119,6 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				}, 0);
 			});
 		}
-//		getDetail();
 		$scope.dt = $scope.$table.dataTable({
 			order: [],
 			bFilter: false, //Disable search function
@@ -310,6 +309,9 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		};
 		$scope.addClient = ()=>{
 			$scope.showAddClient = true;
+//			$timeout(()=>{
+//				$rootScope.Ps.update();
+//			},0);
 		};
 		$scope.addRemark = (e)=>{
 			$(e.target).addClass('active');
@@ -363,6 +365,9 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				$scope.activeUser = data;
 				$scope.userId = data.userId;
 				$scope.showDetail = true;
+//				$timeout(()=>{
+//					$rootScope.Ps.update();
+//				},0);
 			});
 		});
 		$scope.$detailTable.on('tap', 'tbody tr', function(e){
