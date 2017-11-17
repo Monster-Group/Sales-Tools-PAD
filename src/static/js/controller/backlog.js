@@ -8,6 +8,7 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 		$scope.$modal = $('.task-modal');
 		$scope.title = '完成任务';
 		$scope.$table = $('.backlog-table');
+		$scope.$payModal = $('.add-pay-modal');
 		$scope.tableData = {};
 		$scope.stageIds = [];
 		$scope.postUrl = '';
@@ -21,7 +22,6 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 		$scope.tableScollHeight = $(window).height() - $scope.$table.offset().top - $scope.$table.find('thead').outerHeight() - 100;
 		console.log($scope.$modal.find('.modal-dialog').outerHeight());
 		$timeout(()=>{
-			$scope.$payModal = $('.add-pay-modal');
 			$scope.$payModal.find('.modal-dialog').css('margin-top','-'+$scope.$payModal.find('.modal-dialog').outerHeight()/2+'px');
 			$scope.$payModal.hide();
 		},0);
@@ -167,6 +167,17 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 				$('.dataTables_scrollBody').scrollTop(top);
 			});
 		});
+		$scope.$table.on('tap','tbody tr', function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			var data = $scope.dt.api(true).row($(this)).data();
+			if(data){
+				$scope.$apply(() => {
+					$scope.showOrderDetail = true;
+					$scope.$broadcast('showDetail', data);
+				});
+			}
+		});
 		$scope.affirm = ()=>{
 			$scope.submited = true;
 			let data = $scope.$modal.data('data');
@@ -242,6 +253,20 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 		$scope.skip = ()=>{
 			$scope.isSkip = $scope.isSkip==0?1:0;
 		}
+		let detailOrderClose = $scope.$on('detailClose', function(){
+			$scope.showOrderDetail = false;
+		});
+		let addPay = $scope.$on('addPay', function(e,orderNo) {
+			// $scope.showAddPay = true;
+			$scope.orderNo = orderNo;
+			$timeout(()=>{
+				$scope.$broadcast('showAddPay',$scope.orderNo);
+			},0)
+		});
+		$scope.$on('$destory', function(){
+			detailOrderClose();
+			addPay();
+		});
 	};
 	return {controller: controller, tpl: tpl};
 });

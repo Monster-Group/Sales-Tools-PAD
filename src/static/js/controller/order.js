@@ -161,9 +161,15 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				$scope.$broadcast('showAddPay',$scope.orderNo);
 			},0)
 		});
+		//添加订单后
+		let addOrderClose = $scope.$on('addOrderClose', (e) => {
+			$scope.pageNum = 1;
+			loadData();
+		});
 		$scope.$on('$destory', function() {
-			detailClose();
 			addPay();
+			detailClose();
+			addOrderClose();
 		});
 	};
 	return {controller: controller, tpl: tpl};

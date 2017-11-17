@@ -445,12 +445,18 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			$scope.pageNum = 1;
 			loadData();
 		});
+		//添加订单后
+		let addOrderClose = $scope.$on('addOrderClose', (e) => {
+			$scope.pageNum = 1;
+			loadData();
+		});
 		$scope.$on('$destory', function() {
 			addPay();
 	        hideDetail(); // 退订事件
 	        hideAddClient();
 	        loadClientList();
 	        detailOrderClose();
+	        addOrderClose();
 	    });
 	};
 	return {controller: controller, tpl: tpl};

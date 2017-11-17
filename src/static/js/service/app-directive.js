@@ -325,7 +325,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 									<div class="item" ng-if="orderModel.orderType === 0&&!userId">
 										<span>手机号:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" ng-model="orderModel.mobile" required type="text" />
+											<input class="default-input" ng-model="orderModel.mobile" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" type="text" />
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0&&!userId">
@@ -337,37 +337,45 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 									<div class="item" ng-if="orderModel.orderType === 0&&!userId">
 										<span>身份证:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" ng-model="orderModel.cardId" required type="text" />
+											<input class="default-input" ng-model="orderModel.idCard" required idcard-check type="text" />
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>分类1:</span>
 										<div ng-class="{'ng-invalid': orderForm.class1.$invalid}">
-											<select name="class1" chosen required width="256" placeholder-text-single="'请选择'" ng-change="changeLv1(selectOrder.classlv1)" ng-model="selectOrder.classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true"></select>
+											<select name="class1" chosen required width="256" placeholder-text-single="'请选择'" ng-change="changeLv1(selectOrder.classlv1)" ng-model="selectOrder.classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true">
+												<option value="">请选择</option>
+											</select>
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>分类2:</span>
 										<div ng-class="{'ng-invalid': orderForm.class2.$invalid}">
-											<select name="class2" chosen required width="256" placeholder-text-single="'请选择'" ng-change="changeLv2(selectOrder.classlv2)" ng-model="selectOrder.classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true"></select>
+											<select name="class2" chosen required width="256" placeholder-text-single="'请选择'" ng-change="changeLv2(selectOrder.classlv2)" ng-model="selectOrder.classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true">
+												<option value="">请选择</option>
+											</select>
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>商品:</span>
 										<div ng-class="{'ng-invalid': orderForm.chep.$invalid}">
-											<select name="chep" chosen required width="256" placeholder-text-single="'请选择'" ng-change="chooseProduct(selectOrder.selectProduct)" ng-model="selectOrder.selectProduct" ng-options="item.productName for item in productsData" id="" disable-search="true"></select>
+											<select name="chep" chosen required width="256" placeholder-text-single="'请选择'" ng-change="chooseProduct(selectOrder.selectProduct)" ng-model="selectOrder.selectProduct" ng-options="item.productName for item in productsData" id="" disable-search="true">
+												<option value="">请选择</option>
+											</select>
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1">
 										<span>提货地点:</span>
 										<div ng-class="{'ng-invalid': orderForm.tihuo.$invalid}">
-											<select name="tihuo" chosen required width="256" placeholder-text-single="'请选择'" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true"></select>
+											<select name="tihuo" chosen required width="256" placeholder-text-single="'请选择'" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true">
+												<option value="">请选择</option>
+											</select>
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1&&!userId">
 										<span>手机号:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" name="buyerphone" required ng-model="productModel.mobile" type="text" />
+											<input class="default-input" name="buyerphone" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" ng-model="productModel.mobile" type="text" />
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1&&!userId">
@@ -379,7 +387,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 									<div class="item" ng-if="orderModel.orderType === 1&&!userId">
 										<span>身份证:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" name="cardId" required ng-model="productModel.cardId" type="text" />
+											<input class="default-input" name="cardId" required ng-model="productModel.idCard" idcard-check type="text" />
 										</div>
 									</div>
 								</div>
@@ -439,7 +447,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 						selectPromotion: {},
 						classlv1: '',
 						classlv2: '',
-						selectOrder: {}
+						selectProduct: ''
 					}
 				}
 				init();
@@ -478,8 +486,9 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 
 				$scope.productChange = (product) => {
 					console.log('select: ', product);
-					if($scope.orderModel.productId == product.productId) return;
 
+					if($scope.orderModel.productId == product.productId) return;
+					$scope.orderForm.$submitted = true;
 					$scope.orderModel.productId = product.productId;
 					$scope.peiList = product.peiList;
 					$scope.carPrice = product.defaultPrice;
@@ -528,8 +537,9 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 				$scope.changeLv1 = (classlv1) => {
 					if(classlv1 === typeObj.classlv1) return;
 					typeObj.classlv1 = classlv1;
-					$scope.productsData = [];
-					$scope.classlv2 = '';
+					$scope.productsData = undefined;
+					$scope.selectOrder.selectProduct = undefined;
+					$scope.selectOrder.classlv2 = '';
 
 					if(classlv1 === '') return;
 					getProductType({subtype: classlv1}, (data) => {
@@ -537,7 +547,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					});
 				}
 				$scope.changeLv2 = (classlv2) => {
-					appApi.listProduct({subtype: $scope.classlv1, subtype2: classlv2}, (data) => {
+					appApi.listProduct({subtype: $scope.selectOrder.classlv1, subtype2: classlv2}, (data) => {
 						$scope.productsData = data;
 					});
 				}
@@ -589,6 +599,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 				}
 				function fn_success(res){
 					$scope.closeModal();
+					$scope.$emit('addOrderClose');
 				}
 				function fn_fail(){
 
@@ -633,7 +644,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 		return {
 			restrict: 'E',
 			scope: {
-				orderId: '=',
+				// orderId: '=',
 			},
 			replace: true,
 			template: `
@@ -777,7 +788,6 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 							</div>
 						</div>
 					</div>
-					<add-pay class="add-pay-modal" order-no="orderNo" ng-if="addPayModal"></add-pay>
 				</div>
 			`,
 			controller: function($scope, $element, $attrs) {
@@ -807,7 +817,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					});
 				};
 
-				function getData(orderType, orderNo) {
+				function getData(orderType) {
 					//订单详情
 					appApi.getOrderDetail({
 						orderId: orderId
@@ -815,20 +825,23 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 						data.formatCreatedTime = moment(data.createdTime).format("YYYY-MM-DD HH:mm:ss");
 						data.formatConfirmTime = !data.confirmTime ? '--' : moment(data.confirmTime).format("YYYY-MM-DD HH:mm:ss");
 						data.statusName = getOrderStatu(data.status);
-						$scope.orderNo = data.orderNo;
+						orderNo = data.orderNo;
 						$scope.orderDetail = data;
 						NProgress.done();
-					});
-					//支付信息
-					appApi.getPayment({
-						orderNo: orderNo
-					}, (data) => {
-						$scope.payment = data.map(function(item) {
-							item.paymentTimeFormat = moment(item.paymentTime).format("YYYY-MM-DD HH:mm:ss");
-							return item;
+
+						//支付信息
+						appApi.getPayment({
+							orderNo: orderNo
+						}, (data) => {
+							$scope.payment = data.map(function(item) {
+								item.paymentTimeFormat = moment(item.paymentTime).format("YYYY-MM-DD HH:mm:ss");
+								return item;
+							});
 						});
+
+						loadPayInfo(orderNo);
 					});
-					loadPayInfo(orderNo);
+					
 
 					//代办事项
 					appApi.getAppointById({
@@ -861,7 +874,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					}
 				}
 				$scope.addPay = ()=>{
-					$scope.$emit('addPay');
+					$scope.$emit('addPay', orderNo);
 				};
 				let getPayInfo = $rootScope.$on('loadPayInfo', function(e, data) {
 					loadPayInfo(orderNo);
@@ -872,8 +885,8 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					init();
 					if(orderId != data.orderId) {
 						orderId = data.orderId;
-						orderNo = data.orderNo;
-						getData(data.type, data.orderNo);
+						// orderNo = data.orderNo;
+						getData(data.type);
 					}
 				});
 				$scope.$on('$destory', function() {
@@ -1320,4 +1333,23 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 			}
 		}
 	});
+
+	appDirectives.directive('idcardCheck', function(){
+        return{
+            require: '?ngModel',
+            link: function($scope, $elem, $attrs, ctrl){
+                ctrl.$validators.idcardCheck = function(modelValue, viewValue){
+                    var city={11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙江 ",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖北 ",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西藏 ",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外 "};
+                    var reg =  /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X|x)$/i
+                    // console.log(reg.test(value))
+                    var value = modelValue || viewValue;
+                    if(!value||!reg.test(value))return false;
+
+                    if(!city[String(value).substr(0,2)])return false;
+
+                    return true;
+                }
+              }
+        }
+    })
 });
