@@ -5382,7 +5382,7 @@ require([
                         data: $.param(logInfo),
                         success: function (data) {
                             if (data.code == 200) {
-                                window.location.href = 'ipad.html#order';
+                                window.location.href = 'ipad.html';
                                 localStorage.setItem('loginfo', JSON.stringify(data.data));
                             } else {
                                 $('.error-msg').text(data.msg);
