@@ -1047,11 +1047,11 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 							<span>ID:<i ng-bind="detailModel.userId"></i></span>
 						</div>
 						<div>
-							<span>姓名:</span>
+							<span><i class="color-red">*</i>姓名:</span>
 							<input class="default-input" type="text" name="name" ng-model="detailModel.realname" required ng-class="{'error':clientForm.$submitted&&clientForm.name.$invalid}" />
 						</div>
 						<div>
-							<span>性别:</span>
+							<span><i class="color-red">*</i>性别:</span>
 							<drop-down render-data="$root.enumData.gender" model="detailModel.sex" ng-class="{'error':clientForm.$submitted&&(detailModel.sex===undefined||detailModel.sex==='')}"></drop-down>
 						</div>
 						<div>
@@ -1063,7 +1063,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 							<input class="default-input" type="date" name="birthdayStr" ng-model="detailModel.birthdayStr"/>
 						</div>
 						<div>
-							<span>手机号:</span>
+							<span><i class="color-red">*</i>手机号:</span>
 							<input class="default-input" ng-readonly="type==1" type="text" name="mobile" ng-model="detailModel.mobile" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" ng-class="{'error':clientForm.$submitted&&clientForm.mobile.$invalid}"/>
 						</div>
 						<div>
@@ -1083,11 +1083,11 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 							<input class="default-input" type="text" name="censusRegister" ng-model="detailModel.censusRegister" />
 						</div>
 						<div>
-							<span>省:</span>
+							<span><i class="color-red">*</i>省:</span>
 							<drop-down render-data="$root.enumData.regionList" model="detailModel.province" display="'provinceName'" val="'provinceId'" click-event="provinceClick" ng-class="{'error':clientForm.$submitted&&!detailModel.province}"></drop-down>
 						</div>
 						<div>
-							<span>市:</span>
+							<span><i class="color-red">*</i>市:</span>
 							<drop-down render-data="cityList" model="detailModel.city" display="'cityName'" val="'cityId'" ng-class="{'error':clientForm.$submitted&&!detailModel.city}"></drop-down>
 						</div>
 						<div>
