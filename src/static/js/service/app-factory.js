@@ -224,7 +224,7 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 			],
 			payChannel:[
 				{
-					name: '线下',
+					name: 'POS机',
 					value: 4
 				}
 			],

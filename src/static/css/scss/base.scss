@@ -693,7 +693,7 @@ body {
 }
 
 
-.main-container {
+.main-container {overflow-y: scroll;-webkit-overflow-scrolling: touch;
     width: 100%;
 }
 

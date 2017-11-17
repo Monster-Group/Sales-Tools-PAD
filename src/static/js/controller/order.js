@@ -1,4 +1,4 @@
-define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment','iNoBounce','loading'], function(angular, tpl, Waves, NProgress, toastr,moment,iNoBounce) {
+define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment','loading'], function(angular, tpl, Waves, NProgress, toastr,moment) {
 	function controller($scope,$rootScope, appApi,getOrderStatu,getMillisecond,$timeout) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block','waves-light']);
@@ -125,7 +125,6 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 					$scope.showDetail = true;
 					$scope.$broadcast('showDetail', data);
 				});
-				iNoBounce.disable();
 			}
 		});
 		
@@ -155,7 +154,6 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		};
 		let detailClose = $scope.$on('detailClose', function(){
 			$scope.showDetail = false;
-			iNoBounce.enable();
 		});
 		let addPay = $scope.$on('addPay', function(e) {
 			$scope.showAddPay = true;

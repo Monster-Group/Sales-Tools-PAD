@@ -1,4 +1,4 @@
-define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'moment', 'iNoBounce','loading'], function(angular, tpl, Waves, NProgress, toastr, moment,iNoBounce) {
+define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'moment', 'loading'], function(angular, tpl, Waves, NProgress, toastr, moment) {
 	function controller($scope, $rootScope, appApi, getUserLv,getOrderStatu,$timeout,$compile) {
 		Waves.init();
 		Waves.attach('.button', ['waves-block', 'waves-light']);
@@ -294,7 +294,6 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		loadData();
 		$scope.goBack = ()=>{
 			$scope.showDetail = false;
-			iNoBounce.enable();
 		};
 		$scope.cancel = ()=>{
 			$scope.showAddClient = false;
@@ -374,7 +373,6 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 					$scope.orderNo = data.orderNo;
 					$scope.$broadcast('showDetail', data);
 				});
-				iNoBounce.disable();
 			}
 		});
 		$('.client-list-wrapper').on('tap', '.load-more', function(e) {
@@ -395,9 +393,6 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				$('#remark .dataTables_scrollBody').scrollTop(top);
 			});
 		});
-		$('.detail-info').on('shown.bs.tab', function() {
-			iNoBounce.disable();
-		});
 		$('.user-order-list').on('shown.bs.tab', function() {
 			if(!$scope.ddt) {
 				$scope.detailTableScollHeight = $(window).height() - $scope.$detailTable.offset().top - $scope.$table.find('thead').outerHeight() - 160;
@@ -406,7 +401,6 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			};
 			$scope.orderpageNum = 1;
 			loadOrderList();
-			iNoBounce.enable();
 		});
 		$('.user-remark').on('shown.bs.tab', function() {
 			if(!$scope.remarkDt) {
@@ -415,7 +409,6 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			};
 			$scope.remarkPageNum = 1;
 			loadRemark();
-			iNoBounce.enable();
 		});
 		$('.tab-wrapper').on('tap', '.tab-item', function(e) {
 			e.stopPropagation();
@@ -441,7 +434,6 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		});
 		let detailOrderClose = $scope.$on('detailClose', function(){
 			$scope.showOrderDetail = false;
-			iNoBounce.enable();
 		});
 		let hideDetail  = $scope.$on('hideDetail', (e)=> {
 			$scope.showDetail = false;
