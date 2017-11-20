@@ -29,7 +29,9 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 			$rootScope.countMatterSum = data;
 		});
 		let loadData = (fn) =>{
-			$('body').loading();
+			if($('body').find('.inline-loading').length==0){
+				$('body').loading();
+			}
 			appApi.searchMatter($scope.stageIds,$scope.pageNum,(data)=>{
 				console.log(data);
 				$scope.tableData = data;

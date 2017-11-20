@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - start
  * Author: Clearlove 7*
- * Updated: 2017-11-18 02:03
+ * Updated: 2017-11-20 21:20
  * Version: 1.0.0
  * -----------------------*/
 define('angular', [], function () {
@@ -22199,8 +22199,8 @@ define('appDirectives', [
         imageHeight: null,
         imageClass: null,
         timer: null,
-        width: 500,
-        padding: 20,
+        width: 1000,
+        padding: 40,
         background: '#fff',
         input: null,
         inputPlaceholder: '',

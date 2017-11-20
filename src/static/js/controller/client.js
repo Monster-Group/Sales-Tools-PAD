@@ -50,7 +50,9 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		let loadData = (fn) => {
 			$scope.searchParams.accountId = $rootScope.loginfo.account.accountId;
 			$scope.searchParams.storeId = $rootScope.loginfo.account.storeId;
-			$('body').loading();
+			if($('body').find('.inline-loading').length==0){
+				$('body').loading();
+			}
 			appApi.listUserBackSales($scope.searchParams, $scope.pageNum, (data) => {
 				$scope.userList = data.userList;
 				if(data.userList.pageNum <= 1) {

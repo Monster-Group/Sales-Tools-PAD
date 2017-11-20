@@ -644,7 +644,7 @@
 .date-time-picker {
     .date-pick-wrapper {
         line-height: 114px;
-        height: 114px;
+        height: 160px;
         display: flex;
         justify-content: space-between;
         .arrow {
@@ -700,7 +700,6 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        margin-top: 40px;
         .time-item {
             display: block;
             width: 286px;

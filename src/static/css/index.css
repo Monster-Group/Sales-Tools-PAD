@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - index
  * Author: Clearlove 7*
- * Updated: 2017-11-18 01:45
+ * Updated: 2017-11-20 20:14
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -561,7 +561,7 @@
 
 .date-time-picker .date-pick-wrapper {
   line-height: 114px;
-  height: 114px;
+  height: 160px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -622,8 +622,7 @@
       flex-wrap: wrap;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
-          justify-content: space-between;
-  margin-top: 40px; }
+          justify-content: space-between; }
   .date-time-picker .time-wrapper .time-item {
     display: block;
     width: 286px;

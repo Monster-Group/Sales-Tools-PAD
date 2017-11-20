@@ -80,7 +80,9 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			}
 		});
 		let loadData = (fn) =>{
-			$('body').loading();
+			if($('body').find('.inline-loading').length==0){
+				$('body').loading();
+			}
 			appApi.searchOrderList($scope.searchParams,$scope.pageNum, (data)=>{
 				console.log(data);
 				$scope.tableData = data;
