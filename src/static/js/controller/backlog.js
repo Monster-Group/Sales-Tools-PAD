@@ -36,6 +36,10 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 				console.log(data);
 				$scope.tableData = data;
 				$scope.pageNum++;
+				setTimeout(()=>{
+					$('.refresh').removeClass('active');
+					$('body').find('.inline-loading').remove();
+				},1000);
 				if(data.pageNum<=1){
 					$scope.dt.fnClearTable();
 				};
@@ -44,9 +48,6 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 				}else{
 					$('.backlog').find('.load-more').show();
 				};
-				setTimeout(()=>{
-					$('body').find('.inline-loading').remove();
-				},0);
 				if(data.list.length==0) return;
 				$scope.dt.fnAddData(data.list);
 				if(!fn) return;
@@ -77,12 +78,15 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 			buttons: {},
 			scrollY: $scope.tableScollHeight,
 			columns: [{
+					data: null,
+					width: '13%'
+				},{
 					data: 'buyerName',
-					width: '10%'
+					width: '7%'
 				},
 				{
 					data: 'buyerMobile',
-					width: '20%'
+					width: '12%'
 				},
 				{
 					data: 'productDetail',
@@ -98,18 +102,35 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 				},
 				{
 					data: null,
-					width: '30%'
+					width: '28%'
 				}
 			],
 			columnDefs: [
 			{
-				targets: 3,
+				targets: 0,
+				visible: true,
+				render: function(data, type, row, meta) {
+					let startDate = moment(data.reservationStartTime).format('YYYY-MM-DD');
+					let startTime = moment(data.reservationStartTime).format('HH:mm');
+					let endDate = moment(data.reservationEndTime).format('YYYY-MM-DD');
+					let endTime = moment(data.reservationEndTime).format('HH:mm');
+					let time = '<p>' + startDate+' '+startTime+'</p><p>- ';
+					if(startDate==endDate){
+						time += endTime + '</p>';
+					}else{
+						time += endDate+' '+endTime + '</p>';
+					}
+					return time;
+				}
+			},
+			{
+				targets: 4,
 				visible: true,
 				render: function(data, type, row, meta) {
 					return '￥'+data;
 				}
 			},{
-				targets: 5,
+				targets: 6,
 				visible: true,
 				orderable:false,
 				render: function(data, type, row, meta) {
@@ -168,6 +189,11 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 			loadData(()=>{
 				$('.dataTables_scrollBody').scrollTop(top);
 			});
+		});
+		$('.backlog').on('tap','.refresh',function(e){
+			$(this).addClass('active');
+			$scope.pageNum = 1;
+			loadData();
 		});
 		$scope.$table.on('tap','tbody tr', function(e){
 			e.preventDefault();

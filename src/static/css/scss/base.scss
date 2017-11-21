@@ -3,11 +3,11 @@
 /*----------------icon-font-----------------*/
 @font-face {
     font-family: 'iconfont';  /* project id 459934 */
-  src: url('//at.alicdn.com/t/font_459934_86jxo2et9aoflxr.eot');
-  src: url('//at.alicdn.com/t/font_459934_86jxo2et9aoflxr.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_459934_86jxo2et9aoflxr.woff') format('woff'),
-  url('//at.alicdn.com/t/font_459934_86jxo2et9aoflxr.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_459934_86jxo2et9aoflxr.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_459934_htsetmpq1otuik9.eot');
+  src: url('//at.alicdn.com/t/font_459934_htsetmpq1otuik9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_459934_htsetmpq1otuik9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_459934_htsetmpq1otuik9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_459934_htsetmpq1otuik9.svg#iconfont') format('svg');
 }
 
 [class^="icon-"],
@@ -540,6 +540,23 @@ input:active {
     color: #fff;
 }
 
+.refresh{
+   display: inline-block;
+    text-align: center;
+    color: color($colors,bdPrimary);
+    transform: rotate(0deg);
+    transform-origin: center center;
+    border-radius: 50%;
+    width: 166px;
+    height: 166px;
+    line-height: 166px;
+    font-size: 120px; 
+}
+.refresh.active{
+    color: color($colors,secondary);
+    animation:load 1.5s linear infinite;
+}
+
 .default-textarea {
     background-color: color($colors, bg);
     border: $border-width solid color($colors, bdSecondary);
@@ -551,7 +568,7 @@ input:active {
     border-radius: $border-radius;
 }
 
-.add-btn {
+.add-btn,.refresh {
     position: fixed;
     bottom: 20px;
     right: 88px;

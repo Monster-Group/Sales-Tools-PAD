@@ -36,7 +36,16 @@ define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$
 								window.location.href = 'index.html';
 							}
 						});
-					} else {
+					} else if(response.data.code == 407){
+						swal({
+							title: '警告信息',
+							text: '手机号已存在，请更换手机号',
+							type: 'warning',
+							confirmButtonText: '确定'
+						}).then(function () {
+							$('.inline-loading').remove();
+						});
+					}else{
 						swal({
 							title: '错误信息',
 							text: response.data.msg,
@@ -327,6 +336,15 @@ define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$
 				url: baseSet.postServer + 'api/v2/account/saveRemark',
 				data: data,
 				success: suc
+			})
+		}
+		this.checkMobile = (data,com) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/user/checkMobile',
+				data: {
+					mobile:data
+				},
+				complete: com
 			})
 		}
 	}]);

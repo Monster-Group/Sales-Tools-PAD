@@ -1,6 +1,6 @@
 
 
-var stamp = 'ivOjF1170Q';
+var stamp = '15j3DiHo5f';
 
 var staticUrl = './static';
 'use strict';

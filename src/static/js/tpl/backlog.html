@@ -35,6 +35,7 @@
 	<table class="table table-hover table-bordered backlog-table" ng-hide="showOrderDetail">
 		<thead>
 			<tr>
+				<th>时间</th>
 				<th>姓名</th>
 				<th>电话</th>
 				<th>商品详情</th>
@@ -46,6 +47,7 @@
 		<tbody>
 		</tbody>
 	</table>
+	<a class="refresh iconfont" ng-hide="showOrderDetail">&#xe6fc;</a>
 	<order-detail ng-show="showOrderDetail" class="animated fadeIn"></order-detail>
 </div>
 <div class="modal fade custom-modal task-modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: block;">

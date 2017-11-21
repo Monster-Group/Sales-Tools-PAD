@@ -38,6 +38,15 @@ define(['angular', 'baseSet', 'jquery', 'sweetalert'], function (angular, baseSe
 								window.location.href = 'index.html';
 							}
 						});
+					} else if (response.data.code == 407) {
+						swal({
+							title: '警告信息',
+							text: '手机号已存在，请更换手机号',
+							type: 'warning',
+							confirmButtonText: '确定'
+						}).then(function () {
+							$('.inline-loading').remove();
+						});
 					} else {
 						swal({
 							title: '错误信息',
@@ -329,6 +338,15 @@ define(['angular', 'baseSet', 'jquery', 'sweetalert'], function (angular, baseSe
 				url: baseSet.postServer + 'api/v2/account/saveRemark',
 				data: data,
 				success: suc
+			});
+		};
+		this.checkMobile = function (data, com) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/user/checkMobile',
+				data: {
+					mobile: data
+				},
+				complete: com
 			});
 		};
 	}]);

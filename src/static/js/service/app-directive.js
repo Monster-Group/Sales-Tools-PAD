@@ -782,9 +782,10 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					</div>
 					<div class="info-block appoint-info" ng-show="appoints.length > 0">
 						<h3 class="clearfix">邀约信息：</h3>
-						<div class="info-body clearfix">
-							<div class="line pull-left" ng-repeat="item in appoints track by $index">
-								<span class="appoint">{{item.deliveryStageName}}:  {{item.buyerName}} {{item.time}}</span>
+						<div class="info-body">
+							<div class="line" ng-repeat="item in appoints track by $index">
+								<p>{{item.deliveryStageName}}:  {{item.nickname}} {{item.time}}</p>
+								<p>备注:&nbsp&nbsp&nbsp&nbsp{{item.comments}}</p>
 							</div>
 						</div>
 					</div>
@@ -1077,7 +1078,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 						</div>
 						<div>
 							<span><i class="color-red">*</i>手机号:</span>
-							<input class="default-input" ng-readonly="type==1" type="text" name="mobile" ng-model="detailModel.mobile" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" ng-class="{'error':clientForm.$submitted&&clientForm.mobile.$invalid}"/>
+							<input class="default-input mobile" ng-readonly="type==1" type="text" name="mobile" ng-model="detailModel.mobile" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" ng-class="{'error':clientForm.$submitted&&clientForm.mobile.$invalid}"/>
 						</div>
 						<div>
 							<span>QQ:</span>
@@ -1293,6 +1294,18 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 				if($scope.type==1){
 					getDetail();
 				};
+				$($element).find('.mobile').on('blur',function(){
+					if($(this).hasClass('ng-valid')&&$scope.type!=1){
+						appApi.checkMobile($(this).val(),(data)=>{
+							console.log(data);
+							if(data.data.code==200){
+								$(this).removeClass('error');
+							}else{
+								$(this).addClass('error');
+							}
+						});
+					};
+				});
 				$scope.provinceClick = (e,i)=>{
 					getCityList(i.provinceId);
 				};

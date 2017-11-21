@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - index
  * Author: Clearlove 7*
- * Updated: 2017-11-20 20:14
+ * Updated: 2017-11-21 22:34
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -167,19 +167,30 @@
     .info-block .info-body > div {
       -ms-flex-preferred-size: 33.33%;
           flex-basis: 33.33%;
-      padding: 23px 0;
+      width: 33.33%;
+      padding: 23px 20px 23px 0;
       line-height: 36px;
       word-break: break-all;
       display: -webkit-box;
       display: -ms-flexbox;
-      display: flex;
-      padding-right: 20px; }
+      display: flex; }
     .info-block .info-body span {
       word-break: keep-all; }
   .info-block .info-footer {
     text-align: right;
     padding: 0 64px 40px;
     height: 130px; }
+
+.appoint-info .info-body > div {
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap; }
+
+.appoint-info .info-body p {
+  word-break: keep-all;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+  width: 100%;
+  line-height: 50px; }
 
 .order-info .info-block .info-body i {
   margin-left: 20px; }
