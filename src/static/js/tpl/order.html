@@ -23,7 +23,7 @@
 				<div class="form-item last">
 					<span class="form-tag">购买人手机号:</span>
 					<div class="form-input-wrapper">
-						<input class="default-input buy-man-num" type="number" ng-model="searchParams.buyerMobile" />
+						<input class="default-input buy-man-num" type="number" ng-model="searchParams.buyerMobile"/>
 					</div>
 				</div>
 				<a class="button pull-right" hm-tap="rest()">重置</a>
@@ -68,115 +68,6 @@
 		</table>
 		<button class="cycle-button icon add-btn transition-05" hm-tap="addOrder($event)">&#xe606;</button>
 	</section>
-	<!-- <section class="order-info hide">
-		<header class="clearfix">
-			<a class="button pull-left">返回</a>
-			<span class="pull-left">订单详情&nbsp;&nbsp;(编号:171785478852412587)</span>
-		</header>
-		<div class="info-block">
-			<h3>购车人信息:</h3>
-			<div class="info-body">
-				<div>
-					<span>购买人:</span><i>某某某</i>
-				</div>
-				<div>
-					<span>购买人:</span><i>某某某</i>
-				</div>
-				<div>
-					<span>购买人:</span><i>某某某</i>
-				</div>
-				<div>
-					<span>购买人:</span><i>15012119780906771X15012119780906771X15012119780906771X15012119780906771X</i>
-				</div>
-			</div>
-		</div>
-		<div class="info-block">
-			<h3>订单信息:</h3>
-			<div class="info-body" ng-show="orderDetail.type != 1">
-				<div>
-					<span>活动名称:</span><i></i>
-				</div>
-				<div>
-					<span>活动条款:</span><i>15012119780906771X15</i>
-				</div>
-				<div>
-					<span>活动金额:</span><i>1501211978</i>
-				</div>
-				<div>
-					<span>优惠审核状态:</span><i>15012119780906771X150121</i>
-				</div>
-				<div>
-					<span>提车地址:</span><i>15012119780906771X1501</i>
-				</div>
-				<div>
-					<span>公司:</span><i>15012119780906771X1501</i>
-				</div>
-				<div>
-					<span>下单时间:</span><i>15012119780906771X1501</i>
-				</div>
-				<div>
-					<span>支付时间:</span><i>15012119780906771X1501</i>
-				</div>
-				<div>
-					<span>结清时间:</span><i>15012119780906771X1501</i>
-				</div>
-				<div>
-					<span>状态:</span><i>15012119780906771X1501</i>
-				</div>
-				<div>
-					<span>商品明细:</span><i>15012119780906771X1501</i>
-				</div>
-				<div>
-					<span>优惠金额:</span><i>15012119780906771X1501</i>
-				</div>
-				<div>
-					<span>数量:</span><i>15012119780906771X1501</i>
-				</div>
-				<div>
-					<span>原价:</span><i>15012119780906771X1501</i>
-				</div>
-				<div>
-					<span>现价:</span><i>15012119780906771X1501</i>
-				</div>
-			</div>
-			<div class="info-body" ng-show="orderDetail.type != 1">
-				<div>
-					<span>购买人:</span><i>15012119780906771X15012119780906771X15012119780906771X15012119780906771X</i>
-				</div>
-				<div>
-					<span>购买人:</span><i>15012119780906771X15</i>
-				</div>
-				<div>
-					<span>购买人:</span><i>1501211978</i>
-				</div>
-				<div>
-					<span>购买人:</span><i>15012119780906771X150121</i>
-				</div>
-				<div>
-					<span>购买人:</span><i>15012119780906771X1501</i>
-				</div>
-			</div>
-		</div>
-		<div class="info-block pay-info">
-			<h3 class="clearfix">
-				<span class="channel">支付渠道</span>
-				<span class="pay-no">支付号</span>
-				<span class="pay-amount">支付金额</span>
-				<span class="pay-date">支付时间</span>
-			</h3>
-			<div class="info-body clearfix">
-				<div class="line pull-left">
-					<span class="channel">某某某</span>
-					<span class="pay-no">15012119780906771X</span>
-					<span class="pay-amount">9999999.00</span>
-					<span class="pay-date">2017/11/31 12:59:00</span>
-				</div>
-			</div>
-			<div class="info-footer">
-				<a class="button">新增支付信息</a>
-			</div>
-		</div>
-	</section> -->
 	<order-detail ng-show="showDetail" class="animated fadeIn"></order-detail>
 </div>
 <new-order class="add-order-modal"></new-order>

@@ -291,7 +291,7 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 				$scope.$broadcast('showAddPay',$scope.orderNo);
 			},0)
 		});
-		$scope.$on('$destory', function(){
+		$scope.$on('$destroy', function(){
 			detailOrderClose();
 			addPay();
 		});

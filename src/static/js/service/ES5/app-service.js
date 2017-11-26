@@ -262,21 +262,18 @@ define(['angular', 'baseSet', 'jquery', 'sweetalert'], function (angular, baseSe
 				success: suc
 			});
 		};
-
 		this.getPromotion = function (suc) {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/promotion/listProotionOrder',
 				success: suc
 			});
 		};
-
 		this.listCar = function (suc) {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/product/listCar',
 				success: suc
 			});
 		};
-
 		this.getCarColor = function (data, suc) {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/product/listCarColor',
@@ -347,6 +344,44 @@ define(['angular', 'baseSet', 'jquery', 'sweetalert'], function (angular, baseSe
 					mobile: data
 				},
 				complete: com
+			});
+		};
+		this.listServiceProduct = function (suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/product/listServiceProduct',
+				success: suc
+			});
+		};
+		this.listCarDisc = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/product/listCarDisc',
+				data: data,
+				success: suc
+			});
+		};
+		this.listOrderByBack = function (mobile, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/listOrderByBack',
+				data: {
+					mobile: mobile
+				},
+				success: suc
+			});
+		};
+		this.showServiceOrder = function (orderId, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/showServiceOrder',
+				data: {
+					orderId: orderId
+				},
+				success: suc
+			});
+		};
+		this.createServiceOrderBack = function (data, suc) {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/order/createServiceOrderBack',
+				data: data,
+				success: suc
 			});
 		};
 	}]);

@@ -259,6 +259,9 @@ define(['angular', 'moment', 'jquery'], function (angular, moment, $) {
 			}, {
 				name: '周边商品',
 				value: 1
+			}, {
+				name: '服务',
+				value: 2
 			}],
 			gender: [//性别
 			{ value: 0, name: '保密' }, { value: 1, name: '女' }, { value: 2, name: '男' }],

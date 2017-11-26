@@ -64,6 +64,8 @@ requirejs.config({
 		'appFactorys':'service/ES5/app-factory',
 		'appTemplates':'service/ES5/app-templates',
 		'appTouch':'service/app-touch',
+		'appOrderDetail':'service/ES5/app-order-detail',
+		'appNewOrder':'service/ES5/app-new-order',
 //jquery--------------------------
 		'paginator':'libs/jquery/paginator',
 		'parallax':'libs/jquery/jquery.parallax',

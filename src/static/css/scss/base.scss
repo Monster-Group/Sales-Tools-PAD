@@ -3,11 +3,11 @@
 /*----------------icon-font-----------------*/
 @font-face {
     font-family: 'iconfont';  /* project id 459934 */
-  src: url('//at.alicdn.com/t/font_459934_htsetmpq1otuik9.eot');
-  src: url('//at.alicdn.com/t/font_459934_htsetmpq1otuik9.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_459934_htsetmpq1otuik9.woff') format('woff'),
-  url('//at.alicdn.com/t/font_459934_htsetmpq1otuik9.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_459934_htsetmpq1otuik9.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_459934_op3j5m1ixiozuxr.eot');
+  src: url('//at.alicdn.com/t/font_459934_op3j5m1ixiozuxr.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_459934_op3j5m1ixiozuxr.woff') format('woff'),
+  url('//at.alicdn.com/t/font_459934_op3j5m1ixiozuxr.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_459934_op3j5m1ixiozuxr.svg#iconfont') format('svg');
 }
 
 [class^="icon-"],
@@ -519,7 +519,9 @@ input:active {
     height: 90px;
     border-radius: 15px;
     background-image: linear-gradient(90deg, color($colors, primary), color($colors, secondary));
+    &.small{line-height: 60px;padding: 0 45px;height: 60px;border-radius: 10px;font-size:28px;}
 }
+
 
 .cycle-button {
     display: inline-block;
@@ -741,7 +743,7 @@ body {
     }
     .dropdown-menu {
         box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        max-height: 354px;overflow-y: scroll;
+        max-height: 354px;overflow-y: auto; 
         width: calc(100% + 4px);
         border: $border-width solid color($colors, bdSecondary);
         left: -2px;
@@ -779,7 +781,7 @@ body {
         left: 50%;
         margin-left: -859px;
         z-index: 9999;
-        max-height: 70%;overflow-y: scroll;
+        max-height: 80%;overflow-y: auto;
         .modal-content {
             border-radius: $border-radius;
             padding: 0 60px;

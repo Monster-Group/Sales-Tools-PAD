@@ -457,7 +457,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			$scope.pageNum = 1;
 			loadData();
 		});
-		$scope.$on('$destory', function() {
+		$scope.$on('$destroy', function() {
 			addPay();
 	        hideDetail(); // 退订事件
 	        hideAddClient();

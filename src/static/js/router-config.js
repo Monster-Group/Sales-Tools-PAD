@@ -1,6 +1,6 @@
-define(['angular', 'require','Ps', 'angular-route', 'appDirectives', 'appServices', 'appFactorys', 'appTemplates', 'appTouch', 'angular-chosen', 'jquery', 'table'],
+define(['angular', 'require','Ps', 'angular-route', 'appDirectives', 'appServices', 'appFactorys', 'appTemplates', 'appTouch','appOrderDetail','appNewOrder', 'angular-chosen', 'jquery', 'table'],
 	function(angular, require,PerfectScrollbar) {
-		var app = angular.module('webapp', ['ngRoute', 'app.directives', 'app.services', 'app.factorys', 'app.template', 'app.touch','localytics.directives']);
+		var app = angular.module('webapp', ['ngRoute', 'app.directives', 'app.services', 'app.factorys', 'app.template', 'app.touch','app.orderDetail','app.newOrder','localytics.directives']);
 		app.run(function($rootScope,$q,$location, dropdownMenuScrollbar, ArrayhasObj,appApi,enumData) {
 			$rootScope.$on('$routeChangeStart', function(evt, next, current) {
 				$rootScope.path = $location.$$path;

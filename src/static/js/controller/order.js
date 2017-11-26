@@ -168,7 +168,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			$scope.pageNum = 1;
 			loadData();
 		});
-		$scope.$on('$destory', function() {
+		$scope.$on('$destroy', function() {
 			addPay();
 			detailClose();
 			addOrderClose();
