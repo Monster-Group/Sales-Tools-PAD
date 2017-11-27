@@ -433,12 +433,6 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				});
 			}
 		});
-		let addPay = $scope.$on('addPay', function(e) {
-			$scope.showAddPay = true;
-			$timeout(()=>{
-				$scope.$broadcast('showAddPay',$scope.orderNo);
-			},0)
-		});
 		let detailOrderClose = $scope.$on('detailClose', function(){
 			$scope.showOrderDetail = false;
 		});
@@ -458,7 +452,6 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 			loadData();
 		});
 		$scope.$on('$destroy', function() {
-			addPay();
 	        hideDetail(); // 退订事件
 	        hideAddClient();
 	        loadClientList();

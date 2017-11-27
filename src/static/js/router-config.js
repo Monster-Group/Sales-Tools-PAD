@@ -1,6 +1,6 @@
-define(['angular', 'require','Ps', 'angular-route', 'appDirectives', 'appServices', 'appFactorys', 'appTemplates', 'appTouch','appOrderDetail','appNewOrder', 'angular-chosen', 'jquery', 'table'],
+define(['angular', 'require','Ps', 'angular-route', 'appDirectives', 'appServices', 'appFactorys','appFilters','appTemplates', 'appTouch','appOrderDetail','appNewOrder','appAddPay', 'angular-chosen', 'jquery', 'table'],
 	function(angular, require,PerfectScrollbar) {
-		var app = angular.module('webapp', ['ngRoute', 'app.directives', 'app.services', 'app.factorys', 'app.template', 'app.touch','app.orderDetail','app.newOrder','localytics.directives']);
+		var app = angular.module('webapp', ['ngRoute', 'app.directives', 'app.services', 'app.factorys','app.filters', 'app.template','app.addPay', 'app.touch','app.orderDetail','app.newOrder','localytics.directives']);
 		app.run(function($rootScope,$q,$location, dropdownMenuScrollbar, ArrayhasObj,appApi,enumData) {
 			$rootScope.$on('$routeChangeStart', function(evt, next, current) {
 				$rootScope.path = $location.$$path;
@@ -81,36 +81,6 @@ define(['angular', 'require','Ps', 'angular-route', 'appDirectives', 'appService
 						}
 					}, 0);
 				}
-			}
-		});
-		app.filter('trustHtml', function($sce) {
-			return function(input) {
-				return $sce.trustAsHtml(input);
-			};
-		});
-		app.filter('formatGender', function($rootScope) {
-			return function(genderId) {
-				var gender;
-				switch(+genderId){
-					case 0: gender = '保密';break;
-					case 1: gender= '女';break;
-					case 2: gender = '男';break;
-					default: gender = '未知'
-				}
-				return gender;
-			};
-		});
-		app.filter('formatChannel', function(){
-			return function(channelId){
-				var channelName;
-				switch(+channelId){
-					case 1: channelName = '支付宝';break;
-					case 2: channelName= '微信';break;
-					case 3: channelName = '网银';break;
-					case 4: channelName = '线下';break;
-					default: channelName = '--'
-				}
-				return channelName;
 			}
 		});
 		app.config(['$routeProvider', '$controllerProvider','$httpProvider','hammerDefaultOptsProvider',

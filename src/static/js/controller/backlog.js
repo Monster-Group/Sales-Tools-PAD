@@ -284,16 +284,8 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 		let detailOrderClose = $scope.$on('detailClose', function(){
 			$scope.showOrderDetail = false;
 		});
-		let addPay = $scope.$on('addPay', function(e,orderNo) {
-			// $scope.showAddPay = true;
-			$scope.orderNo = orderNo;
-			$timeout(()=>{
-				$scope.$broadcast('showAddPay',$scope.orderNo);
-			},0)
-		});
 		$scope.$on('$destroy', function(){
 			detailOrderClose();
-			addPay();
 		});
 	};
 	return {controller: controller, tpl: tpl};

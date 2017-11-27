@@ -25,6 +25,20 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 			});
 		}
 	});
+	appFactorys.factory('getPayStatuDisplay',function(){
+		return function(s){
+			let statu = '';
+			switch(s){
+				case 0: statu='未支付' 
+				break;
+				case 1: statu='已支付' 
+				break;
+				case 2: statu='已取消' 
+				break;
+			};
+			return statu;
+		}
+	});
 	appFactorys.factory('getStatuDisplay',function(){
 		return function(s){
 			let statu = '';

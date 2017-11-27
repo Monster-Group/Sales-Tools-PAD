@@ -126,11 +126,11 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 								<span class="channel">{{item.channel | formatChannel}}</span>
 								<span class="pay-no">{{item.merOrderNo?item.merOrderNo:'null'}}</span>
 								<span class="pay-amount">{{item.amount}}</span>
-								<span class="pay-state">状态</span>
+								<span class="pay-state">{{item.status | payStatuDisplay}}</span>
 								<span class="pay-date">{{item.paymentTimeFormat}}</span>
 								<span class="pay-memo">{{item.comment?item.comment:'无'}}</span>
-								<span class="pay-code" hm-tap="showPayCode()"><i class="icon">&#xe608;</i></span>
-								<span class="handle"><a class="button small" hm-tap="refund()">取消</a></span>
+								<span class="pay-code" hm-tap="showPayCode(item)"><i class="icon" ng-if="item.status==0&&item.type==0">&#xe608;</i></span>
+								<span class="handle"><a class="button small" hm-tap="cancel(item)" ng-if="item.status==0&&item.type==0">取消</a><a class="button small" hm-tap="refund(item)" ng-if="item.status==1&&item.type==0">退款</a></span>
 							</div>
 						</div>
 						<div class="info-footer">
@@ -164,12 +164,12 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 							<span class="date">下单时间</span>
 							<span class="handle">操作</span>
 						</h3>
-						<div class="info-body clearfix">
+						<div class="info-body clearfix" ng-repeat="item in serviceOrder track by $index">
 							<div class="line pull-left">
-								<span class="item">商品</span>
-								<span class="price">价钱</span>
-								<span class="state">状态</span>
-								<span class="date">下单时间</span>
+								<span class="item">{{item.productName}}</span>
+								<span class="price">¥{{item.productPrice}}</span>
+								<span class="state">{{item.status | orderStatu}}</span>
+								<span class="date">{{item.createdTime | dateFormat}}</span>
 								<span class="handle"><a class="button small">详情</a></span>
 							</div>
 						</div>
@@ -180,7 +180,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 					<div class="modal fade custom-modal pay-code-modal" tabindex="-1" role="dialog" aria-hidden="true">
 						<div class="modal-dialog modal-md">
 							<a class="iconfont" data-dismiss="modal">&#xe60e;</a>
-							<img src="static/img/photo.png">
+							<img src=""/>
 						</div>
 					</div>
 					<div class="modal fade custom-modal refund-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -219,11 +219,11 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 			controller: function($scope, $element, $attrs) {
 				$scope.$refundModal = $($element).find('.refund-modal').clone();
 				$scope.$payCodeModal = $($element).find('.pay-code-modal').clone();
-				$('body').append($scope.$refundModal);
 				$('body').append($scope.$payCodeModal);
+				$('body').append($scope.$refundModal);
 				setTimeout(()=>{
-					$($element).find('.refund-modal').remove();
 					$($element).find('.pay-code-modal').remove();
+					$($element).find('.refund-modal').remove();
 				},0);
 				$scope.addPayModal = false;
 				var orderId, orderNo;
@@ -243,7 +243,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 						orderNo: orderNo
 					}, (data) => {
 						$scope.payment = data.map(function(item) {
-							item.paymentTimeFormat = moment(item.paymentTime).format("YYYY-MM-DD HH:mm:ss");
+							item.paymentTimeFormat = item.paymentTime?moment(item.paymentTime).format('YYYY-MM-DD HH:mm:ss'):'无';
 							return item;
 						});
 					});
@@ -293,11 +293,15 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 						});
 						appApi.showServiceOrder(orderId,(d)=>{
 							console.log(d);
+							$scope.serviceOrder = d;
 						});
 					};
 				};
 				$scope.addPay = () => {
-					$scope.$emit('addPay', orderNo);
+					$rootScope.$broadcast('addPay', {
+						orderNo:orderNo,
+						orderId:orderId
+					});
 				};
 				$scope.cancel = ()=>{
 					if(window.confirm('是否取消支付信息?')){
@@ -308,11 +312,17 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 					console.log(666);
 					$scope.$refundModal.modal('show');
 				};
-				$scope.showPayCode = ()=>{
-					$scope.$payCodeModal.modal('show');
+				$scope.showPayCode = (item)=>{
+					appApi.rePosPay({
+						orderId:orderId,
+						paymentId:item.paymentId
+					},(d)=>{
+						$scope.$payCodeModal.data('src',d).modal('show');
+					})
 				};
-				let getPayInfo = $rootScope.$on('loadPayInfo', function(e, data) {
+				let getPayInfo = $rootScope.$on('loadPayInfo', (e, data) => {
 					loadPayInfo(orderNo);
+					$scope.$payCodeModal.data('src',data).modal('show');
 				});
 				let showDetail = $scope.$on('showDetail', function(e, data) {
 					NProgress.start();
@@ -320,9 +330,13 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 					init();
 					if(orderId != data.orderId) {
 						orderId = data.orderId;
+						console.log(orderId);
 						// orderNo = data.orderNo;
 						getData(data.type);
 					}
+				});
+				$scope.$payCodeModal.on('show.bs.modal',function(){
+					$(this).find('img').attr('src',$(this).data('src'));
 				});
 				$scope.$on('$destroy', function() {
 					getPayInfo();

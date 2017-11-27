@@ -167,7 +167,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 									</div>
 									<div class="item item-3" ng-if="orderModel.orderType === 2">
 										<span>购车订单:</span>
-										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.orderId==''||serviceModel.orderId==undefined)}" render-data="userOrderList" display="'productDetail'" val="'orderId'" model="serviceModel.orderId"></drop-down>
+										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.orderId==''||serviceModel.orderId==undefined)}" render-data="userOrderList" display="'car'" val="'orderId'" model="serviceModel.orderId"></drop-down>
 									</div>
 								</div>
 							</form>
@@ -290,8 +290,16 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 						cityId:$scope.serviceModel.cityId,
 						productId:$scope.serviceModel.productId
 					}, (d) => {
-						$scope.serviceTotal = d[0].price;
-						$scope.serviceModel.carDiscDeployId = d[0].carDiscDeployId;
+						if(d.length!=0){
+							$scope.serviceTotal = d[0].price;
+							$scope.serviceModel.carDiscDeployId = d[0].carDiscDeployId;
+						}else{
+							for(let item of $scope.serviceProduct){
+								if(item.productId == $scope.serviceModel.productId){
+									$scope.serviceTotal = item.defaultPrice;
+								}
+							}
+						}
 					});
 				};
 				let getCityList = ()=>{
@@ -320,7 +328,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 				};
 				$scope.mobileChange = ()=>{
 					console.log($scope.productModel.mobile);
-					appApi.listOrderByBack($scope.productModel.mobile,(d)=>{
+					appApi.listCarOrderBack($scope.productModel.mobile,(d)=>{
 						console.log(d);
 						$scope.userOrderList = d.list;
 					});

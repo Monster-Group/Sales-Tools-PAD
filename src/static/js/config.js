@@ -62,10 +62,12 @@ requirejs.config({
 		'appDirectives':'service/ES5/app-directive',
 		'appServices':'service/ES5/app-service',
 		'appFactorys':'service/ES5/app-factory',
+		'appFilters':'service/ES5/app-filter',
 		'appTemplates':'service/ES5/app-templates',
 		'appTouch':'service/app-touch',
 		'appOrderDetail':'service/ES5/app-order-detail',
 		'appNewOrder':'service/ES5/app-new-order',
+		'appAddPay':'service/ES5/app-add-pay',
 //jquery--------------------------
 		'paginator':'libs/jquery/paginator',
 		'parallax':'libs/jquery/jquery.parallax',

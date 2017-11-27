@@ -357,9 +357,9 @@ define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$
 				success: suc
 			})
 		};
-		this.listOrderByBack = (mobile,suc) => {
+		this.listCarOrderBack = (mobile,suc) => {
 			appHttp.appPost({
-				url: baseSet.postServer + 'api/v2/order/listOrderByBack',
+				url: baseSet.postServer + 'api/v2/order/listCarOrderBack',
 				data:{
 					mobile:mobile
 				},
@@ -378,6 +378,29 @@ define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$
 		this.createServiceOrderBack = (data,suc) => {
 			appHttp.appPost({
 				url: baseSet.postServer + 'api/v2/order/createServiceOrderBack',
+				data:data,
+				success: suc
+			})
+		};
+		this.getPriceInfo = (id,suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/posPay/getPriceInfo',
+				data:{
+					orderId:id
+				},
+				success: suc
+			})
+		};
+		this.unifiedOrder = (data,suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/posPay/unifiedOrder',
+				data:data,
+				success: suc
+			})
+		};
+		this.rePosPay = (data,suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/posPay/rePosPay',
 				data:data,
 				success: suc
 			})
