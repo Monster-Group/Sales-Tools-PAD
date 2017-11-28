@@ -125,7 +125,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 							<div class="line pull-left" ng-repeat="item in payment track by $index">
 								<span class="channel">{{item.channel | formatChannel}}</span>
 								<span class="pay-no">{{item.merOrderNo?item.merOrderNo:'null'}}</span>
-								<span class="pay-amount">{{item.amount}}</span>
+								<span class="pay-amount">¥{{item.amount}}</span>
 								<span class="pay-state">{{item.status | payStatuDisplay}}</span>
 								<span class="pay-date">{{item.paymentTimeFormat}}</span>
 								<span class="pay-memo">{{item.comment?item.comment:'无'}}</span>
@@ -191,7 +191,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 									<div class="line">
 										<div class="item clearfix">
 											<span class="tag">待退款&nbsp;:</span>
-											<span class="val">$10000</span>
+											<span class="val">¥<i class="amount">0</i></span>
 										</div>
 									</div>
 									<div class="line">
@@ -203,12 +203,12 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 									<div class="line">
 										<div class="item clearfix">
 											<span class="tag">备注&nbsp;:</span>
-											<textarea class="default-textarea" ng-model="remark" ng-class="{'error':submited&&(remark==undefined||remark=='')}" rows="4"></textarea>
+											<textarea class="default-textarea" rows="4"></textarea>
 										</div>
 									</div>
 								</div>
 								<div class="modal-footer">
-									<a class="button" hm-tap="affirm()">确定</a>
+									<a class="button submit">确定</a>
 									<a class="button" data-dismiss="modal">取消</a>
 								</div>
 							</div>
@@ -303,26 +303,28 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 						orderId:orderId
 					});
 				};
-				$scope.cancel = ()=>{
+				$scope.cancel = (item)=>{
 					if(window.confirm('是否取消支付信息?')){
-						console.log(123)
+						appApi.offPay(item.paymentId,(d)=>{
+							toastr.success('提交成功');
+							loadPayInfo(orderNo);
+						});
 					}
 				};
-				$scope.refund = ()=>{
-					console.log(666);
-					$scope.$refundModal.modal('show');
+				$scope.refund = (item)=>{
+					$scope.$refundModal.data('item',item).modal('show');
 				};
 				$scope.showPayCode = (item)=>{
 					appApi.rePosPay({
 						orderId:orderId,
 						paymentId:item.paymentId
 					},(d)=>{
-						$scope.$payCodeModal.data('src',d).modal('show');
+						$scope.$payCodeModal.data('data',d).modal('show');
 					})
 				};
 				let getPayInfo = $rootScope.$on('loadPayInfo', (e, data) => {
 					loadPayInfo(orderNo);
-					$scope.$payCodeModal.data('src',data).modal('show');
+					$scope.$payCodeModal.data('data',data).modal('show');
 				});
 				let showDetail = $scope.$on('showDetail', function(e, data) {
 					NProgress.start();
@@ -335,8 +337,28 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 						getData(data.type);
 					}
 				});
+				$scope.$refundModal.find('.submit').on('tap',function(e){
+					e.stopPropagation();
+					e.preventDefault();
+					var data = $scope.$refundModal.data('item');
+					appApi.unifiedRefund({
+						paymentId:data.paymentId,
+						merOrderNo:data.merOrderNo,
+						remark:$scope.$refundModal.find('.default-textarea').val()
+					},(d)=>{
+						$scope.$refundModal.modal('hide');
+						toastr.success('提交成功');
+						$scope.$payCodeModal.data('src',d).modal('show');
+					});
+				});
+				$scope.$refundModal.on('show.bs.modal',function(){
+					$(this).find('.amount').text($(this).data('item').amount);
+				});
+				$scope.$refundModal.on('hidden.bs.modal',function(){
+					$(this).find('.default-textarea').val('');
+				});
 				$scope.$payCodeModal.on('show.bs.modal',function(){
-					$(this).find('img').attr('src',$(this).data('src'));
+					$(this).find('img').attr('src',$(this).data('data').img);
 				});
 				$scope.$on('$destroy', function() {
 					getPayInfo();

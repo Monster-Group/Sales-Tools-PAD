@@ -405,6 +405,22 @@ define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$
 				success: suc
 			})
 		};
+		this.offPay = (id,suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/posPay/offPay',
+				data:{
+					paymentId:id
+				},
+				success: suc
+			})
+		};
+		this.unifiedRefund = (data,suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/posPay/unifiedRefund',
+				data:data,
+				success: suc
+			})
+		};
 	}]);
 	appServices.service('ArrayhasObj',function() {
 		Array.prototype.hasObj = function(obj){

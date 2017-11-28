@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - index
  * Author: Clearlove 7*
- * Updated: 2017-11-26 18:14
+ * Updated: 2017-11-28 23:54
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -125,6 +125,7 @@
   .order-info .pay-info span {
     display: inline-block;
     float: left;
+    height: 100px;
     text-align: center;
     word-break: break-word; }
   .order-info .pay-info .channel {
@@ -162,7 +163,8 @@
     display: inline-block;
     float: left;
     text-align: center;
-    word-break: break-word; }
+    word-break: break-word;
+    height: 60px; }
   .order-info .service-info .item {
     width: 30%; }
   .order-info .service-info .price {
@@ -214,8 +216,8 @@
       word-break: keep-all; }
   .info-block .info-footer {
     text-align: right;
-    padding: 0 64px 40px;
-    height: 130px; }
+    padding: 40px 64px;
+    height: 170px; }
 
 .appoint-info .info-body > div {
   -ms-flex-wrap: wrap;

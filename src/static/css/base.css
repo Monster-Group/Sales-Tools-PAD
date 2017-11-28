@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - base
  * Author: Clearlove 7*
- * Updated: 2017-11-26 18:14
+ * Updated: 2017-11-28 23:54
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -400,7 +400,7 @@ input:active {
 .btn.load span {
   opacity: 0; }
 
-.main-content .button {
+.button {
   display: inline-block;
   padding: 0 85px;
   line-height: 90px;
@@ -411,7 +411,7 @@ input:active {
   border-radius: 15px;
   background-image: -webkit-gradient(linear, left top, right top, from(#55da99), to(#46bebf));
   background-image: linear-gradient(90deg, #55da99, #46bebf); }
-  .main-content .button.small {
+  .button.small {
     line-height: 60px;
     padding: 0 45px;
     height: 60px;

@@ -163,6 +163,7 @@
         span {
             display: inline-block;
             float: left;
+            height:100px;
             text-align: center;
             word-break: break-word;
         }
@@ -205,6 +206,7 @@
             float: left;
             text-align: center;
             word-break: break-word;
+            height:60px;
         }
         .item{width: 30%;}
         .price{width:10%;}
@@ -255,8 +257,8 @@
     }
     .info-footer {
         text-align: right;
-        padding: 0 64px 40px;
-        height: 130px;
+        padding: 40px 64px;
+        height: 170px;
     }
 }
 .appoint-info {

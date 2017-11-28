@@ -101,4 +101,33 @@ define(['angular', 'moment'], function (angular, moment) {
 			return statu;
 		};
 	});
+	appFilters.filter('serviceOrderStatu', function () {
+		return function (s) {
+			var statu = '';
+			switch (s) {
+				case 1:
+					statu = '待付款';
+					break;
+				case 2:
+					statu = '已关闭';
+					break;
+				case 3:
+					statu = '已付款,待排产';
+					break;
+				case 4:
+					statu = '处理中';
+					break;
+				case 5:
+					statu = '已结清';
+					break;
+				case 6:
+					statu = '申请退款';
+					break;
+				case 7:
+					statu = '已退款';
+					break;
+			};
+			return statu;
+		};
+	});
 });

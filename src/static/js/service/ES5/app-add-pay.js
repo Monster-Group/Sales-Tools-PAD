@@ -20,7 +20,6 @@ define(['angular', 'moment', 'jquery', 'toastr'], function (angular, moment, $, 
 					if ($scope.payInfoForm.$valid) {
 						console.log($scope.payInfo);
 						appApi.unifiedOrder($scope.payInfo, function (data) {
-							console.log(1231323);
 							toastr.success('提交成功');
 							$scope.$modal.modal('hide');
 							$rootScope.$broadcast('loadPayInfo', data);
