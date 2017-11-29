@@ -87,6 +87,10 @@ define(['angular', 'moment'], function(angular, moment) {
 				break;
 				case 7: statu='已退款' 
 				break;
+				case 9: statu='退款中' 
+				break;
+				case 10: statu='支付中' 
+				break;
 			};
 			return statu;
 		}
@@ -99,7 +103,7 @@ define(['angular', 'moment'], function(angular, moment) {
 				break;
 				case 2: statu='已关闭' 
 				break;
-				case 3: statu='已付款,待排产' 
+				case 3: statu='已付款' 
 				break;
 				case 4: statu='处理中' 
 				break;
@@ -108,6 +112,30 @@ define(['angular', 'moment'], function(angular, moment) {
 				case 6: statu='申请退款' 
 				break;
 				case 7: statu='已退款' 
+				break;
+			};
+			return statu;
+		}
+	});
+	appFilters.filter('itemOrderStatu',function(){
+		return function(s){
+			let statu = '';
+			switch(s){
+				case 1: statu='待付款' 
+				break;
+				case 2: statu='已关闭' 
+				break;
+				case 3: statu='已付款' 
+				break;
+				case 4: statu='已排产' 
+				break;
+				case 5: statu='已结清' 
+				break;
+				case 6: statu='申请退款' 
+				break;
+				case 7: statu='已退款' 
+				break;
+				case 9: statu='退款中' 
 				break;
 			};
 			return statu;

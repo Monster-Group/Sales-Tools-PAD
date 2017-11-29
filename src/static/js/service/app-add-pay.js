@@ -35,7 +35,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 							<div class="line">
 								<div class="item special">
 									<span>备注&nbsp;:</span>
-									<textarea class="transition-02 default-textarea" ng-model="payInfo.comment" name="comment" required ng-class="{'error':payInfoForm.$submitted&&payInfoForm.comment.$invalid}"></textarea>
+									<textarea class="transition-02 default-textarea" ng-model="payInfo.remark" name="remark" required ng-class="{'error':payInfoForm.$submitted&&payInfoForm.remark.$invalid}"></textarea>
 								</div>
 							</div>
 							</form>
@@ -57,7 +57,11 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 						appApi.unifiedOrder($scope.payInfo,(data)=>{
 							toastr.success('提交成功');
 							$scope.$modal.modal('hide');
-							$rootScope.$broadcast('loadPayInfo',data);
+							if($scope.isService){
+								$rootScope.$broadcast('serviceLoadPayInfo',data);
+							}else{
+								$rootScope.$broadcast('loadPayInfo',data);
+							}
 						});
 					}
 				};
@@ -77,6 +81,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 				let showAddPay = $rootScope.$on('addPay', function(e,d) {
 					$scope.$modal.modal('show');
 					$scope.orderNo = d.orderNo;
+					$scope.isService = d.service;
 					$scope.payInfo = {
 						orderId:d.orderId
 //						,paymentTimeStr:moment().format('YYYY-MM-DD HH:mm:ss')

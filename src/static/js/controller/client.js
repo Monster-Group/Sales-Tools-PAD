@@ -321,7 +321,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		};
 		$scope.addOrder = (e) => {
 			$(e.target).addClass('active');
-			$scope.$addModal.modal('show');
+			$rootScope.$broadcast('addOrder');
 		};
 		$scope.affirm = ()=>{
 			$scope.remarkForm.$submitted = true;

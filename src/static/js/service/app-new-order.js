@@ -19,7 +19,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 									<div class="item">
 										<span>类别:</span>
 										<div ng-class="{'ng-invalid': orderForm.chebie.$invalid}">
-											<select name="chebie" chosen required placeholder-text-single="'请选择'" ng-model="orderModel.orderType" ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-change="typeChange()">
+											<select name="chebie" chosen required placeholder-text-single="'请选择'" ng-disabled="service" ng-model="orderModel.orderType" ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-change="typeChange()">
 												<option value="">请选择</option>
 			    							</select>
 		    							</div>
@@ -488,12 +488,23 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					}
 				};
 				$scope.$modal.on('hide.bs.modal', function() {
+					$scope.orderModel.orderType = '';
+					$scope.disabled = false;
 					if($scope.orderForm.$dirty) {
 						$scope.orderModel = Object.assign({}, orderModelDefault);
 						$scope.productModel = Object.assign({}, productModelDefault);
+						$scope.serviceModel = Object.assign({}, serviceModelDefault);
 						$scope.orderForm.$setPristine();
 						$scope.orderForm.$setUntouched();
 					}
+				});
+				let showDetail = $rootScope.$on('addOrder', function(e, data) {
+					$scope.$modal.modal('show');
+					if(data&&data.service){
+						$scope.service = true;
+						$scope.orderModel.orderType = 2;
+						
+					};
 				});
 			}
 		}

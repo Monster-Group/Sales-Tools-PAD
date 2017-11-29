@@ -152,7 +152,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		};
 		$scope.addOrder = function(e){
 			$(e.target).addClass('active');
-			$scope.$addModal.modal('show');
+			$rootScope.$broadcast('addOrder');
 		};
 		let detailClose = $scope.$on('detailClose', function(){
 			$scope.showDetail = false;
@@ -163,7 +163,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 			loadData();
 		});
 		$scope.$on('$destroy', function() {
-			addPay();
+			addOrderClose();
 			detailClose();
 		});
 	};
