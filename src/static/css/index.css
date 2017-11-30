@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - index
  * Author: Clearlove 7*
- * Updated: 2017-11-21 22:34
+ * Updated: 2017-12-01 00:03
  * Version: 1.0.0
  * -----------------------*/
 .form-header {
@@ -275,6 +275,10 @@
     .add-order-modal .modal-dialog .modal-content .modal-footer .total {
       font-size: 66px;
       line-height: 1.5; }
+      .add-order-modal .modal-dialog .modal-content .modal-footer .total .other-cost {
+        color: #ff877f;
+        font-size: 36px;
+        margin-left: 40px; }
     .add-order-modal .modal-dialog .modal-content .modal-footer .btn-wrapper {
       margin-top: 40px; }
 

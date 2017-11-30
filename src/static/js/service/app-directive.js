@@ -309,6 +309,13 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 										<span class="subjoin" ng-bind="selectOrder.selectPromotion.discount"></span>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
+										<span>支付方式:</span>
+										<select name="" chosen placeholder-text-single="'请选择'" ng-change="payTypeChange(orderModel.payType)" width="256" chosen id="" ng-model="orderModel.payType" ng-options="item.value as item.name for item in $root.enumData.payType" disable-search="true">
+											<option value="">请选择</option>
+										</select>
+										<span class="subjoin" ng-if="orderModel.payType==0">全款立减100</span>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>提车门店:</span>
 										<div ng-class="{'ng-invalid': orderForm.tiche.$invalid}">
 											<select name="tiche" chosen required placeholder-text-single="'请选择'" width="256" ng-model="orderModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true">
@@ -394,11 +401,13 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 							</form>
 						</div>
 						<div class="modal-footer">
-							<div class="price-info" ng-if="orderModel.orderType === 0">
-								<p>车价:<i>{{carPrice}}</i></p>
-								<p>配件:<i>{{peiPrice}}</i></p>
-								<p>活动优惠:<i>{{selectOrder.selectPromotion.discount}}</i></p>
-								<p class="total color-bdprimary">总价:<i>{{getSum()}}</i></p>
+							<div class="price-info" ng-if="orderModel.orderType === 0 || orderModel.orderType === 2">
+								<p>车价:<i>{{carDisPrice?carDisPrice:carPrice | currency:'￥'}}</i></p>
+								<p>配件:<i>{{peiPrice?peiPrice:0 | currency:'￥'}}</i></p>
+								<p>活动优惠:<i>¥2000.00</i></p>
+								<p>团购优惠:<i>{{selectOrder.selectPromotion.discount?selectOrder.selectPromotion.discount:0 | currency:'￥'}}</i></p>
+								<p>地区补贴:<i>{{subsidy?subsidy:0 | currency:'￥'}}</i></p>
+								<p class="total color-bdprimary">总价:<i>{{getSum() | currency:'￥'}}</i><span class="other-cost" ng-if="orderModel.payType==1">定金 : ¥2000.00</span><span class="other-cost" ng-if="orderModel.payType==2">分期 : ¥2000.00</span></p>
 							</div>
 							<div class="price-info" ng-if="orderModel.orderType === 1">
 								<p>总价:<i>{{productPrice}}</i></p>
@@ -417,6 +426,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 			},
 			link: function($scope, $elements, $attrs, controllers) {
 				$scope.$modal = $($elements);
+				$scope.payDiscounts = 0;
 				var orderModelDefault = {
 					orderType: '',
 					product: '',
@@ -428,13 +438,13 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					idCard: '',
 					organization: ''
 
-				}
+				};
 				var productModelDefault = {
 					productId: '',
 					// level1Type: '',
 					// level2Type: '',
 					storeId: ''
-				}
+				};
 				function init(){
 					$scope.colorOne = {}
 					$scope.colorTow = {}
@@ -447,52 +457,66 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 						selectPromotion: {},
 						classlv1: '',
 						classlv2: '',
-						selectProduct: ''
+						selectProduct: '',
+						payType:''
 					}
-				}
+				};
 				init();
 				//获取车辆列表
 				appApi.listCar((data) => {
 					$scope.listCar = data.map((item) => {
 						return {productName: item.productName.split('-')[1], productId: item.productId, defaultPrice: item.defaultPrice, deposit: item.deposit, peiList: item.peiList}
 					})
-				})
-
+				});
 				//获取活动
 				appApi.getPromotion((data) => {
 					$scope.promotions = data;
 					console.log($scope.promotions)
-				})
+				});
 
 				//获取提车点
 				appApi.listStoreMall((data) => {
 					$scope.listStore = data;
-				})
-
+				});
 				//获取商品的分类
 				appApi.listClassifyLv1((data) => {
 					$scope.listClassLv1 = data;
-				})
+				});
 				function getColor(data, fn){
 					appApi.getCarColor(data, (d) => {
 						fn(d);
 					})
-				}
+				};
 				function getProductType(data, fn){
 					appApi.listClassify(data, (d) => {
 						fn(d);
 					})
-				}
-
+				};
+				let getSubsidy = (id)=>{
+					$scope.subsidy = undefined;
+					$scope.carDisPrice = undefined;
+					appApi.listCarDisc({
+						isUse:1,
+						provinceId:$rootScope.provinceId,
+						cityId:$rootScope.cityId,
+						productId:id
+					},(data)=>{
+						console.log(data);
+						if(data.length){
+							$scope.subsidy = data[0].changDisc +  data[0].diDisc + data[0].guoDisc;
+							$scope.carDisPrice = data[0].price;
+							$scope.carDiscDeployId = data[0].carDiscDeployId;
+						};
+					});
+				};
 				$scope.productChange = (product) => {
 					console.log('select: ', product);
-
+					
 					if($scope.orderModel.productId == product.productId) return;
 					$scope.orderForm.$submitted = true;
 					$scope.orderModel.productId = product.productId;
 					$scope.peiList = product.peiList;
 					$scope.carPrice = product.defaultPrice;
-
 					$scope.colorThree = {};
 					$scope.colorTow = {};
 					$scope.selectOrder.selectColorOne = '';
@@ -500,11 +524,11 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					$scope.orderModel.level1Type = '';
 					$scope.orderModel.level2Type = '';
 					$scope.orderModel.level3Type = '';
-
 					getColor({productId: product.productId}, (data) => {
 						$scope.colorOne = data;
-					})
-				}
+					});
+					getSubsidy(product.productId);
+				};
 				$scope.changeColorOne = (colorOne) => {
 					if(colorOne === $scope.orderModel.level1Type) return;
 					$scope.orderModel.level1Type = colorOne;
@@ -518,11 +542,9 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 						}, (data) => {
 							$scope.colorTow = data;
 						})
-				}
-
+				};
 				$scope.changeColorTow = (colorTow) => {
 					if(colorTow === $scope.orderModel.level1Type) return;
-
 					$scope.orderModel.level2Type = colorTow;
 					$scope.orderModel.level3Type = '';
 					getColor({
@@ -532,7 +554,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 						}, (data) => {
 							$scope.colorThree = data;
 						})
-				}
+				};
 				var typeObj = {}
 				$scope.changeLv1 = (classlv1) => {
 					if(classlv1 === typeObj.classlv1) return;
@@ -545,17 +567,17 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					getProductType({subtype: classlv1}, (data) => {
 						$scope.listClassLv2 = data.list;
 					});
-				}
+				};
 				$scope.changeLv2 = (classlv2) => {
 					appApi.listProduct({subtype: $scope.selectOrder.classlv1, subtype2: classlv2}, (data) => {
 						$scope.productsData = data;
 					});
-				}
+				};
 				$scope.promotionChange = (promotion) => {
 					if(promotion.promotionId === $scope.orderModel.promotionId) return;
 
 					$scope.orderModel.promotionId = promotion.promotionId;
-				}
+				};
 				$scope.selectPei = (peiArr) => {
 					var peiPrice = 0;
 					$scope.peiList.forEach(function(item){
@@ -564,21 +586,31 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 						}
 					});
 					$scope.peiPrice = peiPrice;
-				}
+				};
 				$scope.chooseProduct = (product) => {
 					$scope.productModel.productId = product.productId;
 					$scope.productPrice = product.defaultPrice;
-				}
+				};
+				$scope.payTypeChange = (t)=>{
+					console.log(t);
+					if(t===0){
+						$scope.payDiscounts = 100;
+					}else{
+						$scope.payDiscounts = 0;
+					}
+				};
 				$scope.closeModal = function() {
 					$scope.$modal.modal('toggle');
 					init();
-				}
+				};
 				$scope.getSum = function(){
-					var carPrice = angular.isNumber($scope.carPrice) ? +$scope.carPrice : 0;
+					var carPrice = angular.isNumber($scope.carDisPrice) ? +$scope.carDisPrice : angular.isNumber($scope.carPrice) ? +$scope.carPrice : 0;
 					var pei = angular.isNumber($scope.peiPrice)  ? +$scope.peiPrice : 0;
 					var discount = angular.isNumber($scope.selectOrder.selectPromotion) ? +$scope.discount : 0 ;
-					return carPrice + pei - discount;
-				}
+					let subsidy = angular.isNumber($scope.subsidy) ? +$scope.subsidy : 0;
+					let total = carPrice + pei - discount - subsidy - $scope.payDiscounts - 2000;
+					return total>0?total:0;
+				};
 				$scope.submit = function() {
 					console.log($scope.orderModel);
 					console.log($scope.productModel);
@@ -587,7 +619,8 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 						if($scope.orderModel.orderType == 0){
 							var orderModel = Object.assign({}, $scope.orderModel);
 							orderModel.data = orderModel.data&&orderModel.data.join(',');
-							delete orderModel.orderType
+							delete orderModel.orderType;
+							if($scope.carDiscDeployId) orderModel.carDiscDeployId = $scope.carDiscDeployId;
 							if($scope.userId) orderModel.userId = $scope.userId;
 							getCreateOrder().call(this, orderModel, fn_success, fn_fail)
 						}else{
@@ -596,29 +629,29 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 							getProductOrder().call(this, productModel, fn_success, fn_fail)
 						}
 					}
-				}
+				};
 				function fn_success(res){
 					$scope.closeModal();
 					$scope.$emit('addOrderClose');
-				}
+					toastr.success('创建成功');
+				};
 				function fn_fail(){
 
-				}
+				};
 				function getCreateOrder(){
 					if($scope.userId){
 						return appApi.createOrderWithUserId;
 					}else{
 						return appApi.createOrder					
 					}
-				}
-
+				};
 				function getProductOrder(){
 					if($scope.userId){
 						return appApi.createProductWithUserId;
 					}else{
 						return appApi.createProduct					
 					}
-				}
+				};
 				$scope.$modal.on('hide.bs.modal', function() {
 					if($scope.orderForm.$dirty) {
 						$scope.orderModel = Object.assign({}, orderModelDefault);
@@ -638,8 +671,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 	//多选
 	// <select chosen multiple placeholder-text-multiple="'请选择'"
 	//    ng-options="item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-model="selectModel.product">
-	//    					
-
+	//    
 	appDirectives.directive('orderDetail', function($rootScope, appApi, getOrderStatu) {
 		return {
 			restrict: 'E',
@@ -767,7 +799,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 							</div>
 						</div>
 						<div class="info-footer">
-							<a class="button" hm-tap="addPay()">新增支付信息</a>
+							<a class="button hide" hm-tap="addPay()">新增支付信息</a>
 						</div>
 					</div>
 					<div class="info-block pay-info" ng-show="carInfo.VIN">
