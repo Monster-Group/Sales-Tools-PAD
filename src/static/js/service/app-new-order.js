@@ -69,7 +69,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>活动优惠:</span>
-										<select name="" chosen  placeholder-text-single="'请选择'" ng-change="promotionChange(selectOrder.selectPromotion)" width="256" chosen id="" ng-model="selectOrder.selectPromotion" ng-options="item.promotionName for item in promotions" disable-search="true">
+										<select name="" chosen placeholder-text-single="'请选择'" ng-change="promotionChange(selectOrder.selectPromotion)" width="256" chosen id="" ng-model="selectOrder.selectPromotion" ng-options="item.promotionName for item in promotions" disable-search="true">
 											<option value="">请选择</option>
 										</select>
 										<span class="subjoin" ng-bind="selectOrder.selectPromotion.discount"></span>
