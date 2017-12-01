@@ -33,6 +33,8 @@ define(['angular', 'require','Ps', 'angular-route', 'appDirectives', 'appService
 				});
 				$rootScope.storeId = $rootScope.storeList[0].storeId;
 				$rootScope.storeName = $rootScope.storeList[0].storeName;
+				$rootScope.provinceId = $rootScope.storeList[0].provinceId;
+				$rootScope.cityId = $rootScope.storeList[0].cityId;
 			}
 			console.log($rootScope.storeList);
 			$rootScope.$on('$routeChangeSuccess', function(evt, next, current) {
@@ -55,6 +57,8 @@ define(['angular', 'require','Ps', 'angular-route', 'appDirectives', 'appService
 				};
 				$rootScope.storeId = i.storeId;
 				$rootScope.storeName = i.storeName;
+				$rootScope.provinceId = i.provinceId;
+				$rootScope.cityId = i.cityId;
 			};
 		});
 		app.directive('repeatFinish', function($timeout) {

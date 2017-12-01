@@ -241,8 +241,6 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 	//多选
 	// <select chosen multiple placeholder-text-multiple="'请选择'"
 	//    ng-options="item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-model="selectModel.product">
-	//  
-	
 	appDirectives.directive('clientUpdate', function($rootScope,appApi) {
 		return {
 			restrict: 'E',

@@ -150,7 +150,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 								<span class="pay-state">{{item.status | payStatuDisplay}}</span>
 								<span class="pay-date">{{item.paymentTimeFormat}}</span>
 								<span class="pay-memo">{{item.comment?item.comment:'无'}}</span>
-								<span class="pay-code" hm-tap="showPayCode(item)"><i class="icon" ng-if="item.status==0&&item.type==0">&#xe608;</i></span>
+								<span class="pay-code" hm-tap="showPayCode(item)"><i class="icon" ng-if="item.status==0&&item.type==0">&#xe608;</i ng-if="item.status!=0||item.type!=0"><i>无</i></span>
 								<span class="handle"><a class="button small" hm-tap="cancel(item)" ng-if="item.status==0&&item.type==0">取消</a><a class="button small" hm-tap="refund(item)" ng-if="item.status==1&&item.type==0">退款</a></span>
 							</div>
 						</div>
@@ -195,7 +195,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 							</div>
 						</div>
 						<div class="info-footer">
-							<a class="button" hm-tap="addServiceOrder()">新增服务订单</a>
+							<a class="button" hm-tap="addServiceOrder(orderDetail)">新增服务订单</a>
 						</div>
 					</div>
 					<div class="modal fade custom-modal pay-code-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -349,9 +349,10 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 						$($element).hide();
 					},100);
 				};
-				$scope.addServiceOrder = ()=>{
+				$scope.addServiceOrder = (i)=>{
 					$rootScope.$broadcast('addOrder',{
-						service:true
+						service:true,
+						item:i
 					});
 				};
 				let hideServiceDetail = $rootScope.$on('hideServiceDetail', (e, data) => {

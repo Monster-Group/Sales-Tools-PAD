@@ -345,6 +345,11 @@
                     }
                 }
                 .item-2{ flex-basis: 66.66%;}
+                .license{
+                    .dropdown{
+                        width: 369px;
+                    }
+                }
                 .item-3{ flex-basis: 100%;
                     .dropdown{
                         width: 1320px;
@@ -365,6 +370,9 @@
                 .total {
                     font-size: 66px;
                     line-height: 1.5;
+                    .other-cost{
+                        color:#ff877f;font-size:36px;margin-left: 40px;
+                    }
                 }
                 .btn-wrapper {
                     margin: 40px 0;

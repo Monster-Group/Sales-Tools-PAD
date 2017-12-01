@@ -421,6 +421,13 @@ define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$
 				success: suc
 			})
 		};
+		this.listCarDisc = (data,suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/product/listCarDisc',
+				data: data,
+				success: suc
+			})
+		};
 	}]);
 	appServices.service('ArrayhasObj',function() {
 		Array.prototype.hasObj = function(obj){

@@ -226,6 +226,20 @@ define(['angular','moment','jquery'], function(angular,moment, $) {
 	});
 	appFactorys.factory('enumData',function(){
 		return {
+			payType :[
+				{
+					name:'全款',
+					value: 0
+				},
+				{
+					name:'定金',
+					value: 1
+				},
+				{
+					name:'分期',
+					value: 2
+				}
+			],
 			yesOrNo:[
 				{
 					name:'是',
