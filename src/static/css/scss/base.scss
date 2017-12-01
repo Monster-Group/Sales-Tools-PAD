@@ -770,7 +770,6 @@ body {
         font-size: 36px;
     }
 }
-
 .custom-modal {
     .modal-dialog {
         width: 1718px;
@@ -779,7 +778,7 @@ body {
         left: 50%;
         margin-left: -859px;
         z-index: 9999;
-        max-height: 70%;overflow-y: scroll;
+        max-height: 80%;overflow-y: scroll;
         .modal-content {
             border-radius: $border-radius;
             padding: 0 60px;
