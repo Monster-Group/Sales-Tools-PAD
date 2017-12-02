@@ -150,7 +150,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 								<span class="pay-state">{{item.status | payStatuDisplay}}</span>
 								<span class="pay-date">{{item.paymentTimeFormat}}</span>
 								<span class="pay-memo">{{item.comment?item.comment:'无'}}</span>
-								<span class="pay-code" hm-tap="showPayCode(item)"><i class="icon" ng-if="item.status==0&&item.type==0">&#xe608;</i ng-if="item.status!=0||item.type!=0"><i>无</i></span>
+								<span class="pay-code" hm-tap="showPayCode(item)"><i class="icon" ng-if="item.status==0&&item.type==0">&#xe608;</i ng-if="item.status!=0||item.type!=0"><i ng-if="item.status!=0||item.type!=0">无</i></span>
 								<span class="handle"><a class="button small" hm-tap="cancel(item)" ng-if="item.status==0&&item.type==0">取消</a><a class="button small" hm-tap="refund(item)" ng-if="item.status==1&&item.type==0">退款</a></span>
 							</div>
 						</div>
@@ -393,7 +393,21 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 					$(this).find('.default-textarea').val('');
 				});
 				$scope.$payCodeModal.on('show.bs.modal',function(){
-					$(this).find('img').attr('src',$(this).data('data').img);
+					let data = $(this).data('data');
+					$(this).find('img').attr('src',data.img);
+					$scope.clock = setInterval(()=>{
+						appApi.isSuccess(data.paymentId,(d)=>{
+							if(d.isSussess){
+								toastr.success('支付成功');
+								$scope.$payCodeModal.modal('hide');
+								loadPayInfo(orderNo);
+								window.clearInterval($scope.clock);
+							};
+						});
+					},1000);
+				});
+				$scope.$payCodeModal.on('hide.bs.modal',function(){
+					window.clearInterval($scope.clock);
 				});
 				$scope.$on('$destroy', function() {
 					getPayInfo();
@@ -480,7 +494,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 								<span class="pay-state">{{item.status | payStatuDisplay}}</span>
 								<span class="pay-date">{{item.paymentTimeFormat}}</span>
 								<span class="pay-memo">{{item.comment?item.comment:'无'}}</span>
-								<span class="pay-code" hm-tap="showPayCode(item)"><i class="icon" ng-if="item.status==0&&item.type==0">&#xe608;</i></span>
+								<span class="pay-code" hm-tap="showPayCode(item)"><i class="icon" ng-if="item.status==0&&item.type==0">&#xe608;</i><i ng-if="item.status!=0||item.type!=0">无</i></span>
 								<span class="handle"><a class="button small" hm-tap="cancel(item)" ng-if="item.status==0&&item.type==0">取消</a><a class="button small" hm-tap="refund(item)" ng-if="item.status==1&&item.type==0">退款</a></span>
 							</div>
 						</div>
@@ -640,7 +654,8 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 					$(this).find('.default-textarea').val('');
 				});
 				$scope.$payCodeModal.on('show.bs.modal',function(){
-					$(this).find('img').attr('src',$(this).data('data').img);
+					let data = $(this).data('data');
+					$(this).find('img').attr('src',data.img);
 				});
 				$scope.$on('$destroy', function() {
 					getPayInfo();

@@ -428,6 +428,15 @@ define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$
 				success: suc
 			})
 		};
+		this.isSuccess = (id,suc) => {
+			appHttp.appPost({
+				url: baseSet.postServer + 'api/v2/posPay/isSuccess',
+				data: {
+					paymentId:id
+				},
+				success: suc
+			})
+		};
 	}]);
 	appServices.service('ArrayhasObj',function() {
 		Array.prototype.hasObj = function(obj){
