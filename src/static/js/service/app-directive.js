@@ -234,7 +234,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 		}
 	});
 
-	appDirectives.directive('newOrder', function($rootScope, appApi, enumData) {
+	appDirectives.directive('newOrder', function($rootScope, appApi,$timeout) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -252,8 +252,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 									<div class="item">
 										<span>类别:</span>
 										<div ng-class="{'ng-invalid': orderForm.chebie.$invalid}">
-											<select name="chebie" chosen required placeholder-text-single="'请选择'" ng-model="orderModel.orderType"
-			    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256">
+											<select name="chebie" chosen required placeholder-text-single="'请选择'" ng-disabled="service" ng-model="orderModel.orderType" ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-change="typeChange()">
 												<option value="">请选择</option>
 			    							</select>
 		    							</div>
@@ -303,22 +302,24 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>活动优惠:</span>
-										<select name="" chosen  placeholder-text-single="'请选择'" ng-change="promotionChange(selectOrder.selectPromotion)" width="256" chosen id="" ng-model="selectOrder.selectPromotion" ng-options="item.promotionName for item in promotions" disable-search="true">
+										<select name="" chosen placeholder-text-single="'请选择'" ng-change="promotionChange(selectOrder.selectPromotion)" width="256" chosen id="" ng-model="selectOrder.selectPromotion" ng-options="item.promotionName for item in promotions" disable-search="true">
 											<option value="">请选择</option>
 										</select>
 										<span class="subjoin" ng-bind="selectOrder.selectPromotion.discount"></span>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>支付方式:</span>
-										<select name="" chosen placeholder-text-single="'请选择'" ng-change="payTypeChange(orderModel.payType)" width="256" chosen id="" ng-model="orderModel.payType" ng-options="item.value as item.name for item in $root.enumData.payType" disable-search="true">
-											<option value="">请选择</option>
-										</select>
+										<div ng-class="{'ng-invalid': orderForm.payType.$invalid}">
+											<select name="payType" required chosen placeholder-text-single="'请选择'" ng-change="payTypeChange(orderModel.payType)" width="256" chosen id="" ng-model="orderModel.payType" ng-options="item.value as item.name for item in $root.enumData.payType" disable-search="true">
+												<option value="">请选择</option>
+											</select>
+										</div>
 										<span class="subjoin" ng-if="orderModel.payType==0">全款立减100</span>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>提车门店:</span>
 										<div ng-class="{'ng-invalid': orderForm.tiche.$invalid}">
-											<select name="tiche" chosen required placeholder-text-single="'请选择'" width="256" ng-model="orderModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true">
+											<select name="tiche" chosen required placeholder-text-single="'请选择'" width="256" ng-model="orderModel.storeId" ng-options="item.storeId as item.storeName for item in listStore" ng-change="storeChange()"  id="" disable-search="true">
 												<option value="">请选择</option>
 											</select>
 										</div>
@@ -379,10 +380,10 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 											</select>
 										</div>
 									</div>
-									<div class="item" ng-if="orderModel.orderType === 1&&!userId">
+									<div class="item" ng-if="(orderModel.orderType === 1||orderModel.orderType === 2)&&!userId">
 										<span>手机号:</span>
 										<div class="form-input-wrapper">
-											<input class="default-input" name="buyerphone" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" ng-model="productModel.mobile" type="text" />
+											<input class="default-input" name="buyerphone" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" ng-readonly="service" ng-model="productModel.mobile" type="number" ng-change="mobileChange()" />
 										</div>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 1&&!userId">
@@ -397,11 +398,24 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 											<input class="default-input" name="cardId" required ng-model="productModel.idCard" idcard-check type="text" />
 										</div>
 									</div>
+									<div class="item" ng-if="orderModel.orderType === 2">
+										<span>商品:</span>
+										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.productId==''||serviceModel.productId==undefined)}" render-data="serviceProduct" display="'productName'" val="'productId'" model="serviceModel.productId" click-event="cityClick"></drop-down>
+									</div>
+									<div class="item item-2 license" ng-if="orderModel.orderType === 2">
+										<span>上牌地点:</span>
+										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.provinceId==''||serviceModel.provinceId==undefined)}" render-data="$root.enumData.regionList" display="'provinceName'" val="'provinceId'" model="serviceModel.provinceId" click-event="provinceClick"></drop-down>
+										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.cityId==''||serviceModel.cityId==undefined)}" render-data="cityList" display="'cityName'" val="'cityId'" model="serviceModel.cityId" click-event="cityClick"></drop-down>
+									</div>
+									<div class="item item-3" ng-if="orderModel.orderType === 2">
+										<span>购车订单:</span>
+										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.orderId==''||serviceModel.orderId==undefined)}" render-data="userOrderList" display="'productDetail'" val="'orderId'" model="serviceModel.orderId"></drop-down>
+									</div>
 								</div>
 							</form>
 						</div>
 						<div class="modal-footer">
-							<div class="price-info" ng-if="orderModel.orderType === 0 || orderModel.orderType === 2">
+							<div class="price-info" ng-if="orderModel.orderType === 0">
 								<p>车价:<i>{{carDisPrice?carDisPrice:carPrice | currency:'￥'}}</i></p>
 								<p>配件:<i>{{peiPrice?peiPrice:0 | currency:'￥'}}</i></p>
 								<p>活动优惠:<i>¥2000.00</i></p>
@@ -410,7 +424,10 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 								<p class="total color-bdprimary">总价:<i>{{getSum() | currency:'￥'}}</i><span class="other-cost" ng-if="orderModel.payType==1">定金 : ¥2000.00</span><span class="other-cost" ng-if="orderModel.payType==2">分期 : ¥2000.00</span></p>
 							</div>
 							<div class="price-info" ng-if="orderModel.orderType === 1">
-								<p>总价:<i>{{productPrice}}</i></p>
+								<p class="total color-bdprimary">总价:<i><em>¥</em>{{productPrice?productPrice:0}}</i></p>
+							</div>
+							<div class="price-info" ng-if="orderModel.orderType === 2">
+								<p class="total color-bdprimary">总价:<i><em>¥</em>{{serviceTotal?serviceTotal:0}}</i></p>
 							</div>
 							<div class="btn-wrapper">
 								<a class="button" hm-tap="submit">确定</a>
@@ -445,29 +462,41 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					// level2Type: '',
 					storeId: ''
 				};
-				function init(){
+				var serviceModelDefault = {
+					accountId:$rootScope.loginfo.account.accountId,
+					storeId:$rootScope.storeId
+				};
+				function init() {
 					$scope.colorOne = {}
 					$scope.colorTow = {}
 					$scope.colorThree = {}
 					$scope.orderModel || ($scope.orderModel = Object.assign({}, orderModelDefault));
 					$scope.productModel || ($scope.productModel = Object.assign({}, productModelDefault));
+					console.log($scope.productModel);
+					$scope.serviceModel || ($scope.serviceModel = Object.assign({}, serviceModelDefault));
 					$scope.selectOrder = {
 						selectColorOne: '',
 						selectColorTow: '',
 						selectPromotion: {},
 						classlv1: '',
 						classlv2: '',
-						selectProduct: '',
-						payType:''
-					}
+						selectProduct: ''
+					};
 				};
 				init();
 				//获取车辆列表
 				appApi.listCar((data) => {
 					$scope.listCar = data.map((item) => {
-						return {productName: item.productName.split('-')[1], productId: item.productId, defaultPrice: item.defaultPrice, deposit: item.deposit, peiList: item.peiList}
+						return {
+							productName: item.productName.split('-')[1],
+							productId: item.productId,
+							defaultPrice: item.defaultPrice,
+							deposit: item.deposit,
+							peiList: item.peiList
+						}
 					})
 				});
+
 				//获取活动
 				appApi.getPromotion((data) => {
 					$scope.promotions = data;
@@ -478,45 +507,122 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 				appApi.listStoreMall((data) => {
 					$scope.listStore = data;
 				});
+
 				//获取商品的分类
 				appApi.listClassifyLv1((data) => {
 					$scope.listClassLv1 = data;
 				});
-				function getColor(data, fn){
+				//获取服务商品列表
+//				appApi.listServiceProduct((data) => {
+//					$scope.serviceProduct = data;
+//					console.log(data);
+//				});
+
+				function getColor(data, fn) {
 					appApi.getCarColor(data, (d) => {
 						fn(d);
 					})
 				};
-				function getProductType(data, fn){
+
+				function getProductType(data, fn) {
 					appApi.listClassify(data, (d) => {
 						fn(d);
 					})
 				};
-				let getSubsidy = (id)=>{
-					$scope.subsidy = undefined;
-					$scope.carDisPrice = undefined;
+				let getSubsidy = ()=>{
+					if($scope.orderModel.storeId){
+						let provinceId = undefined,
+							cityId = undefined;
+						for(let item of $scope.listStore){
+							if(item.storeId==$scope.orderModel.storeId){
+								provinceId = item.provinceId;
+								cityId = item.cityId;
+							};
+						};
+						console.log(provinceId);
+						console.log(cityId);
+						$scope.subsidy = undefined;
+						$scope.carDisPrice = undefined;
+						appApi.listCarDisc({
+							isUse:1,
+							provinceId:provinceId,
+							cityId:cityId,
+							productId:$scope.orderModel.productId
+						},(data)=>{
+							if(data.length){
+								$scope.subsidy = data[0].changDisc +  data[0].diDisc + data[0].guoDisc;
+								$scope.carDisPrice = data[0].price;
+								$scope.carDiscDeployId = data[0].carDiscDeployId;
+							};
+						});
+					}
+				};
+				let listCarDisc = ()=>{
 					appApi.listCarDisc({
 						isUse:1,
-						provinceId:$rootScope.provinceId,
-						cityId:$rootScope.cityId,
-						productId:id
-					},(data)=>{
-						console.log(data);
-						if(data.length){
-							$scope.subsidy = data[0].changDisc +  data[0].diDisc + data[0].guoDisc;
-							$scope.carDisPrice = data[0].price;
-							$scope.carDiscDeployId = data[0].carDiscDeployId;
-						};
+						provinceId:$scope.serviceModel.provinceId,
+						cityId:$scope.serviceModel.cityId,
+						productId:$scope.serviceModel.productId
+					}, (d) => {
+						if(d.length!=0){
+							$scope.serviceTotal = d[0].price;
+							$scope.serviceModel.carDiscDeployId = d[0].carDiscDeployId;
+						}else{
+							for(let item of $scope.serviceProduct){
+								if(item.productId == $scope.serviceModel.productId){
+									$scope.serviceTotal = item.defaultPrice;
+								}
+							}
+						}
 					});
+				};
+				let getCityList = ()=>{
+					$scope.cityList = [];
+					for(let item of $rootScope.enumData.regionList){
+						if(item.provinceId==$scope.serviceModel.provinceId){
+							$scope.cityList = item.cityList;
+						}
+					};
+				};
+				if($scope.serviceModel.provinceId!=undefined){
+					getCityList();
+				};
+				$scope.provinceClick = ()=>{
+					$timeout(()=>{
+						getCityList();
+					},0);
+					$scope.serviceModel.cityId = '';
+				};
+				$scope.cityClick = ()=>{
+					$timeout(()=>{
+						if($scope.serviceModel.provinceId&&$scope.serviceModel.cityId&&$scope.serviceModel.productId){
+							listCarDisc();
+						}
+					},0);
+				};
+				$scope.storeChange = ()=>{
+					$timeout(()=>{
+						getSubsidy();
+						console.log(666);
+					},0);
+				};
+				$scope.mobileChange = ()=>{
+					appApi.listCarOrderBack($scope.productModel.mobile,(d)=>{
+						console.log(d);
+						$scope.userOrderList = d.list;
+					});
+				};
+				$scope.typeChange = ()=>{
+					console.log($scope.orderType);
 				};
 				$scope.productChange = (product) => {
 					console.log('select: ', product);
-					
 					if($scope.orderModel.productId == product.productId) return;
 					$scope.orderForm.$submitted = true;
 					$scope.orderModel.productId = product.productId;
 					$scope.peiList = product.peiList;
 					$scope.carPrice = product.defaultPrice;
+
 					$scope.colorThree = {};
 					$scope.colorTow = {};
 					$scope.selectOrder.selectColorOne = '';
@@ -524,10 +630,12 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					$scope.orderModel.level1Type = '';
 					$scope.orderModel.level2Type = '';
 					$scope.orderModel.level3Type = '';
-					getColor({productId: product.productId}, (data) => {
+					getColor({
+						productId: product.productId
+					}, (data) => {
 						$scope.colorOne = data;
 					});
-					getSubsidy(product.productId);
+					getSubsidy();
 				};
 				$scope.changeColorOne = (colorOne) => {
 					if(colorOne === $scope.orderModel.level1Type) return;
@@ -537,25 +645,26 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					$scope.selectOrder.selectColorTow = '';
 					$scope.colorThree = {}
 					getColor({
-							productId: $scope.orderModel.productId,
-							level1Type: colorOne
-						}, (data) => {
-							$scope.colorTow = data;
-						})
+						productId: $scope.orderModel.productId,
+						level1Type: colorOne
+					}, (data) => {
+						$scope.colorTow = data;
+					})
 				};
 				$scope.changeColorTow = (colorTow) => {
 					if(colorTow === $scope.orderModel.level1Type) return;
+
 					$scope.orderModel.level2Type = colorTow;
 					$scope.orderModel.level3Type = '';
 					getColor({
-							productId: $scope.orderModel.productId,
-							level1Type: $scope.orderModel.level1Type,
-							level2Type: $scope.orderModel.level2Type,
-						}, (data) => {
-							$scope.colorThree = data;
-						})
+						productId: $scope.orderModel.productId,
+						level1Type: $scope.orderModel.level1Type,
+						level2Type: $scope.orderModel.level2Type,
+					}, (data) => {
+						$scope.colorThree = data;
+					})
 				};
-				var typeObj = {}
+				var typeObj = {};
 				$scope.changeLv1 = (classlv1) => {
 					if(classlv1 === typeObj.classlv1) return;
 					typeObj.classlv1 = classlv1;
@@ -564,12 +673,17 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					$scope.selectOrder.classlv2 = '';
 
 					if(classlv1 === '') return;
-					getProductType({subtype: classlv1}, (data) => {
+					getProductType({
+						subtype: classlv1
+					}, (data) => {
 						$scope.listClassLv2 = data.list;
 					});
 				};
 				$scope.changeLv2 = (classlv2) => {
-					appApi.listProduct({subtype: $scope.selectOrder.classlv1, subtype2: classlv2}, (data) => {
+					appApi.listProduct({
+						subtype: $scope.selectOrder.classlv1,
+						subtype2: classlv2
+					}, (data) => {
 						$scope.productsData = data;
 					});
 				};
@@ -580,8 +694,8 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 				};
 				$scope.selectPei = (peiArr) => {
 					var peiPrice = 0;
-					$scope.peiList.forEach(function(item){
-						if(peiArr.indexOf(item.productId) > -1){
+					$scope.peiList.forEach(function(item) {
+						if(peiArr.indexOf(item.productId) > -1) {
 							peiPrice += Number(item.default_price);
 						}
 					});
@@ -603,7 +717,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					$scope.$modal.modal('toggle');
 					init();
 				};
-				$scope.getSum = function(){
+				$scope.getSum = function() {
 					var carPrice = angular.isNumber($scope.carDisPrice) ? +$scope.carDisPrice : angular.isNumber($scope.carPrice) ? +$scope.carPrice : 0;
 					var pei = angular.isNumber($scope.peiPrice)  ? +$scope.peiPrice : 0;
 					var discount = angular.isNumber($scope.selectOrder.selectPromotion) ? +$scope.discount : 0 ;
@@ -612,53 +726,87 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 					return total>0?total:0;
 				};
 				$scope.submit = function() {
-					console.log($scope.orderModel);
-					console.log($scope.productModel);
+					console.log($scope.serviceModel);
 					$scope.orderForm.$submitted = true;
 					if($scope.orderForm.$valid) {
-						if($scope.orderModel.orderType == 0){
+						if($scope.orderModel.orderType == 0) {
 							var orderModel = Object.assign({}, $scope.orderModel);
-							orderModel.data = orderModel.data&&orderModel.data.join(',');
+							orderModel.data = orderModel.data && orderModel.data.join(',');
 							delete orderModel.orderType;
 							if($scope.carDiscDeployId) orderModel.carDiscDeployId = $scope.carDiscDeployId;
 							if($scope.userId) orderModel.userId = $scope.userId;
 							getCreateOrder().call(this, orderModel, fn_success, fn_fail)
-						}else{
+						} else if($scope.orderModel.orderType == 1) {
 							var productModel = Object.assign({}, $scope.productModel)
 							if($scope.userId) productModel.userId = $scope.userId;
 							getProductOrder().call(this, productModel, fn_success, fn_fail)
+						}else if($scope.orderModel.orderType == 2) {
+							var serviceModel = Object.assign({}, $scope.serviceModel);
+							getProductOrder().call(this, serviceModel, fn_success, fn_fail)
 						}
 					}
 				};
-				function fn_success(res){
+				function fn_success(res) {
 					$scope.closeModal();
 					$scope.$emit('addOrderClose');
 					toastr.success('创建成功');
 				};
-				function fn_fail(){
+				function fn_fail() {
 
 				};
-				function getCreateOrder(){
-					if($scope.userId){
+				function getCreateOrder() {
+					if($scope.userId) {
 						return appApi.createOrderWithUserId;
-					}else{
-						return appApi.createOrder					
+					} else {
+						return appApi.createOrder
 					}
 				};
-				function getProductOrder(){
-					if($scope.userId){
-						return appApi.createProductWithUserId;
+				function getProductOrder() {
+					if($scope.orderModel.orderType == 2){
+						return appApi.createServiceOrderBack;
 					}else{
-						return appApi.createProduct					
+						if($scope.userId) {
+							return appApi.createProductWithUserId;
+						} else {
+							return appApi.createProduct
+						}
 					}
 				};
 				$scope.$modal.on('hide.bs.modal', function() {
-					if($scope.orderForm.$dirty) {
-						$scope.orderModel = Object.assign({}, orderModelDefault);
-						$scope.productModel = Object.assign({}, productModelDefault);
-						$scope.orderForm.$setPristine();
-						$scope.orderForm.$setUntouched();
-					}
+					$scope.carDisPrice = 0;
+					$scope.carPrice = 0;
+					$scope.peiPrice = 0;   
+					$scope.subsidy = 0;
+					$scope.title = '创建订单';
+					$scope.service = undefined;
+					$scope.orderModel.orderType = '';
+					$scope.disabled = false;
+					$scope.orderModel = Object.assign({}, orderModelDefault);
+					$scope.productModel = Object.assign({}, productModelDefault);
+					$scope.serviceModel = Object.assign({}, serviceModelDefault);
+					$scope.selectOrder = {
+						selectColorOne: '',
+						selectColorTow: '',
+						selectPromotion: {},
+						classlv1: '',
+						classlv2: '',
+						selectProduct: ''
+					};
+					$scope.orderForm.$setPristine();
+					$scope.orderForm.$setUntouched();
+				});
+				let addOrder = $rootScope.$on('addOrder', function(e, data) {
+					$scope.$modal.modal('show');
+					if(data&&data.service){
+						$scope.title = '创建服务订单';
+						$scope.service = true;
+						$scope.orderModel.orderType = 2;
+						$scope.productModel.mobile = parseInt(data.item.buyerMobile);
+						$scope.mobileChange();
+					};
+				});
+				$scope.$on('$destroy', function() {
+					addOrder();
 				});
 			}
 		}
