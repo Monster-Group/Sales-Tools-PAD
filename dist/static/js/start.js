@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - start
  * Author: Clearlove 7*
- * Updated: 2017-12-03 19:00
+ * Updated: 2017-12-04 14:52
  * Version: 1.0.0
  * -----------------------*/
 define('angular', [], function () {
@@ -15941,7 +15941,7 @@ define('angular', [], function () {
 });
 define('baseSet', [], function () {
     return {
-        postServer: 'http://baojun.saojie.me/',
+        postServer: window.location.origin + '/',
         pageHost: './../'
     };
 });
@@ -32816,6 +32816,7 @@ define('router-config', [
             $rootScope.path = $location.$$path;
             console.log($rootScope.path);
         });
+        console.log(window.location);
         $rootScope.storeList = [];
         if (!localStorage.getItem('loginfo')) {
             window.location.href = 'index.html';

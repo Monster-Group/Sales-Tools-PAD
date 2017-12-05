@@ -70,7 +70,7 @@ define('domReady', [], function () {
 });
 define('baseSet', [], function () {
     return {
-        postServer: 'http://baojun.saojie.me/',
+        postServer: window.location.origin + '/',
         pageHost: './../'
     };
 });
