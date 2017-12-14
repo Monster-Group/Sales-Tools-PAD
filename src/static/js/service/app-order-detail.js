@@ -189,7 +189,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 							<div class="line pull-left">
 								<span class="item">{{item.productName}}</span>
 								<span class="price">{{item.productPrice | currency:'￥'}}</span>
-								<span class="state">{{item.status | orderStatu}}</span>
+								<span class="state">{{item.status | serviceOrderStatu}}</span>
 								<span class="date">{{item.createdTime | dateFormat}}</span>
 								<span class="handle"><a class="button small" hm-tap="serviceDetail(item)">详情</a></span>
 							</div>
@@ -361,6 +361,12 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 						$($element).removeClass('fadeOut').addClass('fadeIn');
 					},150);
 				});
+				let getServiceOrder = $rootScope.$on('getServiceOrder', (e) => {
+					appApi.showServiceOrder(orderId,(d)=>{
+						console.log(d);
+						$scope.serviceOrder = d;
+					});
+				});
 				let getPayInfo = $rootScope.$on('loadPayInfo', (e, data) => {
 					loadPayInfo(orderNo);
 					$scope.$payCodeModal.data('data',data).modal('show');
@@ -397,7 +403,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 					$(this).find('img').attr('src',data.img);
 					$scope.clock = setInterval(()=>{
 						appApi.isSuccess(data.paymentId,(d)=>{
-							if(d.isSussess){
+							if(d.isSuccess){
 								toastr.success('支付成功');
 								$scope.$payCodeModal.modal('hide');
 								loadPayInfo(orderNo);
@@ -413,6 +419,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 					getPayInfo();
 					showDetail();
 					hideServiceDetail();
+					getServiceOrder();
 					$scope.$refundModal.remove();
 					$scope.$payCodeModal.remove();
 				});

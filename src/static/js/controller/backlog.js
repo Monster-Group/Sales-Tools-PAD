@@ -1,7 +1,7 @@
 define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','moment','loading','swiper'], function(angular, tpl, Waves, NProgress,toastr,moment) {
 	function controller($scope,$rootScope,appApi,getStatuDisplay,toThousands,watch,dateArray,$timeout) {
 		Waves.init();
-		Waves.attach('.button', ['waves-block','waves-light']);
+		Waves.attach('.button', ['waves-light']);
 		NProgress.done();
 		$scope.dateObj = dateArray();
 		console.log($scope.dateObj);
@@ -142,7 +142,7 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 				if(s.oScroll.sY){
 					$(s.nTable).after($('<a class="load-more">加载更多...</a>'));
 				};
-				Waves.attach('.load-more', ['waves-block','waves-green']);
+				Waves.attach('.load-more', ['waves-green']);
 			}
 		});
 		$scope.statusClick = (e,id)=>{

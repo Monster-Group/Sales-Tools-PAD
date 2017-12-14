@@ -151,7 +151,8 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 				model: '=?',//接受数据model   直接为选项的val值
 				placeholder: '=?',//默认显示文字
 				clickEvent: '=?',//选项点击回调事件，参数$event,item   item为所点击选项的整个对象
-				val:'=?'//点击选项取值的字段名
+				val:'=?',//点击选项取值的字段名,
+				readonly:'=?'
 			},
 			template: `
 				<div class="dropdown">
@@ -166,8 +167,13 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 				</div>
 			`,
 			link: function($scope, $elements, $attrs, controllers) {
+				if($scope.readonly){
+					$($elements).addClass('readonly');
+				};
 				$($elements).find('.dropdown-toggle').on('tap',function(e){
-					$(this).dropdown('toggle');
+					if(!$scope.readonly){
+						$(this).dropdown('toggle');
+					};
 					e.stopPropagation();
 					e.preventDefault();
 				});
@@ -179,7 +185,7 @@ define(['angular', 'moment', 'jquery', 'nprogress','upload','toastr'], function(
 						if(item[$scope.val] == val){
 							name = item[$scope.display];
 						}
-					}
+					};
 					return name;
 				};
 				$scope.val = $scope.val?$scope.val:'value';

@@ -167,16 +167,16 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 2">
 										<span>商品:</span>
-										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.productId==''||serviceModel.productId==undefined)}" render-data="serviceProduct" display="'productName'" val="'productId'" model="serviceModel.productId" click-event="cityClick"></drop-down>
+										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.productId==''||serviceModel.productId==undefined)}" render-data="serviceProduct" display="'productName'" val="'productId'" model="serviceModel.productId" click-event="serviceClick"></drop-down>
 									</div>
 									<div class="item item-2 license" ng-if="orderModel.orderType === 2">
 										<span>上牌地点:</span>
-										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.provinceId==''||serviceModel.provinceId==undefined)}" render-data="$root.enumData.regionList" display="'provinceName'" val="'provinceId'" model="serviceModel.provinceId" click-event="provinceClick"></drop-down>
-										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.cityId==''||serviceModel.cityId==undefined)}" render-data="cityList" display="'cityName'" val="'cityId'" model="serviceModel.cityId" click-event="cityClick"></drop-down>
+										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.provinceId==''||serviceModel.provinceId==undefined)}" render-data="$root.enumData.regionList" display="'provinceName'" val="'provinceId'" model="serviceModel.provinceId" click-event="provinceClick" readonly="'readonly'"></drop-down>
+										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.cityId==''||serviceModel.cityId==undefined)}" render-data="cityList" display="'cityName'" val="'cityId'" model="serviceModel.cityId" click-event="cityClick" readonly="'readonly'"></drop-down>
 									</div>
 									<div class="item item-3" ng-if="orderModel.orderType === 2">
 										<span>购车订单:</span>
-										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.orderId==''||serviceModel.orderId==undefined)}" render-data="userOrderList" display="'productDetail'" val="'orderId'" model="serviceModel.orderId"></drop-down>
+										<drop-down ng-class="{'error':orderForm.$submitted&&(serviceModel.orderId==''||serviceModel.orderId==undefined)}" render-data="userOrderList" display="'productDetail'" val="'orderId'" model="serviceModel.orderId" click-event="orderChange" readonly="service"></drop-down>
 									</div>
 								</div>
 							</form>
@@ -288,7 +288,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 				function getColor(data, fn) {
 					appApi.getCarColor(data, (d) => {
 						fn(d);
-					})
+					});
 				};
 
 				function getProductType(data, fn) {
@@ -325,23 +325,28 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					}
 				};
 				let listCarDisc = ()=>{
-					appApi.listCarDisc({
-						isUse:1,
-						provinceId:$scope.serviceModel.provinceId,
-						cityId:$scope.serviceModel.cityId,
-						productId:$scope.serviceModel.productId
-					}, (d) => {
-						if(d.length!=0){
-							$scope.serviceTotal = d[0].price;
-							$scope.serviceModel.carDiscDeployId = d[0].carDiscDeployId;
-						}else{
-							for(let item of $scope.serviceProduct){
-								if(item.productId == $scope.serviceModel.productId){
-									$scope.serviceTotal = item.defaultPrice;
+					if(!$scope.serviceModel.provinceId||!$scope.serviceModel.cityId||!$scope.serviceModel.productId){
+						$scope.serviceTotal = 0;
+						$scope.serviceModel.carDiscDeployId = undefined;
+					}else{
+						appApi.listCarDisc({
+							isUse:1,
+							provinceId:$scope.serviceModel.provinceId,
+							cityId:$scope.serviceModel.cityId,
+							productId:$scope.serviceModel.productId
+						}, (d) => {
+							if(d.length!=0){
+								$scope.serviceTotal = d[0].price;
+								$scope.serviceModel.carDiscDeployId = d[0].carDiscDeployId;
+							}else{
+								for(let item of $scope.serviceProduct){
+									if(item.productId == $scope.serviceModel.productId){
+										$scope.serviceTotal = item.defaultPrice;
+									}
 								}
 							}
-						}
-					});
+						});
+					};
 				};
 				let getCityList = ()=>{
 					$scope.cityList = [];
@@ -351,21 +356,23 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 						}
 					};
 				};
-				if($scope.serviceModel.provinceId!=undefined){
-					getCityList();
-				};
 				$scope.provinceClick = ()=>{
 					$timeout(()=>{
 						getCityList();
 					},0);
 					$scope.serviceModel.cityId = '';
 				};
-				$scope.cityClick = ()=>{
+				$scope.serviceClick = ()=>{
 					$timeout(()=>{
-						if($scope.serviceModel.provinceId&&$scope.serviceModel.cityId&&$scope.serviceModel.productId){
-							listCarDisc();
-						}
+						listCarDisc();
 					},0);
+				};
+				$scope.orderChange = (e,i)=>{
+					console.log(i);
+					$scope.serviceModel.provinceId = i.provinceId;
+					getCityList();
+					$scope.serviceModel.cityId = i.cityId;
+					listCarDisc();
 				};
 				$scope.storeChange = ()=>{
 					$timeout(()=>{
@@ -373,10 +380,13 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 						console.log(666);
 					},0);
 				};
-				$scope.mobileChange = ()=>{
+				$scope.mobileChange = (id)=>{
 					appApi.listCarOrderBack($scope.productModel.mobile,(d)=>{
 						console.log(d);
 						$scope.userOrderList = d.list;
+						if(id){
+							$scope.serviceModel.orderId = id;
+						};
 					});
 				};
 				$scope.typeChange = ()=>{
@@ -495,27 +505,30 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 				$scope.submit = function() {
 					console.log($scope.serviceModel);
 					$scope.orderForm.$submitted = true;
-					if($scope.orderForm.$valid) {
-						if($scope.orderModel.orderType == 0) {
-							var orderModel = Object.assign({}, $scope.orderModel);
-							orderModel.data = orderModel.data && orderModel.data.join(',');
-							delete orderModel.orderType;
-							if($scope.carDiscDeployId) orderModel.carDiscDeployId = $scope.carDiscDeployId;
-							if($scope.userId) orderModel.userId = $scope.userId;
-							getCreateOrder().call(this, orderModel, fn_success, fn_fail)
-						} else if($scope.orderModel.orderType == 1) {
-							var productModel = Object.assign({}, $scope.productModel)
-							if($scope.userId) productModel.userId = $scope.userId;
-							getProductOrder().call(this, productModel, fn_success, fn_fail)
-						}else if($scope.orderModel.orderType == 2) {
-							var serviceModel = Object.assign({}, $scope.serviceModel);
-							getProductOrder().call(this, serviceModel, fn_success, fn_fail)
-						}
-					}
+					$timeout(()=>{
+						if($scope.orderForm.$valid&&$($elements).find('.error').length==0) {
+							if($scope.orderModel.orderType == 0) {
+								var orderModel = Object.assign({}, $scope.orderModel);
+								orderModel.data = orderModel.data && orderModel.data.join(',');
+								delete orderModel.orderType;
+								if($scope.carDiscDeployId) orderModel.carDiscDeployId = $scope.carDiscDeployId;
+								if($scope.userId) orderModel.userId = $scope.userId;
+								getCreateOrder().call(this, orderModel, fn_success, fn_fail)
+							} else if($scope.orderModel.orderType == 1) {
+								var productModel = Object.assign({}, $scope.productModel)
+								if($scope.userId) productModel.userId = $scope.userId;
+								getProductOrder().call(this, productModel, fn_success, fn_fail)
+							}else if($scope.orderModel.orderType == 2) {
+								var serviceModel = Object.assign({}, $scope.serviceModel);
+								getProductOrder().call(this, serviceModel, fn_success, fn_fail)
+							}
+						};
+					},0);
 				};
 				function fn_success(res) {
 					$scope.closeModal();
 					$scope.$emit('addOrderClose');
+					$scope.$emit('getServiceOrder');
 					toastr.success('创建成功');
 				};
 
@@ -564,13 +577,18 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					$scope.orderForm.$setUntouched();
 				});
 				let addOrder = $rootScope.$on('addOrder', function(e, data) {
+					console.log('addOrder');
 					$scope.$modal.modal('show');
 					if(data&&data.service){
 						$scope.title = '创建服务订单';
 						$scope.service = true;
 						$scope.orderModel.orderType = 2;
 						$scope.productModel.mobile = parseInt(data.item.buyerMobile);
-						$scope.mobileChange();
+						console.log(data.item.orderId);
+						$scope.mobileChange(data.item.orderId);
+//						$scope.serviceModel.orderId = data.item.orderId;
+						$scope.orderChange(undefined,data.item);
+						
 					};
 				});
 				$scope.$on('$destroy', function() {

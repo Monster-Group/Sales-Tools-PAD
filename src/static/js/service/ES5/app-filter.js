@@ -63,6 +63,9 @@ define(['angular', 'moment'], function (angular, moment) {
 				case 2:
 					display = '已取消';
 					break;
+				case 3:
+					display = '已支付(已退款)';
+					break;
 			};
 			return display;
 		};
@@ -83,7 +86,7 @@ define(['angular', 'moment'], function (angular, moment) {
 					statu = '已关闭';
 					break;
 				case 3:
-					statu = '已付款,待排产';
+					statu = '已付定金';
 					break;
 				case 4:
 					statu = '已排产';
@@ -101,7 +104,7 @@ define(['angular', 'moment'], function (angular, moment) {
 					statu = '退款中';
 					break;
 				case 10:
-					statu = '支付中';
+					statu = '已成交';
 					break;
 			};
 			return statu;

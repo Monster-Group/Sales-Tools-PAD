@@ -1,8 +1,8 @@
 define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment','loading'], function(angular, tpl, Waves, NProgress, toastr,moment) {
 	function controller($scope,$rootScope, appApi,getOrderStatu,getMillisecond,$timeout) {
 		Waves.init();
-		Waves.attach('.button', ['waves-block','waves-light']);
-		Waves.attach('.load-more', ['waves-block','waves-green']);
+		Waves.attach('.button', ['waves-light']);
+		Waves.attach('.load-more', ['waves-green']);
 		NProgress.done();
 		$scope.$table = $('.order-table');
 		$scope.showAddPay = false;
@@ -76,7 +76,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				if(s.oScroll.sY){
 					$(s.nTable).after($('<a class="load-more">加载更多...</a>'));
 				};
-				Waves.attach('.load-more', ['waves-block','waves-green']);
+				Waves.attach('.load-more', ['waves-green']);
 			}
 		});
 		let loadData = (fn) =>{

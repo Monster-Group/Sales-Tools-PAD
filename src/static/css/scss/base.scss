@@ -728,6 +728,9 @@ body {
     border: $border-width solid color($colors, bdSecondary);
     border-radius: $border-radius;
     .val{display: inline-block;max-width: calc(100% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;color: #000;}
+    &.readonly{
+        .val{color: #999;}
+    }
     .arrow {
         display: inline-block;
         color: #595959;

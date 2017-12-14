@@ -1,7 +1,7 @@
 define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'moment','loading'], function(angular, tpl, Waves, NProgress, toastr, moment) {
 	function controller($scope, $rootScope, appApi, getUserLv,getOrderStatu,$timeout,$compile) {
 		Waves.init();
-		Waves.attach('.button', ['waves-block', 'waves-light']);
+		Waves.attach('.button', ['waves-light']);
 		NProgress.done();
 		$scope.$table = $('.client-table');
 		$scope.$detailTable = $('.client-detail-table');
@@ -187,7 +187,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 				if(s.oScroll.sY) {
 					$(s.nTable).after($('<a class="load-more">加载更多...</a>'));
 				};
-				Waves.attach('.load-more', ['waves-block', 'waves-green']);
+				Waves.attach('.load-more', ['waves-green']);
 			}
 		});
 		let ddt = () => {
@@ -243,7 +243,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 					if(s.oScroll.sY) {
 						$(s.nTable).after($('<a class="load-more">加载更多...</a>'));
 					};
-					Waves.attach('.load-more', ['waves-block', 'waves-green']);
+					Waves.attach('.load-more', ['waves-green']);
 				}
 			});
 		};

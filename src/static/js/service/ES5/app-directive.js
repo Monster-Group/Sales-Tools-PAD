@@ -150,12 +150,18 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr'], functio
 				model: '=?', //接受数据model   直接为选项的val值
 				placeholder: '=?', //默认显示文字
 				clickEvent: '=?', //选项点击回调事件，参数$event,item   item为所点击选项的整个对象
-				val: '=?' //点击选项取值的字段名
+				val: '=?', //点击选项取值的字段名,
+				readonly: '=?'
 			},
 			template: '\n\t\t\t\t<div class="dropdown">\n\t\t\t\t\t<a href="#" data-toggle="dropdown" class="dropdown-toggle clearfix" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">\n\t\t\t\t\t\t<span class="val pull-left" ng-bind="displayName"></span>\n\t\t\t\t\t\t<i class="arrow icon pull-right">&#xe792;</i>\n\t\t\t\t\t</a>\n\t\t\t\t\t<ul class="dropdown-menu animated fadeInUpSmall fast" role="menu">\n\t\t\t\t\t\t<li hm-tap="itemClick($event, \'\')">\u8BF7\u9009\u62E9</li>\n\t\t\t\t\t\t<li ng-repeat="item in renderData track by $index" ng-bind="item[display]"  hm-tap="itemClick($event, item)"></li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t',
 			link: function link($scope, $elements, $attrs, controllers) {
+				if ($scope.readonly) {
+					$($elements).addClass('readonly');
+				};
 				$($elements).find('.dropdown-toggle').on('tap', function (e) {
-					$(this).dropdown('toggle');
+					if (!$scope.readonly) {
+						$(this).dropdown('toggle');
+					};
 					e.stopPropagation();
 					e.preventDefault();
 				});
@@ -190,6 +196,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'upload', 'toastr'], functio
 						}
 					}
 
+					;
 					return name;
 				};
 				$scope.val = $scope.val ? $scope.val : 'value';
