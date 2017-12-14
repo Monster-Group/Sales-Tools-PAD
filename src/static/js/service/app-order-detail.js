@@ -502,13 +502,13 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 							<a class="button" hm-tap="addPay()">新增支付信息</a>
 						</div>
 					</div>
-					<div class="modal fade custom-modal pay-code-modal" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal fade custom-modal service-pay-code-modal" tabindex="-1" role="dialog" aria-hidden="true">
 						<div class="modal-dialog modal-md">
 							<a class="iconfont" data-dismiss="modal">&#xe60e;</a>
 							<img src=""/>
 						</div>
 					</div>
-					<div class="modal fade custom-modal refund-modal" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal fade custom-modal service-refund-modal" tabindex="-1" role="dialog" aria-hidden="true">
 						<div class="modal-dialog modal-md">
 							<div class="modal-content">
 								<div class="modal-header">退款(编号:<i>1312312</i>)</div>
@@ -542,13 +542,13 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 				</div>
 			`,
 			controller: function($scope, $element, $attrs) {
-				$scope.$refundModal = $($element).find('.refund-modal').clone();
-				$scope.$payCodeModal = $($element).find('.pay-code-modal').clone();
+				$scope.$refundModal = $($element).find('.service-refund-modal').clone();
+				$scope.$payCodeModal = $($element).find('.service-pay-code-modal').clone();
 				$('body').append($scope.$payCodeModal);
 				$('body').append($scope.$refundModal);
 				setTimeout(()=>{
-					$($element).find('.pay-code-modal').remove();
-					$($element).find('.refund-modal').remove();
+					$($element).find('.service-pay-code-modal').remove();
+					$($element).find('.service-refund-modal').remove();
 				},0);
 				$scope.addPayModal = false;
 				var orderId, orderNo;

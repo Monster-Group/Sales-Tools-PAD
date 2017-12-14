@@ -449,7 +449,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		//添加订单后
 		let addOrderClose = $scope.$on('addOrderClose', (e) => {
 			$scope.pageNum = 1;
-			loadData();
+			loadOrderList();
 		});
 		$scope.$on('$destroy', function() {
 	        hideDetail(); // 退订事件

@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - start
  * Author: Clearlove 7*
- * Updated: 2017-11-21 22:49
+ * Updated: 2017-12-07 20:56
  * Version: 1.0.0
  * -----------------------*/
 define('angular', [], function () {
@@ -21610,404 +21610,6 @@ define('appDirectives', [
             }
         };
     });
-    appDirectives.directive('newOrder', function ($rootScope, appApi, enumData) {
-        return {
-            restrict: 'E',
-            scope: { userId: '=' },
-            replace: true,
-            template: '\n\t\t\t\t<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t\t<div class="modal-header">{{title}}</div>\n\t\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t\t<form id="orderForm" name="orderForm" novalidate onsubmit="return false;" ng-class="{\'form-submited\': orderForm.$submitted}">\n\t\t\t\t\t\t\t\t<div class="config">\n\t\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t\t<span>类别:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.chebie.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="chebie" chosen required placeholder-text-single="\'请选择\'" ng-model="orderModel.orderType"\n\t\t\t    ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t    \t\t\t\t\t\t\t</select>\n\t\t    \t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车系:</span>\n\t\t\t\t\t\t\t\t\t\t <select chosen disabled width="256" ng-model="orderModel.product">\n\t\t\t\t\t\t\t\t\t\t \t<option value="" select>E-100</option>\n\t\t    \t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车型:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.chexing.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="chexing" chosen required placeholder-text-single="\'请选择\'" ng-model=\'selectProduct\' width="256" disable-search="true" ng-change="productChange(selectProduct)"  ng-options="item.productName for item in listCar">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车顶颜色:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.cheding.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="cheding" chosen required placeholder-text-single="\'请选择\'" ng-change="changeColorOne(selectOrder.selectColorOne)" width="256"  ng-model="selectOrder.selectColorOne" ng-options="item for item in colorOne.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车身颜色:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.cheshen.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="cheshen" chosen required placeholder-text-single="\'请选择\'" ng-change="changeColorTow(selectOrder.selectColorTow)" width="256"  ng-model="selectOrder.selectColorTow" ng-options=" item for item in colorTow.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>内饰颜色:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.neishi.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="neishi" chosen required placeholder-text-single="\'请选择\'" width="256"  ng-model="orderModel.level3Type" ng-options="item for item in colorThree.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>配件:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" multiple chosen placeholder-text-multiple="\'请选择\'" width="256" ng-change="selectPei(orderModel.data)"  ng-model="orderModel.data" ng-options="item.productId as item.productName for item in peiList" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>活动优惠:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen  placeholder-text-single="\'请选择\'" ng-change="promotionChange(selectOrder.selectPromotion)" width="256" chosen id="" ng-model="selectOrder.selectPromotion" ng-options="item.promotionName for item in promotions" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t<span class="subjoin" ng-bind="selectOrder.selectPromotion.discount"></span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>提车门店:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.tiche.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="tiche" chosen required placeholder-text-single="\'请选择\'" width="256" ng-model="orderModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>公司:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.organization" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>手机号:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.mobile" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>姓名:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.realname" required type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>身份证:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.idCard" required idcard-check type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>分类1:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.class1.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="class1" chosen required width="256" placeholder-text-single="\'请选择\'" ng-change="changeLv1(selectOrder.classlv1)" ng-model="selectOrder.classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>分类2:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.class2.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="class2" chosen required width="256" placeholder-text-single="\'请选择\'" ng-change="changeLv2(selectOrder.classlv2)" ng-model="selectOrder.classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>商品:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.chep.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="chep" chosen required width="256" placeholder-text-single="\'请选择\'" ng-change="chooseProduct(selectOrder.selectProduct)" ng-model="selectOrder.selectProduct" ng-options="item.productName for item in productsData" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>提货地点:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.tihuo.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="tihuo" chosen required width="256" placeholder-text-single="\'请选择\'" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>手机号:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" name="buyerphone" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" ng-model="productModel.mobile" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>姓名:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" name="realname" required ng-model="productModel.realname" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>身份证:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" name="cardId" required ng-model="productModel.idCard" idcard-check type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t<div class="price-info" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t<p>车价:<i>{{carPrice}}</i></p>\n\t\t\t\t\t\t\t\t<p>配件:<i>{{peiPrice}}</i></p>\n\t\t\t\t\t\t\t\t<p>活动优惠:<i>{{selectOrder.selectPromotion.discount}}</i></p>\n\t\t\t\t\t\t\t\t<p class="total color-bdprimary">总价:<i>{{getSum()}}</i></p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="price-info" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t<p>总价:<i>{{productPrice}}</i></p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="btn-wrapper">\n\t\t\t\t\t\t\t\t<a class="button" hm-tap="submit">确定</a>\n\t\t\t\t\t\t\t\t<a class="button" hm-tap="closeModal">取消</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t',
-            controller: function controller($scope, $element, $attrs) {
-                $scope.title = '创建订单';
-            },
-            link: function link($scope, $elements, $attrs, controllers) {
-                $scope.$modal = $($elements);
-                var orderModelDefault = {
-                    orderType: '',
-                    product: '',
-                    level1Type: '',
-                    level2Type: '',
-                    data: '',
-                    promotionId: '',
-                    storeId: '',
-                    idCard: '',
-                    organization: ''
-                };
-                var productModelDefault = {
-                    productId: '',
-                    storeId: ''
-                };
-                function init() {
-                    $scope.colorOne = {};
-                    $scope.colorTow = {};
-                    $scope.colorThree = {};
-                    $scope.orderModel || ($scope.orderModel = Object.assign({}, orderModelDefault));
-                    $scope.productModel || ($scope.productModel = Object.assign({}, productModelDefault));
-                    $scope.selectOrder = {
-                        selectColorOne: '',
-                        selectColorTow: '',
-                        selectPromotion: {},
-                        classlv1: '',
-                        classlv2: '',
-                        selectProduct: ''
-                    };
-                }
-                init();
-                appApi.listCar(function (data) {
-                    $scope.listCar = data.map(function (item) {
-                        return {
-                            productName: item.productName.split('-')[1],
-                            productId: item.productId,
-                            defaultPrice: item.defaultPrice,
-                            deposit: item.deposit,
-                            peiList: item.peiList
-                        };
-                    });
-                });
-                appApi.getPromotion(function (data) {
-                    $scope.promotions = data;
-                    console.log($scope.promotions);
-                });
-                appApi.listStoreMall(function (data) {
-                    $scope.listStore = data;
-                });
-                appApi.listClassifyLv1(function (data) {
-                    $scope.listClassLv1 = data;
-                });
-                function getColor(data, fn) {
-                    appApi.getCarColor(data, function (d) {
-                        fn(d);
-                    });
-                }
-                function getProductType(data, fn) {
-                    appApi.listClassify(data, function (d) {
-                        fn(d);
-                    });
-                }
-                $scope.productChange = function (product) {
-                    console.log('select: ', product);
-                    if ($scope.orderModel.productId == product.productId)
-                        return;
-                    $scope.orderForm.$submitted = true;
-                    $scope.orderModel.productId = product.productId;
-                    $scope.peiList = product.peiList;
-                    $scope.carPrice = product.defaultPrice;
-                    $scope.colorThree = {};
-                    $scope.colorTow = {};
-                    $scope.selectOrder.selectColorOne = '';
-                    $scope.selectOrder.selectColorTow = '';
-                    $scope.orderModel.level1Type = '';
-                    $scope.orderModel.level2Type = '';
-                    $scope.orderModel.level3Type = '';
-                    getColor({ productId: product.productId }, function (data) {
-                        $scope.colorOne = data;
-                    });
-                };
-                $scope.changeColorOne = function (colorOne) {
-                    if (colorOne === $scope.orderModel.level1Type)
-                        return;
-                    $scope.orderModel.level1Type = colorOne;
-                    $scope.orderModel.level2Type = '';
-                    $scope.orderModel.level3Type = '';
-                    $scope.selectOrder.selectColorTow = '';
-                    $scope.colorThree = {};
-                    getColor({
-                        productId: $scope.orderModel.productId,
-                        level1Type: colorOne
-                    }, function (data) {
-                        $scope.colorTow = data;
-                    });
-                };
-                $scope.changeColorTow = function (colorTow) {
-                    if (colorTow === $scope.orderModel.level1Type)
-                        return;
-                    $scope.orderModel.level2Type = colorTow;
-                    $scope.orderModel.level3Type = '';
-                    getColor({
-                        productId: $scope.orderModel.productId,
-                        level1Type: $scope.orderModel.level1Type,
-                        level2Type: $scope.orderModel.level2Type
-                    }, function (data) {
-                        $scope.colorThree = data;
-                    });
-                };
-                var typeObj = {};
-                $scope.changeLv1 = function (classlv1) {
-                    if (classlv1 === typeObj.classlv1)
-                        return;
-                    typeObj.classlv1 = classlv1;
-                    $scope.productsData = undefined;
-                    $scope.selectOrder.selectProduct = undefined;
-                    $scope.selectOrder.classlv2 = '';
-                    if (classlv1 === '')
-                        return;
-                    getProductType({ subtype: classlv1 }, function (data) {
-                        $scope.listClassLv2 = data.list;
-                    });
-                };
-                $scope.changeLv2 = function (classlv2) {
-                    appApi.listProduct({
-                        subtype: $scope.selectOrder.classlv1,
-                        subtype2: classlv2
-                    }, function (data) {
-                        $scope.productsData = data;
-                    });
-                };
-                $scope.promotionChange = function (promotion) {
-                    if (promotion.promotionId === $scope.orderModel.promotionId)
-                        return;
-                    $scope.orderModel.promotionId = promotion.promotionId;
-                };
-                $scope.selectPei = function (peiArr) {
-                    var peiPrice = 0;
-                    $scope.peiList.forEach(function (item) {
-                        if (peiArr.indexOf(item.productId) > -1) {
-                            peiPrice += Number(item.default_price);
-                        }
-                    });
-                    $scope.peiPrice = peiPrice;
-                };
-                $scope.chooseProduct = function (product) {
-                    $scope.productModel.productId = product.productId;
-                    $scope.productPrice = product.defaultPrice;
-                };
-                $scope.closeModal = function () {
-                    $scope.$modal.modal('toggle');
-                    init();
-                };
-                $scope.getSum = function () {
-                    var carPrice = angular.isNumber($scope.carPrice) ? +$scope.carPrice : 0;
-                    var pei = angular.isNumber($scope.peiPrice) ? +$scope.peiPrice : 0;
-                    var discount = angular.isNumber($scope.selectOrder.selectPromotion) ? +$scope.discount : 0;
-                    return carPrice + pei - discount;
-                };
-                $scope.submit = function () {
-                    console.log($scope.orderModel);
-                    console.log($scope.productModel);
-                    $scope.orderForm.$submitted = true;
-                    if ($scope.orderForm.$valid) {
-                        if ($scope.orderModel.orderType == 0) {
-                            var orderModel = Object.assign({}, $scope.orderModel);
-                            orderModel.data = orderModel.data && orderModel.data.join(',');
-                            delete orderModel.orderType;
-                            if ($scope.userId)
-                                orderModel.userId = $scope.userId;
-                            getCreateOrder().call(this, orderModel, fn_success, fn_fail);
-                        } else {
-                            var productModel = Object.assign({}, $scope.productModel);
-                            if ($scope.userId)
-                                productModel.userId = $scope.userId;
-                            getProductOrder().call(this, productModel, fn_success, fn_fail);
-                        }
-                    }
-                };
-                function fn_success(res) {
-                    $scope.closeModal();
-                    $scope.$emit('addOrderClose');
-                }
-                function fn_fail() {
-                }
-                function getCreateOrder() {
-                    if ($scope.userId) {
-                        return appApi.createOrderWithUserId;
-                    } else {
-                        return appApi.createOrder;
-                    }
-                }
-                function getProductOrder() {
-                    if ($scope.userId) {
-                        return appApi.createProductWithUserId;
-                    } else {
-                        return appApi.createProduct;
-                    }
-                }
-                $scope.$modal.on('hide.bs.modal', function () {
-                    if ($scope.orderForm.$dirty) {
-                        $scope.orderModel = Object.assign({}, orderModelDefault);
-                        $scope.productModel = Object.assign({}, productModelDefault);
-                        $scope.orderForm.$setPristine();
-                        $scope.orderForm.$setUntouched();
-                    }
-                });
-            }
-        };
-    });
-    appDirectives.directive('orderDetail', function ($rootScope, appApi, getOrderStatu) {
-        return {
-            restrict: 'E',
-            scope: {},
-            replace: true,
-            template: '\n\t\t\t\t<div class="order-info">\n\t\t\t\t\t<header class="clearfix">\n\t\t\t\t\t\t<a class="button pull-left" hm-tap="back">返回</a>\n\t\t\t\t\t\t<span class="pull-left">订单详情&nbsp;&nbsp;(编号:{{orderDetail.orderNo}})</span>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class="info-block">\n\t\t\t\t\t\t<h3>购车人信息:</h3>\n\t\t\t\t\t\t<div class="info-body">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人:</span><i>{{orderDetail.buyerName}} {{\'(\' + (orderDetail.gender | formatGender) + \')\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人手机号:</span><i>{{orderDetail.buyerMobile}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人证件号码:</span><i>{{orderDetail.buyerIdCard}}</i >\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>收货人姓名:</span><i>{{orderDetail.buyerName}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>收货人手机号:</span><i>{{orderDetail.buyerMobile}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block">\n\t\t\t\t\t\t<h3>订单信息:</h3>\n\t\t\t\t\t\t<div class="info-body" ng-show="orderDetail&&orderDetail.type != 1">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>活动名称:</span><i>{{orderDetail.promotionName}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>活动条款:</span><i>{{orderDetail.terms}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>活动金额:</span><i>{{orderDetail.discountPrice}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>优惠审核状态:</span><i>{{orderDetail.organization}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>提车地址:</span><i>{{orderDetail.storeAddress}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>公司:</span><i>{{orderDetail.organization}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>结清时间:</span><i>{{orderDetail.formatConfirmTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>状态:</span><i>{{orderDetail.statusName }}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>优惠金额:</span><i>{{orderDetail.discountPrice  | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>数量:</span><i>{{orderDetail.quantity || 1}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>原价:</span><i>{{orderDetail.productPrice | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>现价:</span><i>{{(orderDetail.productPrice - orderDetail.discountPrice)  | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="info-body" ng-show="orderDetail&&orderDetail.type == 1">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>优惠审核状态:</span><i>15012119780906771X150121</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>提货地址:</span><i>{{orderDetail.storeAddress}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>支付时间:</span><i>{{orderDetail.formatPaymentTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>结清时间:</span><i>{{orderDetail.formatConfirmTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>状态:</span><i>{{orderDetail.statusName}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>数量:</span><i>{{orderDetail.quantity || 1}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>价格:</span><i>{{(orderDetail.amount * 1)  | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block pay-info">\n\t\t\t\t\t\t<h3 class="clearfix">\n\t\t\t\t\t\t\t<span class="channel">支付渠道</span>\n\t\t\t\t\t\t\t<span class="pay-no">支付号</span>\n\t\t\t\t\t\t\t<span class="pay-amount">支付金额</span>\n\t\t\t\t\t\t\t<span class="pay-date">支付时间</span>\n\t\t\t\t\t\t\t<span class="pay-memo">备注</span>\n\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t<div class="info-body clearfix">\n\t\t\t\t\t\t\t<div class="line pull-left" ng-repeat="item in payment track by $index">\n\t\t\t\t\t\t\t\t<span class="channel">{{item.channel | formatChannel}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-no">{{item.paymentId}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-amount">{{item.amount}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-date">{{item.paymentTimeFormat}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-memo">{{item.comment}}</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="info-footer">\n\t\t\t\t\t\t\t<a class="button" hm-tap="addPay()">新增支付信息</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block pay-info" ng-show="carInfo.VIN">\n\t\t\t\t\t\t<h3 class="clearfix">车辆信息\uFF1A</h3>\n\t\t\t\t\t\t<div class="info-body clearfix">\n\t\t\t\t\t\t\t<div class="line pull-left" ng-repeat="item in carInfo track by $index">\n\t\t\t\t\t\t\t\t<span class="vin">VIN:{{item.VIN }}</span>\n\t\t\t\t\t\t\t\t<span class="vsn">VSN: {{item.VSN}}</span>\n\t\t\t\t\t\t\t\t<span class="">发动机号\uFF1A{{item.no}}</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block appoint-info" ng-show="appoints.length > 0">\n\t\t\t\t\t\t<h3 class="clearfix">邀约信息\uFF1A</h3>\n\t\t\t\t\t\t<div class="info-body">\n\t\t\t\t\t\t\t<div class="line" ng-repeat="item in appoints track by $index">\n\t\t\t\t\t\t\t\t<p>{{item.deliveryStageName}}:  {{item.nickname}} {{item.time}}</p>\n\t\t\t\t\t\t\t\t<p>备注:&nbsp&nbsp&nbsp&nbsp{{item.comments}}</p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t',
-            controller: function controller($scope, $element, $attrs) {
-                var orderId;
-                $scope.addPayModal = false;
-                var orderId, orderNo;
-                $scope.back = function () {
-                    $scope.$emit('detailClose');
-                };
-                function init() {
-                    $scope.orderDetail = {};
-                    $scope.payment = [];
-                    $scope.appoints = [];
-                }
-                var loadPayInfo = function loadPayInfo(orderNo) {
-                    appApi.getPayment({ orderNo: orderNo }, function (data) {
-                        $scope.payment = data.map(function (item) {
-                            item.paymentTimeFormat = moment(item.paymentTime).format('YYYY-MM-DD HH:mm:ss');
-                            return item;
-                        });
-                    });
-                };
-                function getData(orderType) {
-                    appApi.getOrderDetail({ orderId: orderId }, function (data) {
-                        data.formatCreatedTime = moment(data.createdTime).format('YYYY-MM-DD HH:mm:ss');
-                        data.formatConfirmTime = !data.confirmTime ? '--' : moment(data.confirmTime).format('YYYY-MM-DD HH:mm:ss');
-                        data.statusName = getOrderStatu(data.status);
-                        orderNo = data.orderNo;
-                        $scope.orderDetail = data;
-                        NProgress.done();
-                        appApi.getPayment({ orderNo: orderNo }, function (data) {
-                            $scope.payment = data.map(function (item) {
-                                item.paymentTimeFormat = moment(item.paymentTime).format('YYYY-MM-DD HH:mm:ss');
-                                return item;
-                            });
-                        });
-                        loadPayInfo(orderNo);
-                    });
-                    appApi.getAppointById({ orderId: orderId }, function (data) {
-                        $scope.appoints = data.map(function (item) {
-                            if (item.reservationStartTime && item.reservationEndTime)
-                                var startDay = moment(item.reservationStartTime).format('YYYY-MM-DD');
-                            var endDay = moment(item.reservationEndTime).format('YYYY-MM-DD');
-                            if (startDay == endDay) {
-                                var startTime = moment(item.reservationStartTime).format('HH:mm');
-                                var endTime = moment(item.reservationEndTime).format('HH:mm');
-                                item.time = startDay + ' ' + startTime + '-' + endTime;
-                            } else {
-                                var startTime = moment(item.reservationStartTime).format('YYYY-MM-DD HH:mm');
-                                var endTime = moment(item.reservationEndTime).format('YYYY-MM-DD HH:mm');
-                                item.time = startTime + '-' + endTime;
-                            }
-                            return item;
-                        });
-                    });
-                    if (orderType != '1') {
-                        appApi.getCarInfo({ orderId: orderId }, function (data) {
-                            $scope.carInfo = data;
-                        });
-                    }
-                }
-                $scope.addPay = function () {
-                    $scope.$emit('addPay', orderNo);
-                };
-                var getPayInfo = $rootScope.$on('loadPayInfo', function (e, data) {
-                    loadPayInfo(orderNo);
-                });
-                var showDetail = $scope.$on('showDetail', function (e, data) {
-                    NProgress.start();
-                    init();
-                    if (orderId != data.orderId) {
-                        orderId = data.orderId;
-                        getData(data.type);
-                    }
-                });
-                $scope.$on('$destory', function () {
-                    getPayInfo();
-                    showDetail();
-                });
-            }
-        };
-    });
-    appDirectives.directive('addPay', function ($rootScope, appApi) {
-        return {
-            restrict: 'E',
-            scope: { orderNo: '=' },
-            replace: true,
-            template: '\n\t\t\t<div class="modal fade custom-modal" style="display:block;" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t<div class="modal-header">\n\t\t\t\t\t\t\t支付信息(编号\uFF1A<i ng-bind="orderNo"></i>)\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t<form name="payInfoForm" novalidate>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>金额&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<input type="number" class="transition-02 default-input" ng-model="payInfo.amount" name="amount" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.amount.$invalid}" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>支付类型&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<drop-down class="transition-02" ng-class="{\'error\':payInfoForm.$submitted&&(payInfo.channel===undefined||payInfo.channel===\'\')}" render-data="$root.enumData.payChannel" model="payInfo.channel"></drop-down>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>流水号&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<input type="text" class="transition-02 default-input" ng-model="payInfo.outTradeNo" name="outTradeNo" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.outTradeNo.$invalid}" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item special">\n\t\t\t\t\t\t\t\t\t<span>备注&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<textarea class="transition-02 default-textarea" ng-model="payInfo.comment" name="comment" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.comment.$invalid}"></textarea>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item special">\n\t\t\t\t\t\t\t\t\t<span>上传凭证&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<div class="img-list">\n\t\t\t\t\t\t\t\t\t\t<ul>\n\t\t\t\t\t\t\t\t\t\t\t<a class="uplaod-btn" ng-class="{\'uploading\':uploading}">\n\t\t\t\t\t\t\t\t\t\t\t\t<span ng-bind="percent"></span>\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<li ng-repeat="item in imgUrl">\n\t\t\t\t\t\t\t\t\t\t\t\t<img ng-src="{{item}}"/>\n\t\t\t\t\t\t\t\t\t\t\t\t<a class="cycle-button del-img icon" hm-tap="delImg($index)">&#xe60e;</a>\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t<span class="error-msg" ng-show="payInfoForm.$submitted&&!payInfo.imgUrl">请至少上传一张图片</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t<a class="button" hm-tap="submitPayInfo()">确定</a>\n\t\t\t\t\t\t\t<a class="button" data-dismiss="modal">取消</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t',
-            controller: function controller($scope, $element, $attrs) {
-                $scope.$modal = $($element);
-                $scope.initUpload = false;
-                $scope.ossInit = function () {
-                    var $container = $($element).find('.img-list');
-                    var obj = {};
-                    obj.container = $container[0];
-                    obj.browserBtn = $container.find('.uplaod-btn')[0];
-                    obj.dir = 'myfolder';
-                    obj.prefix = 'pay_';
-                    obj.fileType = 'picture';
-                    obj.beforeUpload_fn = function () {
-                        $scope.$apply(function () {
-                            $scope.percent = 0 + '%';
-                        });
-                    };
-                    obj.uploading_fn = function (percent) {
-                        $scope.$apply(function () {
-                            $scope.uploading = true;
-                            $scope.percent = percent + '%';
-                        });
-                        console.log('上传进度\uFF1A' + percent + ' %');
-                    };
-                    obj.success_fn = function (data) {
-                        console.log(data);
-                        $scope.$apply(function () {
-                            $scope.uploading = false;
-                            $scope.imgUrl.push(data.fileUrl);
-                        });
-                    };
-                    obj.error_fn = function () {
-                        $scope.$apply(function () {
-                            $scope.uploading = false;
-                        });
-                    };
-                    oss.init([obj]);
-                    $scope.initUpload = true;
-                };
-                $scope.uploading = false;
-                $scope.imgUrl = [];
-                $scope.delImg = function (i) {
-                    $scope.imgUrl.splice(i, 1);
-                };
-                $scope.submitPayInfo = function () {
-                    $scope.payInfoForm.$submitted = true;
-                    if ($scope.payInfoForm.$valid && $scope.payInfo.channel && $scope.imgUrl.length > 0) {
-                        $scope.payInfo.imgUrl = $scope.imgUrl.join();
-                        console.log($scope.payInfo);
-                        appApi.savePaymentOrder($scope.payInfo, function (data) {
-                            console.log(1231323);
-                            toastr.success('提交成功');
-                            $scope.$modal.modal('hide');
-                            $rootScope.$broadcast('loadPayInfo');
-                        });
-                    }
-                };
-                $scope.$modal.on('shown.bs.modal', function () {
-                    if (!$scope.initUpload) {
-                        $scope.ossInit();
-                    }
-                });
-                $scope.$modal.on('hide.bs.modal', function () {
-                    if ($scope.payInfoForm.$dirty) {
-                        $scope.payInfo = {};
-                    }
-                    ;
-                    $scope.uploading = false;
-                    $scope.imgUrl = [];
-                    $scope.payInfoForm.$setPristine();
-                    $scope.payInfoForm.$setUntouched();
-                });
-                var showAddPay = $scope.$on('showAddPay', function (e, id) {
-                    $scope.$modal.modal('show');
-                    $scope.orderNo = id;
-                    $scope.payInfo = {
-                        orderNo: $scope.orderNo,
-                        paymentTimeStr: moment().format('YYYY-MM-DD HH:mm:ss')
-                    };
-                });
-                $scope.$on('$destory', function () {
-                    showAddPay();
-                });
-            }
-        };
-    });
     appDirectives.directive('clientUpdate', function ($rootScope, appApi) {
         return {
             restrict: 'E',
@@ -23887,6 +23489,89 @@ define('appServices', [
                     complete: com
                 });
             };
+            this.listServiceProduct = function (suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/product/listServiceProduct',
+                    success: suc
+                });
+            };
+            this.listCarDisc = function (data, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/product/listCarDisc',
+                    data: data,
+                    success: suc
+                });
+            };
+            this.listCarOrderBack = function (mobile, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/order/listCarOrderBack',
+                    data: { mobile: mobile },
+                    success: suc
+                });
+            };
+            this.showServiceOrder = function (orderId, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/order/showServiceOrder',
+                    data: { orderId: orderId },
+                    success: suc
+                });
+            };
+            this.createServiceOrderBack = function (data, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/order/createServiceOrderBack',
+                    data: data,
+                    success: suc
+                });
+            };
+            this.getPriceInfo = function (id, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/posPay/getPriceInfo',
+                    data: { orderId: id },
+                    success: suc
+                });
+            };
+            this.unifiedOrder = function (data, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/posPay/unifiedOrder',
+                    data: data,
+                    success: suc
+                });
+            };
+            this.rePosPay = function (data, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/posPay/rePosPay',
+                    data: data,
+                    success: suc
+                });
+            };
+            this.offPay = function (id, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/posPay/offPay',
+                    data: { paymentId: id },
+                    success: suc
+                });
+            };
+            this.unifiedRefund = function (data, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/posPay/unifiedRefund',
+                    data: data,
+                    success: suc
+                });
+            };
+            this.listCarDisc = function (data, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/product/listCarDisc',
+                    data: data,
+                    success: suc
+                });
+            };
+            this.isSuccess = function (id, suc) {
+                appHttp.appPost({
+                    url: baseSet.postServer + 'api/v2/posPay/isSuccess',
+                    data: { paymentId: id },
+                    success: suc
+                });
+            };
         }
     ]);
     appServices.service('ArrayhasObj', function () {
@@ -23955,6 +23640,24 @@ define('appFactorys', [
                     watch();
                 }
             });
+        };
+    });
+    appFactorys.factory('getPayStatuDisplay', function () {
+        return function (s) {
+            var statu = '';
+            switch (s) {
+            case 0:
+                statu = '未支付';
+                break;
+            case 1:
+                statu = '已支付';
+                break;
+            case 2:
+                statu = '已取消';
+                break;
+            }
+            ;
+            return statu;
         };
     });
     appFactorys.factory('getStatuDisplay', function () {
@@ -24178,6 +23881,20 @@ define('appFactorys', [
     });
     appFactorys.factory('enumData', function () {
         return {
+            payType: [
+                {
+                    name: '全款',
+                    value: 0
+                },
+                {
+                    name: '定金',
+                    value: 1
+                },
+                {
+                    name: '分期',
+                    value: 2
+                }
+            ],
             yesOrNo: [
                 {
                     name: '是',
@@ -24230,6 +23947,10 @@ define('appFactorys', [
                 {
                     name: '周边商品',
                     value: 1
+                },
+                {
+                    name: '服务',
+                    value: 2
                 }
             ],
             gender: [
@@ -24490,6 +24211,182 @@ define('appFactorys', [
                     name: '41-45岁'
                 }
             ]
+        };
+    });
+});
+'use strict';
+define('appFilters', [
+    'angular',
+    'moment'
+], function (angular, moment) {
+    'use strict';
+    var appFilters = angular.module('app.filters', []);
+    appFilters.filter('trustHtml', function ($sce) {
+        return function (input) {
+            return $sce.trustAsHtml(input);
+        };
+    });
+    appFilters.filter('formatGender', function ($rootScope) {
+        return function (genderId) {
+            var gender;
+            switch (+genderId) {
+            case 0:
+                gender = '保密';
+                break;
+            case 1:
+                gender = '女';
+                break;
+            case 2:
+                gender = '男';
+                break;
+            default:
+                gender = '未知';
+            }
+            return gender;
+        };
+    });
+    appFilters.filter('formatChannel', function () {
+        return function (channelId) {
+            var channelName;
+            switch (+channelId) {
+            case 1:
+                channelName = '支付宝';
+                break;
+            case 2:
+                channelName = '微信';
+                break;
+            case 3:
+                channelName = '网银';
+                break;
+            case 4:
+                channelName = '线下';
+                break;
+            default:
+                channelName = '--';
+            }
+            return channelName;
+        };
+    });
+    appFilters.filter('payStatuDisplay', function () {
+        return function (s) {
+            var display = '';
+            switch (s) {
+            case 0:
+                display = '未支付';
+                break;
+            case 1:
+                display = '已支付';
+                break;
+            case 2:
+                display = '已取消';
+                break;
+            }
+            ;
+            return display;
+        };
+    });
+    appFilters.filter('dateFormat', function () {
+        return function (d) {
+            return moment(d).format('YYYY-MM-DD HH:mm:ss');
+        };
+    });
+    appFilters.filter('orderStatu', function () {
+        return function (s) {
+            var statu = '';
+            switch (s) {
+            case 1:
+                statu = '待付款';
+                break;
+            case 2:
+                statu = '已关闭';
+                break;
+            case 3:
+                statu = '已付款,待排产';
+                break;
+            case 4:
+                statu = '已排产';
+                break;
+            case 5:
+                statu = '已结清';
+                break;
+            case 6:
+                statu = '申请退款';
+                break;
+            case 7:
+                statu = '已退款';
+                break;
+            case 9:
+                statu = '退款中';
+                break;
+            case 10:
+                statu = '支付中';
+                break;
+            }
+            ;
+            return statu;
+        };
+    });
+    appFilters.filter('serviceOrderStatu', function () {
+        return function (s) {
+            var statu = '';
+            switch (s) {
+            case 1:
+                statu = '待付款';
+                break;
+            case 2:
+                statu = '已关闭';
+                break;
+            case 3:
+                statu = '已付款';
+                break;
+            case 4:
+                statu = '处理中';
+                break;
+            case 5:
+                statu = '已结清';
+                break;
+            case 6:
+                statu = '申请退款';
+                break;
+            case 7:
+                statu = '已退款';
+                break;
+            }
+            ;
+            return statu;
+        };
+    });
+    appFilters.filter('itemOrderStatu', function () {
+        return function (s) {
+            var statu = '';
+            switch (s) {
+            case 1:
+                statu = '待付款';
+                break;
+            case 2:
+                statu = '已关闭';
+                break;
+            case 3:
+                statu = '已付款';
+                break;
+            case 4:
+                statu = '已排产';
+                break;
+            case 5:
+                statu = '已结清';
+                break;
+            case 6:
+                statu = '申请退款';
+                break;
+            case 7:
+                statu = '已退款';
+                break;
+            case 9:
+                statu = '退款中';
+                break;
+            }
+            ;
+            return statu;
         };
     });
 });
@@ -25633,6 +25530,819 @@ define('appTouch', [
         };
         this.$get = function () {
             return opts;
+        };
+    });
+});
+'use strict';
+define('appOrderDetail', [
+    'angular',
+    'moment',
+    'jquery',
+    'nprogress',
+    'toastr'
+], function (angular, moment, $, NProgress, toastr) {
+    'use strict';
+    var appDirectives = angular.module('app.orderDetail', []);
+    appDirectives.directive('orderDetail', function ($rootScope, appApi, $compile) {
+        return {
+            restrict: 'E',
+            scope: {},
+            replace: true,
+            template: '\n\t\t\t\t<div class="order-info">\n\t\t\t\t\t<header class="clearfix">\n\t\t\t\t\t\t<a class="button pull-left" hm-tap="back">返回</a>\n\t\t\t\t\t\t<span class="pull-left">订单详情&nbsp;&nbsp;(编号:{{orderDetail.orderNo}})</span>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class="info-block">\n\t\t\t\t\t\t<h3>购车人信息:</h3>\n\t\t\t\t\t\t<div class="info-body">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人:</span><i>{{orderDetail.buyerName}} {{\'(\' + (orderDetail.gender | formatGender) + \')\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人手机号:</span><i>{{orderDetail.buyerMobile}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人证件号码:</span><i>{{orderDetail.buyerIdCard}}</i >\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>收货人姓名:</span><i>{{orderDetail.buyerName}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>收货人手机号:</span><i>{{orderDetail.buyerMobile}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block">\n\t\t\t\t\t\t<h3>订单信息:</h3>\n\t\t\t\t\t\t<div class="info-body" ng-show="orderDetail&&(orderDetail.type == 0 || orderDetail.type == 2)">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>活动名称:</span><i>{{orderDetail.promotionName}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>活动条款:</span><i>{{orderDetail.terms}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>活动金额:</span><i>{{orderDetail.discountPrice}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>优惠审核状态:</span><i>{{orderDetail.organization}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>提车地址:</span><i>{{orderDetail.storeAddress}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>公司:</span><i>{{orderDetail.organization}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>结清时间:</span><i>{{orderDetail.formatConfirmTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>状态:</span>\n\t\t\t\t\t\t\t\t<i>{{orderDetail.status | orderStatu}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>优惠金额:</span><i>{{orderDetail.discountPrice  | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>数量:</span><i>{{orderDetail.quantity || 1}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>原价:</span><i>{{orderDetail.productPrice | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>现价:</span><i>{{(orderDetail.productPrice - orderDetail.discountPrice)  | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="info-body" ng-show="orderDetail&&orderDetail.type == 1">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>优惠审核状态:</span><i>15012119780906771X150121</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>提货地址:</span><i>{{orderDetail.storeAddress}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>支付时间:</span><i>{{orderDetail.formatPaymentTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>结清时间:</span><i>{{orderDetail.formatConfirmTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>状态:</span><i>{{orderDetail.status | itemOrderStatu}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>数量:</span><i>{{orderDetail.quantity || 1}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>价格:</span><i>{{(orderDetail.amount * 1)  | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="info-body" ng-show="orderDetail&&orderDetail.type == 3">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购车订单编号:</span><i>{{orderDetail.orderNo}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>状态:</span><i>{{orderDetail.status | serviceOrderStatu}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>数量:</span><i>{{orderDetail.quantity || 1}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>总价:</span><i>{{orderDetail.amount | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block pay-info">\n\t\t\t\t\t\t<h3 class="clearfix">\n\t\t\t\t\t\t\t<span class="channel">支付渠道</span>\n\t\t\t\t\t\t\t<span class="pay-no">支付号</span>\n\t\t\t\t\t\t\t<span class="pay-amount">支付金额</span>\n\t\t\t\t\t\t\t<span class="pay-state">状态</span>\n\t\t\t\t\t\t\t<span class="pay-date">支付时间</span>\n\t\t\t\t\t\t\t<span class="pay-memo">备注</span>\n\t\t\t\t\t\t\t<span class="pay-code">支付码</span>\n\t\t\t\t\t\t\t<span class="handle">操作</span>\n\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t<div class="info-body clearfix">\n\t\t\t\t\t\t\t<div class="line pull-left" ng-repeat="item in payment track by $index">\n\t\t\t\t\t\t\t\t<span class="channel">{{item.channel | formatChannel}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-no">{{item.merOrderNo?item.merOrderNo:\'null\'}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-amount">{{item.amount | currency:\'\uFFE5\'}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-state">{{item.status | payStatuDisplay}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-date">{{item.paymentTimeFormat}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-memo">{{item.comment?item.comment:\'无\'}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-code" hm-tap="showPayCode(item)"><i class="icon" ng-if="item.status==0&&item.type==0">&#xe608;</i ng-if="item.status!=0||item.type!=0"><i ng-if="item.status!=0||item.type!=0">无</i></span>\n\t\t\t\t\t\t\t\t<span class="handle"><a class="button small" hm-tap="cancel(item)" ng-if="item.status==0&&item.type==0">取消</a><a class="button small" hm-tap="refund(item)" ng-if="item.status==1&&item.type==0">退款</a></span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="info-footer">\n\t\t\t\t\t\t\t<a class="button" hm-tap="addPay()">新增支付信息</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block pay-info" ng-show="carInfo.VIN">\n\t\t\t\t\t\t<h3 class="clearfix">车辆信息\uFF1A</h3>\n\t\t\t\t\t\t<div class="info-body clearfix">\n\t\t\t\t\t\t\t<div class="line pull-left" ng-repeat="item in carInfo track by $index">\n\t\t\t\t\t\t\t\t<span class="vin">VIN:{{item.VIN }}</span>\n\t\t\t\t\t\t\t\t<span class="vsn">VSN: {{item.VSN}}</span>\n\t\t\t\t\t\t\t\t<span class="">发动机号\uFF1A{{item.no}}</span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block appoint-info" ng-show="appoints.length > 0">\n\t\t\t\t\t\t<h3 class="clearfix">邀约信息\uFF1A</h3>\n\t\t\t\t\t\t<div class="info-body">\n\t\t\t\t\t\t\t<div class="line" ng-repeat="item in appoints track by $index">\n\t\t\t\t\t\t\t\t<p>{{item.deliveryStageName}}:  {{item.nickname}} {{item.time}}</p>\n\t\t\t\t\t\t\t\t<p>备注:&nbsp&nbsp&nbsp&nbsp{{item.comments}}</p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block service-info" ng-show="orderDetail.type==0||orderDetail.type==2">\n\t\t\t\t\t\t<h3 class="clearfix">\n\t\t\t\t\t\t\t<span class="item">商品</span>\n\t\t\t\t\t\t\t<span class="price">价钱</span>\n\t\t\t\t\t\t\t<span class="state">状态</span>\n\t\t\t\t\t\t\t<span class="date">下单时间</span>\n\t\t\t\t\t\t\t<span class="handle">操作</span>\n\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t<div class="info-body clearfix" ng-repeat="item in serviceOrder track by $index">\n\t\t\t\t\t\t\t<div class="line pull-left">\n\t\t\t\t\t\t\t\t<span class="item">{{item.productName}}</span>\n\t\t\t\t\t\t\t\t<span class="price">{{item.productPrice | currency:\'\uFFE5\'}}</span>\n\t\t\t\t\t\t\t\t<span class="state">{{item.status | orderStatu}}</span>\n\t\t\t\t\t\t\t\t<span class="date">{{item.createdTime | dateFormat}}</span>\n\t\t\t\t\t\t\t\t<span class="handle"><a class="button small" hm-tap="serviceDetail(item)">详情</a></span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="info-footer">\n\t\t\t\t\t\t\t<a class="button" hm-tap="addServiceOrder(orderDetail)">新增服务订单</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="modal fade custom-modal pay-code-modal" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t\t\t<a class="iconfont" data-dismiss="modal">&#xe60e;</a>\n\t\t\t\t\t\t\t<img src=""/>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="modal fade custom-modal refund-modal" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t\t\t<div class="modal-header">退款(编号:<i>1312312</i>)</div>\n\t\t\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t\t\t<div class="item clearfix">\n\t\t\t\t\t\t\t\t\t\t\t<span class="tag">待退款&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t\t\t<span class="val">\xA5<i class="amount">0</i></span>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t\t\t<div class="item clearfix">\n\t\t\t\t\t\t\t\t\t\t\t<span class="tag">支付类型&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t\t\t<span class="val">POS</span>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t\t\t<div class="item clearfix">\n\t\t\t\t\t\t\t\t\t\t\t<span class="tag">备注&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t\t\t<textarea class="default-textarea" rows="4"></textarea>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t\t\t<a class="button submit">确定</a>\n\t\t\t\t\t\t\t\t\t<a class="button" data-dismiss="modal">取消</a>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t',
+            controller: function controller($scope, $element, $attrs) {
+                $scope.$refundModal = $($element).find('.refund-modal').clone();
+                $scope.$payCodeModal = $($element).find('.pay-code-modal').clone();
+                $('body').append($scope.$payCodeModal);
+                $('body').append($scope.$refundModal);
+                setTimeout(function () {
+                    $($element).find('.pay-code-modal').remove();
+                    $($element).find('.refund-modal').remove();
+                }, 0);
+                $scope.addPayModal = false;
+                var orderId, orderNo;
+                $scope.back = function () {
+                    $scope.$emit('detailClose');
+                };
+                function init() {
+                    $scope.orderDetail = {};
+                    $scope.payment = [];
+                    $scope.appoints = [];
+                }
+                ;
+                var loadPayInfo = function loadPayInfo(orderNo) {
+                    appApi.getPayment({ orderNo: orderNo }, function (data) {
+                        $scope.payment = data.map(function (item) {
+                            item.paymentTimeFormat = item.paymentTime ? moment(item.paymentTime).format('YYYY-MM-DD HH:mm:ss') : '无';
+                            return item;
+                        });
+                    });
+                };
+                function getData(orderType) {
+                    appApi.getOrderDetail({ orderId: orderId }, function (data) {
+                        data.formatCreatedTime = moment(data.createdTime).format('YYYY-MM-DD HH:mm:ss');
+                        data.formatConfirmTime = !data.confirmTime ? '--' : moment(data.confirmTime).format('YYYY-MM-DD HH:mm:ss');
+                        orderNo = data.orderNo;
+                        $scope.orderDetail = data;
+                        NProgress.done();
+                        loadPayInfo(orderNo);
+                    });
+                    appApi.getAppointById({ orderId: orderId }, function (data) {
+                        $scope.appoints = data.map(function (item) {
+                            if (item.reservationStartTime && item.reservationEndTime)
+                                var startDay = moment(item.reservationStartTime).format('YYYY-MM-DD');
+                            var endDay = moment(item.reservationEndTime).format('YYYY-MM-DD');
+                            if (startDay == endDay) {
+                                var startTime = moment(item.reservationStartTime).format('HH:mm');
+                                var endTime = moment(item.reservationEndTime).format('HH:mm');
+                                item.time = startDay + ' ' + startTime + '-' + endTime;
+                            } else {
+                                var startTime = moment(item.reservationStartTime).format('YYYY-MM-DD HH:mm');
+                                var endTime = moment(item.reservationEndTime).format('YYYY-MM-DD HH:mm');
+                                item.time = startTime + '-' + endTime;
+                            }
+                            return item;
+                        });
+                    });
+                    if (orderType != '1' && orderType != '3') {
+                        appApi.getCarInfo({ orderId: orderId }, function (data) {
+                            $scope.carInfo = data;
+                        });
+                        appApi.showServiceOrder(orderId, function (d) {
+                            console.log(d);
+                            $scope.serviceOrder = d;
+                        });
+                    }
+                    ;
+                }
+                ;
+                $scope.addPay = function () {
+                    $rootScope.$broadcast('addPay', {
+                        orderNo: orderNo,
+                        orderId: orderId
+                    });
+                };
+                $scope.cancel = function (item) {
+                    if (window.confirm('是否取消支付信息?')) {
+                        appApi.offPay(item.paymentId, function (d) {
+                            toastr.success('提交成功');
+                            loadPayInfo(orderNo);
+                        });
+                    }
+                };
+                $scope.refund = function (item) {
+                    $scope.$refundModal.data('item', item).modal('show');
+                };
+                $scope.showPayCode = function (item) {
+                    appApi.rePosPay({
+                        orderId: orderId,
+                        paymentId: item.paymentId
+                    }, function (d) {
+                        $scope.$payCodeModal.data('data', d).modal('show');
+                    });
+                };
+                $scope.serviceDetail = function (i) {
+                    $rootScope.$broadcast('serviceShowDetail', i);
+                    $($element).removeClass('fadeIn').addClass('fadeOut');
+                    setTimeout(function () {
+                        $($element).hide();
+                    }, 100);
+                };
+                $scope.addServiceOrder = function (i) {
+                    $rootScope.$broadcast('addOrder', {
+                        service: true,
+                        item: i
+                    });
+                };
+                var hideServiceDetail = $rootScope.$on('hideServiceDetail', function (e, data) {
+                    $($element).show();
+                    setTimeout(function () {
+                        $($element).removeClass('fadeOut').addClass('fadeIn');
+                    }, 150);
+                });
+                var getPayInfo = $rootScope.$on('loadPayInfo', function (e, data) {
+                    loadPayInfo(orderNo);
+                    $scope.$payCodeModal.data('data', data).modal('show');
+                });
+                var showDetail = $scope.$on('showDetail', function (e, data) {
+                    NProgress.start();
+                    init();
+                    orderId = data.orderId;
+                    getData(data.type);
+                });
+                $scope.$refundModal.find('.submit').on('tap', function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    var data = $scope.$refundModal.data('item');
+                    appApi.unifiedRefund({
+                        paymentId: data.paymentId,
+                        merOrderNo: data.merOrderNo,
+                        remark: $scope.$refundModal.find('.default-textarea').val()
+                    }, function (d) {
+                        $scope.$refundModal.modal('hide');
+                        toastr.success('提交成功');
+                        $scope.$payCodeModal.data('src', d).modal('show');
+                    });
+                });
+                $scope.$refundModal.on('show.bs.modal', function () {
+                    $(this).find('.amount').text($(this).data('item').amount);
+                });
+                $scope.$refundModal.on('hidden.bs.modal', function () {
+                    $(this).find('.default-textarea').val('');
+                });
+                $scope.$payCodeModal.on('show.bs.modal', function () {
+                    var data = $(this).data('data');
+                    $(this).find('img').attr('src', data.img);
+                    $scope.clock = setInterval(function () {
+                        appApi.isSuccess(data.paymentId, function (d) {
+                            if (d.isSussess) {
+                                toastr.success('支付成功');
+                                $scope.$payCodeModal.modal('hide');
+                                loadPayInfo(orderNo);
+                                window.clearInterval($scope.clock);
+                            }
+                            ;
+                        });
+                    }, 1000);
+                });
+                $scope.$payCodeModal.on('hide.bs.modal', function () {
+                    window.clearInterval($scope.clock);
+                });
+                $scope.$on('$destroy', function () {
+                    getPayInfo();
+                    showDetail();
+                    hideServiceDetail();
+                    $scope.$refundModal.remove();
+                    $scope.$payCodeModal.remove();
+                });
+            }
+        };
+    });
+    appDirectives.directive('serviceOrderDetail', function ($rootScope, appApi, $compile) {
+        return {
+            restrict: 'E',
+            scope: {},
+            replace: true,
+            template: '\n\t\t\t\t<div class="order-info service-order-info">\n\t\t\t\t\t<header class="clearfix">\n\t\t\t\t\t\t<a class="button pull-left" hm-tap="back">返回</a>\n\t\t\t\t\t\t<span class="pull-left">服务订单详情&nbsp;&nbsp;(编号:{{orderDetail.orderNo}})</span>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class="info-block">\n\t\t\t\t\t\t<h3>购车人信息:</h3>\n\t\t\t\t\t\t<div class="info-body">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人:</span><i>{{orderDetail.buyerName}} {{\'(\' + (orderDetail.gender | formatGender) + \')\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人手机号:</span><i>{{orderDetail.buyerMobile}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购买人证件号码:</span><i>{{orderDetail.buyerIdCard}}</i >\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>收货人姓名:</span><i>{{orderDetail.buyerName}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>收货人手机号:</span><i>{{orderDetail.buyerMobile}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block">\n\t\t\t\t\t\t<h3>订单信息:</h3>\n\t\t\t\t\t\t<div class="info-body">\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>购车订单编号:</span><i>{{orderDetail.orderNo}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>下单时间:</span><i>{{orderDetail.formatCreatedTime}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>状态:</span><i>{{orderDetail.status | serviceOrderStatu}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>商品明细:</span><i>{{orderDetail.productDetail}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>数量:</span><i>{{orderDetail.quantity || 1}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<span>总价:</span><i>{{orderDetail.amount | currency:\'\uFFE5\'}}</i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="info-block pay-info">\n\t\t\t\t\t\t<h3 class="clearfix">\n\t\t\t\t\t\t\t<span class="channel">支付渠道</span>\n\t\t\t\t\t\t\t<span class="pay-no">支付号</span>\n\t\t\t\t\t\t\t<span class="pay-amount">支付金额</span>\n\t\t\t\t\t\t\t<span class="pay-state">状态</span>\n\t\t\t\t\t\t\t<span class="pay-date">支付时间</span>\n\t\t\t\t\t\t\t<span class="pay-memo">备注</span>\n\t\t\t\t\t\t\t<span class="pay-code">支付码</span>\n\t\t\t\t\t\t\t<span class="handle">操作</span>\n\t\t\t\t\t\t</h3>\n\t\t\t\t\t\t<div class="info-body clearfix">\n\t\t\t\t\t\t\t<div class="line pull-left" ng-repeat="item in payment track by $index">\n\t\t\t\t\t\t\t\t<span class="channel">{{item.channel | formatChannel}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-no">{{item.merOrderNo?item.merOrderNo:\'null\'}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-amount">{{item.amount | currency:\'\uFFE5\'}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-state">{{item.status | payStatuDisplay}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-date">{{item.paymentTimeFormat}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-memo">{{item.comment?item.comment:\'无\'}}</span>\n\t\t\t\t\t\t\t\t<span class="pay-code" hm-tap="showPayCode(item)"><i class="icon" ng-if="item.status==0&&item.type==0">&#xe608;</i><i ng-if="item.status!=0||item.type!=0">无</i></span>\n\t\t\t\t\t\t\t\t<span class="handle"><a class="button small" hm-tap="cancel(item)" ng-if="item.status==0&&item.type==0">取消</a><a class="button small" hm-tap="refund(item)" ng-if="item.status==1&&item.type==0">退款</a></span>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="info-footer">\n\t\t\t\t\t\t\t<a class="button" hm-tap="addPay()">新增支付信息</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="modal fade custom-modal service-pay-code-modal" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t\t\t<a class="iconfont" data-dismiss="modal">&#xe60e;</a>\n\t\t\t\t\t\t\t<img src=""/>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class="modal fade custom-modal service-refund-modal" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t\t\t<div class="modal-header">退款(编号:<i>1312312</i>)</div>\n\t\t\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t\t\t<div class="item clearfix">\n\t\t\t\t\t\t\t\t\t\t\t<span class="tag">待退款&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t\t\t<span class="val">\xA5<i class="amount">0</i></span>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t\t\t<div class="item clearfix">\n\t\t\t\t\t\t\t\t\t\t\t<span class="tag">支付类型&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t\t\t<span class="val">POS</span>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t\t\t<div class="item clearfix">\n\t\t\t\t\t\t\t\t\t\t\t<span class="tag">备注&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t\t\t<textarea class="default-textarea" rows="4"></textarea>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t\t\t<a class="button submit">确定</a>\n\t\t\t\t\t\t\t\t\t<a class="button" data-dismiss="modal">取消</a>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t',
+            controller: function controller($scope, $element, $attrs) {
+                $scope.$refundModal = $($element).find('.service-refund-modal').clone();
+                $scope.$payCodeModal = $($element).find('.service-pay-code-modal').clone();
+                $('body').append($scope.$payCodeModal);
+                $('body').append($scope.$refundModal);
+                setTimeout(function () {
+                    $($element).find('.service-pay-code-modal').remove();
+                    $($element).find('.service-refund-modal').remove();
+                }, 0);
+                $scope.addPayModal = false;
+                var orderId, orderNo;
+                $scope.back = function () {
+                    $($element).removeClass('fadeInUpNormal').addClass('fadeOut');
+                    setTimeout(function () {
+                        $($element).hide();
+                    }, 150);
+                    $rootScope.$broadcast('hideServiceDetail');
+                };
+                function init() {
+                    $scope.orderDetail = {};
+                    $scope.payment = [];
+                    $scope.appoints = [];
+                }
+                ;
+                var loadPayInfo = function loadPayInfo(orderNo) {
+                    appApi.getPayment({ orderNo: orderNo }, function (data) {
+                        $scope.payment = data.map(function (item) {
+                            item.paymentTimeFormat = item.paymentTime ? moment(item.paymentTime).format('YYYY-MM-DD HH:mm:ss') : '无';
+                            return item;
+                        });
+                    });
+                };
+                function getData(orderType) {
+                    appApi.getOrderDetail({ orderId: orderId }, function (data) {
+                        data.formatCreatedTime = moment(data.createdTime).format('YYYY-MM-DD HH:mm:ss');
+                        data.formatConfirmTime = !data.confirmTime ? '--' : moment(data.confirmTime).format('YYYY-MM-DD HH:mm:ss');
+                        orderNo = data.orderNo;
+                        $scope.orderDetail = data;
+                        NProgress.done();
+                        loadPayInfo(orderNo);
+                    });
+                }
+                ;
+                $scope.addPay = function () {
+                    $rootScope.$broadcast('addPay', {
+                        orderNo: orderNo,
+                        orderId: orderId,
+                        service: true
+                    });
+                };
+                $scope.cancel = function (item) {
+                    if (window.confirm('是否取消支付信息?')) {
+                        appApi.offPay(item.paymentId, function (d) {
+                            toastr.success('提交成功');
+                            loadPayInfo(orderNo);
+                        });
+                    }
+                };
+                $scope.refund = function (item) {
+                    $scope.$refundModal.data('item', item).modal('show');
+                };
+                $scope.showPayCode = function (item) {
+                    appApi.rePosPay({
+                        orderId: orderId,
+                        paymentId: item.paymentId
+                    }, function (d) {
+                        $scope.$payCodeModal.data('data', d).modal('show');
+                    });
+                };
+                var getPayInfo = $rootScope.$on('serviceLoadPayInfo', function (e, data) {
+                    loadPayInfo(orderNo);
+                    $scope.$payCodeModal.data('data', data).modal('show');
+                });
+                var showDetail = $rootScope.$on('serviceShowDetail', function (e, data) {
+                    $($element).show();
+                    setTimeout(function () {
+                        $($element).removeClass('fadeOut').addClass('fadeInUpNormal');
+                    }, 0);
+                    NProgress.start();
+                    init();
+                    orderId = data.orderId;
+                    console.log(orderId);
+                    getData(data.type);
+                });
+                $scope.$refundModal.find('.submit').on('tap', function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    var data = $scope.$refundModal.data('item');
+                    appApi.unifiedRefund({
+                        paymentId: data.paymentId,
+                        merOrderNo: data.merOrderNo,
+                        remark: $scope.$refundModal.find('.default-textarea').val()
+                    }, function (d) {
+                        $scope.$refundModal.modal('hide');
+                        toastr.success('提交成功');
+                        $scope.$payCodeModal.data('src', d).modal('show');
+                    });
+                });
+                $scope.$refundModal.on('show.bs.modal', function () {
+                    $(this).find('.amount').text($(this).data('item').amount);
+                });
+                $scope.$refundModal.on('hidden.bs.modal', function () {
+                    $(this).find('.default-textarea').val('');
+                });
+                $scope.$payCodeModal.on('show.bs.modal', function () {
+                    var data = $(this).data('data');
+                    $(this).find('img').attr('src', data.img);
+                });
+                $scope.$on('$destroy', function () {
+                    getPayInfo();
+                    showDetail();
+                    $scope.$refundModal.remove();
+                    $scope.$payCodeModal.remove();
+                });
+            }
+        };
+    });
+});
+'use strict';
+define('appNewOrder', [
+    'angular',
+    'moment',
+    'jquery',
+    'toastr'
+], function (angular, moment, $, toastr) {
+    'use strict';
+    var appDirectives = angular.module('app.newOrder', []);
+    appDirectives.directive('newOrder', function ($rootScope, appApi, $timeout) {
+        return {
+            restrict: 'E',
+            scope: { userId: '=' },
+            replace: true,
+            template: '\n\t\t\t\t<div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t\t<div class="modal-header">{{title}}</div>\n\t\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t\t<form id="orderForm" name="orderForm" novalidate onsubmit="return false;" ng-class="{\'form-submited\': orderForm.$submitted}">\n\t\t\t\t\t\t\t\t<div class="config">\n\t\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t\t<span>类别:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.chebie.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="chebie" chosen required placeholder-text-single="\'请选择\'" ng-disabled="service" ng-model="orderModel.orderType" ng-options="item.value as item.name for item in $root.enumData.orderType" disable-search="true" width="256" ng-change="typeChange()">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t    \t\t\t\t\t\t\t</select>\n\t\t    \t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车系:</span>\n\t\t\t\t\t\t\t\t\t\t <select chosen disabled width="256" ng-model="orderModel.product">\n\t\t\t\t\t\t\t\t\t\t \t<option value="" select>E-100</option>\n\t\t    \t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车型:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.chexing.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="chexing" chosen required placeholder-text-single="\'请选择\'" ng-model=\'selectProduct\' width="256" disable-search="true" ng-change="productChange(selectProduct)"  ng-options="item.productName for item in listCar">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车顶颜色:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.cheding.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="cheding" chosen required placeholder-text-single="\'请选择\'" ng-change="changeColorOne(selectOrder.selectColorOne)" width="256"  ng-model="selectOrder.selectColorOne" ng-options="item for item in colorOne.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>车身颜色:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.cheshen.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="cheshen" chosen required placeholder-text-single="\'请选择\'" ng-change="changeColorTow(selectOrder.selectColorTow)" width="256"  ng-model="selectOrder.selectColorTow" ng-options=" item for item in colorTow.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>内饰颜色:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.neishi.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="neishi" chosen required placeholder-text-single="\'请选择\'" width="256"  ng-model="orderModel.level3Type" ng-options="item for item in colorThree.select" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>配件:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" multiple chosen placeholder-text-multiple="\'请选择\'" width="256" ng-change="selectPei(orderModel.data)"  ng-model="orderModel.data" ng-options="item.productId as item.productName for item in peiList" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>活动优惠:</span>\n\t\t\t\t\t\t\t\t\t\t<select name="" chosen placeholder-text-single="\'请选择\'" ng-change="promotionChange(selectOrder.selectPromotion)" width="256" chosen id="" ng-model="selectOrder.selectPromotion" ng-options="item.promotionName for item in promotions" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t<span class="subjoin" ng-bind="selectOrder.selectPromotion.discount"></span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>支付方式:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.payType.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="payType" required chosen placeholder-text-single="\'请选择\'" ng-change="payTypeChange(orderModel.payType)" width="256" chosen id="" ng-model="orderModel.payType" ng-options="item.value as item.name for item in $root.enumData.payType" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<span class="subjoin" ng-if="orderModel.payType==0">全款立减100</span>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>提车门店:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.tiche.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="tiche" chosen required placeholder-text-single="\'请选择\'" width="256" ng-model="orderModel.storeId" ng-options="item.storeId as item.storeName for item in listStore" ng-change="storeChange()"  id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t\t\t<span>公司:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.organization" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>手机号:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.mobile" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>姓名:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.realname" required type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 0&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>身份证:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" ng-model="orderModel.idCard" required idcard-check type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>分类1:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.class1.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="class1" chosen required width="256" placeholder-text-single="\'请选择\'" ng-change="changeLv1(selectOrder.classlv1)" ng-model="selectOrder.classlv1" ng-options="item for item in listClassLv1" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>分类2:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.class2.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="class2" chosen required width="256" placeholder-text-single="\'请选择\'" ng-change="changeLv2(selectOrder.classlv2)" ng-model="selectOrder.classlv2" ng-options="item for item in listClassLv2" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>商品:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.chep.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="chep" chosen required width="256" placeholder-text-single="\'请选择\'" ng-change="chooseProduct(selectOrder.selectProduct)" ng-model="selectOrder.selectProduct" ng-options="item.productName for item in productsData" id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t\t\t<span>提货地点:</span>\n\t\t\t\t\t\t\t\t\t\t<div ng-class="{\'ng-invalid\': orderForm.tihuo.$invalid}">\n\t\t\t\t\t\t\t\t\t\t\t<select name="tihuo" chosen required width="256" placeholder-text-single="\'请选择\'" ng-model="productModel.storeId" ng-options="item.storeId as item.storeName for item in listStore"  id="" disable-search="true">\n\t\t\t\t\t\t\t\t\t\t\t\t<option value="">请选择</option>\n\t\t\t\t\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="(orderModel.orderType === 1||orderModel.orderType === 2)&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>手机号:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" name="buyerphone" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" ng-readonly="service" ng-model="productModel.mobile" type="number" ng-change="mobileChange()" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>姓名:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" name="realname" required ng-model="productModel.realname" type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 1&&!userId">\n\t\t\t\t\t\t\t\t\t\t<span>身份证:</span>\n\t\t\t\t\t\t\t\t\t\t<div class="form-input-wrapper">\n\t\t\t\t\t\t\t\t\t\t\t<input class="default-input" name="cardId" required ng-model="productModel.idCard" idcard-check type="text" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item" ng-if="orderModel.orderType === 2">\n\t\t\t\t\t\t\t\t\t\t<span>商品:</span>\n\t\t\t\t\t\t\t\t\t\t<drop-down ng-class="{\'error\':orderForm.$submitted&&(serviceModel.productId==\'\'||serviceModel.productId==undefined)}" render-data="serviceProduct" display="\'productName\'" val="\'productId\'" model="serviceModel.productId" click-event="cityClick"></drop-down>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item item-2 license" ng-if="orderModel.orderType === 2">\n\t\t\t\t\t\t\t\t\t\t<span>上牌地点:</span>\n\t\t\t\t\t\t\t\t\t\t<drop-down ng-class="{\'error\':orderForm.$submitted&&(serviceModel.provinceId==\'\'||serviceModel.provinceId==undefined)}" render-data="$root.enumData.regionList" display="\'provinceName\'" val="\'provinceId\'" model="serviceModel.provinceId" click-event="provinceClick"></drop-down>\n\t\t\t\t\t\t\t\t\t\t<drop-down ng-class="{\'error\':orderForm.$submitted&&(serviceModel.cityId==\'\'||serviceModel.cityId==undefined)}" render-data="cityList" display="\'cityName\'" val="\'cityId\'" model="serviceModel.cityId" click-event="cityClick"></drop-down>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class="item item-3" ng-if="orderModel.orderType === 2">\n\t\t\t\t\t\t\t\t\t\t<span>购车订单:</span>\n\t\t\t\t\t\t\t\t\t\t<drop-down ng-class="{\'error\':orderForm.$submitted&&(serviceModel.orderId==\'\'||serviceModel.orderId==undefined)}" render-data="userOrderList" display="\'productDetail\'" val="\'orderId\'" model="serviceModel.orderId"></drop-down>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t<div class="price-info" ng-if="orderModel.orderType === 0">\n\t\t\t\t\t\t\t\t<p>车价:<i>{{carDisPrice?carDisPrice:carPrice | currency:\'\uFFE5\'}}</i></p>\n\t\t\t\t\t\t\t\t<p>配件:<i>{{peiPrice?peiPrice:0 | currency:\'\uFFE5\'}}</i></p>\n\t\t\t\t\t\t\t\t<p>活动优惠:<i>\xA52000.00</i></p>\n\t\t\t\t\t\t\t\t<p>团购优惠:<i>{{selectOrder.selectPromotion.discount?selectOrder.selectPromotion.discount:0 | currency:\'\uFFE5\'}}</i></p>\n\t\t\t\t\t\t\t\t<p>地区补贴:<i>{{subsidy?subsidy:0 | currency:\'\uFFE5\'}}</i></p>\n\t\t\t\t\t\t\t\t<p class="total color-bdprimary">总价:<i>{{getSum() | currency:\'\uFFE5\'}}</i><span class="other-cost" ng-if="orderModel.payType==1">定金 : \xA52000.00</span><span class="other-cost" ng-if="orderModel.payType==2">分期 : \xA52000.00</span></p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="price-info" ng-if="orderModel.orderType === 1">\n\t\t\t\t\t\t\t\t<p class="total color-bdprimary">总价:<i><em>\xA5</em>{{productPrice?productPrice:0}}</i></p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="price-info" ng-if="orderModel.orderType === 2">\n\t\t\t\t\t\t\t\t<p class="total color-bdprimary">总价:<i><em>\xA5</em>{{serviceTotal?serviceTotal:0}}</i></p>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="btn-wrapper">\n\t\t\t\t\t\t\t\t<a class="button" hm-tap="submit">确定</a>\n\t\t\t\t\t\t\t\t<a class="button" hm-tap="closeModal">取消</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t',
+            controller: function controller($scope, $element, $attrs) {
+                $scope.title = '创建订单';
+            },
+            link: function link($scope, $elements, $attrs, controllers) {
+                $scope.$modal = $($elements);
+                $scope.payDiscounts = 0;
+                var orderModelDefault = {
+                    orderType: '',
+                    product: '',
+                    level1Type: '',
+                    level2Type: '',
+                    data: '',
+                    promotionId: '',
+                    storeId: '',
+                    idCard: '',
+                    organization: ''
+                };
+                var productModelDefault = {
+                    productId: '',
+                    storeId: ''
+                };
+                var serviceModelDefault = {
+                    accountId: $rootScope.loginfo.account.accountId,
+                    storeId: $rootScope.storeId
+                };
+                function init() {
+                    $scope.colorOne = {};
+                    $scope.colorTow = {};
+                    $scope.colorThree = {};
+                    $scope.orderModel || ($scope.orderModel = Object.assign({}, orderModelDefault));
+                    $scope.productModel || ($scope.productModel = Object.assign({}, productModelDefault));
+                    console.log($scope.productModel);
+                    $scope.serviceModel || ($scope.serviceModel = Object.assign({}, serviceModelDefault));
+                    $scope.selectOrder = {
+                        selectColorOne: '',
+                        selectColorTow: '',
+                        selectPromotion: {},
+                        classlv1: '',
+                        classlv2: '',
+                        selectProduct: ''
+                    };
+                }
+                ;
+                init();
+                appApi.listCar(function (data) {
+                    $scope.listCar = data.map(function (item) {
+                        return {
+                            productName: item.productName.split('-')[1],
+                            productId: item.productId,
+                            defaultPrice: item.defaultPrice,
+                            deposit: item.deposit,
+                            peiList: item.peiList
+                        };
+                    });
+                });
+                appApi.getPromotion(function (data) {
+                    $scope.promotions = data;
+                    console.log($scope.promotions);
+                });
+                appApi.listStoreMall(function (data) {
+                    $scope.listStore = data;
+                });
+                appApi.listClassifyLv1(function (data) {
+                    $scope.listClassLv1 = data;
+                });
+                appApi.listServiceProduct(function (data) {
+                    $scope.serviceProduct = data;
+                    console.log(data);
+                });
+                function getColor(data, fn) {
+                    appApi.getCarColor(data, function (d) {
+                        fn(d);
+                    });
+                }
+                ;
+                function getProductType(data, fn) {
+                    appApi.listClassify(data, function (d) {
+                        fn(d);
+                    });
+                }
+                ;
+                var getSubsidy = function getSubsidy() {
+                    if ($scope.orderModel.storeId) {
+                        var provinceId = undefined, cityId = undefined;
+                        var _iteratorNormalCompletion = true;
+                        var _didIteratorError = false;
+                        var _iteratorError = undefined;
+                        try {
+                            for (var _iterator = $scope.listStore[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                                var item = _step.value;
+                                if (item.storeId == $scope.orderModel.storeId) {
+                                    provinceId = item.provinceId;
+                                    cityId = item.cityId;
+                                }
+                                ;
+                            }
+                        } catch (err) {
+                            _didIteratorError = true;
+                            _iteratorError = err;
+                        } finally {
+                            try {
+                                if (!_iteratorNormalCompletion && _iterator.return) {
+                                    _iterator.return();
+                                }
+                            } finally {
+                                if (_didIteratorError) {
+                                    throw _iteratorError;
+                                }
+                            }
+                        }
+                        ;
+                        console.log(provinceId);
+                        console.log(cityId);
+                        $scope.subsidy = undefined;
+                        $scope.carDisPrice = undefined;
+                        appApi.listCarDisc({
+                            isUse: 1,
+                            provinceId: provinceId,
+                            cityId: cityId,
+                            productId: $scope.orderModel.productId
+                        }, function (data) {
+                            if (data.length) {
+                                $scope.subsidy = data[0].changDisc + data[0].diDisc + data[0].guoDisc;
+                                $scope.carDisPrice = data[0].price;
+                                $scope.carDiscDeployId = data[0].carDiscDeployId;
+                            }
+                            ;
+                        });
+                    }
+                };
+                var listCarDisc = function listCarDisc() {
+                    appApi.listCarDisc({
+                        isUse: 1,
+                        provinceId: $scope.serviceModel.provinceId,
+                        cityId: $scope.serviceModel.cityId,
+                        productId: $scope.serviceModel.productId
+                    }, function (d) {
+                        if (d.length != 0) {
+                            $scope.serviceTotal = d[0].price;
+                            $scope.serviceModel.carDiscDeployId = d[0].carDiscDeployId;
+                        } else {
+                            var _iteratorNormalCompletion2 = true;
+                            var _didIteratorError2 = false;
+                            var _iteratorError2 = undefined;
+                            try {
+                                for (var _iterator2 = $scope.serviceProduct[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                                    var item = _step2.value;
+                                    if (item.productId == $scope.serviceModel.productId) {
+                                        $scope.serviceTotal = item.defaultPrice;
+                                    }
+                                }
+                            } catch (err) {
+                                _didIteratorError2 = true;
+                                _iteratorError2 = err;
+                            } finally {
+                                try {
+                                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                        _iterator2.return();
+                                    }
+                                } finally {
+                                    if (_didIteratorError2) {
+                                        throw _iteratorError2;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                };
+                var getCityList = function getCityList() {
+                    $scope.cityList = [];
+                    var _iteratorNormalCompletion3 = true;
+                    var _didIteratorError3 = false;
+                    var _iteratorError3 = undefined;
+                    try {
+                        for (var _iterator3 = $rootScope.enumData.regionList[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                            var item = _step3.value;
+                            if (item.provinceId == $scope.serviceModel.provinceId) {
+                                $scope.cityList = item.cityList;
+                            }
+                        }
+                    } catch (err) {
+                        _didIteratorError3 = true;
+                        _iteratorError3 = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                                _iterator3.return();
+                            }
+                        } finally {
+                            if (_didIteratorError3) {
+                                throw _iteratorError3;
+                            }
+                        }
+                    }
+                    ;
+                };
+                if ($scope.serviceModel.provinceId != undefined) {
+                    getCityList();
+                }
+                ;
+                $scope.provinceClick = function () {
+                    $timeout(function () {
+                        getCityList();
+                    }, 0);
+                    $scope.serviceModel.cityId = '';
+                };
+                $scope.cityClick = function () {
+                    $timeout(function () {
+                        if ($scope.serviceModel.provinceId && $scope.serviceModel.cityId && $scope.serviceModel.productId) {
+                            listCarDisc();
+                        }
+                    }, 0);
+                };
+                $scope.storeChange = function () {
+                    $timeout(function () {
+                        getSubsidy();
+                        console.log(666);
+                    }, 0);
+                };
+                $scope.mobileChange = function () {
+                    appApi.listCarOrderBack($scope.productModel.mobile, function (d) {
+                        console.log(d);
+                        $scope.userOrderList = d.list;
+                    });
+                };
+                $scope.typeChange = function () {
+                    console.log($scope.orderType);
+                };
+                $scope.productChange = function (product) {
+                    console.log('select: ', product);
+                    if ($scope.orderModel.productId == product.productId)
+                        return;
+                    $scope.orderForm.$submitted = true;
+                    $scope.orderModel.productId = product.productId;
+                    $scope.peiList = product.peiList;
+                    $scope.carPrice = product.defaultPrice;
+                    $scope.colorThree = {};
+                    $scope.colorTow = {};
+                    $scope.selectOrder.selectColorOne = '';
+                    $scope.selectOrder.selectColorTow = '';
+                    $scope.orderModel.level1Type = '';
+                    $scope.orderModel.level2Type = '';
+                    $scope.orderModel.level3Type = '';
+                    getColor({ productId: product.productId }, function (data) {
+                        $scope.colorOne = data;
+                    });
+                    getSubsidy();
+                };
+                $scope.changeColorOne = function (colorOne) {
+                    if (colorOne === $scope.orderModel.level1Type)
+                        return;
+                    $scope.orderModel.level1Type = colorOne;
+                    $scope.orderModel.level2Type = '';
+                    $scope.orderModel.level3Type = '';
+                    $scope.selectOrder.selectColorTow = '';
+                    $scope.colorThree = {};
+                    getColor({
+                        productId: $scope.orderModel.productId,
+                        level1Type: colorOne
+                    }, function (data) {
+                        $scope.colorTow = data;
+                    });
+                };
+                $scope.changeColorTow = function (colorTow) {
+                    if (colorTow === $scope.orderModel.level1Type)
+                        return;
+                    $scope.orderModel.level2Type = colorTow;
+                    $scope.orderModel.level3Type = '';
+                    getColor({
+                        productId: $scope.orderModel.productId,
+                        level1Type: $scope.orderModel.level1Type,
+                        level2Type: $scope.orderModel.level2Type
+                    }, function (data) {
+                        $scope.colorThree = data;
+                    });
+                };
+                var typeObj = {};
+                $scope.changeLv1 = function (classlv1) {
+                    if (classlv1 === typeObj.classlv1)
+                        return;
+                    typeObj.classlv1 = classlv1;
+                    $scope.productsData = undefined;
+                    $scope.selectOrder.selectProduct = undefined;
+                    $scope.selectOrder.classlv2 = '';
+                    if (classlv1 === '')
+                        return;
+                    getProductType({ subtype: classlv1 }, function (data) {
+                        $scope.listClassLv2 = data.list;
+                    });
+                };
+                $scope.changeLv2 = function (classlv2) {
+                    appApi.listProduct({
+                        subtype: $scope.selectOrder.classlv1,
+                        subtype2: classlv2
+                    }, function (data) {
+                        $scope.productsData = data;
+                    });
+                };
+                $scope.promotionChange = function (promotion) {
+                    if (promotion.promotionId === $scope.orderModel.promotionId)
+                        return;
+                    $scope.orderModel.promotionId = promotion.promotionId;
+                };
+                $scope.selectPei = function (peiArr) {
+                    var peiPrice = 0;
+                    $scope.peiList.forEach(function (item) {
+                        if (peiArr.indexOf(item.productId) > -1) {
+                            peiPrice += Number(item.default_price);
+                        }
+                    });
+                    $scope.peiPrice = peiPrice;
+                };
+                $scope.chooseProduct = function (product) {
+                    $scope.productModel.productId = product.productId;
+                    $scope.productPrice = product.defaultPrice;
+                };
+                $scope.payTypeChange = function (t) {
+                    console.log(t);
+                    if (t === 0) {
+                        $scope.payDiscounts = 100;
+                    } else {
+                        $scope.payDiscounts = 0;
+                    }
+                };
+                $scope.closeModal = function () {
+                    $scope.$modal.modal('toggle');
+                    init();
+                };
+                $scope.getSum = function () {
+                    var carPrice = angular.isNumber($scope.carDisPrice) ? +$scope.carDisPrice : angular.isNumber($scope.carPrice) ? +$scope.carPrice : 0;
+                    var pei = angular.isNumber($scope.peiPrice) ? +$scope.peiPrice : 0;
+                    var discount = angular.isNumber($scope.selectOrder.selectPromotion) ? +$scope.discount : 0;
+                    var subsidy = angular.isNumber($scope.subsidy) ? +$scope.subsidy : 0;
+                    var total = carPrice + pei - discount - subsidy - $scope.payDiscounts - 2000;
+                    return total > 0 ? total : 0;
+                };
+                $scope.submit = function () {
+                    console.log($scope.serviceModel);
+                    $scope.orderForm.$submitted = true;
+                    if ($scope.orderForm.$valid) {
+                        if ($scope.orderModel.orderType == 0) {
+                            var orderModel = Object.assign({}, $scope.orderModel);
+                            orderModel.data = orderModel.data && orderModel.data.join(',');
+                            delete orderModel.orderType;
+                            if ($scope.carDiscDeployId)
+                                orderModel.carDiscDeployId = $scope.carDiscDeployId;
+                            if ($scope.userId)
+                                orderModel.userId = $scope.userId;
+                            getCreateOrder().call(this, orderModel, fn_success, fn_fail);
+                        } else if ($scope.orderModel.orderType == 1) {
+                            var productModel = Object.assign({}, $scope.productModel);
+                            if ($scope.userId)
+                                productModel.userId = $scope.userId;
+                            getProductOrder().call(this, productModel, fn_success, fn_fail);
+                        } else if ($scope.orderModel.orderType == 2) {
+                            var serviceModel = Object.assign({}, $scope.serviceModel);
+                            getProductOrder().call(this, serviceModel, fn_success, fn_fail);
+                        }
+                    }
+                };
+                function fn_success(res) {
+                    $scope.closeModal();
+                    $scope.$emit('addOrderClose');
+                    toastr.success('创建成功');
+                }
+                ;
+                function fn_fail() {
+                }
+                ;
+                function getCreateOrder() {
+                    if ($scope.userId) {
+                        return appApi.createOrderWithUserId;
+                    } else {
+                        return appApi.createOrder;
+                    }
+                }
+                ;
+                function getProductOrder() {
+                    if ($scope.orderModel.orderType == 2) {
+                        return appApi.createServiceOrderBack;
+                    } else {
+                        if ($scope.userId) {
+                            return appApi.createProductWithUserId;
+                        } else {
+                            return appApi.createProduct;
+                        }
+                    }
+                }
+                ;
+                $scope.$modal.on('hide.bs.modal', function () {
+                    $scope.carDisPrice = 0;
+                    $scope.carPrice = 0;
+                    $scope.peiPrice = 0;
+                    $scope.subsidy = 0;
+                    $scope.title = '创建订单';
+                    $scope.service = undefined;
+                    $scope.orderModel.orderType = '';
+                    $scope.disabled = false;
+                    $scope.orderModel = Object.assign({}, orderModelDefault);
+                    $scope.productModel = Object.assign({}, productModelDefault);
+                    $scope.serviceModel = Object.assign({}, serviceModelDefault);
+                    $scope.selectOrder = {
+                        selectColorOne: '',
+                        selectColorTow: '',
+                        selectPromotion: {},
+                        classlv1: '',
+                        classlv2: '',
+                        selectProduct: ''
+                    };
+                    $scope.orderForm.$setPristine();
+                    $scope.orderForm.$setUntouched();
+                });
+                var addOrder = $rootScope.$on('addOrder', function (e, data) {
+                    $scope.$modal.modal('show');
+                    if (data && data.service) {
+                        $scope.title = '创建服务订单';
+                        $scope.service = true;
+                        $scope.orderModel.orderType = 2;
+                        $scope.productModel.mobile = parseInt(data.item.buyerMobile);
+                        $scope.mobileChange();
+                    }
+                    ;
+                });
+                $scope.$on('$destroy', function () {
+                    addOrder();
+                });
+            }
+        };
+    });
+});
+'use strict';
+define('appAddPay', [
+    'angular',
+    'moment',
+    'jquery',
+    'toastr'
+], function (angular, moment, $, toastr) {
+    'use strict';
+    var appDirectives = angular.module('app.addPay', []);
+    appDirectives.directive('addPay', function ($rootScope, appApi) {
+        return {
+            restrict: 'E',
+            scope: { orderNo: '=' },
+            replace: true,
+            template: '\n\t\t\t<div class="modal fade custom-modal" style="display:block;" tabindex="-1" role="dialog" aria-hidden="true">\n\t\t\t\t<div class="modal-dialog modal-md">\n\t\t\t\t\t<div class="modal-content">\n\t\t\t\t\t\t<div class="modal-header">\n\t\t\t\t\t\t\t支付信息(编号\uFF1A<i ng-bind="orderNo"></i>)\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-body">\n\t\t\t\t\t\t\t<form name="payInfoForm" novalidate>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>待支付&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<div class="unpaid">\xA5<i>{{unpaid}}</i></div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>金额&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<input type="number" class="transition-02 default-input" ng-model="payInfo.amount" name="amount" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.amount.$invalid}" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class="item">\n\t\t\t\t\t\t\t\t\t<span>支付类型&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<div class="val">pos支付</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class="line">\n\t\t\t\t\t\t\t\t<div class="item special">\n\t\t\t\t\t\t\t\t\t<span>备注&nbsp;:</span>\n\t\t\t\t\t\t\t\t\t<textarea class="transition-02 default-textarea" ng-model="payInfo.remark" name="remark" required ng-class="{\'error\':payInfoForm.$submitted&&payInfoForm.remark.$invalid}"></textarea>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class="modal-footer">\n\t\t\t\t\t\t\t<a class="button" hm-tap="submitPayInfo()">确定</a>\n\t\t\t\t\t\t\t<a class="button" data-dismiss="modal">取消</a>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t',
+            controller: function controller($scope, $element, $attrs) {
+                $scope.$modal = $($element);
+                $scope.submitPayInfo = function () {
+                    $scope.payInfoForm.$submitted = true;
+                    if ($scope.payInfoForm.$valid) {
+                        console.log($scope.payInfo);
+                        appApi.unifiedOrder($scope.payInfo, function (data) {
+                            toastr.success('提交成功');
+                            $scope.$modal.modal('hide');
+                            if ($scope.isService) {
+                                $rootScope.$broadcast('serviceLoadPayInfo', data);
+                            } else {
+                                $rootScope.$broadcast('loadPayInfo', data);
+                            }
+                        });
+                    }
+                };
+                $scope.$modal.on('hide.bs.modal', function () {
+                    if ($scope.payInfoForm.$dirty) {
+                        $scope.payInfo = {};
+                    }
+                    ;
+                    $scope.payInfoForm.$setPristine();
+                    $scope.payInfoForm.$setUntouched();
+                });
+                var getPayInfo = function getPayInfo(id) {
+                    appApi.getPriceInfo(id, function (d) {
+                        console.log(d);
+                        $scope.unpaid = d.payPrice;
+                    });
+                };
+                var showAddPay = $rootScope.$on('addPay', function (e, d) {
+                    $scope.$modal.modal('show');
+                    $scope.orderNo = d.orderNo;
+                    $scope.isService = d.service;
+                    $scope.payInfo = { orderId: d.orderId };
+                    getPayInfo(d.orderId);
+                });
+                $scope.$on('$destroy', function () {
+                    showAddPay();
+                });
+            }
         };
     });
 });
@@ -32565,8 +33275,12 @@ define('router-config', [
     'appDirectives',
     'appServices',
     'appFactorys',
+    'appFilters',
     'appTemplates',
     'appTouch',
+    'appOrderDetail',
+    'appNewOrder',
+    'appAddPay',
     'angular-chosen',
     'jquery',
     'table'
@@ -32576,8 +33290,12 @@ define('router-config', [
         'app.directives',
         'app.services',
         'app.factorys',
+        'app.filters',
         'app.template',
+        'app.addPay',
         'app.touch',
+        'app.orderDetail',
+        'app.newOrder',
         'localytics.directives'
     ]);
     app.run(function ($rootScope, $q, $location, dropdownMenuScrollbar, ArrayhasObj, appApi, enumData) {
@@ -32613,6 +33331,8 @@ define('router-config', [
             });
             $rootScope.storeId = $rootScope.storeList[0].storeId;
             $rootScope.storeName = $rootScope.storeList[0].storeName;
+            $rootScope.provinceId = $rootScope.storeList[0].provinceId;
+            $rootScope.cityId = $rootScope.storeList[0].cityId;
         }
         console.log($rootScope.storeList);
         $rootScope.$on('$routeChangeSuccess', function (evt, next, current) {
@@ -32634,6 +33354,8 @@ define('router-config', [
             ;
             $rootScope.storeId = i.storeId;
             $rootScope.storeName = i.storeName;
+            $rootScope.provinceId = i.provinceId;
+            $rootScope.cityId = i.cityId;
         };
     });
     app.directive('repeatFinish', function ($timeout) {
@@ -32660,52 +33382,6 @@ define('router-config', [
                     }
                 }, 0);
             }
-        };
-    });
-    app.filter('trustHtml', function ($sce) {
-        return function (input) {
-            return $sce.trustAsHtml(input);
-        };
-    });
-    app.filter('formatGender', function ($rootScope) {
-        return function (genderId) {
-            var gender;
-            switch (+genderId) {
-            case 0:
-                gender = '保密';
-                break;
-            case 1:
-                gender = '女';
-                break;
-            case 2:
-                gender = '男';
-                break;
-            default:
-                gender = '未知';
-            }
-            return gender;
-        };
-    });
-    app.filter('formatChannel', function () {
-        return function (channelId) {
-            var channelName;
-            switch (+channelId) {
-            case 1:
-                channelName = '支付宝';
-                break;
-            case 2:
-                channelName = '微信';
-                break;
-            case 3:
-                channelName = '网银';
-                break;
-            case 4:
-                channelName = '线下';
-                break;
-            default:
-                channelName = '--';
-            }
-            return channelName;
         };
     });
     app.config([
