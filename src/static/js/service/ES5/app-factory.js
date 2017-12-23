@@ -83,7 +83,7 @@ define(['angular', 'moment', 'jquery'], function (angular, moment, $) {
 			return statu;
 		};
 	});
-	appFactorys.factory('getOrderStatu', function () {
+	appFactorys.factory('orderStatu', function () {
 		return function (s) {
 			var statu = '';
 			switch (s) {
@@ -94,7 +94,7 @@ define(['angular', 'moment', 'jquery'], function (angular, moment, $) {
 					statu = '已关闭';
 					break;
 				case 3:
-					statu = '已付款,待排产';
+					statu = '已付定金';
 					break;
 				case 4:
 					statu = '已排产';
@@ -108,6 +108,89 @@ define(['angular', 'moment', 'jquery'], function (angular, moment, $) {
 				case 7:
 					statu = '已退款';
 					break;
+				case 9:
+					statu = '退款中';
+					break;
+				case 10:
+					statu = '已成交';
+					break;
+			};
+			return statu;
+		};
+	});
+	appFactorys.factory('serviceOrderStatu', function () {
+		return function (s) {
+			var statu = '';
+			switch (s) {
+				case 1:
+					statu = '待付款';
+					break;
+				case 2:
+					statu = '已关闭';
+					break;
+				case 3:
+					statu = '已付款';
+					break;
+				case 4:
+					statu = '处理中';
+					break;
+				case 5:
+					statu = '已结清';
+					break;
+				case 6:
+					statu = '申请退款';
+					break;
+				case 7:
+					statu = '已退款';
+					break;
+			};
+			return statu;
+		};
+	});
+	appFactorys.factory('itemOrderStatu', function () {
+		return function (s) {
+			var statu = '';
+			switch (s) {
+				case 1:
+					statu = '待付款';
+					break;
+				case 2:
+					statu = '已关闭';
+					break;
+				case 3:
+					statu = '已付款';
+					break;
+				case 4:
+					statu = '已排产';
+					break;
+				case 5:
+					statu = '已结清';
+					break;
+				case 6:
+					statu = '申请退款';
+					break;
+				case 7:
+					statu = '已退款';
+					break;
+				case 8:
+					statu = '已发货';
+					break;
+				case 9:
+					statu = '申请售后';
+					break;
+			};
+			return statu;
+		};
+	});
+	appFactorys.factory('getStatu', function (orderStatu, serviceOrderStatu, itemOrderStatu) {
+		return function (d) {
+			var statu = '';
+			if (d.type == 1) {
+				statu = itemOrderStatu(d.status);
+			} else if (d.type == 3) {
+				statu = serviceOrderStatu(d.status);
+			} else {
+				statu = orderStatu(d.status);
 			};
 			return statu;
 		};

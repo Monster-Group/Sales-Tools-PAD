@@ -150,7 +150,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 								<span class="pay-state">{{item.status | payStatuDisplay}}</span>
 								<span class="pay-date">{{item.paymentTimeFormat}}</span>
 								<span class="pay-memo">{{item.comment?item.comment:'无'}}</span>
-								<span class="pay-code" hm-tap="showPayCode(item)"><i class="icon" ng-if="item.status==0&&item.type==0">&#xe608;</i ng-if="item.status!=0||item.type!=0"><i ng-if="item.status!=0||item.type!=0">无</i></span>
+								<span class="pay-code"><i class="icon" hm-tap="showPayCode(item)"  ng-if="item.status==0">&#xe608;</i><i ng-if="item.status!=0">无</i></span>
 								<span class="handle"><a class="button small" hm-tap="cancel(item)" ng-if="item.status==0&&item.type==0">取消</a><a class="button small" hm-tap="refund(item)" ng-if="item.status==1&&item.type==0">退款</a></span>
 							</div>
 						</div>
@@ -389,7 +389,8 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 					},(d)=>{
 						$scope.$refundModal.modal('hide');
 						toastr.success('提交成功');
-						$scope.$payCodeModal.data('src',d).modal('show');
+						$scope.$payCodeModal.data('data',d).modal('show');
+						loadPayInfo(orderNo);
 					});
 				});
 				$scope.$refundModal.on('show.bs.modal',function(){
@@ -501,7 +502,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 								<span class="pay-state">{{item.status | payStatuDisplay}}</span>
 								<span class="pay-date">{{item.paymentTimeFormat}}</span>
 								<span class="pay-memo">{{item.comment?item.comment:'无'}}</span>
-								<span class="pay-code" hm-tap="showPayCode(item)"><i class="icon" ng-if="item.status==0&&item.type==0">&#xe608;</i><i ng-if="item.status!=0||item.type!=0">无</i></span>
+								<span class="pay-code"><i class="icon" hm-tap="showPayCode(item)"  ng-if="item.status==0">&#xe608;</i><i ng-if="item.status!=0">无</i></span>
 								<span class="handle"><a class="button small" hm-tap="cancel(item)" ng-if="item.status==0&&item.type==0">取消</a><a class="button small" hm-tap="refund(item)" ng-if="item.status==1&&item.type==0">退款</a></span>
 							</div>
 						</div>
@@ -651,7 +652,8 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 					},(d)=>{
 						$scope.$refundModal.modal('hide');
 						toastr.success('提交成功');
-						$scope.$payCodeModal.data('src',d).modal('show');
+						$scope.$payCodeModal.data('data',d).modal('show');
+						loadPayInfo(orderNo);
 					});
 				});
 				$scope.$refundModal.on('show.bs.modal',function(){
@@ -663,6 +665,19 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 				$scope.$payCodeModal.on('show.bs.modal',function(){
 					let data = $(this).data('data');
 					$(this).find('img').attr('src',data.img);
+					$scope.clock = setInterval(()=>{
+						appApi.isSuccess(data.paymentId,(d)=>{
+							if(d.isSuccess){
+								toastr.success('支付成功');
+								$scope.$payCodeModal.modal('hide');
+								loadPayInfo(orderNo);
+								window.clearInterval($scope.clock);
+							};
+						});
+					},1000);
+				});
+				$scope.$payCodeModal.on('hide.bs.modal',function(){
+					window.clearInterval($scope.clock);
 				});
 				$scope.$on('$destroy', function() {
 					getPayInfo();

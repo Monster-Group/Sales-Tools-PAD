@@ -81,7 +81,6 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 												<option value="">请选择</option>
 											</select>
 										</div>
-										<span class="subjoin" ng-if="orderModel.payType==0">全款立减100</span>
 									</div>
 									<div class="item" ng-if="orderModel.orderType === 0">
 										<span>提车门店:</span>
@@ -185,9 +184,10 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 							<div class="price-info" ng-if="orderModel.orderType === 0">
 								<p>车价:<i>{{carDisPrice?carDisPrice:carPrice | currency:'￥'}}</i></p>
 								<p>配件:<i>{{peiPrice?peiPrice:0 | currency:'￥'}}</i></p>
-								<p>活动优惠:<i>¥2000.00</i></p>
 								<p>团购优惠:<i>{{selectOrder.selectPromotion.discount?selectOrder.selectPromotion.discount:0 | currency:'￥'}}</i></p>
-								<p>地区补贴:<i>{{subsidy?subsidy:0 | currency:'￥'}}</i></p>
+								<p>国家补贴:<i>{{guoDisc?guoDisc:0 | currency:'￥'}}</i></p>
+								<p>地区补贴:<i>{{diDisc?diDisc:0 | currency:'￥'}}</i></p>
+								<p>厂家补贴:<i>{{changDisc?changDisc:0 | currency:'￥'}}</i></p>
 								<p class="total color-bdprimary">总价:<i>{{getSum() | currency:'￥'}}</i><span class="other-cost" ng-if="orderModel.payType==1">定金 : ¥2000.00</span><span class="other-cost" ng-if="orderModel.payType==2">分期 : ¥2000.00</span></p>
 							</div>
 							<div class="price-info" ng-if="orderModel.orderType === 1">
@@ -284,7 +284,6 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					$scope.serviceProduct = data;
 					console.log(data);
 				});
-
 				function getColor(data, fn) {
 					appApi.getCarColor(data, (d) => {
 						fn(d);
@@ -297,6 +296,12 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					})
 				};
 				let getSubsidy = ()=>{
+					$scope.subsidy = 0;
+					$scope.changDisc = undefined;
+					$scope.diDisc = undefined;
+					$scope.guoDisc = undefined;
+					$scope.carDisPrice = undefined;
+					$scope.carDiscDeployId = undefined;
 					if($scope.orderModel.storeId){
 						let provinceId = undefined,
 							cityId = undefined;
@@ -306,10 +311,6 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 								cityId = item.cityId;
 							};
 						};
-						console.log(provinceId);
-						console.log(cityId);
-						$scope.subsidy = undefined;
-						$scope.carDisPrice = undefined;
 						appApi.listCarDisc({
 							isUse:1,
 							provinceId:provinceId,
@@ -317,12 +318,15 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 							productId:$scope.orderModel.productId
 						},(data)=>{
 							if(data.length){
-								$scope.subsidy = data[0].changDisc +  data[0].diDisc + data[0].guoDisc;
+								$scope.changDisc = data[0].changDisc;
+								$scope.diDisc = data[0].diDisc;
+								$scope.guoDisc = data[0].guoDisc;
 								$scope.carDisPrice = data[0].price;
 								$scope.carDiscDeployId = data[0].carDiscDeployId;
+								$scope.subsidy = $scope.changDisc + $scope.diDisc + $scope.guoDisc;
 							};
 						});
-					}
+					};
 				};
 				let listCarDisc = ()=>{
 					if(!$scope.serviceModel.provinceId||!$scope.serviceModel.cityId||!$scope.serviceModel.productId){
@@ -381,12 +385,16 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					},0);
 				};
 				$scope.mobileChange = (id)=>{
+					if($($elements).find('.inline-loading').length==0){
+						$($elements).find('.modal-content').loading();
+					};
 					appApi.listCarOrderBack($scope.productModel.mobile,(d)=>{
 						console.log(d);
 						$scope.userOrderList = d.list;
 						if(id){
 							$scope.serviceModel.orderId = id;
 						};
+						$($elements).find('.modal-content').find('.inline-loading').remove();
 					});
 				};
 				$scope.typeChange = ()=>{
@@ -485,7 +493,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 				$scope.payTypeChange = (t)=>{
 					console.log(t);
 					if(t===0){
-						$scope.payDiscounts = 100;
+						$scope.payDiscounts = 0;
 					}else{
 						$scope.payDiscounts = 0;
 					}
@@ -499,7 +507,10 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					var pei = angular.isNumber($scope.peiPrice)  ? +$scope.peiPrice : 0;
 					var discount = angular.isNumber($scope.selectOrder.selectPromotion) ? +$scope.discount : 0 ;
 					let subsidy = angular.isNumber($scope.subsidy) ? +$scope.subsidy : 0;
-					let total = carPrice + pei - discount - subsidy - $scope.payDiscounts - 2000;
+					console.log($scope.payDiscounts);
+					console.log(carPrice);
+					console.log(subsidy);
+					let total = carPrice + pei - discount - subsidy - $scope.payDiscounts;
 					return total>0?total:0;
 				};
 				$scope.submit = function() {

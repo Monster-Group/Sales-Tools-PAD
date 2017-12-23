@@ -1,5 +1,5 @@
-define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'moment','loading'], function(angular, tpl, Waves, NProgress, toastr, moment) {
-	function controller($scope, $rootScope, appApi, getUserLv,getOrderStatu,$timeout,$compile) {
+define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'moment'], function(angular, tpl, Waves, NProgress, toastr, moment) {
+	function controller($scope, $rootScope, appApi, getUserLv,getStatu,$timeout,$compile) {
 		Waves.init();
 		Waves.attach('.button', ['waves-light']);
 		NProgress.done();
@@ -214,7 +214,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 						width: '17%'
 					},
 					{
-						data: 'status',
+						data: null,
 						width: '10%'
 					},
 					{
@@ -236,7 +236,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 					targets: 4,
 					visible: true,
 					render: function(data, type, row, meta) {
-						return getOrderStatu(data);
+						return getStatu(data);
 					}
 				}],
 				fnInitComplete: (s) => {
@@ -435,6 +435,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		});
 		let detailOrderClose = $scope.$on('detailClose', function(){
 			$scope.showOrderDetail = false;
+			loadOrderList();
 		});
 		let hideDetail  = $scope.$on('hideDetail', (e)=> {
 			$scope.showDetail = false;

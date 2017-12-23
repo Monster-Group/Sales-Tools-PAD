@@ -1,5 +1,5 @@
-define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','moment','loading','swiper'], function(angular, tpl, Waves, NProgress,toastr,moment) {
-	function controller($scope,$rootScope,appApi,getStatuDisplay,toThousands,watch,dateArray,$timeout) {
+define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','moment','swiper'], function(angular, tpl, Waves, NProgress,toastr,moment) {
+	function controller($scope,$rootScope,appApi,toThousands,watch,dateArray,$timeout) {
 		Waves.init();
 		Waves.attach('.button', ['waves-light']);
 		NProgress.done();

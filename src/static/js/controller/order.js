@@ -1,5 +1,5 @@
-define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment','loading'], function(angular, tpl, Waves, NProgress, toastr,moment) {
-	function controller($scope,$rootScope, appApi,getOrderStatu,getMillisecond,$timeout) {
+define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'], function(angular, tpl, Waves, NProgress, toastr,moment) {
+	function controller($scope,$rootScope, appApi,getStatu,getMillisecond,$timeout) {
 		Waves.init();
 		Waves.attach('.button', ['waves-light']);
 		Waves.attach('.load-more', ['waves-green']);
@@ -47,7 +47,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 					width: '17%'
 				},
 				{
-					data: 'status',
+					data: null,
 					width: '10%'
 				},
 				{
@@ -69,7 +69,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 				targets: 4,
 				visible: true,
 				render: function(data, type, row, meta) {
-					return getOrderStatu(data);
+					return getStatu(data);
 				}
 			}],
 			fnInitComplete:(s)=>{
@@ -156,6 +156,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		};
 		let detailClose = $scope.$on('detailClose', function(){
 			$scope.showDetail = false;
+			loadData();
 		});
 		//添加订单后
 		let addOrderClose = $scope.$on('addOrderClose', (e) => {

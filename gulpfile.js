@@ -193,7 +193,7 @@ gulp.task('css', ['cssmin'], function() {
 gulp.task('baseSet', function() {
 	var stream;
 	stream = gulp.src('./' + project + '/static/js/libs/default/baseSet.js')
-//		.pipe(replace('\''+postServer+'/\'', 'window.location.origin+\'/\''))
+		.pipe(replace('\''+postServer+'/\'', 'window.location.origin+\'/\''))
 		.pipe(gulp.dest('./' + project + '/static/js/libs/default/'));
 	return stream;
 });

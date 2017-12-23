@@ -75,100 +75,19 @@ define(['angular', 'moment'], function (angular, moment) {
 			return moment(d).format('YYYY-MM-DD HH:mm:ss');
 		};
 	});
-	appFilters.filter('orderStatu', function () {
+	appFilters.filter('orderStatu', function (orderStatu) {
 		return function (s) {
-			var statu = '';
-			switch (s) {
-				case 1:
-					statu = '待付款';
-					break;
-				case 2:
-					statu = '已关闭';
-					break;
-				case 3:
-					statu = '已付定金';
-					break;
-				case 4:
-					statu = '已排产';
-					break;
-				case 5:
-					statu = '已结清';
-					break;
-				case 6:
-					statu = '申请退款';
-					break;
-				case 7:
-					statu = '已退款';
-					break;
-				case 9:
-					statu = '退款中';
-					break;
-				case 10:
-					statu = '已成交';
-					break;
-			};
-			return statu;
+			return orderStatu(s);
 		};
 	});
-	appFilters.filter('serviceOrderStatu', function () {
+	appFilters.filter('serviceOrderStatu', function (serviceOrderStatu) {
 		return function (s) {
-			var statu = '';
-			switch (s) {
-				case 1:
-					statu = '待付款';
-					break;
-				case 2:
-					statu = '已关闭';
-					break;
-				case 3:
-					statu = '已付款';
-					break;
-				case 4:
-					statu = '处理中';
-					break;
-				case 5:
-					statu = '已结清';
-					break;
-				case 6:
-					statu = '申请退款';
-					break;
-				case 7:
-					statu = '已退款';
-					break;
-			};
-			return statu;
+			return serviceOrderStatu(s);
 		};
 	});
-	appFilters.filter('itemOrderStatu', function () {
+	appFilters.filter('itemOrderStatu', function (itemOrderStatu) {
 		return function (s) {
-			var statu = '';
-			switch (s) {
-				case 1:
-					statu = '待付款';
-					break;
-				case 2:
-					statu = '已关闭';
-					break;
-				case 3:
-					statu = '已付款';
-					break;
-				case 4:
-					statu = '已排产';
-					break;
-				case 5:
-					statu = '已结清';
-					break;
-				case 6:
-					statu = '申请退款';
-					break;
-				case 7:
-					statu = '已退款';
-					break;
-				case 9:
-					statu = '退款中';
-					break;
-			};
-			return statu;
+			return itemOrderStatu(s);
 		};
 	});
 });

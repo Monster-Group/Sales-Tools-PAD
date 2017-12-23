@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - base
  * Author: Clearlove 7*
- * Updated: 2017-12-14 21:18
+ * Updated: 2017-12-16 18:22
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -685,7 +685,7 @@ body {
   left: 50%;
   margin-left: -859px;
   z-index: 9999;
-  max-height: 80%;
+  max-height: calc(100vh - 200px);
   overflow-y: auto; }
   .custom-modal .modal-dialog .modal-content {
     border-radius: 5px;
