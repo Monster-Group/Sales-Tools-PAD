@@ -109,6 +109,10 @@ define(['angular', 'moment', 'jquery', 'toastr'], function (angular, moment, $, 
 				var getSubsidy = function getSubsidy() {
 					$scope.carDisPrice = undefined;
 					$scope.carDiscDeployId = undefined;
+					$scope.changDisc = $scope.defaultChangDisc;
+					$scope.diDisc = $scope.defaultDiDisc;
+					$scope.guoDisc = $scope.defaultGuoDisc;
+					$scope.subsidy = $scope.defaultSubsidy;
 					if ($scope.orderModel.storeId) {
 						var provinceId = undefined,
 						    cityId = undefined;
@@ -255,7 +259,6 @@ define(['angular', 'moment', 'jquery', 'toastr'], function (angular, moment, $, 
 				$scope.storeChange = function () {
 					$timeout(function () {
 						getSubsidy();
-						console.log(666);
 					}, 0);
 				};
 				$scope.mobileChange = function (id) {
@@ -281,10 +284,10 @@ define(['angular', 'moment', 'jquery', 'toastr'], function (angular, moment, $, 
 					$scope.orderModel.productId = product.productId;
 					$scope.peiList = product.peiList;
 					$scope.carPrice = product.defaultPrice;
-					$scope.changDisc = product.defaultChangDisc;
-					$scope.diDisc = product.defaultDiDisc;
-					$scope.guoDisc = product.defaultGuoDisc;
-					$scope.subsidy = $scope.changDisc + $scope.diDisc + $scope.guoDisc;
+					$scope.defaultChangDisc = product.defaultChangDisc;
+					$scope.defaultDiDisc = product.defaultDiDisc;
+					$scope.defaultGuoDisc = product.defaultGuoDisc;
+					$scope.defaultSubsidy = $scope.defaultChangDisc + $scope.defaultDiDisc + $scope.defaultGuoDisc;
 					$scope.colorThree = {};
 					$scope.colorTow = {};
 					$scope.selectOrder.selectColorOne = '';
