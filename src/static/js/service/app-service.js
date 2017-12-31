@@ -15,15 +15,15 @@ define(['angular','baseSet', 'jquery', 'sweetalert'], function(angular,baseSet,$
 			delete obj.success;
 			delete obj.complete;
 			delete obj.error;
-			var getModel = {
+			var postModel = {
 				url: '',
 				method: 'POST',
 				data: '',
 				headers: {
 				}
 			};
-			getModel = angular.merge({},getModel, obj);
-			$http(getModel).then(function(response) {
+			postModel = angular.merge({},postModel, obj);
+			$http(postModel).then(function(response) {
 				if(response.data.code == 200) {
 					suc(response.data.data);
 				} else {

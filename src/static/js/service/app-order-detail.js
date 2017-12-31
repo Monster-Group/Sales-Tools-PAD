@@ -154,7 +154,7 @@ define(['angular', 'moment', 'jquery', 'nprogress', 'toastr'], function(angular,
 								<span class="handle"><a class="button small" hm-tap="cancel(item)" ng-if="item.status==0&&item.type==0">取消</a><a class="button small" hm-tap="refund(item)" ng-if="item.status==1&&item.type==0">退款</a></span>
 							</div>
 						</div>
-						<div class="info-footer">
+						<div class="info-footer" ng-if="orderDetail.status!=7&&orderDetail.status!=9">
 							<a class="button" hm-tap="addPay()">新增支付信息</a>
 						</div>
 					</div>

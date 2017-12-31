@@ -146,7 +146,13 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 											</select>
 										</div>
 									</div>
-									<div class="item" ng-if="(orderModel.orderType === 1||orderModel.orderType === 2)&&!userId">
+									<div class="item" ng-if="orderModel.orderType === 1&&!userId">
+										<span>手机号:</span>
+										<div class="form-input-wrapper">
+											<input class="default-input" name="buyerphone" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" ng-readonly="service" ng-model="productModel.mobile" type="number"/>
+										</div>
+									</div>
+									<div class="item" ng-if="orderModel.orderType === 2">
 										<span>手机号:</span>
 										<div class="form-input-wrapper">
 											<input class="default-input" name="buyerphone" required ng-pattern="/^1[3|4|5|7|8][0-9]{9}$/" ng-readonly="service" ng-model="productModel.mobile" type="number" ng-change="mobileChange()" />
@@ -209,6 +215,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 				$scope.title = '创建订单';
 			},
 			link: function($scope, $elements, $attrs, controllers) {
+				console.log($scope.userId);
 				$scope.$modal = $($elements);
 				$scope.payDiscounts = 0;
 				var orderModelDefault = {
@@ -259,7 +266,10 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 							productId: item.productId,
 							defaultPrice: item.defaultPrice,
 							deposit: item.deposit,
-							peiList: item.peiList
+							peiList: item.peiList,
+							defaultChangDisc:item.defaultChangDisc,
+							defaultDiDisc:item.defaultDiDisc,
+							defaultGuoDisc:item.defaultGuoDisc
 						}
 					})
 				});
@@ -296,10 +306,6 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					})
 				};
 				let getSubsidy = ()=>{
-					$scope.subsidy = 0;
-					$scope.changDisc = undefined;
-					$scope.diDisc = undefined;
-					$scope.guoDisc = undefined;
 					$scope.carDisPrice = undefined;
 					$scope.carDiscDeployId = undefined;
 					if($scope.orderModel.storeId){
@@ -317,7 +323,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 							cityId:cityId,
 							productId:$scope.orderModel.productId
 						},(data)=>{
-							if(data.length){
+							if(data.length>0){
 								$scope.changDisc = data[0].changDisc;
 								$scope.diDisc = data[0].diDisc;
 								$scope.guoDisc = data[0].guoDisc;
@@ -407,7 +413,10 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					$scope.orderModel.productId = product.productId;
 					$scope.peiList = product.peiList;
 					$scope.carPrice = product.defaultPrice;
-
+					$scope.changDisc = product.defaultChangDisc;
+					$scope.diDisc = product.defaultDiDisc;
+					$scope.guoDisc = product.defaultGuoDisc;
+					$scope.subsidy = $scope.changDisc + $scope.diDisc + $scope.guoDisc;
 					$scope.colorThree = {};
 					$scope.colorTow = {};
 					$scope.selectOrder.selectColorOne = '';
@@ -473,8 +482,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					});
 				};
 				$scope.promotionChange = (promotion) => {
-					if(promotion.promotionId === $scope.orderModel.promotionId) return;
-
+					if(!promotion||(promotion.promotionId === $scope.orderModel.promotionId)) return;
 					$scope.orderModel.promotionId = promotion.promotionId;
 				};
 				$scope.selectPei = (peiArr) => {
@@ -505,11 +513,8 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 				$scope.getSum = function() {
 					var carPrice = angular.isNumber($scope.carDisPrice) ? +$scope.carDisPrice : angular.isNumber($scope.carPrice) ? +$scope.carPrice : 0;
 					var pei = angular.isNumber($scope.peiPrice)  ? +$scope.peiPrice : 0;
-					var discount = angular.isNumber($scope.selectOrder.selectPromotion) ? +$scope.discount : 0 ;
+					var discount = $scope.selectOrder.selectPromotion&&$scope.selectOrder.selectPromotion.discount? $scope.selectOrder.selectPromotion.discount : 0 ;
 					let subsidy = angular.isNumber($scope.subsidy) ? +$scope.subsidy : 0;
-					console.log($scope.payDiscounts);
-					console.log(carPrice);
-					console.log(subsidy);
 					let total = carPrice + pei - discount - subsidy - $scope.payDiscounts;
 					return total>0?total:0;
 				};
@@ -539,7 +544,9 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 				function fn_success(res) {
 					$scope.closeModal();
 					$scope.$emit('addOrderClose');
-					$scope.$emit('getServiceOrder');
+					if($scope.orderModel.orderType==2){
+						$scope.$emit('getServiceOrder');
+					}
 					toastr.success('创建成功');
 				};
 
