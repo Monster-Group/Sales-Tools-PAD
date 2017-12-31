@@ -435,6 +435,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		});
 		let detailOrderClose = $scope.$on('detailClose', function(){
 			$scope.showOrderDetail = false;
+			$scope.orderpageNum = 1;
 			loadOrderList();
 		});
 		let hideDetail  = $scope.$on('hideDetail', (e)=> {
@@ -449,7 +450,7 @@ define(['angular', 'text!tpl/client.html', 'waves', 'nprogress', 'toastr', 'mome
 		});
 		//添加订单后
 		let addOrderClose = $scope.$on('addOrderClose', (e) => {
-			$scope.pageNum = 1;
+			$scope.orderpageNum = 1;
 			loadOrderList();
 		});
 		$scope.$on('$destroy', function() {

@@ -156,6 +156,7 @@ define(['angular', 'text!tpl/order.html', 'waves', 'nprogress','toastr','moment'
 		};
 		let detailClose = $scope.$on('detailClose', function(){
 			$scope.showDetail = false;
+			$scope.pageNum = 1;
 			loadData();
 		});
 		//添加订单后
