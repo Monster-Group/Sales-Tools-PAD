@@ -661,6 +661,9 @@ body {
         background-color: color($colors, bg);
         font-size: 36px;
         margin-top:37px;
+        .dropdown-menu{
+            li{@extend .fn-text-overflow}
+        }
     }
 }
 

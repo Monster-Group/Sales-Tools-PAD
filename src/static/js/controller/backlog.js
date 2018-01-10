@@ -93,7 +93,7 @@ define(['angular', 'text!tpl/backlog.html', 'waves', 'nprogress','toastr','momen
 					width: '20%'
 				},
 				{
-					data: 'productPrice',
+					data: 'payPrice',
 					width: '10%'
 				},
 				{

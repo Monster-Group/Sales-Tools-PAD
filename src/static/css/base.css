@@ -1,7 +1,7 @@
 /*-----------------------
  * Site:  Sales-Tools-PAD - base
  * Author: Clearlove 7*
- * Updated: 2017-12-16 18:22
+ * Updated: 2018-01-10 23:06
  * Version: 1.0.0
  * -----------------------*/
 @charset "UTF-8";
@@ -240,7 +240,7 @@ button {
   -webkit-user-select: none; }
 
 /* 单行文字溢出时出现省略号，需设定宽度 */
-.fn-text-overflow {
+.fn-text-overflow, .root-header .store-change .dropdown-menu li {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }

@@ -216,6 +216,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 			},
 			link: function($scope, $elements, $attrs, controllers) {
 				console.log($scope.userId);
+				$scope.submiting = false;
 				$scope.$modal = $($elements);
 				$scope.payDiscounts = 0;
 				var orderModelDefault = {
@@ -312,7 +313,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					$scope.diDisc = $scope.defaultDiDisc;
 					$scope.guoDisc = $scope.defaultGuoDisc;
 					$scope.subsidy = $scope.defaultSubsidy;
-					if($scope.orderModel.storeId){
+					if($scope.orderModel.storeId&&$scope.orderModel.productId){
 						let provinceId = undefined,
 							cityId = undefined;
 						for(let item of $scope.listStore){
@@ -411,15 +412,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 				};
 				$scope.productChange = (product) => {
 					console.log('select: ', product);
-					if($scope.orderModel.productId == product.productId) return;
 					$scope.orderForm.$submitted = true;
-					$scope.orderModel.productId = product.productId;
-					$scope.peiList = product.peiList;
-					$scope.carPrice = product.defaultPrice;
-					$scope.defaultChangDisc = product.defaultChangDisc;
-					$scope.defaultDiDisc = product.defaultDiDisc;
-					$scope.defaultGuoDisc = product.defaultGuoDisc;
-					$scope.defaultSubsidy = $scope.defaultChangDisc + $scope.defaultDiDisc + $scope.defaultGuoDisc;
 					$scope.colorThree = {};
 					$scope.colorTow = {};
 					$scope.selectOrder.selectColorOne = '';
@@ -427,11 +420,29 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					$scope.orderModel.level1Type = '';
 					$scope.orderModel.level2Type = '';
 					$scope.orderModel.level3Type = '';
-					getColor({
-						productId: product.productId
-					}, (data) => {
-						$scope.colorOne = data;
-					});
+					if(product){
+						if($scope.orderModel.productId == product.productId) return;
+						$scope.orderModel.productId = product.productId;
+						$scope.peiList = product.peiList;
+						$scope.carPrice = product.defaultPrice;
+						$scope.defaultChangDisc = product.defaultChangDisc;
+						$scope.defaultDiDisc = product.defaultDiDisc;
+						$scope.defaultGuoDisc = product.defaultGuoDisc;
+						$scope.defaultSubsidy = $scope.defaultChangDisc + $scope.defaultDiDisc + $scope.defaultGuoDisc;
+						getColor({
+							productId: product.productId
+						}, (data) => {
+							$scope.colorOne = data;
+						});
+					}else{
+						$scope.orderModel.productId = undefined;
+						$scope.peiList = undefined;
+						$scope.carPrice = undefined;
+						$scope.defaultChangDisc = undefined;
+						$scope.defaultDiDisc = undefined;
+						$scope.defaultGuoDisc = undefined;
+						$scope.defaultSubsidy = undefined;
+					}
 					getSubsidy();
 				};
 				$scope.changeColorOne = (colorOne) => {
@@ -485,8 +496,11 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					});
 				};
 				$scope.promotionChange = (promotion) => {
-					if(!promotion||(promotion.promotionId === $scope.orderModel.promotionId)) return;
-					$scope.orderModel.promotionId = promotion.promotionId;
+					if(promotion){
+						$scope.orderModel.promotionId = promotion.promotionId;
+					}else{
+						$scope.orderModel.promotionId = undefined;
+					}
 				};
 				$scope.selectPei = (peiArr) => {
 					var peiPrice = 0;
@@ -523,9 +537,11 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 				};
 				$scope.submit = function() {
 					console.log($scope.serviceModel);
+					console.log($scope.submiting);
 					$scope.orderForm.$submitted = true;
 					$timeout(()=>{
-						if($scope.orderForm.$valid&&$($elements).find('.error').length==0) {
+						if($scope.orderForm.$valid&&$($elements).find('.error').length==0&&!$scope.submiting) {
+							$scope.submiting = true;
 							if($scope.orderModel.orderType == 0) {
 								var orderModel = Object.assign({}, $scope.orderModel);
 								orderModel.data = orderModel.data && orderModel.data.join(',');
@@ -575,6 +591,7 @@ define(['angular', 'moment', 'jquery','toastr'], function(angular, moment, $,toa
 					}
 				};
 				$scope.$modal.on('hide.bs.modal', function() {
+					$scope.submiting = false;
 					$scope.carDisPrice = 0;
 					$scope.carPrice = 0;
 					$scope.peiPrice = 0;   
